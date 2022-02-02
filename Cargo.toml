@@ -1,0 +1,11 @@
+[workspace]
+# Use the newer version of the cargo resolver
+# https://doc.rust-lang.org/cargo/reference/resolver.html#resolver-versions
+resolver = "2"
+members = ["crates/*"]
+default-members = ["crates/skribble_css", "crates/skribble_css_node", "crates/skribble_css_wasm"]
+
+[profile.release]
+lto = true
+# Tell `rustc` to optimize for small code size.
+opt-level = "s"

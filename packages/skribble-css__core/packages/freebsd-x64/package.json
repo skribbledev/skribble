@@ -1,0 +1,38 @@
+{
+  "name": "@skribble-css/core-freebsd-x64",
+  "version": "0.0.0",
+  "description": "A native module for the `@skribble-css/core` package.",
+  "keywords": [
+    "skribble",
+    "napi",
+    "rust",
+    "skribble css",
+    "css"
+  ],
+  "repository": "https://github.com/skribbledev/skribble/tree/master/packages/skribble-css__core-freebsd-x64",
+  "license": "MIT",
+  "type": "commonjs",
+  "exports": {
+    ".": {
+      "require": "./skribble_css.freebsd-x64.node"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "skribble_css.freebsd-x64.node",
+  "files": [
+    "skribble_css.freebsd-x64.node"
+  ],
+  "engines": {
+    "node": ">= 12.7.0"
+  },
+  "os": [
+    "freebsd"
+  ],
+  "cpu": [
+    "x64"
+  ],
+  "monots": {
+    "mode": "app",
+    "tsconfigs": false
+  }
+}

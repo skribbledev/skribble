@@ -1,0 +1,38 @@
+{
+  "name": "@skribble-css/core-linux-arm-gnueabihf",
+  "version": "0.0.0",
+  "description": "A native module for the `@skribble-css/core` package.",
+  "keywords": [
+    "skribble",
+    "napi",
+    "rust",
+    "skribble css",
+    "css"
+  ],
+  "repository": "https://github.com/skribbledev/skribble/tree/master/packages/skribble-css__core-linux-arm-gnueabihf",
+  "license": "MIT",
+  "type": "commonjs",
+  "exports": {
+    ".": {
+      "require": "./skribble_css.linux-arm-gnueabihf.node"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "skribble_css.linux-arm-gnueabihf.node",
+  "files": [
+    "skribble_css.linux-arm-gnueabihf.node"
+  ],
+  "engines": {
+    "node": ">= 12.7.0"
+  },
+  "os": [
+    "linux"
+  ],
+  "cpu": [
+    "arm"
+  ],
+  "monots": {
+    "mode": "app",
+    "tsconfigs": false
+  }
+}

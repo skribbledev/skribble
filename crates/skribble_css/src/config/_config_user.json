@@ -1,0 +1,456 @@
+{
+  "options": {
+    "colorFormat": "rgb",
+    "variablesPrefix": "sk"
+  },
+  "breakpoints": {
+    "sm": "640px",
+    "md": "768px",
+    "lg": "1024px",
+    "xl": "1280px",
+    "xxl": "1536px"
+  },
+  "mediaQueries": {
+    "print": "print",
+    "portrait": "(orientation: portrait)",
+    "landscape": "(orientation: landscape)",
+    "darkScheme": "(prefers-color-scheme: dark)",
+    "lightScheme": "(prefers-color-scheme: light)",
+    "motionSafe": "(prefers-reduced-motion: no-preference)",
+    "motionReduce": "(prefers-reduced-motion: reduce)"
+  },
+  "parentModifiers": {
+    "light": [".light &"],
+    "dark": [".dark &"],
+    "rtl": ["[dir=rtl] &"],
+    "groupHover": [".\\$group:hover &", ".group:hover &", "[role='group']:hover &"],
+    "groupFocus": [".\\$group:focus &", ".group:focus &", "[role='group']:focus &"],
+    "groupActive": [".\\$group:active &", ".group:active &", "[role='group']:active &"],
+    "groupVisited": [".\\$group:visited &", ".group:visited &", "[role='group']:visited &"]
+  },
+  "modifiers": [
+    { "hover": ["&:hover"] },
+    { "active": ["&:active"] },
+    { "focus": ["&:focus"] },
+    { "focusWithin": ["&:focus-within"] },
+    { "focusVisible": ["&:focus-visible"] },
+    {
+      "disabled": ["&[disabled]", "&[aria-disabled=true]", "&:disabled"],
+      "notDisabled": ["&[aria-disabled=false]", "&:disabled"],
+      "enabled": ["&:enabled"]
+    },
+    { "empty": ["&:empty"] },
+    {
+      "readWrite": ["&:read-write"],
+      "readOnly": ["&[aria-readonly=true]", "&[readonly]", "&:read-only"],
+      "notReadOnly": ["&[aria-readonly=false]", "&[readonly=false]", "&:not(:read-only)"]
+    },
+    { "expanded": ["&[aria-expanded=true]"] },
+    {
+      "indeterminate": ["&:indeterminate", "&[aria-checked=mixed]"],
+      "checked": ["&[aria-checked=true]", "&:checked"],
+      "unchecked": ["&[aria-checked=false]", "&:not(:checked)"]
+    },
+    { "grabbed": ["&[aria-grabbed=true]"] },
+    { "pressed": ["&[aria-pressed=true]"] },
+    { "invalidGrammar": ["&[aria-invalid=grammar]"] },
+    { "invalidSpelling": ["&[aria-invalid=spelling]"] },
+    {
+      "valid": ["&[aria-invalid=false]", "&:valid"],
+      "invalid": ["&[aria-invalid=true]", "&:invalid"]
+    },
+    { "loading": ["&[aria-busy=true]"] },
+    { "selected": ["&[aria-selected=true]"] },
+    { "hidden": ["&[hidden]"] },
+    { "autofill": ["&:-webkit-autofill"] },
+    { "even": ["&:even"], "odd": ["&:odd"] },
+    { "evenOfType": ["&:nth-of-type(even)"], "oddOfType": ["&:nth-of-type(odd)"] },
+    {
+      "first": ["&:first"],
+      "notFirst": ["&:not(:first-child)"],
+      "last": ["&:last"],
+      "notLast": ["&:not(:last-child)"]
+    },
+    {
+      "firstOfType": ["&:first-of-type"],
+      "notFirstOfType": ["&:not(:first-of-type)"],
+      "lastOfType": ["&:last-of-type"],
+      "notLastOfType": ["&:not(:last-of-type)"]
+    },
+    { "visited": ["&:visited"] },
+    { "optional": ["&:optional"] },
+    {
+      "activeLink": ["&[aria-current=page]"],
+      "activeLocation": ["&[aria-current=location]"],
+      "activeDate": ["&[aria-current=date]"],
+      "activeTime": ["&[aria-current=time]"],
+      "activeStep": ["&[aria-current=step]"]
+    },
+    { "fullScreen": ["&:fullscreen"] },
+    { "target": ["&:target"] },
+    { "placeholderShown": ["&:placeholder-shown"] },
+    {
+      "required": ["[aria-required=true]", "&:required"],
+      "notRequired": ["[arira-required=false]", "&:not(:required)"]
+    },
+    { "default": ["&:default"] },
+    {
+      "onlyChild": ["&:only-child"],
+      "notOnlyChild": ["&:not(:only-child)"]
+    },
+    {
+      "onlyOfType": ["&:only-of-type"],
+      "notOnlyOfType": ["&:not(:only-of-type)"]
+    },
+    { "root": ["&:root"] },
+    { "link": ["&:link"] },
+    {
+      "placeholder": ["&::placeholder"],
+      "selection": ["&::selection"],
+      "firstLetter": ["&::first-letter"],
+      "firstLine": ["&::first-line"],
+      "before": ["&::before"],
+      "after": ["&::after"]
+    }
+  ],
+  "colors": {
+    "primary": "purple500",
+    "secondary": "sky500",
+    "text": { "selectors": { ":root": "gray900", "html.dark": "gray50" } },
+    "background": { "selectors": { ":root": "gray50", "html.dark": "gray900" } },
+    "border": "zinc400",
+    "media": {
+      "selectors": { ":root": "zinc500" },
+      "mediaQueries": { "print": { ":root": "zinc900" } }
+    }
+  },
+  "variables": {
+    "--container-max-width": "container"
+  },
+  "atoms": [
+    {
+      "styleRules": ["font"],
+      "values": {
+        "sans": "ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,\"Segoe UI\",Roboto,\"Helvetica Neue\",Arial,\"Noto Sans\",sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\",\"Noto Color Emoji\"",
+        "serif": "ui-serif,Georgia,Cambria,\"Times New Roman\",Times,serif",
+        "mono": "ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,\"Liberation Mono\",\"Courier New\",monospace"
+      }
+    },
+    { "styleRules": ["text"], "colors": { "opacity": "--text-opacity", "palette": true } },
+    { "styleRules": ["bg"], "colors": { "opacity": "--bg-opacity", "palette": true } },
+    { "styleRules": ["border"], "colors": { "opacity": "--border-opacity", "palette": true } },
+    {
+      "styleRules": [
+        "p",
+        "py",
+        "px",
+        "pt",
+        "pr",
+        "pb",
+        "pl",
+        "pbl",
+        "pin",
+        "pins",
+        "pine",
+        "pbls",
+        "pble",
+        "m",
+        "my",
+        "mx",
+        "mt",
+        "mr",
+        "mb",
+        "ml"
+      ],
+      "values": {
+        "0": "0px",
+        "px": "1px",
+        "0_5": "0.125rem",
+        "1": "0.25rem",
+        "1_5": "0.375rem",
+        "2": "0.5rem",
+        "2_5": "0.625rem",
+        "3": "0.75rem",
+        "3_5": "0.875rem",
+        "4": "1rem",
+        "5": "1.25rem",
+        "6": "1.5rem",
+        "7": "1.75rem",
+        "8": "2rem",
+        "9": "2.25rem",
+        "10": "2.5rem",
+        "11": "2.75rem",
+        "12": "3rem",
+        "14": "3.5rem",
+        "16": "4rem",
+        "20": "5rem",
+        "24": "6rem",
+        "28": "7rem",
+        "32": "8rem",
+        "36": "9rem",
+        "40": "10rem",
+        "44": "11rem",
+        "48": "12rem",
+        "52": "13rem",
+        "56": "14rem",
+        "60": "15rem",
+        "64": "16rem",
+        "72": "18rem",
+        "80": "20rem",
+        "96": "24rem"
+      }
+    },
+    {
+      "styleRules": ["fontSize"],
+      "values": {
+        "xs": "0.75rem",
+        "sm": "0.875rem",
+        "base": "1rem",
+        "lg": "1.125rem",
+        "xl": "1.25rem",
+        "2xl": "1.5rem",
+        "3xl": "1.875rem",
+        "4xl": "2.25rem",
+        "5xl": "3rem",
+        "6xl": "3.75rem",
+        "7xl": "4.5rem",
+        "8xl": "6rem"
+      }
+    },
+    {
+      "styleRules": ["lineHeight"],
+      "values": {
+        "xs": "0.75rem",
+        "sm": "1.25rem",
+        "base": "1.5rem",
+        "lg": "1.75rem",
+        "xl": "1.75rem",
+        "2xl": "2rem",
+        "3xl": "2.25rem",
+        "4xl": "2.5rem",
+        "5xl": "1",
+        "6xl": "1",
+        "7xl": "1",
+        "8xl": "1"
+      }
+    },
+    {
+      "styleRules": ["dir"],
+      "values": {
+        "ltr": "ltr",
+        "rtl": "rtl"
+      }
+    },
+    {
+      "styleRules": ["display"],
+      "values": {
+        "block": "block",
+        "inlineBlock": "inline-block",
+        "inline": "inline",
+        "flowRoot": "flow-root",
+        "content": "content",
+        "hidden": "none",
+        "listItem": "list-item"
+      }
+    },
+    {
+      "styleRules": ["visibility"],
+      "values": {
+        "hide": "hidden",
+        "show": "visible"
+      }
+    },
+    {
+      "styleRules": ["visibility"],
+      "values": {
+        "hide": "hidden",
+        "show": "visible"
+      }
+    },
+    {
+      "styleRules": ["opacity"],
+      "values": {
+        "0": "0",
+        "5": "5",
+        "10": "10",
+        "20": "20",
+        "30": "30",
+        "40": "40",
+        "50": "50",
+        "60": "60",
+        "70": "70",
+        "75": "75",
+        "80": "80",
+        "90": "90",
+        "95": "95",
+        "100": "100"
+      }
+    },
+    {
+      "styleRules": ["z"],
+      "values": {
+        "auto": "auto",
+        "0": "0",
+        "1": "1",
+        "2": "2",
+        "3": "3",
+        "4": "4",
+        "5": "5",
+        "10": "10",
+        "20": "20",
+        "30": "30",
+        "40": "40",
+        "50": "50",
+        "60": "60",
+        "_1": "-1",
+        "-2": "-2",
+        "_3": "-3",
+        "_5": "-5"
+      }
+    },
+    {
+      "styleRules": ["textOrientation"],
+      "values": {
+        "mixed": "mixed",
+        "up": "upright",
+        "s": "sideways",
+        "sr": "sideways-right",
+        "glyph": "use-glyph-orientation",
+        "unset": "unset"
+      }
+    },
+    {
+      "styleRules": ["writingMode"],
+      "values": {
+        "htb": "horizontal-tb",
+        "vrl": "vertical-rl",
+        "vlr": "vertical-lr",
+        "srl": "sideways-rl",
+        "slr": "sideways-lr",
+        "unset": "unset"
+      }
+    },
+    {
+      "styleRules": ["animation"],
+      "values": {
+        "none": "none",
+        "vrl": "vertical-rl",
+        "vlr": "vertical-lr",
+        "srl": "sideways-rl",
+        "slr": "sideways-lr",
+        "unset": "unset"
+      }
+    }
+  ],
+  "styleRules": {
+    "animation": ["animation"],
+    "font": ["font-family"],
+    "p": ["padding"],
+    "py": ["padding-top", "padding-bottom"],
+    "px": ["padding-right", "padding-left"],
+    "pt": ["padding-top"],
+    "pr": ["padding-right"],
+    "pb": ["padding-bottom"],
+    "pl": ["padding-left"],
+    "pbl": ["padding-block"],
+    "pbls": ["padding-block-start"],
+    "pble": ["padding-block-end"],
+    "pin": ["padding-inline"],
+    "pins": ["padding-inline-start"],
+    "pine": ["padding-inline-end"],
+    "m": ["margin"],
+    "my": ["margin-top", "margin-bottom"],
+    "mx": ["margin-right", "margin-left"],
+    "mt": ["margin-top"],
+    "mr": ["margin-right"],
+    "mb": ["margin-bottom"],
+    "ml": ["margin-left"],
+    "z": ["z-index"],
+    "dir": ["direction"],
+    "blur": ["--filter-blur"],
+    "contrast": ["--filter-contrast"],
+    "grayscale": ["--filter-grayscale"],
+    "hueRotate": ["--filter-hue-rotate"],
+    "invert": ["--filter-invert"],
+    "saturate": ["--filter-saturate"],
+    "sepia": ["--filter-sepia"],
+    "dropShadow": ["--filter-drop-shadow"],
+    "custom": ["--filter-custom"],
+    "backdropBlur": ["--backdrop-blur"],
+    "backdropContrast": ["--backdrop-contrast"],
+    "backdropGrayscale": ["--backdrop-grayscale"],
+    "backdropHueRotate": ["--backdrop-hue-rotate"],
+    "backdropInvert": ["--backdrop-invert"],
+    "backdropSaturate": ["--backdrop-saturate"],
+    "backdropSepia": ["--backdrop-sepia"],
+    "backdropDropShadow": ["--backdrop-drop-shadow"],
+    "backdropCustom": ["--backdrop-custom"],
+    "text": [["--text-opacity", 1], "color"],
+    "fontSize": ["font-size"],
+    "lineHeight": ["line-height"],
+    "textOpacity": ["--text-opacity"],
+    "textOrientation": ["text-orientation"],
+    "writingMode": ["writing-mode"],
+    "bg": [["--bg-opacity", 1], "color"],
+    "bgOpacity": ["--bg-opacity"],
+    "opacity": ["opacity"]
+  },
+  "shorthand": {
+    "group": [],
+    "container": [
+      ["width", "100%"],
+      ["max-width", "var(--container-max-width)"]
+    ],
+    "italic": [["font-style", "italic"]],
+    "nonItalic": [["font-style", "normal"]],
+    "oblique": [["font-style", "oblique -10deg"]],
+    "filter": [
+      ["--filter-blur", "var(--empty,/*!*/ /*!*/)"],
+      ["--filter-brightness", "var(--empty,/*!*/ /*!*/)"],
+      ["--filter-contrast", "var(--empty,/*!*/ /*!*/)"],
+      ["--filter-grayscale", "var(--empty,/*!*/ /*!*/)"],
+      ["--filter-hue-rotate", "var(--empty,/*!*/ /*!*/)"],
+      ["--filter-invert", "var(--empty,/*!*/ /*!*/)"],
+      ["--filter-saturate", "var(--empty,/*!*/ /*!*/)"],
+      ["--filter-sepia", "var(--empty,/*!*/ /*!*/)"],
+      ["--filter-drop-shadow", "var(--empty,/*!*/ /*!*/)"],
+      ["--filter-custom", "var(--empty,/*!*/ /*!*/)"],
+      [
+        "filter",
+        "var(--filter-blur) var(--filter-brightness) var(--filter-contrast) var(--filter-grayscale) var(--filter-hue-rotate) var(--filter-invert) var(--filter-saturate) var(--filter-sepia) var(--filter-drop-shadow) var(--filter-custom)"
+      ]
+    ],
+    "backdropFilter": [
+      ["--backdrop-blur", "var(--empty,/*!*/ /*!*/)"],
+      ["--backdrop-brightness", "var(--empty,/*!*/ /*!*/)"],
+      ["--backdrop-contrast", "var(--empty,/*!*/ /*!*/)"],
+      ["--backdrop-grayscale", "var(--empty,/*!*/ /*!*/)"],
+      ["--backdrop-hue-rotate", "var(--empty,/*!*/ /*!*/)"],
+      ["--backdrop-invert", "var(--empty,/*!*/ /*!*/)"],
+      ["--backdrop-saturate", "var(--empty,/*!*/ /*!*/)"],
+      ["--backdrop-sepia", "var(--empty,/*!*/ /*!*/)"],
+      ["--backdrop-drop-shadow", "var(--empty,/*!*/ /*!*/)"],
+      ["--backdrop-custom", "var(--empty,/*!*/ /*!*/)"],
+      [
+        "backdrop-filter",
+        "var(--backdrop-blur) var(--backdrop-brightness) var(--backdrop-contrast) var(--backdrop-grayscale) var(--backdrop-hue-rotate) var(--backdrop-invert) var(--backdrop-saturate) var(--backdrop-sepia) var(--backdrop-drop-shadow) var(--backdrop-custom)"
+      ]
+    ],
+    "antialiased": [
+      ["-webkit-font-smoothing", "antialiased"],
+      ["-moz-osx-font-smoothing", "grayscale"]
+    ],
+    "subpixelAntialiased": [
+      ["-webkit-font-smoothing", "auto"],
+      ["-moz-osx-font-smoothing", "auto"]
+    ],
+    "block": [["display", "block"]],
+    "inlineBlock": [["display", "inline-block"]],
+    "inline": [["display", "inline"]],
+    "flowRoot": [["display", "flow-root"]],
+    "content": [["display", "content"]],
+    "hidden": [["display", "hidden"]],
+    "invisible": [["visibility", "hidden"]],
+    "visible": [["visibility", "visible"]]
+  }
+}

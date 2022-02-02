@@ -1,0 +1,46 @@
+storage: ./verdaccio/skribble
+
+web:
+  title: 'Skribble Verdaccio'
+  pkgManagers:
+    - pnpm
+# auth:
+#   htpasswd:
+#     file: ./htpasswd
+
+uplinks:
+  npmjs:
+    url: https://registry.npmjs.org/
+
+packages:
+  'skribble-css':
+    access: $anonymous
+    publish: $anonymous
+    unpublish: test
+    storage: public
+  'skribble-react':
+    access: $all
+    publish: $all
+    unpublish: test
+    storage: public
+  '@*/*':
+    access: $all
+    publish: $all
+    unpublish: $authenticated
+    proxy: npmjs
+    storage: public
+  '**':
+    access: $all
+    publish: $all
+    unpublish: $authenticated
+    proxy: npmjs
+    storage: public
+
+server:
+  keepAliveTimeout: 60
+
+middlewares:
+  audit:
+    enabled: true
+
+log: { type: stdout, format: pretty, level: warn }

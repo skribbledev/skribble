@@ -1,0 +1,80 @@
+name: 'security'
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    #        ┌───────────── minute (0 - 59)
+    #        │  ┌───────────── hour (0 - 23)
+    #        │  │ ┌───────────── day of the month (1 - 31)
+    #        │  │ │ ┌───────────── month (1 - 12 or JAN-DEC)
+    #        │  │ │ │ ┌───────────── day of the week (0 - 6 or SUN-SAT)
+    #        │  │ │ │ │
+    #        │  │ │ │ │
+    #        │  │ │ │ │
+    #        *  * * * *
+    - cron: '30 1 * * 0'
+
+jobs:
+  codeql:
+    timeout-minutes: 15
+    # CodeQL runs on ubuntu-latest, windows-latest, and macos-latest
+    runs-on: ubuntu-latest
+
+    permissions:
+      # required for all workflows
+      security-events: write
+
+      # only required for workflows in private repositories
+      # actions: read
+      # contents: read
+
+    steps:
+      - name: checkout code repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      # Initializes the CodeQL tools for scanning.
+      - name: intialize
+        uses: github/codeql-action/init@v1.0.22
+        # Override language selection by uncommenting this and choosing your languages
+        with:
+          languages: rust, javascript, typescript
+
+      - name: setup caching
+        uses: actions/cache@v2
+        with:
+          path: ${{ env.PNPM_CACHE_FOLDER }}
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-
+
+      - name: setup node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+
+      - name: pnpm installation
+        uses: ./.github/actions/pnpm
+
+      # Autobuild attempts to build any compiled languages (C/C++, C#, or Java).
+      # If this step fails, then you should remove it and run the build manually (see below).
+      # - name: Autobuild
+      #   uses: github/codeql-action/autobuild@v1
+
+      # ℹ️ Command-line programs to run using the OS shell.
+      # 📚 https://git.io/JvXDl
+
+      # ✏️ If the Autobuild fails above, remove it and uncomment the following
+      #    three lines and modify them (or add more) to build your code if your
+      #    project uses a compiled language
+      - name: build
+        run: |
+          pnpm build
+          pnpm build:napi
+
+      - name: perform code quality analysis
+        uses: github/codeql-action/analyze@v1

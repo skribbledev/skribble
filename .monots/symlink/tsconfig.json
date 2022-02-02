@@ -1,0 +1,29 @@
+{
+  "extends": "./.monots/tsconfig.base.json",
+  "include": [],
+  "files": [],
+  "ts-node": {
+    "transpileOnly": true,
+    "compilerOptions": {
+      "esModuleInterop": true,
+      "target": "ESNext"
+    }
+  },
+  "references": [
+    {
+      "path": "packages/skribble-css__config/src"
+    },
+    {
+      "path": "packages/skribble-css__core/src"
+    },
+    {
+      "path": "packages/skribble-css__core/test"
+    },
+    {
+      "path": "packages/skribble-css/src"
+    },
+    {
+      "path": "packages/skribble-react/src"
+    }
+  ]
+}

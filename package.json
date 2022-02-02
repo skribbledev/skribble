@@ -1,0 +1,123 @@
+{
+  "name": "skribble-monorepo",
+  "description": "Design with pragmatic irreverence.",
+  "repository": "https://github.com/skribbledev/skribble",
+  "license": "MIT",
+  "contributors": [
+    {
+      "name": "Ifiok Jr.",
+      "email": "ifiokotung@gmail.com",
+      "url": "https://skribble.dev"
+    }
+  ],
+  "type": "module",
+  "scripts": {
+    "build": "run-p build:packages typecheck",
+    "build:napi": "napi build --platform --cargo-cwd='./crates/skribble_css_node' --release",
+    "build:packages": "monots build",
+    "build:wasm": "run-s build:wasm:clean build:wasm:esm build:wasm:node build:wasm:copy",
+    "build:wasm:clean": "rimraf packages/skribble-css__core/packages/wasm/dist crates/skribble_css_wasm/pkg",
+    "build:wasm:copy": "cpy crates/skribble_css_wasm/pkg/esm/*.{wasm,d.ts,js} packages/skribble-css__core/packages/wasm/dist/esm && cpy crates/skribble_css_wasm/pkg/node/*.{wasm,d.ts,js} packages/skribble-css__core/packages/wasm/dist/node && rm -rf crates/skribble_css_wasm/pkg",
+    "build:wasm:esm": "wasm-pack build --target bundler --out-name index --out-dir pkg/esm --release crates/skribble_css_wasm",
+    "build:wasm:node": "wasm-pack build --target nodejs --out-name index --out-dir pkg/node --release crates/skribble_css_wasm",
+    "changeset": "changeset",
+    "check:pnpm": "node .monots/check-pnpm.js",
+    "checks": "run-s lint typecheck test",
+    "clean": "git clean -fdX --exclude='.config.json'",
+    "dev:demos": "vite",
+    "dev:monots": "monots prepare",
+    "dev:napi": "napi build --platform --cargo-cwd='./crates/skribble_css_node' --config='./packages/skribble-css__core/package.json' && make-dir artifacts && mv *.node artifacts && pnpm ts .monots/scripts/move-artifacts",
+    "dev:wasm": "run-s build:wasm:clean dev:wasm:esm dev:wasm:node build:wasm:copy",
+    "dev:wasm:esm": "wasm-pack build --target bundler --out-name index --out-dir pkg/esm --dev crates/skribble_css_wasm",
+    "dev:wasm:node": "wasm-pack build --target nodejs --out-name index --out-dir pkg/node --dev crates/skribble_css_wasm",
+    "fix": "run-s -c fix:\\*",
+    "fix:build": "monots fix",
+    "fix:es": "pnpm lint:es --fix",
+    "fix:prettier": "pnpm run:prettier --write",
+    "fix:repo": "manypkg fix",
+    "preinstall": "pnpm symlink:root && pnpm check:pnpm",
+    "postinstall": "run-s dev:monots",
+    "lint": "run-s lint:*",
+    "lint:build": "monots check",
+    "lint:es": "eslint --ext=.tsx,.ts,.js .",
+    "lint:prettier": "pnpm run:prettier --check",
+    "lint:repo": "manypkg check",
+    "monots": "monots",
+    "move:artifacts": "pnpm ts .monots/scripts/move-artifacts.ts",
+    "prepare": "husky install .monots/.husky",
+    "prerelease": "pnpm build",
+    "release": "changeset publish",
+    "reset": "pnpm clean; rm pnpm-lock.yaml; pnpm symlink:root; pnpm i -r;",
+    "run:prettier": "prettier --ignore-path .eslintignore \"**/*.{js,jsx,ts,tsx,md,mdx,json,html,css,yml,yaml,graphql}\"",
+    "serve:demos": "vite preview",
+    "snapshot:crates": "cargo insta review",
+    "storybook": "start-storybook -h localhost -p 6006 -c .monots/storybook",
+    "symlink:root": "node .monots/symlink-root.js",
+    "test": "vitest run",
+    "test:coverage": "vitest coverage",
+    "test:crates": "cargo test --package skribble_css --lib --exact --nocapture",
+    "test:crates:watch": "cargo-watch -x \"test --package skribble_css\" --ignore \"*/snapshots/\" --ignore \"*pending-snap\" --ignore \"packages/*",
+    "test:watch": "vitest",
+    "ts": "node --experimental-specifier-resolution=node --loader ts-node/esm",
+    "typecheck": "tsc -b",
+    "update:deps": "pnpm update --latest --recursive -i",
+    "update:workspace": "pnpm up -r --workspace \"packages/*\""
+  },
+  "dependencies": {
+    "@manypkg/cli": "^0.19.1",
+    "@monots/cli": "^0.11.0",
+    "@monots/tsconfig": "^0.1.0",
+    "@napi-rs/cli": "^2.4.2",
+    "@rollup/plugin-node-resolve": "^13.1.3",
+    "@storybook/addon-a11y": "^6.4.18",
+    "@storybook/addon-actions": "^6.4.18",
+    "@storybook/addon-docs": "^6.4.18",
+    "@storybook/addon-essentials": "^6.4.18",
+    "@storybook/addon-links": "^6.4.18",
+    "@storybook/react": "^6.4.18",
+    "@types/node": "^17.0.14",
+    "@types/react": "^17.0.38",
+    "@types/react-dom": "^17.0.11",
+    "@vitejs/plugin-react": "^1.1.4",
+    "cpy-cli": "^3.1.1",
+    "eslint": "^8.8.0",
+    "eslint-config-monots": "^0.7.0",
+    "happy-dom": "^2.31.1",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.3.3",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.5.1",
+    "prettier-config-monots": "^0.1.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "rimraf": "^3.0.2",
+    "serve": "^13.0.2",
+    "storybook-builder-vite": "^0.1.14",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.5",
+    "vite": "^2.7.13",
+    "vitest": "^0.2.6",
+    "wasm-pack": "^0.10.2"
+  },
+  "engines": {
+    "node": ">=16.9",
+    "pnpm": ">=6"
+  },
+  "monots": {
+    "packages": [
+      "packages/*",
+      "websites/*"
+    ],
+    "baseTsconfig": "./.monots/tsconfig.base.json",
+    "tsconfig": {
+      "ts-node": {
+        "transpileOnly": true,
+        "compilerOptions": {
+          "esModuleInterop": true,
+          "target": "ESNext"
+        }
+      }
+    }
+  },
+  "packageManager": "pnpm@7.0.0-alpha.0"
+}

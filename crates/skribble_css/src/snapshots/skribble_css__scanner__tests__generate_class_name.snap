@@ -1,0 +1,7 @@
+---
+source: crates/skribble_css/src/scanner.rs
+assertion_line: 8
+expression: "crate::test_utils::get_selector(&crate::test_utils::create_config(None).unwrap(),\n                                \"import { c } from 'skribble-css';\n    const d = c.md.focus.$block;\")"
+
+---
+.md\:focus\:\$block:focus

@@ -1,0 +1,140 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug unit tests in library 'skribble_example'",
+      "cargo": {
+        "args": [
+          "test",
+          "--no-run",
+          "--lib",
+          "--package=skribble_example"
+        ],
+        "filter": {
+          "name": "skribble_example",
+          "kind": "lib"
+        }
+      },
+      "args": [],
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug unit tests in library 'skribble_css'",
+      "cargo": {
+        "args": [
+          "test",
+          "--no-run",
+          "--lib",
+          "--package=skribble_css"
+        ],
+        "filter": {
+          "name": "skribble_css",
+          "kind": "lib"
+        }
+      },
+      "args": [],
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug example 'play'",
+      "cargo": {
+        "args": [
+          "build",
+          "--example=play",
+          "--package=skribble_css"
+        ],
+        "filter": {
+          "name": "play",
+          "kind": "example"
+        }
+      },
+      "args": [],
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug unit tests in example 'play'",
+      "cargo": {
+        "args": [
+          "test",
+          "--no-run",
+          "--example=play",
+          "--package=skribble_css"
+        ],
+        "filter": {
+          "name": "play",
+          "kind": "example"
+        }
+      },
+      "args": [],
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug integration test 'fixtures'",
+      "cargo": {
+        "args": [
+          "test",
+          "--no-run",
+          "--test=fixtures",
+          "--package=skribble_css"
+        ],
+        "filter": {
+          "name": "fixtures",
+          "kind": "test"
+        }
+      },
+      "args": [],
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug unit tests in library 'skribble_css_wasm'",
+      "cargo": {
+        "args": [
+          "test",
+          "--no-run",
+          "--lib",
+          "--package=skribble_css_wasm"
+        ],
+        "filter": {
+          "name": "skribble_css_wasm",
+          "kind": "lib"
+        }
+      },
+      "args": [],
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug integration test 'web'",
+      "cargo": {
+        "args": [
+          "test",
+          "--no-run",
+          "--test=web",
+          "--package=skribble_css_wasm"
+        ],
+        "filter": {
+          "name": "web",
+          "kind": "test"
+        }
+      },
+      "args": [],
+      "cwd": "${workspaceFolder}"
+    }
+  ]
+}

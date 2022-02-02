@@ -1,0 +1,31 @@
+{
+  // Editor Settings
+  "editor.tabSize": 2,
+  "editor.rulers": [80],
+  "editor.insertSpaces": true,
+  "editor.formatOnSave": true,
+  "eslint.format.enable": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": { "source.fixAll.eslint": true },
+
+  // File Settings
+  "files.insertFinalNewline": true,
+  "files.trimTrailingWhitespace": true,
+
+  // TypeScript settings
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.format.enable": false,
+
+  // JavaScript settings
+  "javascript.format.enable": false,
+  "prettier.ignorePath": ".eslintignore",
+
+  // Rust settings
+  "[rust]": {
+    "editor.defaultFormatter": "matklad.rust-analyzer",
+  },
+  "rust-analyzer.checkOnSave.command": "clippy",
+  "rust-analyzer.checkOnSave.enable": true,
+  "rust-analyzer.cache.warmup": true,
+  "rust-analyzer.lens.enable": true
+}

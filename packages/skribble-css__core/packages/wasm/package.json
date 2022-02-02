@@ -1,0 +1,37 @@
+{
+  "name": "@skribble-css/core-wasm",
+  "version": "0.0.0",
+  "description": "The WebAssembly module for integrating `skribble` css files.",
+  "keywords": [],
+  "repository": "https://github.com/skribbledev/skribble/tree/master/packages/skribble-css__core-wasm",
+  "license": "MIT",
+  "contributors": [],
+  "sideEffects": false,
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.js",
+      "require": "./dist/node/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./index.js": {
+      "import": "./dist/esm/index.js",
+      "require": "./dist/node/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./package.json": "./package.json",
+    "./types/*": "./dist/*.d.ts"
+  },
+  "main": "./dist/node/index.js",
+  "module": "./dist/esm/index.js",
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "monots": {
+    "mode": "app",
+    "tsconfigs": false
+  }
+}

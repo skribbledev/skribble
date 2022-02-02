@@ -1,0 +1,8 @@
+packages:
+  - 'packages/*'
+  - 'packages/skribble-css__core/packages/*'
+  - 'website'
+  - 'docs'
+  - '.monots/scripts'
+  - '.monots/storybook'
+  - 'examples/*'

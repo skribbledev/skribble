@@ -1,18 +1,18 @@
 import { describe, expect, it } from 'vitest';
 
-import { c, cx } from '../src/c';
+import { c, cx } from '../src/client';
 
 describe('cx', () => {
   it('matches shorthands', () => {
-    expect(cx(c.md.$hidden, c.md.$block)).toMatchInlineSnapshot('"md:-$block"');
+    expect(cx(c.md.$hidden, c.md.$block)).toMatchInlineSnapshot('"md::$block"');
   });
 
   it('matches atoms', () => {
-    expect(cx(c.p.$0, c.p.$0_5)).toMatchInlineSnapshot('"p:-$0_5"');
+    expect(cx(c.p.$0, c.p.$0_5)).toMatchInlineSnapshot('"p::$0_5"');
   });
 
   it('matches arguments', () => {
-    expect(cx(c.p.$0, c.p('100px'), c.p('200px'))).toMatchInlineSnapshot('"p:-[200px]"');
+    expect(cx(c.p.$0, c.p('100px'), c.p('200px'))).toMatchInlineSnapshot('"p::[200px]"');
   });
 
   it('matches arguments with values', () => {
@@ -26,10 +26,10 @@ describe('cx', () => {
 
   it('understands css groups', () => {
     expect(cx(c.p.$0, c.px('100px'), c.pt('200px'))).toMatchInlineSnapshot(
-      '"p:-$0 px:-[100px] pt:-[200px]"',
+      '"p::$0 px::[100px] pt::[200px]"',
     );
-    expect(cx(c.p.$0, c.pt.$1, c.py('100px'))).toMatchInlineSnapshot('"p:-$0 py:-[100px]"');
-    expect(cx(c.pt('200px'), c.py('100px'), c.p.$0)).toMatchInlineSnapshot('"p:-$0"');
+    expect(cx(c.p.$0, c.pt.$1, c.py('100px'))).toMatchInlineSnapshot('"p::$0 py::[100px]"');
+    expect(cx(c.pt('200px'), c.py('100px'), c.p.$0)).toMatchInlineSnapshot('"p::$0"');
   });
 });
 
@@ -99,7 +99,7 @@ describe('(compat)', () => {
       // falsy:
       null: null,
       emptyString: '',
-      noNumber: NaN,
+      noNumber: Number.NaN,
       zero: 0,
       negativeZero: -0,
       false: false,

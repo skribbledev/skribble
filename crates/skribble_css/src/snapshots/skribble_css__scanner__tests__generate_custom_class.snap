@@ -5,5 +5,5 @@ expression: "class_names.join(\"\\n\")"
 
 ---
 .\[padding\:10px\]
-.md-\[padding\:6px\]
-.sm-\[padding\:16px\]
+.md\:\:\[padding\:6px\]
+.sm\:\:\[padding\:16px\]

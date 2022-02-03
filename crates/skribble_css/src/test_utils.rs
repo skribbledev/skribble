@@ -100,7 +100,7 @@ macro_rules! snapshot_selectors {
 }
 
 macro_rules! test_css {
-  ($test_name:ident : $source:expr => $expected:expr $(, $macros:ident) *) => {
+  ($test_name:ident : $source:expr $(, $macros:ident) *) => {
     #[test]
     $(#[$macros])*
     fn $test_name() -> Result<(), serde_json::Error> {
@@ -108,7 +108,7 @@ macro_rules! test_css {
       let mut class_name_collector = crate::test_utils::collect_classes(&config, indoc::indoc!{$source});
       class_name_collector.sort();
       let output = crate::generate_css::generate_css(&config, &class_name_collector.get_class_names());
-      pretty_assertions::assert_eq!(output, indoc::indoc!{ $expected });
+      insta::assert_snapshot!(output);
       Ok(())
     }
   };

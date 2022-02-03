@@ -1,7 +1,7 @@
 ---
 source: crates/skribble_css/src/scanner.rs
-assertion_line: 147
+assertion_line: 146
 expression: "crate::test_utils::get_selector(&crate::test_utils::create_config(None).unwrap(),\n                                \"\\\n    import Other from 'library';\n    import { c } from 'skribble-css';\n\n    const Component = () => {\n      return <Other style={{ a: c.sm.m.$1 }} />;\n    };\")"
 
 ---
-.sm\:m\:\$1
+.sm\:m\:\:\$1

@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "description": "Configuration options for skribble css",
   "keywords": [],
+  "repository": "https://github.com/skribbledev/skribble/tree/master/packages/skribble-css__config",
   "license": "MIT",
   "contributors": [],
   "sideEffects": false,

@@ -9,7 +9,7 @@
     "skribble css",
     "css"
   ],
-  "repository": "https://github.com/skribbledev/skribble/tree/master/packages/skribble-css__core-linux-arm64-musl",
+  "repository": "https://github.com/skribbledev/skribble/tree/master/packages/skribble-css__core/packages/linux-arm64-musl",
   "license": "MIT",
   "type": "commonjs",
   "exports": {

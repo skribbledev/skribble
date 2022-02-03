@@ -184,7 +184,7 @@ impl<'config> ClassName<'config> {
   pub fn from_dom_string(config: &'config Config, value: &str) -> Self {
     let mut class_name = Self::new(config);
     // Split the string into the tokens and the arguments / values.
-    let segments = value.split(":-").collect::<Vec<_>>();
+    let segments = value.split("::").collect::<Vec<_>>();
 
     match segments.len() {
       1 => {
@@ -268,23 +268,22 @@ impl<'config> ClassName<'config> {
       tokens.push(modifier.to_string())
     }
 
-    if let Some(shorthand) = &self.shorthand {
-      tokens.push(format!(r"\${}", shorthand.to_string()));
-    }
-
     if let Some(atom) = &self.atom {
       tokens.push(atom.to_string());
     }
 
-    if let Some(style_name) = &self.style_name {
-      tokens.push(format!(r"\${}", style_name.to_string()));
-    }
-
     let mut selector = format!(".{}", tokens.join(r"\:"));
 
-    // Append an argument if it exists.
-    if let Some(argument) = &self.argument {
-      let prefix = if tokens.is_empty() { "" } else { r"\:-" };
+    let prefix = if tokens.is_empty() { "" } else { r"\:\:" };
+
+    if let Some(shorthand) = &self.shorthand {
+      // Append the shorthand.
+      selector = format!(r"{}{}\${}", selector, prefix, shorthand);
+    } else if let Some(style_name) = &self.style_name {
+      // Append the style name.
+      selector = format!(r"{}{}\${}", selector, prefix, style_name);
+    } else if let Some(argument) = &self.argument {
+      // Append an argument if it exists.
       selector = format!(r"{}{}\[{}\]", selector, prefix, argument.get_string());
     }
 
@@ -695,7 +694,7 @@ mod tests {
     let mut class_name = ClassName::new(&config);
 
     class_name.add_tokens(&["sm", "focus", "active", "p", "$px"]);
-    insta::assert_snapshot!(&class_name.get_selector(), @r###".sm\:active\:focus\:p\:\$px:active:focus"###);
+    insta::assert_snapshot!(&class_name.get_selector(), @r###".sm\:active\:focus\:p\:\:\$px:active:focus"###);
   }
 
   #[test]
@@ -717,7 +716,7 @@ mod tests {
     class_name.add_tokens(&["sm", "readOnly", "p", "$px"]);
     insta::assert_snapshot!(
       &class_name.get_selector(),
-      @r###".sm\:read-only\:p\:\$px[aria-readonly=true], .sm\:read-only\:p\:\$px[readonly], .sm\:read-only\:p\:\$px:read-only"###
+      @r###".sm\:readOnly\:p\:\:\$px[aria-readonly=true], .sm\:readOnly\:p\:\:\$px[readonly], .sm\:readOnly\:p\:\:\$px:read-only"###
     );
   }
 
@@ -727,7 +726,7 @@ mod tests {
     let mut class_name = ClassName::new(&config);
 
     class_name.add_tokens(&["sm", "groupActive", "focus", "active", "p", "$px"]);
-    insta::assert_snapshot!(&class_name.get_selector(),@r###".\$group:active .sm\:group-active\:active\:focus\:p\:\$px:active:focus, .group:active .sm\:group-active\:active\:focus\:p\:\$px:active:focus, [role='group']:active .sm\:group-active\:active\:focus\:p\:\$px:active:focus"###);
+    insta::assert_snapshot!(&class_name.get_selector(),@r###".\$group:active .sm\:groupActive\:active\:focus\:p\:\:\$px:active:focus, .group:active .sm\:groupActive\:active\:focus\:p\:\:\$px:active:focus, [role='group']:active .sm\:groupActive\:active\:focus\:p\:\:\$px:active:focus"###);
   }
 
   #[test]

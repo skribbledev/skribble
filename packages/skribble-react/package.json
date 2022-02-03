@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "description": "React components built with skribble",
   "keywords": [],
+  "repository": "https://github.com/skribbledev/skribble/tree/master/packages/skribble-react",
   "license": "MIT",
   "contributors": [],
   "sideEffects": false,

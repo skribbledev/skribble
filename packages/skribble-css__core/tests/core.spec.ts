@@ -1,10 +1,10 @@
 import { expect, test } from 'vitest';
 
-import { c } from '../src/c';
+import { c } from '../src/client';
 
 test('generate classnames', () => {
-  expect(c.md.p.$2_5).toMatchInlineSnapshot('"md:p:-$2_5"');
-  expect(c.sm.pbl.$10).toMatchInlineSnapshot('"sm:pbl:-$10"');
+  expect(c.md.p.$2_5).toMatchInlineSnapshot('"md:p::$2_5"');
+  expect(c.sm.pbl.$10).toMatchInlineSnapshot('"sm:pbl::$10"');
 });
 
 test('types', () => {
@@ -16,12 +16,12 @@ test('types', () => {
 });
 
 test('generate dynamic atom class names', () => {
-  expect(c.md.p('100px')).toMatchInlineSnapshot('"md:p:-[100px]"');
+  expect(c.md.p('100px')).toMatchInlineSnapshot('"md:p::[100px]"');
 });
 
 test('generate fully dynamic class names', () => {
   expect(c('padding-right', '80px')).toMatchInlineSnapshot('"[padding-right:80px]"');
-  expect(c.md('padding-left', '100px')).toMatchInlineSnapshot('"md:-[padding-left:100px]"');
+  expect(c.md('padding-left', '100px')).toMatchInlineSnapshot('"md::[padding-left:100px]"');
 });
 
 test('toString is empty string', () => {

@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "The WebAssembly module for integrating `skribble` css files.",
   "keywords": [],
-  "repository": "https://github.com/skribbledev/skribble/tree/master/packages/skribble-css__core-wasm",
+  "repository": "https://github.com/skribbledev/skribble/tree/master/packages/skribble-css__core/packages/wasm",
   "license": "MIT",
   "contributors": [],
   "sideEffects": false,

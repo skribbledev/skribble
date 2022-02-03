@@ -9,7 +9,7 @@
     "skribble css",
     "css"
   ],
-  "repository": "https://github.com/skribbledev/skribble/tree/master/packages/skribble-css__core-win32-x64-msvc",
+  "repository": "https://github.com/skribbledev/skribble/tree/master/packages/skribble-css__core/packages/win32-x64-msvc",
   "license": "MIT",
   "type": "commonjs",
   "exports": {

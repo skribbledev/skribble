@@ -17,9 +17,6 @@
       "path": "packages/skribble-css__core/src"
     },
     {
-      "path": "packages/skribble-css__core/test"
-    },
-    {
       "path": "packages/skribble-css/src"
     },
     {

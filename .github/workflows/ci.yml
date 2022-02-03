@@ -11,6 +11,7 @@ on:
 
 env:
   PNPM_CACHE_FOLDER: '~/.pnpm-store'
+  PNPM_HOME: '~/.pnpm'
   DEBUG: napi:*
   APP_NAME: skribble_css
   MACOSX_DEPLOYMENT_TARGET: '10.13'

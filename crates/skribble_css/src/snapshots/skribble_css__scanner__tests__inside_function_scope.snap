@@ -1,7 +1,7 @@
 ---
 source: crates/skribble_css/src/scanner.rs
-assertion_line: 40
+assertion_line: 52
 expression: "crate::test_utils::get_selector(&crate::test_utils::create_config(None).unwrap(),\n                                \"import { c } from 'skribble-css';\n\n    function fun () {\n      c.lg.focus.$block;\n    }\")"
 
 ---
-.lg\:focus\:\$block:focus
+.lg\:focus\:\:\$block:focus

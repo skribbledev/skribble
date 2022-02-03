@@ -1,5 +1,5 @@
-import { SkribbleConfig } from './types.js';
 import { PALETTE } from './palette';
+import type { SkribbleConfig } from './types.js';
 
 export const DEFAULT_CONFIG: SkribbleConfig = {
   options: {

@@ -1,9 +1,9 @@
 ---
 source: crates/skribble_css/src/scanner.rs
-assertion_line: 73
+assertion_line: 89
 expression: "class_names.join(\"\\n\")"
 
 ---
-.md\:focus\:\$block:focus
-.sm\:focus\:\$block:focus
-.lg\:focus\:\$block:focus
+.md\:focus\:\:\$block:focus
+.sm\:focus\:\:\$block:focus
+.lg\:focus\:\:\$block:focus

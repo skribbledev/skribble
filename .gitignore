@@ -157,3 +157,4 @@ target
 packages/skribble-css__core/tailwind.config.js
 
 *.pending-snap
+*.snap.new

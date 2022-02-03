@@ -310,90 +310,27 @@ mod tests {
       import { c } from 'skribble-css';
       c.px.$px;
       c.py.$1;
-      c.p('10px');"# => r#"
-    .p-\[10px\] {
-      padding: 10px;
-    }
-
-    .py\:\$1 {
-      padding-top: 0.25rem;
-      padding-bottom: 0.25rem;
-    }
-
-    .px\:\$px {
-      padding-right: 1px;
-      padding-left: 1px;
-    }"#
+      c.p('10px');"#
   );
 
   test_css!(media_queries: r#"
       import { c } from 'skribble-css';
-      c.print.px.$px;"# => r#"
-    @media print {
-      .print\:px\:\$px {
-        padding-right: 1px;
-        padding-left: 1px;
-      }
-    }"#
+      c.print.px.$px;"#
   );
 
   test_css!(media_queries_with_breakpoint: r#"
   import { c } from 'skribble-css';
-  c.md.print.px.$px;"# => r#"
-  @media (min-width: 768px) {
-    @media print {
-      .md\:print\:px\:\$px {
-        padding-right: 1px;
-        padding-left: 1px;
-      }
-    }
-  }"#
+  c.md.print.px.$px;"#
   );
 
   test_css!(media_queries_css_variables: r#"
   import { c } from 'skribble-css';
-  c.print.text.$media;"# => r#"
-  :root {
-    --color-text-media: rgba(113, 113, 122, var(--text-opacity));
-  }
-
-  @media print {
-    :root {
-      --color-text-media: rgba(24, 24, 27, var(--text-opacity));
-    }
-
-    .print\:text\:\$media {
-      --text-opacity: 1;
-      color: var(--color-text-media);
-    }
-  }"#
-  );
+  c.print.text.$media;"# );
 
   test_css!(media_queries_with_breakpoint_mixed: r#"
   import { c } from 'skribble-css';
   c.md.print.px.$px;
   c.px.$px;
   c.print.px.$px;
-  "# => r#"
-  .px\:\$px {
-    padding-right: 1px;
-    padding-left: 1px;
-  }
-
-  @media print {
-    .print\:px\:\$px {
-      padding-right: 1px;
-      padding-left: 1px;
-    }
-  }
-
-  @media (min-width: 768px) {
-    @media print {
-      .md\:print\:px\:\$px {
-        padding-right: 1px;
-        padding-left: 1px;
-      }
-    }
-  }"#
-  );
+  "#);
 }

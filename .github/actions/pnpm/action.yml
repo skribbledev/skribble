@@ -9,6 +9,10 @@ inputs:
 runs:
   using: 'composite'
   steps:
+    - name: add pnpm to path
+      run: echo "$PNPM_HOME" >> $GITHUB_PATH
+      shell: bash
+
     - name: enable corepack
       run: corepack enable
       shell: bash

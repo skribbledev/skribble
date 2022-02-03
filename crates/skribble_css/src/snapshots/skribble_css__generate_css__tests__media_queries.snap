@@ -1,0 +1,12 @@
+---
+source: crates/skribble_css/src/generate_css.rs
+assertion_line: 316
+expression: output
+
+---
+@media print {
+  .print\:px\:\:\$px {
+    padding-right: 1px;
+    padding-left: 1px;
+  }
+}

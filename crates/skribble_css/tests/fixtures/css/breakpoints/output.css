@@ -32,7 +32,9 @@ html.dark {
   padding-left: 10px;
 }
 
-.\$group:hover .m\:\$4:focus, .group:hover .m\:\$4:focus, [role='group']:hover .m\:\$4:focus {
+.\$group:hover .m\:\$4:focus,
+.group:hover .m\:\$4:focus,
+[role='group']:hover .m\:\$4:focus {
   margin: 1rem;
 }
 

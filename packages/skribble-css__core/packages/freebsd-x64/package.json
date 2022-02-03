@@ -9,7 +9,7 @@
     "skribble css",
     "css"
   ],
-  "repository": "https://github.com/skribbledev/skribble/tree/master/packages/skribble-css__core-freebsd-x64",
+  "repository": "https://github.com/skribbledev/skribble/tree/master/packages/skribble-css__core/packages/freebsd-x64",
   "license": "MIT",
   "type": "commonjs",
   "exports": {

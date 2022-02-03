@@ -1,4 +1,5 @@
 import { type PALETTE } from './palette';
+
 export interface SkribbleConfig {
   options: SkribbleConfigOptions;
   breakpoints: Record<string, string>;

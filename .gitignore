@@ -134,9 +134,9 @@ yarn.lock
 /tsconfig.json
 /tsconfig.references.json
 /.markdownlint.json
-/web-test-runner.config.js
 /vite.config.ts
 /web-test-runner.config.js
+/auto.config.ts
 /index.html
 dist-ssr/
 .parcel-cache/

@@ -8,11 +8,11 @@ test('generate classnames', () => {
 });
 
 test('types', () => {
-  // @ts-expect-error
+  // @ts-expect-error The property doesn't exist.
   expect(`${c.md.doesNotExist}`).toBe('');
 
-  // @ts-expect-error
-  c.md.$1;
+  // @ts-expect-error The property doesn't exist.
+  expect(c.md.$1).toBeTruthy();
 });
 
 test('generate dynamic atom class names', () => {

@@ -115,7 +115,7 @@ function createProxyClassNames(v?: Set<string>): WithCustomClassName<SkribbleCss
       }
 
       if (typeof String.prototype[prop as keyof string] === 'function') {
-        return (String.prototype[prop as keyof string] as Function).bind('');
+        return (String.prototype[prop as keyof string] as any).bind('');
       }
 
       // This is a value prop which ends the chain.

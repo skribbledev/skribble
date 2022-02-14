@@ -1,0 +1,40 @@
+---
+source: crates/skribble_css/tests/css.rs
+assertion_line: 50
+expression: "generate_css(&config, &collector.get_class_names())"
+
+---
+:root {
+  --color-text-primary: rgba(168, 85, 247, var(--text-opacity));
+  --color-text-background: rgba(249, 250, 251, var(--text-opacity));
+}
+
+html.dark {
+  --color-text-background: rgba(17, 24, 39, var(--text-opacity));
+}
+
+.px\:\:\$px {
+  padding-right: 1px;
+  padding-left: 1px;
+}
+
+@media print {
+  .print\:px\:\:\$2 {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .md\:text\:\:\$background {
+    --text-opacity: 1;
+    color: var(--color-text-background);
+  }
+
+  @media print {
+    .md\:print\:text\:\:\$primary {
+      --text-opacity: 1;
+      color: var(--color-text-primary);
+    }
+  }
+}

@@ -12,7 +12,6 @@ By using symlinks we can continue editing and updating files in our usual way on
 
 ## Content
 
-- `.changeset/` - A folder which contains the changeset information, responsible for releases and versioning the project. [`changesets`](https://github.com/atlassian/changesets) is an amazing project and I encourage you to take a look.
 - `.vscode/` - A folder which contains the vscode settings for the project.
 - `.eslintignore` - The patterns to ignore when running `eslint` on the project.
 - `.eslintrc.js` - The eslint rules for the whole project.

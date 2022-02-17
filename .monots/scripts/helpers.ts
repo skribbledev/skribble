@@ -158,7 +158,7 @@ export function getDefaultTargetTriple(rustcfg: string): PlatformDetail {
 
 export async function getNapiConfig() {
   const result = await readPackageUp({
-    cwd: getBase('packages', 'skribble-css__core', 'package.json'),
+    cwd: getBase('packages', 'skribble-css', 'package.json'),
   });
 
   console.log({ result });

@@ -154,7 +154,7 @@ target
 # Build artifacts
 /artifacts
 *.node
-packages/skribble-css__core/tailwind.config.js
+packages/skribble-css/tailwind.config.js
 
 *.pending-snap
 *.snap.new

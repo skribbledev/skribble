@@ -61,7 +61,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: wasm
-          path: packages/skribble-css__core/packages/wasm/dist
+          path: packages/skribble-css/packages/wasm/dist
 
   build_napi:
     timeout-minutes: 15

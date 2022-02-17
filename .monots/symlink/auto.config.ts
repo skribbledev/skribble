@@ -1,7 +1,6 @@
-import { AutoRc } from 'auto';
-
-import { INpmConfig } from '@auto-it/npm';
-import { IAllContributorsPluginOptions } from '@auto-it/all-contributors';
+import type { IAllContributorsPluginOptions } from '@auto-it/all-contributors';
+import type { INpmConfig } from '@auto-it/npm';
+import type { AutoRc } from 'auto';
 
 const npmOptions: INpmConfig = {
   exact: true,

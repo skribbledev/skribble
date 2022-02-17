@@ -6,5 +6,5 @@
       "verifyAccess": false
     }
   },
-  "packages": ["packages/*", "packages/skribble-css__core/packages/*"]
+  "packages": ["packages/*", "packages/skribble-css/packages/*"]
 }

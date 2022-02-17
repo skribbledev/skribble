@@ -11,10 +11,16 @@
   },
   "references": [
     {
+      "path": "packages/skribble-css__cli/src"
+    },
+    {
+      "path": "packages/skribble-css__client/src"
+    },
+    {
       "path": "packages/skribble-css__config/src"
     },
     {
-      "path": "packages/skribble-css__core/src"
+      "path": "packages/skribble-css__types/src"
     },
     {
       "path": "packages/skribble-css/src"

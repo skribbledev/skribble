@@ -137,7 +137,7 @@ yarn.lock
 /vite.config.ts
 /web-test-runner.config.js
 /auto.config.ts
-/index.html
+/lerna.json
 dist-ssr/
 .parcel-cache/
 .psc-ide-port

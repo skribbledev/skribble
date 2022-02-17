@@ -14,13 +14,15 @@ use testing::fixture;
 #[fixture("tests/fixtures/css/*/input.ts")]
 fn test_css(input: PathBuf) {
   let config = Config::default();
-  // let output = input.parent().unwrap().join("output.css");
+  let output = input.parent().unwrap().join("output.css");
   let source_map: Lrc<SourceMap> = Lrc::default();
   let source_file = source_map
     .load_file(&input)
     .unwrap_or_else(|_| panic!("Could not load source file {:?}", input));
-  // let expected = std::fs::read_to_string(&output).expect("Could not read output
-  // file");
+  let expected = std::fs::read_to_string(&output).expect(
+    "Could not read output
+  // file",
+  );
 
   // This is where the source file should be loaded.
 
@@ -47,5 +49,11 @@ fn test_css(input: PathBuf) {
 
   collector.sort();
 
-  insta::assert_snapshot!(generate_css(&config, &collector.get_class_names()));
+  pretty_assertions::assert_str_eq!(
+    generate_css(&config, &collector.get_class_names(),),
+    expected
+  );
+
+  // insta::assert_snapshot!(generate_css(&config,
+  // &collector.get_class_names()));
 }

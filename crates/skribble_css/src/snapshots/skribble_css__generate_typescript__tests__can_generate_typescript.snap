@@ -6666,36 +6666,12 @@ interface PAtomStyle {
   '$0': ClassName;
   /**
    * ```css
-   * .p\:\:\$px {
-   *   padding: 1px;
-   * }
-   * ```
-   */
-  '$px': ClassName;
-  /**
-   * ```css
-   * .p\:\:\$0_5 {
-   *   padding: 0.125rem;
-   * }
-   * ```
-   */
-  '$0_5': ClassName;
-  /**
-   * ```css
    * .p\:\:\$1 {
    *   padding: 0.25rem;
    * }
    * ```
    */
   '$1': ClassName;
-  /**
-   * ```css
-   * .p\:\:\$1_5 {
-   *   padding: 0.375rem;
-   * }
-   * ```
-   */
-  '$1_5': ClassName;
   /**
    * ```css
    * .p\:\:\$2 {
@@ -6706,28 +6682,12 @@ interface PAtomStyle {
   '$2': ClassName;
   /**
    * ```css
-   * .p\:\:\$2_5 {
-   *   padding: 0.625rem;
-   * }
-   * ```
-   */
-  '$2_5': ClassName;
-  /**
-   * ```css
    * .p\:\:\$3 {
    *   padding: 0.75rem;
    * }
    * ```
    */
   '$3': ClassName;
-  /**
-   * ```css
-   * .p\:\:\$3_5 {
-   *   padding: 0.875rem;
-   * }
-   * ```
-   */
-  '$3_5': ClassName;
   /**
    * ```css
    * .p\:\:\$4 {
@@ -6936,6 +6896,46 @@ interface PAtomStyle {
    * ```
    */
   '$96': ClassName;
+  /**
+   * ```css
+   * .p\:\:\$px {
+   *   padding: 1px;
+   * }
+   * ```
+   */
+  '$px': ClassName;
+  /**
+   * ```css
+   * .p\:\:\$0_5 {
+   *   padding: 0.125rem;
+   * }
+   * ```
+   */
+  '$0_5': ClassName;
+  /**
+   * ```css
+   * .p\:\:\$1_5 {
+   *   padding: 0.375rem;
+   * }
+   * ```
+   */
+  '$1_5': ClassName;
+  /**
+   * ```css
+   * .p\:\:\$2_5 {
+   *   padding: 0.625rem;
+   * }
+   * ```
+   */
+  '$2_5': ClassName;
+  /**
+   * ```css
+   * .p\:\:\$3_5 {
+   *   padding: 0.875rem;
+   * }
+   * ```
+   */
+  '$3_5': ClassName;
 }
 
 interface PyAtomStyle {
@@ -6950,24 +6950,6 @@ interface PyAtomStyle {
   '$0': ClassName;
   /**
    * ```css
-   * .py\:\:\$px {
-   *   padding-top: 1px;
-   *   padding-bottom: 1px;
-   * }
-   * ```
-   */
-  '$px': ClassName;
-  /**
-   * ```css
-   * .py\:\:\$0_5 {
-   *   padding-top: 0.125rem;
-   *   padding-bottom: 0.125rem;
-   * }
-   * ```
-   */
-  '$0_5': ClassName;
-  /**
-   * ```css
    * .py\:\:\$1 {
    *   padding-top: 0.25rem;
    *   padding-bottom: 0.25rem;
@@ -6975,15 +6957,6 @@ interface PyAtomStyle {
    * ```
    */
   '$1': ClassName;
-  /**
-   * ```css
-   * .py\:\:\$1_5 {
-   *   padding-top: 0.375rem;
-   *   padding-bottom: 0.375rem;
-   * }
-   * ```
-   */
-  '$1_5': ClassName;
   /**
    * ```css
    * .py\:\:\$2 {
@@ -6995,15 +6968,6 @@ interface PyAtomStyle {
   '$2': ClassName;
   /**
    * ```css
-   * .py\:\:\$2_5 {
-   *   padding-top: 0.625rem;
-   *   padding-bottom: 0.625rem;
-   * }
-   * ```
-   */
-  '$2_5': ClassName;
-  /**
-   * ```css
    * .py\:\:\$3 {
    *   padding-top: 0.75rem;
    *   padding-bottom: 0.75rem;
@@ -7011,15 +6975,6 @@ interface PyAtomStyle {
    * ```
    */
   '$3': ClassName;
-  /**
-   * ```css
-   * .py\:\:\$3_5 {
-   *   padding-top: 0.875rem;
-   *   padding-bottom: 0.875rem;
-   * }
-   * ```
-   */
-  '$3_5': ClassName;
   /**
    * ```css
    * .py\:\:\$4 {
@@ -7254,6 +7209,51 @@ interface PyAtomStyle {
    * ```
    */
   '$96': ClassName;
+  /**
+   * ```css
+   * .py\:\:\$px {
+   *   padding-top: 1px;
+   *   padding-bottom: 1px;
+   * }
+   * ```
+   */
+  '$px': ClassName;
+  /**
+   * ```css
+   * .py\:\:\$0_5 {
+   *   padding-top: 0.125rem;
+   *   padding-bottom: 0.125rem;
+   * }
+   * ```
+   */
+  '$0_5': ClassName;
+  /**
+   * ```css
+   * .py\:\:\$1_5 {
+   *   padding-top: 0.375rem;
+   *   padding-bottom: 0.375rem;
+   * }
+   * ```
+   */
+  '$1_5': ClassName;
+  /**
+   * ```css
+   * .py\:\:\$2_5 {
+   *   padding-top: 0.625rem;
+   *   padding-bottom: 0.625rem;
+   * }
+   * ```
+   */
+  '$2_5': ClassName;
+  /**
+   * ```css
+   * .py\:\:\$3_5 {
+   *   padding-top: 0.875rem;
+   *   padding-bottom: 0.875rem;
+   * }
+   * ```
+   */
+  '$3_5': ClassName;
 }
 
 interface PxAtomStyle {
@@ -7268,24 +7268,6 @@ interface PxAtomStyle {
   '$0': ClassName;
   /**
    * ```css
-   * .px\:\:\$px {
-   *   padding-right: 1px;
-   *   padding-left: 1px;
-   * }
-   * ```
-   */
-  '$px': ClassName;
-  /**
-   * ```css
-   * .px\:\:\$0_5 {
-   *   padding-right: 0.125rem;
-   *   padding-left: 0.125rem;
-   * }
-   * ```
-   */
-  '$0_5': ClassName;
-  /**
-   * ```css
    * .px\:\:\$1 {
    *   padding-right: 0.25rem;
    *   padding-left: 0.25rem;
@@ -7293,15 +7275,6 @@ interface PxAtomStyle {
    * ```
    */
   '$1': ClassName;
-  /**
-   * ```css
-   * .px\:\:\$1_5 {
-   *   padding-right: 0.375rem;
-   *   padding-left: 0.375rem;
-   * }
-   * ```
-   */
-  '$1_5': ClassName;
   /**
    * ```css
    * .px\:\:\$2 {
@@ -7313,15 +7286,6 @@ interface PxAtomStyle {
   '$2': ClassName;
   /**
    * ```css
-   * .px\:\:\$2_5 {
-   *   padding-right: 0.625rem;
-   *   padding-left: 0.625rem;
-   * }
-   * ```
-   */
-  '$2_5': ClassName;
-  /**
-   * ```css
    * .px\:\:\$3 {
    *   padding-right: 0.75rem;
    *   padding-left: 0.75rem;
@@ -7329,15 +7293,6 @@ interface PxAtomStyle {
    * ```
    */
   '$3': ClassName;
-  /**
-   * ```css
-   * .px\:\:\$3_5 {
-   *   padding-right: 0.875rem;
-   *   padding-left: 0.875rem;
-   * }
-   * ```
-   */
-  '$3_5': ClassName;
   /**
    * ```css
    * .px\:\:\$4 {
@@ -7572,6 +7527,51 @@ interface PxAtomStyle {
    * ```
    */
   '$96': ClassName;
+  /**
+   * ```css
+   * .px\:\:\$px {
+   *   padding-right: 1px;
+   *   padding-left: 1px;
+   * }
+   * ```
+   */
+  '$px': ClassName;
+  /**
+   * ```css
+   * .px\:\:\$0_5 {
+   *   padding-right: 0.125rem;
+   *   padding-left: 0.125rem;
+   * }
+   * ```
+   */
+  '$0_5': ClassName;
+  /**
+   * ```css
+   * .px\:\:\$1_5 {
+   *   padding-right: 0.375rem;
+   *   padding-left: 0.375rem;
+   * }
+   * ```
+   */
+  '$1_5': ClassName;
+  /**
+   * ```css
+   * .px\:\:\$2_5 {
+   *   padding-right: 0.625rem;
+   *   padding-left: 0.625rem;
+   * }
+   * ```
+   */
+  '$2_5': ClassName;
+  /**
+   * ```css
+   * .px\:\:\$3_5 {
+   *   padding-right: 0.875rem;
+   *   padding-left: 0.875rem;
+   * }
+   * ```
+   */
+  '$3_5': ClassName;
 }
 
 interface PtAtomStyle {
@@ -7585,36 +7585,12 @@ interface PtAtomStyle {
   '$0': ClassName;
   /**
    * ```css
-   * .pt\:\:\$px {
-   *   padding-top: 1px;
-   * }
-   * ```
-   */
-  '$px': ClassName;
-  /**
-   * ```css
-   * .pt\:\:\$0_5 {
-   *   padding-top: 0.125rem;
-   * }
-   * ```
-   */
-  '$0_5': ClassName;
-  /**
-   * ```css
    * .pt\:\:\$1 {
    *   padding-top: 0.25rem;
    * }
    * ```
    */
   '$1': ClassName;
-  /**
-   * ```css
-   * .pt\:\:\$1_5 {
-   *   padding-top: 0.375rem;
-   * }
-   * ```
-   */
-  '$1_5': ClassName;
   /**
    * ```css
    * .pt\:\:\$2 {
@@ -7625,28 +7601,12 @@ interface PtAtomStyle {
   '$2': ClassName;
   /**
    * ```css
-   * .pt\:\:\$2_5 {
-   *   padding-top: 0.625rem;
-   * }
-   * ```
-   */
-  '$2_5': ClassName;
-  /**
-   * ```css
    * .pt\:\:\$3 {
    *   padding-top: 0.75rem;
    * }
    * ```
    */
   '$3': ClassName;
-  /**
-   * ```css
-   * .pt\:\:\$3_5 {
-   *   padding-top: 0.875rem;
-   * }
-   * ```
-   */
-  '$3_5': ClassName;
   /**
    * ```css
    * .pt\:\:\$4 {
@@ -7855,6 +7815,46 @@ interface PtAtomStyle {
    * ```
    */
   '$96': ClassName;
+  /**
+   * ```css
+   * .pt\:\:\$px {
+   *   padding-top: 1px;
+   * }
+   * ```
+   */
+  '$px': ClassName;
+  /**
+   * ```css
+   * .pt\:\:\$0_5 {
+   *   padding-top: 0.125rem;
+   * }
+   * ```
+   */
+  '$0_5': ClassName;
+  /**
+   * ```css
+   * .pt\:\:\$1_5 {
+   *   padding-top: 0.375rem;
+   * }
+   * ```
+   */
+  '$1_5': ClassName;
+  /**
+   * ```css
+   * .pt\:\:\$2_5 {
+   *   padding-top: 0.625rem;
+   * }
+   * ```
+   */
+  '$2_5': ClassName;
+  /**
+   * ```css
+   * .pt\:\:\$3_5 {
+   *   padding-top: 0.875rem;
+   * }
+   * ```
+   */
+  '$3_5': ClassName;
 }
 
 interface PrAtomStyle {
@@ -7868,36 +7868,12 @@ interface PrAtomStyle {
   '$0': ClassName;
   /**
    * ```css
-   * .pr\:\:\$px {
-   *   padding-right: 1px;
-   * }
-   * ```
-   */
-  '$px': ClassName;
-  /**
-   * ```css
-   * .pr\:\:\$0_5 {
-   *   padding-right: 0.125rem;
-   * }
-   * ```
-   */
-  '$0_5': ClassName;
-  /**
-   * ```css
    * .pr\:\:\$1 {
    *   padding-right: 0.25rem;
    * }
    * ```
    */
   '$1': ClassName;
-  /**
-   * ```css
-   * .pr\:\:\$1_5 {
-   *   padding-right: 0.375rem;
-   * }
-   * ```
-   */
-  '$1_5': ClassName;
   /**
    * ```css
    * .pr\:\:\$2 {
@@ -7908,28 +7884,12 @@ interface PrAtomStyle {
   '$2': ClassName;
   /**
    * ```css
-   * .pr\:\:\$2_5 {
-   *   padding-right: 0.625rem;
-   * }
-   * ```
-   */
-  '$2_5': ClassName;
-  /**
-   * ```css
    * .pr\:\:\$3 {
    *   padding-right: 0.75rem;
    * }
    * ```
    */
   '$3': ClassName;
-  /**
-   * ```css
-   * .pr\:\:\$3_5 {
-   *   padding-right: 0.875rem;
-   * }
-   * ```
-   */
-  '$3_5': ClassName;
   /**
    * ```css
    * .pr\:\:\$4 {
@@ -8138,6 +8098,46 @@ interface PrAtomStyle {
    * ```
    */
   '$96': ClassName;
+  /**
+   * ```css
+   * .pr\:\:\$px {
+   *   padding-right: 1px;
+   * }
+   * ```
+   */
+  '$px': ClassName;
+  /**
+   * ```css
+   * .pr\:\:\$0_5 {
+   *   padding-right: 0.125rem;
+   * }
+   * ```
+   */
+  '$0_5': ClassName;
+  /**
+   * ```css
+   * .pr\:\:\$1_5 {
+   *   padding-right: 0.375rem;
+   * }
+   * ```
+   */
+  '$1_5': ClassName;
+  /**
+   * ```css
+   * .pr\:\:\$2_5 {
+   *   padding-right: 0.625rem;
+   * }
+   * ```
+   */
+  '$2_5': ClassName;
+  /**
+   * ```css
+   * .pr\:\:\$3_5 {
+   *   padding-right: 0.875rem;
+   * }
+   * ```
+   */
+  '$3_5': ClassName;
 }
 
 interface PbAtomStyle {
@@ -8151,36 +8151,12 @@ interface PbAtomStyle {
   '$0': ClassName;
   /**
    * ```css
-   * .pb\:\:\$px {
-   *   padding-bottom: 1px;
-   * }
-   * ```
-   */
-  '$px': ClassName;
-  /**
-   * ```css
-   * .pb\:\:\$0_5 {
-   *   padding-bottom: 0.125rem;
-   * }
-   * ```
-   */
-  '$0_5': ClassName;
-  /**
-   * ```css
    * .pb\:\:\$1 {
    *   padding-bottom: 0.25rem;
    * }
    * ```
    */
   '$1': ClassName;
-  /**
-   * ```css
-   * .pb\:\:\$1_5 {
-   *   padding-bottom: 0.375rem;
-   * }
-   * ```
-   */
-  '$1_5': ClassName;
   /**
    * ```css
    * .pb\:\:\$2 {
@@ -8191,28 +8167,12 @@ interface PbAtomStyle {
   '$2': ClassName;
   /**
    * ```css
-   * .pb\:\:\$2_5 {
-   *   padding-bottom: 0.625rem;
-   * }
-   * ```
-   */
-  '$2_5': ClassName;
-  /**
-   * ```css
    * .pb\:\:\$3 {
    *   padding-bottom: 0.75rem;
    * }
    * ```
    */
   '$3': ClassName;
-  /**
-   * ```css
-   * .pb\:\:\$3_5 {
-   *   padding-bottom: 0.875rem;
-   * }
-   * ```
-   */
-  '$3_5': ClassName;
   /**
    * ```css
    * .pb\:\:\$4 {
@@ -8421,6 +8381,46 @@ interface PbAtomStyle {
    * ```
    */
   '$96': ClassName;
+  /**
+   * ```css
+   * .pb\:\:\$px {
+   *   padding-bottom: 1px;
+   * }
+   * ```
+   */
+  '$px': ClassName;
+  /**
+   * ```css
+   * .pb\:\:\$0_5 {
+   *   padding-bottom: 0.125rem;
+   * }
+   * ```
+   */
+  '$0_5': ClassName;
+  /**
+   * ```css
+   * .pb\:\:\$1_5 {
+   *   padding-bottom: 0.375rem;
+   * }
+   * ```
+   */
+  '$1_5': ClassName;
+  /**
+   * ```css
+   * .pb\:\:\$2_5 {
+   *   padding-bottom: 0.625rem;
+   * }
+   * ```
+   */
+  '$2_5': ClassName;
+  /**
+   * ```css
+   * .pb\:\:\$3_5 {
+   *   padding-bottom: 0.875rem;
+   * }
+   * ```
+   */
+  '$3_5': ClassName;
 }
 
 interface PlAtomStyle {
@@ -8434,36 +8434,12 @@ interface PlAtomStyle {
   '$0': ClassName;
   /**
    * ```css
-   * .pl\:\:\$px {
-   *   padding-left: 1px;
-   * }
-   * ```
-   */
-  '$px': ClassName;
-  /**
-   * ```css
-   * .pl\:\:\$0_5 {
-   *   padding-left: 0.125rem;
-   * }
-   * ```
-   */
-  '$0_5': ClassName;
-  /**
-   * ```css
    * .pl\:\:\$1 {
    *   padding-left: 0.25rem;
    * }
    * ```
    */
   '$1': ClassName;
-  /**
-   * ```css
-   * .pl\:\:\$1_5 {
-   *   padding-left: 0.375rem;
-   * }
-   * ```
-   */
-  '$1_5': ClassName;
   /**
    * ```css
    * .pl\:\:\$2 {
@@ -8474,28 +8450,12 @@ interface PlAtomStyle {
   '$2': ClassName;
   /**
    * ```css
-   * .pl\:\:\$2_5 {
-   *   padding-left: 0.625rem;
-   * }
-   * ```
-   */
-  '$2_5': ClassName;
-  /**
-   * ```css
    * .pl\:\:\$3 {
    *   padding-left: 0.75rem;
    * }
    * ```
    */
   '$3': ClassName;
-  /**
-   * ```css
-   * .pl\:\:\$3_5 {
-   *   padding-left: 0.875rem;
-   * }
-   * ```
-   */
-  '$3_5': ClassName;
   /**
    * ```css
    * .pl\:\:\$4 {
@@ -8704,6 +8664,46 @@ interface PlAtomStyle {
    * ```
    */
   '$96': ClassName;
+  /**
+   * ```css
+   * .pl\:\:\$px {
+   *   padding-left: 1px;
+   * }
+   * ```
+   */
+  '$px': ClassName;
+  /**
+   * ```css
+   * .pl\:\:\$0_5 {
+   *   padding-left: 0.125rem;
+   * }
+   * ```
+   */
+  '$0_5': ClassName;
+  /**
+   * ```css
+   * .pl\:\:\$1_5 {
+   *   padding-left: 0.375rem;
+   * }
+   * ```
+   */
+  '$1_5': ClassName;
+  /**
+   * ```css
+   * .pl\:\:\$2_5 {
+   *   padding-left: 0.625rem;
+   * }
+   * ```
+   */
+  '$2_5': ClassName;
+  /**
+   * ```css
+   * .pl\:\:\$3_5 {
+   *   padding-left: 0.875rem;
+   * }
+   * ```
+   */
+  '$3_5': ClassName;
 }
 
 interface PblAtomStyle {
@@ -8717,36 +8717,12 @@ interface PblAtomStyle {
   '$0': ClassName;
   /**
    * ```css
-   * .pbl\:\:\$px {
-   *   padding-block: 1px;
-   * }
-   * ```
-   */
-  '$px': ClassName;
-  /**
-   * ```css
-   * .pbl\:\:\$0_5 {
-   *   padding-block: 0.125rem;
-   * }
-   * ```
-   */
-  '$0_5': ClassName;
-  /**
-   * ```css
    * .pbl\:\:\$1 {
    *   padding-block: 0.25rem;
    * }
    * ```
    */
   '$1': ClassName;
-  /**
-   * ```css
-   * .pbl\:\:\$1_5 {
-   *   padding-block: 0.375rem;
-   * }
-   * ```
-   */
-  '$1_5': ClassName;
   /**
    * ```css
    * .pbl\:\:\$2 {
@@ -8757,28 +8733,12 @@ interface PblAtomStyle {
   '$2': ClassName;
   /**
    * ```css
-   * .pbl\:\:\$2_5 {
-   *   padding-block: 0.625rem;
-   * }
-   * ```
-   */
-  '$2_5': ClassName;
-  /**
-   * ```css
    * .pbl\:\:\$3 {
    *   padding-block: 0.75rem;
    * }
    * ```
    */
   '$3': ClassName;
-  /**
-   * ```css
-   * .pbl\:\:\$3_5 {
-   *   padding-block: 0.875rem;
-   * }
-   * ```
-   */
-  '$3_5': ClassName;
   /**
    * ```css
    * .pbl\:\:\$4 {
@@ -8987,6 +8947,46 @@ interface PblAtomStyle {
    * ```
    */
   '$96': ClassName;
+  /**
+   * ```css
+   * .pbl\:\:\$px {
+   *   padding-block: 1px;
+   * }
+   * ```
+   */
+  '$px': ClassName;
+  /**
+   * ```css
+   * .pbl\:\:\$0_5 {
+   *   padding-block: 0.125rem;
+   * }
+   * ```
+   */
+  '$0_5': ClassName;
+  /**
+   * ```css
+   * .pbl\:\:\$1_5 {
+   *   padding-block: 0.375rem;
+   * }
+   * ```
+   */
+  '$1_5': ClassName;
+  /**
+   * ```css
+   * .pbl\:\:\$2_5 {
+   *   padding-block: 0.625rem;
+   * }
+   * ```
+   */
+  '$2_5': ClassName;
+  /**
+   * ```css
+   * .pbl\:\:\$3_5 {
+   *   padding-block: 0.875rem;
+   * }
+   * ```
+   */
+  '$3_5': ClassName;
 }
 
 interface PinAtomStyle {
@@ -9000,36 +9000,12 @@ interface PinAtomStyle {
   '$0': ClassName;
   /**
    * ```css
-   * .pin\:\:\$px {
-   *   padding-inline: 1px;
-   * }
-   * ```
-   */
-  '$px': ClassName;
-  /**
-   * ```css
-   * .pin\:\:\$0_5 {
-   *   padding-inline: 0.125rem;
-   * }
-   * ```
-   */
-  '$0_5': ClassName;
-  /**
-   * ```css
    * .pin\:\:\$1 {
    *   padding-inline: 0.25rem;
    * }
    * ```
    */
   '$1': ClassName;
-  /**
-   * ```css
-   * .pin\:\:\$1_5 {
-   *   padding-inline: 0.375rem;
-   * }
-   * ```
-   */
-  '$1_5': ClassName;
   /**
    * ```css
    * .pin\:\:\$2 {
@@ -9040,28 +9016,12 @@ interface PinAtomStyle {
   '$2': ClassName;
   /**
    * ```css
-   * .pin\:\:\$2_5 {
-   *   padding-inline: 0.625rem;
-   * }
-   * ```
-   */
-  '$2_5': ClassName;
-  /**
-   * ```css
    * .pin\:\:\$3 {
    *   padding-inline: 0.75rem;
    * }
    * ```
    */
   '$3': ClassName;
-  /**
-   * ```css
-   * .pin\:\:\$3_5 {
-   *   padding-inline: 0.875rem;
-   * }
-   * ```
-   */
-  '$3_5': ClassName;
   /**
    * ```css
    * .pin\:\:\$4 {
@@ -9270,6 +9230,46 @@ interface PinAtomStyle {
    * ```
    */
   '$96': ClassName;
+  /**
+   * ```css
+   * .pin\:\:\$px {
+   *   padding-inline: 1px;
+   * }
+   * ```
+   */
+  '$px': ClassName;
+  /**
+   * ```css
+   * .pin\:\:\$0_5 {
+   *   padding-inline: 0.125rem;
+   * }
+   * ```
+   */
+  '$0_5': ClassName;
+  /**
+   * ```css
+   * .pin\:\:\$1_5 {
+   *   padding-inline: 0.375rem;
+   * }
+   * ```
+   */
+  '$1_5': ClassName;
+  /**
+   * ```css
+   * .pin\:\:\$2_5 {
+   *   padding-inline: 0.625rem;
+   * }
+   * ```
+   */
+  '$2_5': ClassName;
+  /**
+   * ```css
+   * .pin\:\:\$3_5 {
+   *   padding-inline: 0.875rem;
+   * }
+   * ```
+   */
+  '$3_5': ClassName;
 }
 
 interface PinsAtomStyle {
@@ -9283,36 +9283,12 @@ interface PinsAtomStyle {
   '$0': ClassName;
   /**
    * ```css
-   * .pins\:\:\$px {
-   *   padding-inline-start: 1px;
-   * }
-   * ```
-   */
-  '$px': ClassName;
-  /**
-   * ```css
-   * .pins\:\:\$0_5 {
-   *   padding-inline-start: 0.125rem;
-   * }
-   * ```
-   */
-  '$0_5': ClassName;
-  /**
-   * ```css
    * .pins\:\:\$1 {
    *   padding-inline-start: 0.25rem;
    * }
    * ```
    */
   '$1': ClassName;
-  /**
-   * ```css
-   * .pins\:\:\$1_5 {
-   *   padding-inline-start: 0.375rem;
-   * }
-   * ```
-   */
-  '$1_5': ClassName;
   /**
    * ```css
    * .pins\:\:\$2 {
@@ -9323,28 +9299,12 @@ interface PinsAtomStyle {
   '$2': ClassName;
   /**
    * ```css
-   * .pins\:\:\$2_5 {
-   *   padding-inline-start: 0.625rem;
-   * }
-   * ```
-   */
-  '$2_5': ClassName;
-  /**
-   * ```css
    * .pins\:\:\$3 {
    *   padding-inline-start: 0.75rem;
    * }
    * ```
    */
   '$3': ClassName;
-  /**
-   * ```css
-   * .pins\:\:\$3_5 {
-   *   padding-inline-start: 0.875rem;
-   * }
-   * ```
-   */
-  '$3_5': ClassName;
   /**
    * ```css
    * .pins\:\:\$4 {
@@ -9553,6 +9513,46 @@ interface PinsAtomStyle {
    * ```
    */
   '$96': ClassName;
+  /**
+   * ```css
+   * .pins\:\:\$px {
+   *   padding-inline-start: 1px;
+   * }
+   * ```
+   */
+  '$px': ClassName;
+  /**
+   * ```css
+   * .pins\:\:\$0_5 {
+   *   padding-inline-start: 0.125rem;
+   * }
+   * ```
+   */
+  '$0_5': ClassName;
+  /**
+   * ```css
+   * .pins\:\:\$1_5 {
+   *   padding-inline-start: 0.375rem;
+   * }
+   * ```
+   */
+  '$1_5': ClassName;
+  /**
+   * ```css
+   * .pins\:\:\$2_5 {
+   *   padding-inline-start: 0.625rem;
+   * }
+   * ```
+   */
+  '$2_5': ClassName;
+  /**
+   * ```css
+   * .pins\:\:\$3_5 {
+   *   padding-inline-start: 0.875rem;
+   * }
+   * ```
+   */
+  '$3_5': ClassName;
 }
 
 interface PineAtomStyle {
@@ -9566,36 +9566,12 @@ interface PineAtomStyle {
   '$0': ClassName;
   /**
    * ```css
-   * .pine\:\:\$px {
-   *   padding-inline-end: 1px;
-   * }
-   * ```
-   */
-  '$px': ClassName;
-  /**
-   * ```css
-   * .pine\:\:\$0_5 {
-   *   padding-inline-end: 0.125rem;
-   * }
-   * ```
-   */
-  '$0_5': ClassName;
-  /**
-   * ```css
    * .pine\:\:\$1 {
    *   padding-inline-end: 0.25rem;
    * }
    * ```
    */
   '$1': ClassName;
-  /**
-   * ```css
-   * .pine\:\:\$1_5 {
-   *   padding-inline-end: 0.375rem;
-   * }
-   * ```
-   */
-  '$1_5': ClassName;
   /**
    * ```css
    * .pine\:\:\$2 {
@@ -9606,28 +9582,12 @@ interface PineAtomStyle {
   '$2': ClassName;
   /**
    * ```css
-   * .pine\:\:\$2_5 {
-   *   padding-inline-end: 0.625rem;
-   * }
-   * ```
-   */
-  '$2_5': ClassName;
-  /**
-   * ```css
    * .pine\:\:\$3 {
    *   padding-inline-end: 0.75rem;
    * }
    * ```
    */
   '$3': ClassName;
-  /**
-   * ```css
-   * .pine\:\:\$3_5 {
-   *   padding-inline-end: 0.875rem;
-   * }
-   * ```
-   */
-  '$3_5': ClassName;
   /**
    * ```css
    * .pine\:\:\$4 {
@@ -9836,6 +9796,46 @@ interface PineAtomStyle {
    * ```
    */
   '$96': ClassName;
+  /**
+   * ```css
+   * .pine\:\:\$px {
+   *   padding-inline-end: 1px;
+   * }
+   * ```
+   */
+  '$px': ClassName;
+  /**
+   * ```css
+   * .pine\:\:\$0_5 {
+   *   padding-inline-end: 0.125rem;
+   * }
+   * ```
+   */
+  '$0_5': ClassName;
+  /**
+   * ```css
+   * .pine\:\:\$1_5 {
+   *   padding-inline-end: 0.375rem;
+   * }
+   * ```
+   */
+  '$1_5': ClassName;
+  /**
+   * ```css
+   * .pine\:\:\$2_5 {
+   *   padding-inline-end: 0.625rem;
+   * }
+   * ```
+   */
+  '$2_5': ClassName;
+  /**
+   * ```css
+   * .pine\:\:\$3_5 {
+   *   padding-inline-end: 0.875rem;
+   * }
+   * ```
+   */
+  '$3_5': ClassName;
 }
 
 interface PblsAtomStyle {
@@ -9849,36 +9849,12 @@ interface PblsAtomStyle {
   '$0': ClassName;
   /**
    * ```css
-   * .pbls\:\:\$px {
-   *   padding-block-start: 1px;
-   * }
-   * ```
-   */
-  '$px': ClassName;
-  /**
-   * ```css
-   * .pbls\:\:\$0_5 {
-   *   padding-block-start: 0.125rem;
-   * }
-   * ```
-   */
-  '$0_5': ClassName;
-  /**
-   * ```css
    * .pbls\:\:\$1 {
    *   padding-block-start: 0.25rem;
    * }
    * ```
    */
   '$1': ClassName;
-  /**
-   * ```css
-   * .pbls\:\:\$1_5 {
-   *   padding-block-start: 0.375rem;
-   * }
-   * ```
-   */
-  '$1_5': ClassName;
   /**
    * ```css
    * .pbls\:\:\$2 {
@@ -9889,28 +9865,12 @@ interface PblsAtomStyle {
   '$2': ClassName;
   /**
    * ```css
-   * .pbls\:\:\$2_5 {
-   *   padding-block-start: 0.625rem;
-   * }
-   * ```
-   */
-  '$2_5': ClassName;
-  /**
-   * ```css
    * .pbls\:\:\$3 {
    *   padding-block-start: 0.75rem;
    * }
    * ```
    */
   '$3': ClassName;
-  /**
-   * ```css
-   * .pbls\:\:\$3_5 {
-   *   padding-block-start: 0.875rem;
-   * }
-   * ```
-   */
-  '$3_5': ClassName;
   /**
    * ```css
    * .pbls\:\:\$4 {
@@ -10119,6 +10079,46 @@ interface PblsAtomStyle {
    * ```
    */
   '$96': ClassName;
+  /**
+   * ```css
+   * .pbls\:\:\$px {
+   *   padding-block-start: 1px;
+   * }
+   * ```
+   */
+  '$px': ClassName;
+  /**
+   * ```css
+   * .pbls\:\:\$0_5 {
+   *   padding-block-start: 0.125rem;
+   * }
+   * ```
+   */
+  '$0_5': ClassName;
+  /**
+   * ```css
+   * .pbls\:\:\$1_5 {
+   *   padding-block-start: 0.375rem;
+   * }
+   * ```
+   */
+  '$1_5': ClassName;
+  /**
+   * ```css
+   * .pbls\:\:\$2_5 {
+   *   padding-block-start: 0.625rem;
+   * }
+   * ```
+   */
+  '$2_5': ClassName;
+  /**
+   * ```css
+   * .pbls\:\:\$3_5 {
+   *   padding-block-start: 0.875rem;
+   * }
+   * ```
+   */
+  '$3_5': ClassName;
 }
 
 interface PbleAtomStyle {
@@ -10132,36 +10132,12 @@ interface PbleAtomStyle {
   '$0': ClassName;
   /**
    * ```css
-   * .pble\:\:\$px {
-   *   padding-block-end: 1px;
-   * }
-   * ```
-   */
-  '$px': ClassName;
-  /**
-   * ```css
-   * .pble\:\:\$0_5 {
-   *   padding-block-end: 0.125rem;
-   * }
-   * ```
-   */
-  '$0_5': ClassName;
-  /**
-   * ```css
    * .pble\:\:\$1 {
    *   padding-block-end: 0.25rem;
    * }
    * ```
    */
   '$1': ClassName;
-  /**
-   * ```css
-   * .pble\:\:\$1_5 {
-   *   padding-block-end: 0.375rem;
-   * }
-   * ```
-   */
-  '$1_5': ClassName;
   /**
    * ```css
    * .pble\:\:\$2 {
@@ -10172,28 +10148,12 @@ interface PbleAtomStyle {
   '$2': ClassName;
   /**
    * ```css
-   * .pble\:\:\$2_5 {
-   *   padding-block-end: 0.625rem;
-   * }
-   * ```
-   */
-  '$2_5': ClassName;
-  /**
-   * ```css
    * .pble\:\:\$3 {
    *   padding-block-end: 0.75rem;
    * }
    * ```
    */
   '$3': ClassName;
-  /**
-   * ```css
-   * .pble\:\:\$3_5 {
-   *   padding-block-end: 0.875rem;
-   * }
-   * ```
-   */
-  '$3_5': ClassName;
   /**
    * ```css
    * .pble\:\:\$4 {
@@ -10402,6 +10362,46 @@ interface PbleAtomStyle {
    * ```
    */
   '$96': ClassName;
+  /**
+   * ```css
+   * .pble\:\:\$px {
+   *   padding-block-end: 1px;
+   * }
+   * ```
+   */
+  '$px': ClassName;
+  /**
+   * ```css
+   * .pble\:\:\$0_5 {
+   *   padding-block-end: 0.125rem;
+   * }
+   * ```
+   */
+  '$0_5': ClassName;
+  /**
+   * ```css
+   * .pble\:\:\$1_5 {
+   *   padding-block-end: 0.375rem;
+   * }
+   * ```
+   */
+  '$1_5': ClassName;
+  /**
+   * ```css
+   * .pble\:\:\$2_5 {
+   *   padding-block-end: 0.625rem;
+   * }
+   * ```
+   */
+  '$2_5': ClassName;
+  /**
+   * ```css
+   * .pble\:\:\$3_5 {
+   *   padding-block-end: 0.875rem;
+   * }
+   * ```
+   */
+  '$3_5': ClassName;
 }
 
 interface MAtomStyle {
@@ -10415,36 +10415,12 @@ interface MAtomStyle {
   '$0': ClassName;
   /**
    * ```css
-   * .m\:\:\$px {
-   *   margin: 1px;
-   * }
-   * ```
-   */
-  '$px': ClassName;
-  /**
-   * ```css
-   * .m\:\:\$0_5 {
-   *   margin: 0.125rem;
-   * }
-   * ```
-   */
-  '$0_5': ClassName;
-  /**
-   * ```css
    * .m\:\:\$1 {
    *   margin: 0.25rem;
    * }
    * ```
    */
   '$1': ClassName;
-  /**
-   * ```css
-   * .m\:\:\$1_5 {
-   *   margin: 0.375rem;
-   * }
-   * ```
-   */
-  '$1_5': ClassName;
   /**
    * ```css
    * .m\:\:\$2 {
@@ -10455,28 +10431,12 @@ interface MAtomStyle {
   '$2': ClassName;
   /**
    * ```css
-   * .m\:\:\$2_5 {
-   *   margin: 0.625rem;
-   * }
-   * ```
-   */
-  '$2_5': ClassName;
-  /**
-   * ```css
    * .m\:\:\$3 {
    *   margin: 0.75rem;
    * }
    * ```
    */
   '$3': ClassName;
-  /**
-   * ```css
-   * .m\:\:\$3_5 {
-   *   margin: 0.875rem;
-   * }
-   * ```
-   */
-  '$3_5': ClassName;
   /**
    * ```css
    * .m\:\:\$4 {
@@ -10685,6 +10645,46 @@ interface MAtomStyle {
    * ```
    */
   '$96': ClassName;
+  /**
+   * ```css
+   * .m\:\:\$px {
+   *   margin: 1px;
+   * }
+   * ```
+   */
+  '$px': ClassName;
+  /**
+   * ```css
+   * .m\:\:\$0_5 {
+   *   margin: 0.125rem;
+   * }
+   * ```
+   */
+  '$0_5': ClassName;
+  /**
+   * ```css
+   * .m\:\:\$1_5 {
+   *   margin: 0.375rem;
+   * }
+   * ```
+   */
+  '$1_5': ClassName;
+  /**
+   * ```css
+   * .m\:\:\$2_5 {
+   *   margin: 0.625rem;
+   * }
+   * ```
+   */
+  '$2_5': ClassName;
+  /**
+   * ```css
+   * .m\:\:\$3_5 {
+   *   margin: 0.875rem;
+   * }
+   * ```
+   */
+  '$3_5': ClassName;
 }
 
 interface MyAtomStyle {
@@ -10699,24 +10699,6 @@ interface MyAtomStyle {
   '$0': ClassName;
   /**
    * ```css
-   * .my\:\:\$px {
-   *   margin-top: 1px;
-   *   margin-bottom: 1px;
-   * }
-   * ```
-   */
-  '$px': ClassName;
-  /**
-   * ```css
-   * .my\:\:\$0_5 {
-   *   margin-top: 0.125rem;
-   *   margin-bottom: 0.125rem;
-   * }
-   * ```
-   */
-  '$0_5': ClassName;
-  /**
-   * ```css
    * .my\:\:\$1 {
    *   margin-top: 0.25rem;
    *   margin-bottom: 0.25rem;
@@ -10724,15 +10706,6 @@ interface MyAtomStyle {
    * ```
    */
   '$1': ClassName;
-  /**
-   * ```css
-   * .my\:\:\$1_5 {
-   *   margin-top: 0.375rem;
-   *   margin-bottom: 0.375rem;
-   * }
-   * ```
-   */
-  '$1_5': ClassName;
   /**
    * ```css
    * .my\:\:\$2 {
@@ -10744,15 +10717,6 @@ interface MyAtomStyle {
   '$2': ClassName;
   /**
    * ```css
-   * .my\:\:\$2_5 {
-   *   margin-top: 0.625rem;
-   *   margin-bottom: 0.625rem;
-   * }
-   * ```
-   */
-  '$2_5': ClassName;
-  /**
-   * ```css
    * .my\:\:\$3 {
    *   margin-top: 0.75rem;
    *   margin-bottom: 0.75rem;
@@ -10760,15 +10724,6 @@ interface MyAtomStyle {
    * ```
    */
   '$3': ClassName;
-  /**
-   * ```css
-   * .my\:\:\$3_5 {
-   *   margin-top: 0.875rem;
-   *   margin-bottom: 0.875rem;
-   * }
-   * ```
-   */
-  '$3_5': ClassName;
   /**
    * ```css
    * .my\:\:\$4 {
@@ -11003,6 +10958,51 @@ interface MyAtomStyle {
    * ```
    */
   '$96': ClassName;
+  /**
+   * ```css
+   * .my\:\:\$px {
+   *   margin-top: 1px;
+   *   margin-bottom: 1px;
+   * }
+   * ```
+   */
+  '$px': ClassName;
+  /**
+   * ```css
+   * .my\:\:\$0_5 {
+   *   margin-top: 0.125rem;
+   *   margin-bottom: 0.125rem;
+   * }
+   * ```
+   */
+  '$0_5': ClassName;
+  /**
+   * ```css
+   * .my\:\:\$1_5 {
+   *   margin-top: 0.375rem;
+   *   margin-bottom: 0.375rem;
+   * }
+   * ```
+   */
+  '$1_5': ClassName;
+  /**
+   * ```css
+   * .my\:\:\$2_5 {
+   *   margin-top: 0.625rem;
+   *   margin-bottom: 0.625rem;
+   * }
+   * ```
+   */
+  '$2_5': ClassName;
+  /**
+   * ```css
+   * .my\:\:\$3_5 {
+   *   margin-top: 0.875rem;
+   *   margin-bottom: 0.875rem;
+   * }
+   * ```
+   */
+  '$3_5': ClassName;
 }
 
 interface MxAtomStyle {
@@ -11017,24 +11017,6 @@ interface MxAtomStyle {
   '$0': ClassName;
   /**
    * ```css
-   * .mx\:\:\$px {
-   *   margin-right: 1px;
-   *   margin-left: 1px;
-   * }
-   * ```
-   */
-  '$px': ClassName;
-  /**
-   * ```css
-   * .mx\:\:\$0_5 {
-   *   margin-right: 0.125rem;
-   *   margin-left: 0.125rem;
-   * }
-   * ```
-   */
-  '$0_5': ClassName;
-  /**
-   * ```css
    * .mx\:\:\$1 {
    *   margin-right: 0.25rem;
    *   margin-left: 0.25rem;
@@ -11042,15 +11024,6 @@ interface MxAtomStyle {
    * ```
    */
   '$1': ClassName;
-  /**
-   * ```css
-   * .mx\:\:\$1_5 {
-   *   margin-right: 0.375rem;
-   *   margin-left: 0.375rem;
-   * }
-   * ```
-   */
-  '$1_5': ClassName;
   /**
    * ```css
    * .mx\:\:\$2 {
@@ -11062,15 +11035,6 @@ interface MxAtomStyle {
   '$2': ClassName;
   /**
    * ```css
-   * .mx\:\:\$2_5 {
-   *   margin-right: 0.625rem;
-   *   margin-left: 0.625rem;
-   * }
-   * ```
-   */
-  '$2_5': ClassName;
-  /**
-   * ```css
    * .mx\:\:\$3 {
    *   margin-right: 0.75rem;
    *   margin-left: 0.75rem;
@@ -11078,15 +11042,6 @@ interface MxAtomStyle {
    * ```
    */
   '$3': ClassName;
-  /**
-   * ```css
-   * .mx\:\:\$3_5 {
-   *   margin-right: 0.875rem;
-   *   margin-left: 0.875rem;
-   * }
-   * ```
-   */
-  '$3_5': ClassName;
   /**
    * ```css
    * .mx\:\:\$4 {
@@ -11321,6 +11276,51 @@ interface MxAtomStyle {
    * ```
    */
   '$96': ClassName;
+  /**
+   * ```css
+   * .mx\:\:\$px {
+   *   margin-right: 1px;
+   *   margin-left: 1px;
+   * }
+   * ```
+   */
+  '$px': ClassName;
+  /**
+   * ```css
+   * .mx\:\:\$0_5 {
+   *   margin-right: 0.125rem;
+   *   margin-left: 0.125rem;
+   * }
+   * ```
+   */
+  '$0_5': ClassName;
+  /**
+   * ```css
+   * .mx\:\:\$1_5 {
+   *   margin-right: 0.375rem;
+   *   margin-left: 0.375rem;
+   * }
+   * ```
+   */
+  '$1_5': ClassName;
+  /**
+   * ```css
+   * .mx\:\:\$2_5 {
+   *   margin-right: 0.625rem;
+   *   margin-left: 0.625rem;
+   * }
+   * ```
+   */
+  '$2_5': ClassName;
+  /**
+   * ```css
+   * .mx\:\:\$3_5 {
+   *   margin-right: 0.875rem;
+   *   margin-left: 0.875rem;
+   * }
+   * ```
+   */
+  '$3_5': ClassName;
 }
 
 interface MtAtomStyle {
@@ -11334,36 +11334,12 @@ interface MtAtomStyle {
   '$0': ClassName;
   /**
    * ```css
-   * .mt\:\:\$px {
-   *   margin-top: 1px;
-   * }
-   * ```
-   */
-  '$px': ClassName;
-  /**
-   * ```css
-   * .mt\:\:\$0_5 {
-   *   margin-top: 0.125rem;
-   * }
-   * ```
-   */
-  '$0_5': ClassName;
-  /**
-   * ```css
    * .mt\:\:\$1 {
    *   margin-top: 0.25rem;
    * }
    * ```
    */
   '$1': ClassName;
-  /**
-   * ```css
-   * .mt\:\:\$1_5 {
-   *   margin-top: 0.375rem;
-   * }
-   * ```
-   */
-  '$1_5': ClassName;
   /**
    * ```css
    * .mt\:\:\$2 {
@@ -11374,28 +11350,12 @@ interface MtAtomStyle {
   '$2': ClassName;
   /**
    * ```css
-   * .mt\:\:\$2_5 {
-   *   margin-top: 0.625rem;
-   * }
-   * ```
-   */
-  '$2_5': ClassName;
-  /**
-   * ```css
    * .mt\:\:\$3 {
    *   margin-top: 0.75rem;
    * }
    * ```
    */
   '$3': ClassName;
-  /**
-   * ```css
-   * .mt\:\:\$3_5 {
-   *   margin-top: 0.875rem;
-   * }
-   * ```
-   */
-  '$3_5': ClassName;
   /**
    * ```css
    * .mt\:\:\$4 {
@@ -11604,6 +11564,46 @@ interface MtAtomStyle {
    * ```
    */
   '$96': ClassName;
+  /**
+   * ```css
+   * .mt\:\:\$px {
+   *   margin-top: 1px;
+   * }
+   * ```
+   */
+  '$px': ClassName;
+  /**
+   * ```css
+   * .mt\:\:\$0_5 {
+   *   margin-top: 0.125rem;
+   * }
+   * ```
+   */
+  '$0_5': ClassName;
+  /**
+   * ```css
+   * .mt\:\:\$1_5 {
+   *   margin-top: 0.375rem;
+   * }
+   * ```
+   */
+  '$1_5': ClassName;
+  /**
+   * ```css
+   * .mt\:\:\$2_5 {
+   *   margin-top: 0.625rem;
+   * }
+   * ```
+   */
+  '$2_5': ClassName;
+  /**
+   * ```css
+   * .mt\:\:\$3_5 {
+   *   margin-top: 0.875rem;
+   * }
+   * ```
+   */
+  '$3_5': ClassName;
 }
 
 interface MrAtomStyle {
@@ -11617,36 +11617,12 @@ interface MrAtomStyle {
   '$0': ClassName;
   /**
    * ```css
-   * .mr\:\:\$px {
-   *   margin-right: 1px;
-   * }
-   * ```
-   */
-  '$px': ClassName;
-  /**
-   * ```css
-   * .mr\:\:\$0_5 {
-   *   margin-right: 0.125rem;
-   * }
-   * ```
-   */
-  '$0_5': ClassName;
-  /**
-   * ```css
    * .mr\:\:\$1 {
    *   margin-right: 0.25rem;
    * }
    * ```
    */
   '$1': ClassName;
-  /**
-   * ```css
-   * .mr\:\:\$1_5 {
-   *   margin-right: 0.375rem;
-   * }
-   * ```
-   */
-  '$1_5': ClassName;
   /**
    * ```css
    * .mr\:\:\$2 {
@@ -11657,28 +11633,12 @@ interface MrAtomStyle {
   '$2': ClassName;
   /**
    * ```css
-   * .mr\:\:\$2_5 {
-   *   margin-right: 0.625rem;
-   * }
-   * ```
-   */
-  '$2_5': ClassName;
-  /**
-   * ```css
    * .mr\:\:\$3 {
    *   margin-right: 0.75rem;
    * }
    * ```
    */
   '$3': ClassName;
-  /**
-   * ```css
-   * .mr\:\:\$3_5 {
-   *   margin-right: 0.875rem;
-   * }
-   * ```
-   */
-  '$3_5': ClassName;
   /**
    * ```css
    * .mr\:\:\$4 {
@@ -11887,6 +11847,46 @@ interface MrAtomStyle {
    * ```
    */
   '$96': ClassName;
+  /**
+   * ```css
+   * .mr\:\:\$px {
+   *   margin-right: 1px;
+   * }
+   * ```
+   */
+  '$px': ClassName;
+  /**
+   * ```css
+   * .mr\:\:\$0_5 {
+   *   margin-right: 0.125rem;
+   * }
+   * ```
+   */
+  '$0_5': ClassName;
+  /**
+   * ```css
+   * .mr\:\:\$1_5 {
+   *   margin-right: 0.375rem;
+   * }
+   * ```
+   */
+  '$1_5': ClassName;
+  /**
+   * ```css
+   * .mr\:\:\$2_5 {
+   *   margin-right: 0.625rem;
+   * }
+   * ```
+   */
+  '$2_5': ClassName;
+  /**
+   * ```css
+   * .mr\:\:\$3_5 {
+   *   margin-right: 0.875rem;
+   * }
+   * ```
+   */
+  '$3_5': ClassName;
 }
 
 interface MbAtomStyle {
@@ -11900,36 +11900,12 @@ interface MbAtomStyle {
   '$0': ClassName;
   /**
    * ```css
-   * .mb\:\:\$px {
-   *   margin-bottom: 1px;
-   * }
-   * ```
-   */
-  '$px': ClassName;
-  /**
-   * ```css
-   * .mb\:\:\$0_5 {
-   *   margin-bottom: 0.125rem;
-   * }
-   * ```
-   */
-  '$0_5': ClassName;
-  /**
-   * ```css
    * .mb\:\:\$1 {
    *   margin-bottom: 0.25rem;
    * }
    * ```
    */
   '$1': ClassName;
-  /**
-   * ```css
-   * .mb\:\:\$1_5 {
-   *   margin-bottom: 0.375rem;
-   * }
-   * ```
-   */
-  '$1_5': ClassName;
   /**
    * ```css
    * .mb\:\:\$2 {
@@ -11940,28 +11916,12 @@ interface MbAtomStyle {
   '$2': ClassName;
   /**
    * ```css
-   * .mb\:\:\$2_5 {
-   *   margin-bottom: 0.625rem;
-   * }
-   * ```
-   */
-  '$2_5': ClassName;
-  /**
-   * ```css
    * .mb\:\:\$3 {
    *   margin-bottom: 0.75rem;
    * }
    * ```
    */
   '$3': ClassName;
-  /**
-   * ```css
-   * .mb\:\:\$3_5 {
-   *   margin-bottom: 0.875rem;
-   * }
-   * ```
-   */
-  '$3_5': ClassName;
   /**
    * ```css
    * .mb\:\:\$4 {
@@ -12170,6 +12130,46 @@ interface MbAtomStyle {
    * ```
    */
   '$96': ClassName;
+  /**
+   * ```css
+   * .mb\:\:\$px {
+   *   margin-bottom: 1px;
+   * }
+   * ```
+   */
+  '$px': ClassName;
+  /**
+   * ```css
+   * .mb\:\:\$0_5 {
+   *   margin-bottom: 0.125rem;
+   * }
+   * ```
+   */
+  '$0_5': ClassName;
+  /**
+   * ```css
+   * .mb\:\:\$1_5 {
+   *   margin-bottom: 0.375rem;
+   * }
+   * ```
+   */
+  '$1_5': ClassName;
+  /**
+   * ```css
+   * .mb\:\:\$2_5 {
+   *   margin-bottom: 0.625rem;
+   * }
+   * ```
+   */
+  '$2_5': ClassName;
+  /**
+   * ```css
+   * .mb\:\:\$3_5 {
+   *   margin-bottom: 0.875rem;
+   * }
+   * ```
+   */
+  '$3_5': ClassName;
 }
 
 interface MlAtomStyle {
@@ -12183,36 +12183,12 @@ interface MlAtomStyle {
   '$0': ClassName;
   /**
    * ```css
-   * .ml\:\:\$px {
-   *   margin-left: 1px;
-   * }
-   * ```
-   */
-  '$px': ClassName;
-  /**
-   * ```css
-   * .ml\:\:\$0_5 {
-   *   margin-left: 0.125rem;
-   * }
-   * ```
-   */
-  '$0_5': ClassName;
-  /**
-   * ```css
    * .ml\:\:\$1 {
    *   margin-left: 0.25rem;
    * }
    * ```
    */
   '$1': ClassName;
-  /**
-   * ```css
-   * .ml\:\:\$1_5 {
-   *   margin-left: 0.375rem;
-   * }
-   * ```
-   */
-  '$1_5': ClassName;
   /**
    * ```css
    * .ml\:\:\$2 {
@@ -12223,28 +12199,12 @@ interface MlAtomStyle {
   '$2': ClassName;
   /**
    * ```css
-   * .ml\:\:\$2_5 {
-   *   margin-left: 0.625rem;
-   * }
-   * ```
-   */
-  '$2_5': ClassName;
-  /**
-   * ```css
    * .ml\:\:\$3 {
    *   margin-left: 0.75rem;
    * }
    * ```
    */
   '$3': ClassName;
-  /**
-   * ```css
-   * .ml\:\:\$3_5 {
-   *   margin-left: 0.875rem;
-   * }
-   * ```
-   */
-  '$3_5': ClassName;
   /**
    * ```css
    * .ml\:\:\$4 {
@@ -12453,6 +12413,46 @@ interface MlAtomStyle {
    * ```
    */
   '$96': ClassName;
+  /**
+   * ```css
+   * .ml\:\:\$px {
+   *   margin-left: 1px;
+   * }
+   * ```
+   */
+  '$px': ClassName;
+  /**
+   * ```css
+   * .ml\:\:\$0_5 {
+   *   margin-left: 0.125rem;
+   * }
+   * ```
+   */
+  '$0_5': ClassName;
+  /**
+   * ```css
+   * .ml\:\:\$1_5 {
+   *   margin-left: 0.375rem;
+   * }
+   * ```
+   */
+  '$1_5': ClassName;
+  /**
+   * ```css
+   * .ml\:\:\$2_5 {
+   *   margin-left: 0.625rem;
+   * }
+   * ```
+   */
+  '$2_5': ClassName;
+  /**
+   * ```css
+   * .ml\:\:\$3_5 {
+   *   margin-left: 0.875rem;
+   * }
+   * ```
+   */
+  '$3_5': ClassName;
 }
 
 interface FontSizeAtomStyle {
@@ -12850,14 +12850,6 @@ interface OpacityAtomStyle {
 interface ZAtomStyle {
   /**
    * ```css
-   * .z\:\:\$auto {
-   *   z-index: auto;
-   * }
-   * ```
-   */
-  '$auto': ClassName;
-  /**
-   * ```css
    * .z\:\:\$0 {
    *   z-index: 0;
    * }
@@ -12952,6 +12944,14 @@ interface ZAtomStyle {
    * ```
    */
   '$60': ClassName;
+  /**
+   * ```css
+   * .z\:\:\$auto {
+   *   z-index: auto;
+   * }
+   * ```
+   */
+  '$auto': ClassName;
   /**
    * ```css
    * .z\:\:\$_1 {

@@ -25,6 +25,10 @@ pub struct UserConfig {
   #[serde(default = "ColorPalette::default")]
   pub palette: ColorPalette,
 
+  pub filters: IndexMap<String, String>,
+
+  pub keyframes: IndexMap<String, IndexMap<String, IndexMap<String, String>>>,
+
   /// The breakpoints used to provide responsive styles.
   pub breakpoints: IndexMap<String, CssValue>,
 

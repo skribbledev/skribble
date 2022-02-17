@@ -7,56 +7,54 @@ html.dark {
   --color-text-background: rgba(17, 24, 39, var(--text-opacity));
 }
 
-.text\:\$transparent {
+.text\:\:\$transparent {
   --text-opacity: 1;
   color: transparent;
 }
 
-.text\:\$slate500 {
+.text\:\:\$slate500 {
   --text-opacity: 1;
   color: rgba(100, 116, 139, var(--text-opacity));
 }
 
-.text\:\$primary {
+.text\:\:\$primary {
   --text-opacity: 1;
   color: var(--color-text-primary);
 }
 
-.px\:\$px {
+.px\:\:\$px {
   padding-right: 1px;
   padding-left: 1px;
 }
 
-.px-\[10px\] {
+.px\:\:\[10px\] {
   padding-right: 10px;
   padding-left: 10px;
 }
 
-.\$group:hover .m\:\$4:focus,
-.group:hover .m\:\$4:focus,
-[role='group']:hover .m\:\$4:focus {
+.\$group:hover .groupHover\:focus\:m\:\:\$4:focus, .group:hover .groupHover\:focus\:m\:\:\$4:focus, [role='group']:hover .groupHover\:focus\:m\:\:\$4:focus {
   margin: 1rem;
 }
 
 @media (min-width: 640px) {
-  .sm\:m\:\$1:focus {
+  .sm\:focus\:m\:\:\$1:focus {
     margin: 0.25rem;
   }
 }
 
 @media (min-width: 768px) {
-  .md\:\$hidden {
+  .md\:\:\$hidden {
     display: hidden;
   }
 
-  .md\:text\:\$background {
+  .md\:text\:\:\$background {
     --text-opacity: 1;
     color: var(--color-text-background);
   }
 }
 
 @media (min-width: 1536px) {
-  .xxl\:\$block:active:focus {
+  .xxl\:active\:focus\:\:\$block:active:focus {
     display: block;
   }
 }

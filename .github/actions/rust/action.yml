@@ -1,0 +1,52 @@
+name: 'rust installation'
+description: 'Setup rust and cargo'
+inputs:
+  toolchain:
+    description: 'The rust version to use. By default this uses the `rust-toolchain.toml` file'
+    required: false
+  target:
+    description: Target triple to install for this toolchain
+    required: false
+  profile:
+    description: Name of the group of components to be installed for a new toolchain
+    required: false
+    default: minimal
+
+runs:
+  using: 'composite'
+  steps:
+    - name: rust installation
+      uses: actions-rs/toolchain@v1
+      with:
+        profile: ${{ inputs.profile }}
+        toolchain: ${{ inputs.toolchain }}
+        target: ${{ ${{ inputs.target }} }}
+
+    - name: add cargo bin to path
+      run: |
+        echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+      shell: bash
+
+    - name: verify rust install
+      run: |
+        echo "verifying rust '${{ inputs.toolchain }}' ..."
+        rustc --version
+        cargo --version
+        cargo clippy --version
+        rustfmt --version
+      shell: bash
+
+    - name: share rustc hash
+      run: |
+        echo 'RUSTC_HASH=${{ steps.rust_toolchain.outputs.rustc_hash }}' >> $GITHUB_ENV
+      shell: bash
+
+    - name: generate cargo lockfile
+      uses: actions-rs/cargo@v1
+      with:
+        command: generate-lockfile
+
+    - name: cache rust
+      uses: Swatinem/rust-cache@v1
+      with:
+        sharedKey: ${{ inputs.target }}

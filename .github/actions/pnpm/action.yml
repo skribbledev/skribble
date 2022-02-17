@@ -3,15 +3,29 @@ description: 'Install and audit dependencies for pnpm'
 inputs:
   cache: # id of input
     description: 'The location of the pnpm cache'
-    required: true
+    required: false
     default: $HOME/.pnpm-store'
+  node-version: # id of input
+    description: 'The node version'
+    required: false
+    default: 16.x
 
 runs:
   using: 'composite'
   steps:
-    - name: add pnpm to path
-      run: echo "$PNPM_HOME" >> $GITHUB_PATH
-      shell: bash
+    - name: setup pnpm caching
+      uses: actions/cache@v2
+      if: ${{ !env.ACT }}
+      with:
+        path: ${{ inputs.cache }}
+        key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
+        restore-keys: |
+          ${{ runner.os }}-pnpm-
+
+    - name: setup node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ inputs.node-version }}
 
     - name: enable corepack
       run: corepack enable

@@ -25,6 +25,7 @@ export default function rc(): AutoRc {
       ['npm', npmOptions],
       ['crates', {}],
       ['all-contributors', allContributorsOptions],
+      'magic-zero', // https://intuit.github.io/auto/docs/generated/magic-zero
     ],
   };
 }

@@ -1,6 +1,6 @@
 ✔ move client to `@skribble-css/client` @done(22-02-17 05:26)
 ✔ move native code from `@skribble-css/core` to `skribble-css` @done(22-02-17 05:26)
-☐ use default typescript config to generate config json file for testing
+✔ use default typescript config to generate config json file for testing @done(22-02-17 06:34)
 ☐ add svg filter support
   Store the filters in a css variable and reference the filter
   ```css

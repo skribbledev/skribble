@@ -6,6 +6,25 @@ export const DEFAULT_CONFIG: SkribbleConfig = {
     colorFormat: 'rgb',
     variablesPrefix: '',
   },
+  filters: {
+    roughen: `url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"><filter id="waves" x="-20%" y="-20%" width="140%" height="140%" filterUnits="objectBoundingBox" primitiveUnits="userSpaceOnUse" color-interpolation-filters="linearRGB"><feTurbulence type="turbulence" baseFrequency="0.01 0.01" numOctaves="1" seed="1" stitchTiles="noStitch" result="turbulence"/><feDisplacementMap in="SourceGraphic" in2="turbulence" scale="20" xChannelSelector="G" yChannelSelector="A"result="displacementMap"/></filter></svg>#waves')`,
+  },
+  keyframes: {
+    enter: {
+      from: {
+        opacity: 'var(--enter-opacity, 1)',
+        transform:
+          'translate3d(var(--enter-translate-x, 0), var(--enter-translate-y, 0), 0) scale3d(var(--enter-scale, 1), var(--enter-scale, 1), var(--enter-scale, 1))',
+      },
+    },
+    exit: {
+      to: {
+        opacity: 'var(--exit-opacity, 1)',
+        transform:
+          'translate3d(var(--exit-translate-x, 0), var(--exit-translate-y, 0), 0) scale3d(var(--exit-scale, 1), var(--exit-scale, 1), var(--exit-scale, 1))',
+      },
+    },
+  },
   breakpoints: {
     sm: '640px',
     md: '768px',

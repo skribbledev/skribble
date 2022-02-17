@@ -236,8 +236,10 @@ importers:
   packages/skribble-css__config:
     specifiers:
       '@swc/helpers': ^0.3.3
+      csstype: ^3.0.10
     dependencies:
       '@swc/helpers': 0.3.3
+      csstype: 3.0.10
 
   packages/skribble-css__types:
     specifiers:

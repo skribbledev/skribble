@@ -1,4 +1,4 @@
-import type { SkribbleCss, WithCustomClassName } from './types';
+import type { SkribbleCss, WithCustomClassName } from '@skribble-css/types';
 
 /**
  * All the classNames which have been defined in the codebase.

@@ -20,6 +20,16 @@
       "require": "./dist/index.cjs.js",
       "types": "./dist/index.d.ts"
     },
+    "./client": {
+      "import": "./dist/client.esm.js",
+      "require": "./dist/client.cjs.js",
+      "types": "./dist/client.d.ts"
+    },
+    "./client.js": {
+      "import": "./dist/client.esm.js",
+      "require": "./dist/client.cjs.js",
+      "types": "./dist/client.d.ts"
+    },
     "./index.js": {
       "import": "./dist/index.esm.js",
       "require": "./dist/index.cjs.js",
@@ -32,6 +42,7 @@
   "module": "./dist/index.esm.js",
   "types": "./dist/index.d.ts",
   "files": [
+    "client",
     "dist"
   ],
   "dependencies": {
@@ -72,7 +83,8 @@
         "compilerOptions": {
           "types": [
             "node"
-          ]
+          ],
+          "noEmit": true
         }
       },
       "test": {}

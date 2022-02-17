@@ -1,6 +1,10 @@
+import type { Properties } from 'csstype';
+
 import { type PALETTE } from './palette';
 
 export interface SkribbleConfig {
+  keyframes: SkribbleConfigKeyframes;
+  filters: SkribbleConfigFilters;
   options: SkribbleConfigOptions;
   breakpoints: Record<string, string>;
   mediaQueries: Record<string, string>;
@@ -20,6 +24,32 @@ export interface SkribbleConfig {
    */
   palette: SkribbleConfigPalette;
 }
+
+export type SkribbleConfigKeyframes = Record<string, SkribbleConfigKeyframe>;
+export type SkribbleConfigKeyframe = Record<string, Properties>;
+
+/**
+ * Store the filters in a css variable and reference the filter
+ *
+ * ```json
+ * {
+ *   "filters": {
+ *     "roughen": "url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"><filter id="waves" x="-20%" y="-20%" width="140%" height="140%" filterUnits="objectBoundingBox" primitiveUnits="userSpaceOnUse" color-interpolation-filters="linearRGB"><feTurbulence type="turbulence" baseFrequency="0.01 0.01" numOctaves="1" seed="1" stitchTiles="noStitch" result="turbulence"/><feDisplacementMap in="SourceGraphic" in2="turbulence" scale="20" xChannelSelector="G" yChannelSelector="A"result="displacementMap"/></filter></svg>#waves')"
+ *   },
+ * }
+ * ```
+ *
+ * ```css
+ * :root {
+ *    --filter-roughen: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"><filter id="waves" x="-20%" y="-20%" width="140%" height="140%" filterUnits="objectBoundingBox" primitiveUnits="userSpaceOnUse" color-interpolation-filters="linearRGB"><feTurbulence type="turbulence" baseFrequency="0.01 0.01" numOctaves="1" seed="1" stitchTiles="noStitch" result="turbulence"/><feDisplacementMap in="SourceGraphic" in2="turbulence" scale="20" xChannelSelector="G" yChannelSelector="A"result="displacementMap"/></filter></svg>#waves');
+ * }
+ *
+ * .filter\:\:\$roughen {
+ *   filter: var(--filter-roughen);
+ * }
+ * ```
+ */
+export type SkribbleConfigFilters = Record<string, string>;
 
 export type SkribbleConfigPalette = keyof typeof PALETTE | Record<string, string>;
 

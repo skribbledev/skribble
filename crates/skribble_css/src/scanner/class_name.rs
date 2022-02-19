@@ -124,6 +124,12 @@ pub struct ClassName<'config> {
   /// The ordered list of modifiers.
   pub modifiers: Vec<String>,
 
+  /// The group for this atom.
+  pub groups: Vec<String>,
+
+  /// The keyframes for this atom.
+  pub keyframes: Vec<String>,
+
   /// The name of the style provided. This must be provided for the `class_name`
   /// to be valid.
   pub atom: Option<String>,
@@ -164,10 +170,12 @@ impl<'config> ClassName<'config> {
   /// Create a new class name builder.
   pub fn new(config: &'config Config) -> Self {
     Self {
+      groups: vec![],
+      keyframes: vec![],
       breakpoint: None,
       media_query: None,
       parent_modifier: None,
-      modifiers: Vec::new(),
+      modifiers: vec![],
       shorthand: None,
       atom: None,
       style_name: None,
@@ -356,7 +364,21 @@ impl<'config> ClassName<'config> {
   }
 
   pub fn variables(&self) -> IndexSet<String> {
-    get_css_variables_from_string(&self.get_style_declaration())
+    let mut variables = get_css_variables_from_string(&self.get_style_declaration());
+
+    for name in self.keyframes.iter() {
+      if let Some(keyframe) = self.config.user.keyframes.get(name) {
+        variables.extend(keyframe.get_css_variables_names(name))
+      }
+    }
+
+    for name in self.groups.iter() {
+      if let Some(group) = self.config.user.groups.get(name) {
+        variables.extend(group.get_css_variables_names(&[]))
+      }
+    }
+
+    variables
   }
 
   pub fn get_css(&self) -> String {
@@ -519,13 +541,12 @@ impl<'config> ClassName<'config> {
             );
           }
           None => {
-            let mut position = 0;
-            if let Some(value) = self.config.atoms.get(atom).and_then(|values| {
-              values.get_full(cleaned_token).map(|(index, _, value)| {
-                position = index;
-                value
-              })
-            }) {
+            if let Some((position, _, value)) = self
+              .config
+              .atoms
+              .get(atom)
+              .and_then(|meta| meta.values.get_full(cleaned_token))
+            {
               self.score += calculate_score_increment(ScoreMultiple::Value, position);
               self.style_name = Some(cleaned_token.to_string());
               self.value = Some(value.clone());
@@ -564,13 +585,12 @@ impl<'config> ClassName<'config> {
         );
       }
       None => {
-        let mut increment = 0;
-        if let Some(position) = self.config.atoms.keys().position(|name| name == token) {
-          increment = calculate_score_increment(ScoreMultiple::Atom, position);
+        if let Some((position, name, meta)) = self.config.atoms.get_full(token) {
+          self.score += calculate_score_increment(ScoreMultiple::Atom, position);
+          self.keyframes = meta.keyframes.clone();
+          self.groups = meta.groups.clone();
+          self.atom = Some(token_string);
         }
-
-        self.score += increment;
-        self.atom = Some(token_string);
       }
     }
   }
@@ -598,8 +618,8 @@ impl<'config> ClassName<'config> {
 
     let mut increment = 0;
     if let Some(atom) = &self.atom {
-      self.config.atoms.get(atom).iter().for_each(|map| {
-        increment = calculate_score_increment(ScoreMultiple::Value, map.len());
+      self.config.atoms.get(atom).iter().for_each(|meta| {
+        increment = calculate_score_increment(ScoreMultiple::Value, meta.values.len());
       });
     }
 

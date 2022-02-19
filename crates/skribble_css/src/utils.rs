@@ -11,12 +11,14 @@ const CSS_VARIABLE_REGEX: &str = r#"var\((--[a-zA-Z0-9_\-]+)\)"#;
 
 /// Retrieve the css variables from the provided css value.
 pub(crate) fn get_css_variables_from_string(value: &str) -> IndexSet<String> {
-  let re = Regex::new(CSS_VARIABLE_REGEX).unwrap();
-  re.captures_iter(value)
+  let regex = Regex::new(CSS_VARIABLE_REGEX).unwrap();
+  regex
+    .captures_iter(value)
     .map(|capture| capture[1].to_owned())
     .collect()
 }
 
+/// Escape a css string.
 pub(crate) fn escape_css_string(value: &str) -> String {
   let regex = Regex::new(ESCAPE_CSS_STRING_REGEX).unwrap();
   regex.replace_all(value, "\\$1").to_string()

@@ -215,14 +215,14 @@ pub fn generate_typescript(config: &Config) -> String {
 
   // => START ATOMS
   let mut interfaces: Vec<String> = vec![];
-  for (atom, values) in config.atoms.iter() {
+  for (atom, meta) in config.atoms.iter() {
     let mut class_name = ClassName::new(config);
 
     class_name.add_token(atom);
     let mut interface: Vec<String> = vec![];
     let interface_name = format!("{}AtomStyle", atom.to_pascal_case());
 
-    for (name, _) in values.iter() {
+    for (name, _) in meta.values.iter() {
       let mut style_class_name = class_name.clone();
       let style_name = format!("${}", name);
       style_class_name.add_token(style_name.as_str());

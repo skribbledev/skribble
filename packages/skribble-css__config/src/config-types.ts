@@ -3,9 +3,15 @@ import type { Properties } from 'csstype';
 import { type PALETTE } from './palette';
 
 export interface SkribbleConfig {
-  keyframes: SkribbleConfigKeyframes;
-  filters: SkribbleConfigFilters;
   options: SkribbleConfigOptions;
+
+  keyframes: SkribbleConfigKeyframes;
+
+  /**
+   * CSS Variable Groups that atoms can add themselves to when activated.
+   */
+  groups: Record<string, [key: string, value: CssValue][]>;
+
   breakpoints: Record<string, string>;
   mediaQueries: Record<string, string>;
   parentModifiers: Record<string, string[]>;
@@ -74,6 +80,15 @@ export type SkribbleConfigAtom = SkribbleConfigAtomValues | SkribbleConfigAtomCo
 
 interface BaseSkribbleConfigAtom {
   styleRules: string[];
+  /**
+   * Groups that should be added when any of the style rules are used here.
+   */
+  groups?: string[];
+
+  /**
+   * The keyframes that should be included when this atom is used.
+   */
+  keyframes?: string[];
 }
 
 interface SkribbleConfigAtomValues extends BaseSkribbleConfigAtom {

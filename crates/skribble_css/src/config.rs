@@ -15,6 +15,15 @@ pub(crate) mod color_utils;
 
 pub mod user;
 
+type AtomMap = IndexMap<String, AtomMeta>;
+/// Metadata for the atom which includes the groups and keyframes.
+#[derive(Serialize, Deserialize, Debug, PartialEq)]
+pub struct AtomMeta {
+  pub keyframes: Vec<String>,
+  pub groups: Vec<String>,
+  pub values: IndexMap<String, CssValue>,
+}
+
 /// The built in configuration
 #[derive(Serialize, Deserialize, Debug, PartialEq)]
 #[serde(rename_all = "camelCase")]
@@ -33,8 +42,6 @@ pub struct Config {
   /// All the css variables defined in the configuration.
   pub css_variables: IndexMap<String, PopulatedCssVariable>,
 }
-
-type AtomMap = IndexMap<String, IndexMap<String, CssValue>>;
 
 impl Config {
   pub fn new(source: &str) -> serde_json::Result<Self> {
@@ -64,6 +71,8 @@ impl Config {
     for atom in user.atoms.iter() {
       match atom {
         Atom::Color(AtomColor {
+          keyframes,
+          groups,
           colors,
           style_rules,
         }) => {
@@ -74,14 +83,18 @@ impl Config {
             match atoms.get_mut(rule) {
               Some(atom) => {
                 for (key, value) in &values {
-                  atom.insert(key.to_owned(), value.to_owned());
+                  atom.values.insert(key.to_owned(), value.to_owned());
                 }
               }
               None => {
-                let mut atom = IndexMap::new();
+                let mut atom = AtomMeta {
+                  keyframes: keyframes.clone(),
+                  groups: groups.clone(),
+                  values: IndexMap::new(),
+                };
 
                 for (key, value) in &values {
-                  atom.insert(key.to_owned(), value.to_owned());
+                  atom.values.insert(key.to_owned(), value.to_owned());
                 }
 
                 atoms.insert(rule.to_owned(), atom);
@@ -90,6 +103,8 @@ impl Config {
           }
         }
         Atom::Value(AtomValue {
+          keyframes,
+          groups,
           style_rules,
           values,
         }) => {
@@ -97,14 +112,18 @@ impl Config {
             match atoms.get_mut(rule) {
               Some(atom) => {
                 for (key, value) in values {
-                  atom.insert(key.to_owned(), value.to_owned());
+                  atom.values.insert(key.to_owned(), value.to_owned());
                 }
               }
               None => {
-                let mut atom = IndexMap::new();
+                let mut atom = AtomMeta {
+                  keyframes: keyframes.clone(),
+                  groups: groups.clone(),
+                  values: IndexMap::new(),
+                };
 
                 for (key, value) in values {
-                  atom.insert(key.to_owned(), value.to_owned());
+                  atom.values.insert(key.to_owned(), value.to_owned());
                 }
 
                 atoms.insert(rule.to_owned(), atom);

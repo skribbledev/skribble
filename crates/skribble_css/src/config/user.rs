@@ -1,7 +1,10 @@
-use indexmap::IndexMap;
+use indexmap::{IndexMap, IndexSet};
 use serde::{Deserialize, Serialize};
 
-use crate::constants::{PALETTE_OPEN_COLOR, PALETTE_TAILWIND, ROOT_SELECTOR};
+use crate::{
+  constants::{INDENTATION, PALETTE_OPEN_COLOR, PALETTE_TAILWIND, ROOT_SELECTOR},
+  utils::{get_css_variables_from_string, indent},
+};
 
 use super::color_utils::convert_css_value_to_color;
 
@@ -21,13 +24,14 @@ pub struct UserConfig {
   /// Shorthand properties.
   pub shorthand: IndexMap<String, Vec<StyleRule>>,
 
+  /// Group properties.
+  pub groups: IndexMap<String, Group>,
+
   /// Color palette taken from tailwind colors or openColor.
   #[serde(default = "ColorPalette::default")]
   pub palette: ColorPalette,
 
-  pub filters: IndexMap<String, String>,
-
-  pub keyframes: IndexMap<String, IndexMap<String, IndexMap<String, String>>>,
+  pub keyframes: IndexMap<String, Keyframes>,
 
   /// The breakpoints used to provide responsive styles.
   pub breakpoints: IndexMap<String, CssValue>,
@@ -70,6 +74,81 @@ impl UserConfig {
   }
 }
 
+type Frames = IndexMap<String, IndexMap<String, String>>;
+
+#[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
+#[serde(untagged)]
+pub enum Keyframes {
+  Frame(Frames),
+}
+
+impl Keyframes {
+  pub fn get_css(&self, name: &str) -> String {
+    match self {
+      Keyframes::Frame(frames) => {
+        let mut sections: Vec<String> = vec![];
+
+        for (key, styles) in frames.iter() {
+          let mut declarations: Vec<String> = vec![];
+
+          for (property, value) in styles.iter() {
+            declarations.push(format!("{}: {};", property, value));
+          }
+
+          sections.push(format!(
+            "{} {{\n{}\n}}",
+            key,
+            indent(&declarations.join("\n"), INDENTATION)
+          ));
+        }
+
+        format!(
+          "@keyframes {} {{\n{}\n}}",
+          name,
+          indent(&sections.join("\n"), INDENTATION)
+        )
+      }
+    }
+  }
+
+  /// Get the css variable names from the keyframes.
+  pub fn get_css_variables_names(&self, name: &str) -> IndexSet<String> {
+    get_css_variables_from_string(self.get_css(name).as_str())
+  }
+}
+
+#[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
+#[serde(untagged)]
+pub enum Group {
+  Props(Vec<StyleRule>),
+}
+
+impl Group {
+  /// Provide the list of selectors and get the css declaration back.
+  pub fn get_css(&self, selectors: &[String]) -> String {
+    match self {
+      Group::Props(props) => {
+        let mut declarations: Vec<String> = vec![];
+
+        for prop in props.iter() {
+          declarations.push(format!("{};", prop.get_style_declaration(None)));
+        }
+
+        format!(
+          "{} {{\n{}\n}}",
+          selectors.join(",\n"),
+          indent(&declarations.join("\n"), INDENTATION)
+        )
+      }
+    }
+  }
+
+  /// Get the css variable names from the keyframes.
+  pub fn get_css_variables_names(&self, selectors: &[String]) -> IndexSet<String> {
+    get_css_variables_from_string(self.get_css(selectors).as_str())
+  }
+}
+
 #[derive(Serialize, Deserialize, Debug, PartialEq)]
 #[serde(untagged)]
 pub enum Atom {
@@ -80,7 +159,9 @@ pub enum Atom {
 impl Atom {
   pub fn to_atom_value(&self) -> AtomValue {
     match self {
-      Atom::Color(_) => AtomValue {
+      Atom::Color(color) => AtomValue {
+        keyframes: color.keyframes,
+        groups: color.groups,
         style_rules: Vec::new(),
         values: IndexMap::new(),
       },
@@ -92,6 +173,10 @@ impl Atom {
 #[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
 #[serde(rename_all = "camelCase")]
 pub struct AtomValue {
+  #[serde(default = "empty_vector")]
+  pub keyframes: Vec<String>,
+  #[serde(default = "empty_vector")]
+  pub groups: Vec<String>,
   pub style_rules: Vec<String>,
   pub values: IndexMap<String, CssValue>,
 }
@@ -101,8 +186,16 @@ pub struct AtomValue {
 #[derive(Serialize, Deserialize, Debug, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct AtomColor {
+  #[serde(default = "empty_vector")]
+  pub keyframes: Vec<String>,
+  #[serde(default = "empty_vector")]
+  pub groups: Vec<String>,
   pub style_rules: Vec<String>,
   pub colors: AtomColorOptions,
+}
+
+fn empty_vector() -> Vec<String> {
+  vec![]
 }
 
 /// The options provided to an `AtomColor` configuration object.
@@ -267,6 +360,36 @@ impl CssVariable {
       }
       CssVariable::Object(value) => value.clone(),
     }
+  }
+
+  pub fn get_css_variables_names(&self, user: &UserConfig) -> IndexSet<String> {
+    let populated = self.populate(user);
+    let mut css_variables: IndexSet<String> = IndexSet::new();
+
+    for value in populated.selectors.values() {
+      let variables = get_css_variables_from_string(value.get_string().as_str());
+      css_variables.extend(variables);
+    }
+
+    if let Some(breakpoints) = populated.breakpoints {
+      for breakpoint in breakpoints.values() {
+        for value in breakpoint.values() {
+          let variables = get_css_variables_from_string(value.get_string().as_str());
+          css_variables.extend(variables);
+        }
+      }
+    }
+
+    if let Some(media_queries) = populated.media_queries {
+      for media_query in media_queries.values() {
+        for value in media_query.values() {
+          let variables = get_css_variables_from_string(value.get_string().as_str());
+          css_variables.extend(variables);
+        }
+      }
+    }
+
+    css_variables
   }
 
   /// Populate the colors.

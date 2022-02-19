@@ -19,18 +19,28 @@ use crate::{
 /// generated based on the class_names found.
 pub fn generate_css(config: &Config, class_names: &[&ClassName]) -> String {
   let mut breakpoint_map: IndexMap<Option<String>, Vec<&ClassName>> = IndexMap::new();
-
   let breakpoints = config.user.breakpoints.to_breakpoints();
-  let css_variable_names: IndexSet<String> = get_all_css_variables_used(class_names);
+  let css_variable_names: IndexSet<String> = get_all_css_variables_used(config, class_names);
+  let mut keyframe_names: IndexSet<String> = IndexSet::new();
+  let mut group_names: IndexMap<String, Vec<String>> = IndexMap::new();
 
   // Group class_names by breakpoints.
   for class_name in class_names {
     let breakpoint = &class_name.breakpoint;
+    keyframe_names.extend(class_name.keyframes);
+
+    for group_name in class_name.groups.iter() {
+      group_names
+        .entry(group_name.to_owned())
+        .or_default()
+        .push(class_name.get_selector());
+    }
 
     match breakpoint_map.get_mut(breakpoint) {
       Some(class_name_list) => {
         class_name_list.push(*class_name);
       }
+
       None => {
         let class_name_list = vec![*class_name];
         breakpoint_map.insert(breakpoint.to_owned(), class_name_list);
@@ -38,33 +48,86 @@ pub fn generate_css(config: &Config, class_names: &[&ClassName]) -> String {
     }
   }
 
-  create_css_output(config, &css_variable_names, breakpoints, breakpoint_map)
+  create_css_output(
+    config,
+    get_groups_and_keyframes_css(config, &keyframe_names, &group_names).as_str(),
+    &css_variable_names,
+    breakpoints,
+    breakpoint_map,
+  )
 }
 
-fn get_all_css_variables_used(class_names: &[&ClassName]) -> IndexSet<String> {
+fn get_groups_and_keyframes_css(
+  config: &Config,
+  keyframe_names: &IndexSet<String>,
+  group_names: &IndexMap<String, Vec<String>>,
+) -> String {
+  let styles: Vec<String> = vec![];
+
+  for name in keyframe_names {
+    if let Some(keyframe) = config.user.keyframes.get(name) {
+      styles.push(keyframe.get_css(name));
+    }
+  }
+
+  for (name, selectors) in group_names.iter() {
+    if let Some(group) = config.user.groups.get(name) {
+      styles.push(group.get_css(selectors));
+    }
+  }
+
+  styles.join("\n\n")
+}
+
+fn get_all_css_variables_used(config: &Config, class_names: &[&ClassName]) -> IndexSet<String> {
   let mut css_variable_names: IndexSet<String> = IndexSet::new();
 
   for class_name in class_names {
     css_variable_names.extend(class_name.variables());
   }
 
+  css_variable_names.extend(get_nested_css_variables(config, &css_variable_names));
+
   css_variable_names
+}
+
+// TODO this needs testing as bad logic could lead to an infinite loop.
+fn get_nested_css_variables(
+  config: &Config,
+  css_variable_names: &IndexSet<String>,
+) -> IndexSet<String> {
+  let mut nested_css_variable_names: IndexSet<String> = IndexSet::new();
+
+  if css_variable_names.is_empty() {
+    return nested_css_variable_names;
+  }
+
+  for variable_name in css_variable_names.iter() {
+    // Find the variable name in the config.
+    if let Some(css_variable) = config.user.variables.get(variable_name) {
+      let variables = css_variable.get_css_variables_names(&config.user);
+      nested_css_variable_names.extend(variables);
+    }
+  }
+
+  if !nested_css_variable_names.is_empty() && &nested_css_variable_names != css_variable_names {
+    nested_css_variable_names.extend(get_nested_css_variables(config, &nested_css_variable_names));
+  }
+
+  nested_css_variable_names
 }
 
 fn create_css_output(
   config: &Config,
+  initial_css: &str,
   css_variable_names: &IndexSet<String>,
   breakpoints: IndexMap<Option<String>, CssValue>,
   breakpoint_map: IndexMap<Option<String>, Vec<&ClassName>>,
 ) -> String {
   let (css_variable_selectors, css_variable_breakpoints, css_variable_queries) =
     create_css_variable_containers(config, css_variable_names);
-  println!(
-    "css_variable_selectors: {:?}\ncss_variable_breakpoints: {:?}\ncss_variable_queries: {:?}\n\n",
-    css_variable_selectors, css_variable_breakpoints, css_variable_queries
-  );
 
-  let mut styles: Vec<String> = Vec::new();
+  let mut styles: Vec<String> = vec![initial_css.to_owned()];
 
   for (breakpoint_name, css_value) in breakpoints.iter() {
     let mut css_list: Vec<String> = vec![];
@@ -118,7 +181,7 @@ fn create_css_output(
     }
   }
 
-  styles.join("\n\n")
+  format!("{}\n", styles.join("\n\n"))
 }
 
 fn create_media_query_string(

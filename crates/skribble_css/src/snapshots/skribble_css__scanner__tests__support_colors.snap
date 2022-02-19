@@ -1,7 +1,7 @@
 ---
 source: crates/skribble_css/src/scanner.rs
 assertion_line: 171
-expression: "crate::test_utils::get_selector(&crate::test_utils::create_config(None).unwrap(),\n                                \"\\\n    import { c } from 'skribble-css';\n\n    c.text.$primary;\")"
+expression: "crate::test_utils::get_selector(&crate::test_utils::create_config(None).unwrap(),\n                                \"\\\n    import { c } from 'skribble-css/client';\n\n    c.text.$primary;\")"
 
 ---
 .text\:\:\$primary

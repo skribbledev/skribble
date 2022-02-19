@@ -2,7 +2,7 @@
  * The default className signature.
  *
  * ```
- * import { c } from 'skribble/css';
+ * import { c } from 'skribble-css/client';
  * const className = c.sm.block; // => 'sm:block'
  * ```
  */
@@ -13,7 +13,7 @@ export type ClassName = string;
  * dynamically based on the value provided.
  *
  * ```
- * import { c } from 'skribble/css';
+ * import { c } from 'skribble-css/client';
  * const className = c.sm.focus.transformX(-100px); // => 'sm:focus:transformX(-100px)'
  * ```
  */
@@ -31,7 +31,7 @@ export type WithDynamicClassName<Atom> = Atom & DynamicClassName;
  * Currently spaces are not supported in the values.
  *
  * ```ts
- * import { c } from 'skribble/css';
+ * import { c } from 'skribble-css/client';
  * const className = c.sm.focus('padding', '10px'); // => 'sm:focus-[padding:10px]'
  */
 export type CustomClassName = (style: string, value: string) => ClassName;
@@ -584,7 +584,7 @@ export interface SkribbleCss {
   $italic: ClassName;
   /**
    * ```css
-   * .\$non-italic {
+   * .\$nonItalic {
    *   font-style: normal;
    * }
    * ```
@@ -600,42 +600,6 @@ export interface SkribbleCss {
   $oblique: ClassName;
   /**
    * ```css
-   * .\$filter {
-   *   --filter-blur: var(--empty,/*!*\/ /*!*\/);
-   *   --filter-brightness: var(--empty,/*!*\/ /*!*\/);
-   *   --filter-contrast: var(--empty,/*!*\/ /*!*\/);
-   *   --filter-grayscale: var(--empty,/*!*\/ /*!*\/);
-   *   --filter-hue-rotate: var(--empty,/*!*\/ /*!*\/);
-   *   --filter-invert: var(--empty,/*!*\/ /*!*\/);
-   *   --filter-saturate: var(--empty,/*!*\/ /*!*\/);
-   *   --filter-sepia: var(--empty,/*!*\/ /*!*\/);
-   *   --filter-drop-shadow: var(--empty,/*!*\/ /*!*\/);
-   *   --filter-custom: var(--empty,/*!*\/ /*!*\/);
-   *   filter: var(--filter-blur) var(--filter-brightness) var(--filter-contrast) var(--filter-grayscale) var(--filter-hue-rotate) var(--filter-invert) var(--filter-saturate) var(--filter-sepia) var(--filter-drop-shadow) var(--filter-custom);
-   * }
-   * ```
-   */
-  $filter: ClassName;
-  /**
-   * ```css
-   * .\$backdrop-filter {
-   *   --backdrop-blur: var(--empty,/*!*\/ /*!*\/);
-   *   --backdrop-brightness: var(--empty,/*!*\/ /*!*\/);
-   *   --backdrop-contrast: var(--empty,/*!*\/ /*!*\/);
-   *   --backdrop-grayscale: var(--empty,/*!*\/ /*!*\/);
-   *   --backdrop-hue-rotate: var(--empty,/*!*\/ /*!*\/);
-   *   --backdrop-invert: var(--empty,/*!*\/ /*!*\/);
-   *   --backdrop-saturate: var(--empty,/*!*\/ /*!*\/);
-   *   --backdrop-sepia: var(--empty,/*!*\/ /*!*\/);
-   *   --backdrop-drop-shadow: var(--empty,/*!*\/ /*!*\/);
-   *   --backdrop-custom: var(--empty,/*!*\/ /*!*\/);
-   *   backdrop-filter: var(--backdrop-blur) var(--backdrop-brightness) var(--backdrop-contrast) var(--backdrop-grayscale) var(--backdrop-hue-rotate) var(--backdrop-invert) var(--backdrop-saturate) var(--backdrop-sepia) var(--backdrop-drop-shadow) var(--backdrop-custom);
-   * }
-   * ```
-   */
-  $backdropFilter: ClassName;
-  /**
-   * ```css
    * .\$antialiased {
    *   -webkit-font-smoothing: antialiased;
    *   -moz-osx-font-smoothing: grayscale;
@@ -645,7 +609,7 @@ export interface SkribbleCss {
   $antialiased: ClassName;
   /**
    * ```css
-   * .\$subpixel-antialiased {
+   * .\$subpixelAntialiased {
    *   -webkit-font-smoothing: auto;
    *   -moz-osx-font-smoothing: auto;
    * }
@@ -662,7 +626,7 @@ export interface SkribbleCss {
   $block: ClassName;
   /**
    * ```css
-   * .\$inline-block {
+   * .\$inlineBlock {
    *   display: inline-block;
    * }
    * ```
@@ -678,7 +642,7 @@ export interface SkribbleCss {
   $inline: ClassName;
   /**
    * ```css
-   * .\$flow-root {
+   * .\$flowRoot {
    *   display: flow-root;
    * }
    * ```
@@ -718,15 +682,39 @@ export interface SkribbleCss {
   $visible: ClassName;
   /**
    * ```css
-   * .font-\[<value>\] {
-   *   font-family: <value>;
+   * .\$removeFilter {
+   *   --group-nested-filter: none;
    * }
    * ```
    */
-  font: WithDynamicClassName<FontAtomStyle>;
+  $removeFilter: ClassName;
   /**
    * ```css
-   * .text-\[<value>\] {
+   * .\$removeBackdrop {
+   *   --group-nested-backdrop: none;
+   * }
+   * ```
+   */
+  $removeBackdrop: ClassName;
+  /**
+   * ```css
+   * .\$transformGpu {
+   *   --group-nested-transform: var(--group-nested-transform-gpu);
+   * }
+   * ```
+   */
+  $transformGpu: ClassName;
+  /**
+   * ```css
+   * .\$transformCpu {
+   *   --group-nested-transform: var(--group-nested-transform-cpu);
+   * }
+   * ```
+   */
+  $transformCpu: ClassName;
+  /**
+   * ```css
+   * .text\:\:\[<value>\] {
    *   --text-opacity: 1;
    *   color: <value>;
    * }
@@ -735,7 +723,7 @@ export interface SkribbleCss {
   text: WithDynamicClassName<TextAtomStyle>;
   /**
    * ```css
-   * .bg-\[<value>\] {
+   * .bg\:\:\[<value>\] {
    *   --bg-opacity: 1;
    *   color: <value>;
    * }
@@ -744,13 +732,177 @@ export interface SkribbleCss {
   bg: WithDynamicClassName<BgAtomStyle>;
   /**
    * ```css
-   * .border-\[<value>\] {}
+   * .border\:\:\[<value>\] {}
    * ```
    */
   border: WithDynamicClassName<BorderAtomStyle>;
   /**
    * ```css
-   * .p-\[<value>\] {
+   * .font\:\:\[<value>\] {
+   *   font-family: <value>;
+   * }
+   * ```
+   */
+  font: WithDynamicClassName<FontAtomStyle>;
+  /**
+   * ```css
+   * .blur\:\:\[<value>\] {
+   *   --filter-blur: <value>;
+   * }
+   * ```
+   */
+  blur: WithDynamicClassName<BlurAtomStyle>;
+  /**
+   * ```css
+   * .backdropBlur\:\:\[<value>\] {
+   *   --backdrop-blur: <value>;
+   * }
+   * ```
+   */
+  backdropBlur: WithDynamicClassName<BackdropBlurAtomStyle>;
+  /**
+   * ```css
+   * .brightness\:\:\[<value>\] {
+   *   --filter-brightness: <value>;
+   * }
+   * ```
+   */
+  brightness: WithDynamicClassName<BrightnessAtomStyle>;
+  /**
+   * ```css
+   * .backdropBrightness\:\:\[<value>\] {
+   *   --backdrop-brightness: <value>;
+   * }
+   * ```
+   */
+  backdropBrightness: WithDynamicClassName<BackdropBrightnessAtomStyle>;
+  /**
+   * ```css
+   * .contrast\:\:\[<value>\] {
+   *   --filter-contrast: <value>;
+   * }
+   * ```
+   */
+  contrast: WithDynamicClassName<ContrastAtomStyle>;
+  /**
+   * ```css
+   * .backdropContrast\:\:\[<value>\] {
+   *   --backdrop-contrast: <value>;
+   * }
+   * ```
+   */
+  backdropContrast: WithDynamicClassName<BackdropContrastAtomStyle>;
+  /**
+   * ```css
+   * .dropShadow\:\:\[<value>\] {
+   *   --filter-drop-shadow: <value>;
+   * }
+   * ```
+   */
+  dropShadow: WithDynamicClassName<DropShadowAtomStyle>;
+  /**
+   * ```css
+   * .backdropDropShadow\:\:\[<value>\] {
+   *   --backdrop-drop-shadow: <value>;
+   * }
+   * ```
+   */
+  backdropDropShadow: WithDynamicClassName<BackdropDropShadowAtomStyle>;
+  /**
+   * ```css
+   * .grayScale\:\:\[<value>\] {}
+   * ```
+   */
+  grayScale: WithDynamicClassName<GrayScaleAtomStyle>;
+  /**
+   * ```css
+   * .backdropGrayScale\:\:\[<value>\] {}
+   * ```
+   */
+  backdropGrayScale: WithDynamicClassName<BackdropGrayScaleAtomStyle>;
+  /**
+   * ```css
+   * .hueRotate\:\:\[<value>\] {
+   *   --filter-hue-rotate: <value>;
+   * }
+   * ```
+   */
+  hueRotate: WithDynamicClassName<HueRotateAtomStyle>;
+  /**
+   * ```css
+   * .backdropHueRotate\:\:\[<value>\] {
+   *   --backdrop-hue-rotate: <value>;
+   * }
+   * ```
+   */
+  backdropHueRotate: WithDynamicClassName<BackdropHueRotateAtomStyle>;
+  /**
+   * ```css
+   * .invert\:\:\[<value>\] {
+   *   --filter-invert: <value>;
+   * }
+   * ```
+   */
+  invert: WithDynamicClassName<InvertAtomStyle>;
+  /**
+   * ```css
+   * .backdropInvert\:\:\[<value>\] {
+   *   --backdrop-invert: <value>;
+   * }
+   * ```
+   */
+  backdropInvert: WithDynamicClassName<BackdropInvertAtomStyle>;
+  /**
+   * ```css
+   * .saturate\:\:\[<value>\] {
+   *   --filter-saturate: <value>;
+   * }
+   * ```
+   */
+  saturate: WithDynamicClassName<SaturateAtomStyle>;
+  /**
+   * ```css
+   * .backdropSaturate\:\:\[<value>\] {
+   *   --backdrop-saturate: <value>;
+   * }
+   * ```
+   */
+  backdropSaturate: WithDynamicClassName<BackdropSaturateAtomStyle>;
+  /**
+   * ```css
+   * .sepia\:\:\[<value>\] {
+   *   --filter-sepia: <value>;
+   * }
+   * ```
+   */
+  sepia: WithDynamicClassName<SepiaAtomStyle>;
+  /**
+   * ```css
+   * .backdropSepia\:\:\[<value>\] {
+   *   --backdrop-sepia: <value>;
+   * }
+   * ```
+   */
+  backdropSepia: WithDynamicClassName<BackdropSepiaAtomStyle>;
+  /**
+   * ```css
+   * .filter\:\:\[<value>\] {
+   *   --filter-custom: <value>;
+   * }
+   * ```
+   */
+  filter: WithDynamicClassName<FilterAtomStyle>;
+  /**
+   * ```css
+   * .backdrop\:\:\[<value>\] {
+   *   --backdrop-custom: <value>;
+   * }
+   * ```
+   */
+  backdrop: WithDynamicClassName<BackdropAtomStyle>;
+  /**
+   * ```css
+   * .p\:\:\[<value>\] {
    *   padding: <value>;
    * }
    * ```
@@ -758,7 +910,7 @@ export interface SkribbleCss {
   p: WithDynamicClassName<PAtomStyle>;
   /**
    * ```css
-   * .py-\[<value>\] {
+   * .py\:\:\[<value>\] {
    *   padding-top: <value>;
    *   padding-bottom: <value>;
    * }
@@ -767,7 +919,7 @@ export interface SkribbleCss {
   py: WithDynamicClassName<PyAtomStyle>;
   /**
    * ```css
-   * .px-\[<value>\] {
+   * .px\:\:\[<value>\] {
    *   padding-right: <value>;
    *   padding-left: <value>;
    * }
@@ -776,7 +928,7 @@ export interface SkribbleCss {
   px: WithDynamicClassName<PxAtomStyle>;
   /**
    * ```css
-   * .pt-\[<value>\] {
+   * .pt\:\:\[<value>\] {
    *   padding-top: <value>;
    * }
    * ```
@@ -784,7 +936,7 @@ export interface SkribbleCss {
   pt: WithDynamicClassName<PtAtomStyle>;
   /**
    * ```css
-   * .pr-\[<value>\] {
+   * .pr\:\:\[<value>\] {
    *   padding-right: <value>;
    * }
    * ```
@@ -792,7 +944,7 @@ export interface SkribbleCss {
   pr: WithDynamicClassName<PrAtomStyle>;
   /**
    * ```css
-   * .pb-\[<value>\] {
+   * .pb\:\:\[<value>\] {
    *   padding-bottom: <value>;
    * }
    * ```
@@ -800,7 +952,7 @@ export interface SkribbleCss {
   pb: WithDynamicClassName<PbAtomStyle>;
   /**
    * ```css
-   * .pl-\[<value>\] {
+   * .pl\:\:\[<value>\] {
    *   padding-left: <value>;
    * }
    * ```
@@ -808,7 +960,7 @@ export interface SkribbleCss {
   pl: WithDynamicClassName<PlAtomStyle>;
   /**
    * ```css
-   * .pbl-\[<value>\] {
+   * .pbl\:\:\[<value>\] {
    *   padding-block: <value>;
    * }
    * ```
@@ -816,7 +968,7 @@ export interface SkribbleCss {
   pbl: WithDynamicClassName<PblAtomStyle>;
   /**
    * ```css
-   * .pin-\[<value>\] {
+   * .pin\:\:\[<value>\] {
    *   padding-inline: <value>;
    * }
    * ```
@@ -824,7 +976,7 @@ export interface SkribbleCss {
   pin: WithDynamicClassName<PinAtomStyle>;
   /**
    * ```css
-   * .pins-\[<value>\] {
+   * .pins\:\:\[<value>\] {
    *   padding-inline-start: <value>;
    * }
    * ```
@@ -832,7 +984,7 @@ export interface SkribbleCss {
   pins: WithDynamicClassName<PinsAtomStyle>;
   /**
    * ```css
-   * .pine-\[<value>\] {
+   * .pine\:\:\[<value>\] {
    *   padding-inline-end: <value>;
    * }
    * ```
@@ -840,7 +992,7 @@ export interface SkribbleCss {
   pine: WithDynamicClassName<PineAtomStyle>;
   /**
    * ```css
-   * .pbls-\[<value>\] {
+   * .pbls\:\:\[<value>\] {
    *   padding-block-start: <value>;
    * }
    * ```
@@ -848,7 +1000,7 @@ export interface SkribbleCss {
   pbls: WithDynamicClassName<PblsAtomStyle>;
   /**
    * ```css
-   * .pble-\[<value>\] {
+   * .pble\:\:\[<value>\] {
    *   padding-block-end: <value>;
    * }
    * ```
@@ -856,7 +1008,7 @@ export interface SkribbleCss {
   pble: WithDynamicClassName<PbleAtomStyle>;
   /**
    * ```css
-   * .m-\[<value>\] {
+   * .m\:\:\[<value>\] {
    *   margin: <value>;
    * }
    * ```
@@ -864,7 +1016,7 @@ export interface SkribbleCss {
   m: WithDynamicClassName<MAtomStyle>;
   /**
    * ```css
-   * .my-\[<value>\] {
+   * .my\:\:\[<value>\] {
    *   margin-top: <value>;
    *   margin-bottom: <value>;
    * }
@@ -873,7 +1025,7 @@ export interface SkribbleCss {
   my: WithDynamicClassName<MyAtomStyle>;
   /**
    * ```css
-   * .mx-\[<value>\] {
+   * .mx\:\:\[<value>\] {
    *   margin-right: <value>;
    *   margin-left: <value>;
    * }
@@ -882,7 +1034,7 @@ export interface SkribbleCss {
   mx: WithDynamicClassName<MxAtomStyle>;
   /**
    * ```css
-   * .mt-\[<value>\] {
+   * .mt\:\:\[<value>\] {
    *   margin-top: <value>;
    * }
    * ```
@@ -890,7 +1042,7 @@ export interface SkribbleCss {
   mt: WithDynamicClassName<MtAtomStyle>;
   /**
    * ```css
-   * .mr-\[<value>\] {
+   * .mr\:\:\[<value>\] {
    *   margin-right: <value>;
    * }
    * ```
@@ -898,7 +1050,7 @@ export interface SkribbleCss {
   mr: WithDynamicClassName<MrAtomStyle>;
   /**
    * ```css
-   * .mb-\[<value>\] {
+   * .mb\:\:\[<value>\] {
    *   margin-bottom: <value>;
    * }
    * ```
@@ -906,7 +1058,7 @@ export interface SkribbleCss {
   mb: WithDynamicClassName<MbAtomStyle>;
   /**
    * ```css
-   * .ml-\[<value>\] {
+   * .ml\:\:\[<value>\] {
    *   margin-left: <value>;
    * }
    * ```
@@ -914,7 +1066,7 @@ export interface SkribbleCss {
   ml: WithDynamicClassName<MlAtomStyle>;
   /**
    * ```css
-   * .font-size-\[<value>\] {
+   * .fontSize\:\:\[<value>\] {
    *   font-size: <value>;
    * }
    * ```
@@ -922,7 +1074,7 @@ export interface SkribbleCss {
   fontSize: WithDynamicClassName<FontSizeAtomStyle>;
   /**
    * ```css
-   * .line-height-\[<value>\] {
+   * .lineHeight\:\:\[<value>\] {
    *   line-height: <value>;
    * }
    * ```
@@ -930,7 +1082,7 @@ export interface SkribbleCss {
   lineHeight: WithDynamicClassName<LineHeightAtomStyle>;
   /**
    * ```css
-   * .dir-\[<value>\] {
+   * .dir\:\:\[<value>\] {
    *   direction: <value>;
    * }
    * ```
@@ -938,19 +1090,19 @@ export interface SkribbleCss {
   dir: WithDynamicClassName<DirAtomStyle>;
   /**
    * ```css
-   * .display-\[<value>\] {}
+   * .display\:\:\[<value>\] {}
    * ```
    */
   display: WithDynamicClassName<DisplayAtomStyle>;
   /**
    * ```css
-   * .visibility-\[<value>\] {}
+   * .visibility\:\:\[<value>\] {}
    * ```
    */
   visibility: WithDynamicClassName<VisibilityAtomStyle>;
   /**
    * ```css
-   * .opacity-\[<value>\] {
+   * .opacity\:\:\[<value>\] {
    *   opacity: <value>;
    * }
    * ```
@@ -958,7 +1110,7 @@ export interface SkribbleCss {
   opacity: WithDynamicClassName<OpacityAtomStyle>;
   /**
    * ```css
-   * .z-\[<value>\] {
+   * .z\:\:\[<value>\] {
    *   z-index: <value>;
    * }
    * ```
@@ -966,7 +1118,7 @@ export interface SkribbleCss {
   z: WithDynamicClassName<ZAtomStyle>;
   /**
    * ```css
-   * .text-orientation-\[<value>\] {
+   * .textOrientation\:\:\[<value>\] {
    *   text-orientation: <value>;
    * }
    * ```
@@ -974,7 +1126,7 @@ export interface SkribbleCss {
   textOrientation: WithDynamicClassName<TextOrientationAtomStyle>;
   /**
    * ```css
-   * .writing-mode-\[<value>\] {
+   * .writingMode\:\:\[<value>\] {
    *   writing-mode: <value>;
    * }
    * ```
@@ -982,7 +1134,80 @@ export interface SkribbleCss {
   writingMode: WithDynamicClassName<WritingModeAtomStyle>;
   /**
    * ```css
-   * .animation-\[<value>\] {
+   * .scale\:\:\[<value>\] {
+   *   --transform-scale-x: <value>;
+   *   --transform-scale-y: <value>;
+   * }
+   * ```
+   */
+  scale: WithDynamicClassName<ScaleAtomStyle>;
+  /**
+   * ```css
+   * .scaleX\:\:\[<value>\] {
+   *   --transform-scale-x: <value>;
+   * }
+   * ```
+   */
+  scaleX: WithDynamicClassName<ScaleXAtomStyle>;
+  /**
+   * ```css
+   * .scaleY\:\:\[<value>\] {
+   *   --transform-scale-y: <value>;
+   * }
+   * ```
+   */
+  scaleY: WithDynamicClassName<ScaleYAtomStyle>;
+  /**
+   * ```css
+   * .rotate\:\:\[<value>\] {
+   *   --transform-rotate: <value>;
+   * }
+   * ```
+   */
+  rotate: WithDynamicClassName<RotateAtomStyle>;
+  /**
+   * ```css
+   * .skewX\:\:\[<value>\] {
+   *   --transform-skew-x: <value>;
+   * }
+   * ```
+   */
+  skewX: WithDynamicClassName<SkewXAtomStyle>;
+  /**
+   * ```css
+   * .skewY\:\:\[<value>\] {
+   *   --transform-skew-y: <value>;
+   * }
+   * ```
+   */
+  skewY: WithDynamicClassName<SkewYAtomStyle>;
+  /**
+   * ```css
+   * .origin\:\:\[<value>\] {
+   *   transform-origin: <value>;
+   * }
+   * ```
+   */
+  origin: WithDynamicClassName<OriginAtomStyle>;
+  /**
+   * ```css
+   * .translateX\:\:\[<value>\] {
+   *   --transform-translate-x: <value>;
+   * }
+   * ```
+   */
+  translateX: WithDynamicClassName<TranslateXAtomStyle>;
+  /**
+   * ```css
+   * .translateY\:\:\[<value>\] {
+   *   --transform-translate-y: <value>;
+   * }
+   * ```
+   */
+  translateY: WithDynamicClassName<TranslateYAtomStyle>;
+  /**
+   * ```css
+   * .animation\:\:\[<value>\] {
    *   animation: <value>;
    * }
    * ```
@@ -1931,37 +2156,10 @@ type SkribbleModifierCssGroup35 = Omit<
   | ModifierKeys35
 >;
 
-interface FontAtomStyle {
-  /**
-   * ```css
-   * .font\:\$sans {
-   *   font-family: ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
-   * }
-   * ```
-   */
-  $sans: ClassName;
-  /**
-   * ```css
-   * .font\:\$serif {
-   *   font-family: ui-serif,Georgia,Cambria,"Times New Roman",Times,serif;
-   * }
-   * ```
-   */
-  $serif: ClassName;
-  /**
-   * ```css
-   * .font\:\$mono {
-   *   font-family: ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
-   * }
-   * ```
-   */
-  $mono: ClassName;
-}
-
 interface TextAtomStyle {
   /**
    * ```css
-   * .text\:\$inherit {
+   * .text\:\:\$inherit {
    *   --text-opacity: 1;
    *   color: inherit;
    * }
@@ -1970,7 +2168,7 @@ interface TextAtomStyle {
   $inherit: ClassName;
   /**
    * ```css
-   * .text\:\$current {
+   * .text\:\:\$current {
    *   --text-opacity: 1;
    *   color: currentColor;
    * }
@@ -1979,7 +2177,7 @@ interface TextAtomStyle {
   $current: ClassName;
   /**
    * ```css
-   * .text\:\$transparent {
+   * .text\:\:\$transparent {
    *   --text-opacity: 1;
    *   color: transparent;
    * }
@@ -1988,7 +2186,7 @@ interface TextAtomStyle {
   $transparent: ClassName;
   /**
    * ```css
-   * .text\:\$black {
+   * .text\:\:\$black {
    *   --text-opacity: 1;
    *   color: rgba(0, 0, 0, var(--text-opacity));
    * }
@@ -1997,7 +2195,7 @@ interface TextAtomStyle {
   $black: ClassName;
   /**
    * ```css
-   * .text\:\$white {
+   * .text\:\:\$white {
    *   --text-opacity: 1;
    *   color: rgba(255, 255, 255, var(--text-opacity));
    * }
@@ -2006,7 +2204,7 @@ interface TextAtomStyle {
   $white: ClassName;
   /**
    * ```css
-   * .text\:\$slate50 {
+   * .text\:\:\$slate50 {
    *   --text-opacity: 1;
    *   color: rgba(248, 250, 252, var(--text-opacity));
    * }
@@ -2015,7 +2213,7 @@ interface TextAtomStyle {
   $slate50: ClassName;
   /**
    * ```css
-   * .text\:\$slate100 {
+   * .text\:\:\$slate100 {
    *   --text-opacity: 1;
    *   color: rgba(241, 245, 249, var(--text-opacity));
    * }
@@ -2024,7 +2222,7 @@ interface TextAtomStyle {
   $slate100: ClassName;
   /**
    * ```css
-   * .text\:\$slate200 {
+   * .text\:\:\$slate200 {
    *   --text-opacity: 1;
    *   color: rgba(226, 232, 240, var(--text-opacity));
    * }
@@ -2033,7 +2231,7 @@ interface TextAtomStyle {
   $slate200: ClassName;
   /**
    * ```css
-   * .text\:\$slate300 {
+   * .text\:\:\$slate300 {
    *   --text-opacity: 1;
    *   color: rgba(203, 213, 225, var(--text-opacity));
    * }
@@ -2042,7 +2240,7 @@ interface TextAtomStyle {
   $slate300: ClassName;
   /**
    * ```css
-   * .text\:\$slate400 {
+   * .text\:\:\$slate400 {
    *   --text-opacity: 1;
    *   color: rgba(148, 163, 184, var(--text-opacity));
    * }
@@ -2051,7 +2249,7 @@ interface TextAtomStyle {
   $slate400: ClassName;
   /**
    * ```css
-   * .text\:\$slate500 {
+   * .text\:\:\$slate500 {
    *   --text-opacity: 1;
    *   color: rgba(100, 116, 139, var(--text-opacity));
    * }
@@ -2060,7 +2258,7 @@ interface TextAtomStyle {
   $slate500: ClassName;
   /**
    * ```css
-   * .text\:\$slate600 {
+   * .text\:\:\$slate600 {
    *   --text-opacity: 1;
    *   color: rgba(71, 85, 105, var(--text-opacity));
    * }
@@ -2069,7 +2267,7 @@ interface TextAtomStyle {
   $slate600: ClassName;
   /**
    * ```css
-   * .text\:\$slate700 {
+   * .text\:\:\$slate700 {
    *   --text-opacity: 1;
    *   color: rgba(51, 65, 85, var(--text-opacity));
    * }
@@ -2078,7 +2276,7 @@ interface TextAtomStyle {
   $slate700: ClassName;
   /**
    * ```css
-   * .text\:\$slate800 {
+   * .text\:\:\$slate800 {
    *   --text-opacity: 1;
    *   color: rgba(30, 41, 59, var(--text-opacity));
    * }
@@ -2087,7 +2285,7 @@ interface TextAtomStyle {
   $slate800: ClassName;
   /**
    * ```css
-   * .text\:\$slate900 {
+   * .text\:\:\$slate900 {
    *   --text-opacity: 1;
    *   color: rgba(15, 23, 42, var(--text-opacity));
    * }
@@ -2096,7 +2294,7 @@ interface TextAtomStyle {
   $slate900: ClassName;
   /**
    * ```css
-   * .text\:\$gray50 {
+   * .text\:\:\$gray50 {
    *   --text-opacity: 1;
    *   color: rgba(249, 250, 251, var(--text-opacity));
    * }
@@ -2105,7 +2303,7 @@ interface TextAtomStyle {
   $gray50: ClassName;
   /**
    * ```css
-   * .text\:\$gray100 {
+   * .text\:\:\$gray100 {
    *   --text-opacity: 1;
    *   color: rgba(243, 244, 246, var(--text-opacity));
    * }
@@ -2114,7 +2312,7 @@ interface TextAtomStyle {
   $gray100: ClassName;
   /**
    * ```css
-   * .text\:\$gray200 {
+   * .text\:\:\$gray200 {
    *   --text-opacity: 1;
    *   color: rgba(229, 231, 235, var(--text-opacity));
    * }
@@ -2123,7 +2321,7 @@ interface TextAtomStyle {
   $gray200: ClassName;
   /**
    * ```css
-   * .text\:\$gray300 {
+   * .text\:\:\$gray300 {
    *   --text-opacity: 1;
    *   color: rgba(209, 213, 219, var(--text-opacity));
    * }
@@ -2132,7 +2330,7 @@ interface TextAtomStyle {
   $gray300: ClassName;
   /**
    * ```css
-   * .text\:\$gray400 {
+   * .text\:\:\$gray400 {
    *   --text-opacity: 1;
    *   color: rgba(156, 163, 175, var(--text-opacity));
    * }
@@ -2141,7 +2339,7 @@ interface TextAtomStyle {
   $gray400: ClassName;
   /**
    * ```css
-   * .text\:\$gray500 {
+   * .text\:\:\$gray500 {
    *   --text-opacity: 1;
    *   color: rgba(107, 114, 128, var(--text-opacity));
    * }
@@ -2150,7 +2348,7 @@ interface TextAtomStyle {
   $gray500: ClassName;
   /**
    * ```css
-   * .text\:\$gray600 {
+   * .text\:\:\$gray600 {
    *   --text-opacity: 1;
    *   color: rgba(75, 85, 99, var(--text-opacity));
    * }
@@ -2159,7 +2357,7 @@ interface TextAtomStyle {
   $gray600: ClassName;
   /**
    * ```css
-   * .text\:\$gray700 {
+   * .text\:\:\$gray700 {
    *   --text-opacity: 1;
    *   color: rgba(55, 65, 81, var(--text-opacity));
    * }
@@ -2168,7 +2366,7 @@ interface TextAtomStyle {
   $gray700: ClassName;
   /**
    * ```css
-   * .text\:\$gray800 {
+   * .text\:\:\$gray800 {
    *   --text-opacity: 1;
    *   color: rgba(31, 41, 55, var(--text-opacity));
    * }
@@ -2177,7 +2375,7 @@ interface TextAtomStyle {
   $gray800: ClassName;
   /**
    * ```css
-   * .text\:\$gray900 {
+   * .text\:\:\$gray900 {
    *   --text-opacity: 1;
    *   color: rgba(17, 24, 39, var(--text-opacity));
    * }
@@ -2186,7 +2384,7 @@ interface TextAtomStyle {
   $gray900: ClassName;
   /**
    * ```css
-   * .text\:\$zinc50 {
+   * .text\:\:\$zinc50 {
    *   --text-opacity: 1;
    *   color: rgba(250, 250, 250, var(--text-opacity));
    * }
@@ -2195,7 +2393,7 @@ interface TextAtomStyle {
   $zinc50: ClassName;
   /**
    * ```css
-   * .text\:\$zinc100 {
+   * .text\:\:\$zinc100 {
    *   --text-opacity: 1;
    *   color: rgba(244, 244, 245, var(--text-opacity));
    * }
@@ -2204,7 +2402,7 @@ interface TextAtomStyle {
   $zinc100: ClassName;
   /**
    * ```css
-   * .text\:\$zinc200 {
+   * .text\:\:\$zinc200 {
    *   --text-opacity: 1;
    *   color: rgba(228, 228, 231, var(--text-opacity));
    * }
@@ -2213,7 +2411,7 @@ interface TextAtomStyle {
   $zinc200: ClassName;
   /**
    * ```css
-   * .text\:\$zinc300 {
+   * .text\:\:\$zinc300 {
    *   --text-opacity: 1;
    *   color: rgba(212, 212, 216, var(--text-opacity));
    * }
@@ -2222,7 +2420,7 @@ interface TextAtomStyle {
   $zinc300: ClassName;
   /**
    * ```css
-   * .text\:\$zinc400 {
+   * .text\:\:\$zinc400 {
    *   --text-opacity: 1;
    *   color: rgba(161, 161, 170, var(--text-opacity));
    * }
@@ -2231,7 +2429,7 @@ interface TextAtomStyle {
   $zinc400: ClassName;
   /**
    * ```css
-   * .text\:\$zinc500 {
+   * .text\:\:\$zinc500 {
    *   --text-opacity: 1;
    *   color: rgba(113, 113, 122, var(--text-opacity));
    * }
@@ -2240,7 +2438,7 @@ interface TextAtomStyle {
   $zinc500: ClassName;
   /**
    * ```css
-   * .text\:\$zinc600 {
+   * .text\:\:\$zinc600 {
    *   --text-opacity: 1;
    *   color: rgba(82, 82, 91, var(--text-opacity));
    * }
@@ -2249,7 +2447,7 @@ interface TextAtomStyle {
   $zinc600: ClassName;
   /**
    * ```css
-   * .text\:\$zinc700 {
+   * .text\:\:\$zinc700 {
    *   --text-opacity: 1;
    *   color: rgba(63, 63, 70, var(--text-opacity));
    * }
@@ -2258,7 +2456,7 @@ interface TextAtomStyle {
   $zinc700: ClassName;
   /**
    * ```css
-   * .text\:\$zinc800 {
+   * .text\:\:\$zinc800 {
    *   --text-opacity: 1;
    *   color: rgba(39, 39, 42, var(--text-opacity));
    * }
@@ -2267,7 +2465,7 @@ interface TextAtomStyle {
   $zinc800: ClassName;
   /**
    * ```css
-   * .text\:\$zinc900 {
+   * .text\:\:\$zinc900 {
    *   --text-opacity: 1;
    *   color: rgba(24, 24, 27, var(--text-opacity));
    * }
@@ -2276,7 +2474,7 @@ interface TextAtomStyle {
   $zinc900: ClassName;
   /**
    * ```css
-   * .text\:\$neutral50 {
+   * .text\:\:\$neutral50 {
    *   --text-opacity: 1;
    *   color: rgba(250, 250, 250, var(--text-opacity));
    * }
@@ -2285,7 +2483,7 @@ interface TextAtomStyle {
   $neutral50: ClassName;
   /**
    * ```css
-   * .text\:\$neutral100 {
+   * .text\:\:\$neutral100 {
    *   --text-opacity: 1;
    *   color: rgba(245, 245, 245, var(--text-opacity));
    * }
@@ -2294,7 +2492,7 @@ interface TextAtomStyle {
   $neutral100: ClassName;
   /**
    * ```css
-   * .text\:\$neutral200 {
+   * .text\:\:\$neutral200 {
    *   --text-opacity: 1;
    *   color: rgba(229, 229, 229, var(--text-opacity));
    * }
@@ -2303,7 +2501,7 @@ interface TextAtomStyle {
   $neutral200: ClassName;
   /**
    * ```css
-   * .text\:\$neutral300 {
+   * .text\:\:\$neutral300 {
    *   --text-opacity: 1;
    *   color: rgba(212, 212, 212, var(--text-opacity));
    * }
@@ -2312,7 +2510,7 @@ interface TextAtomStyle {
   $neutral300: ClassName;
   /**
    * ```css
-   * .text\:\$neutral400 {
+   * .text\:\:\$neutral400 {
    *   --text-opacity: 1;
    *   color: rgba(163, 163, 163, var(--text-opacity));
    * }
@@ -2321,7 +2519,7 @@ interface TextAtomStyle {
   $neutral400: ClassName;
   /**
    * ```css
-   * .text\:\$neutral500 {
+   * .text\:\:\$neutral500 {
    *   --text-opacity: 1;
    *   color: rgba(115, 115, 115, var(--text-opacity));
    * }
@@ -2330,7 +2528,7 @@ interface TextAtomStyle {
   $neutral500: ClassName;
   /**
    * ```css
-   * .text\:\$neutral600 {
+   * .text\:\:\$neutral600 {
    *   --text-opacity: 1;
    *   color: rgba(82, 82, 82, var(--text-opacity));
    * }
@@ -2339,7 +2537,7 @@ interface TextAtomStyle {
   $neutral600: ClassName;
   /**
    * ```css
-   * .text\:\$neutral700 {
+   * .text\:\:\$neutral700 {
    *   --text-opacity: 1;
    *   color: rgba(64, 64, 64, var(--text-opacity));
    * }
@@ -2348,7 +2546,7 @@ interface TextAtomStyle {
   $neutral700: ClassName;
   /**
    * ```css
-   * .text\:\$neutral800 {
+   * .text\:\:\$neutral800 {
    *   --text-opacity: 1;
    *   color: rgba(38, 38, 38, var(--text-opacity));
    * }
@@ -2357,7 +2555,7 @@ interface TextAtomStyle {
   $neutral800: ClassName;
   /**
    * ```css
-   * .text\:\$neutral900 {
+   * .text\:\:\$neutral900 {
    *   --text-opacity: 1;
    *   color: rgba(23, 23, 23, var(--text-opacity));
    * }
@@ -2366,7 +2564,7 @@ interface TextAtomStyle {
   $neutral900: ClassName;
   /**
    * ```css
-   * .text\:\$stone50 {
+   * .text\:\:\$stone50 {
    *   --text-opacity: 1;
    *   color: rgba(250, 250, 249, var(--text-opacity));
    * }
@@ -2375,7 +2573,7 @@ interface TextAtomStyle {
   $stone50: ClassName;
   /**
    * ```css
-   * .text\:\$stone100 {
+   * .text\:\:\$stone100 {
    *   --text-opacity: 1;
    *   color: rgba(245, 245, 244, var(--text-opacity));
    * }
@@ -2384,7 +2582,7 @@ interface TextAtomStyle {
   $stone100: ClassName;
   /**
    * ```css
-   * .text\:\$stone200 {
+   * .text\:\:\$stone200 {
    *   --text-opacity: 1;
    *   color: rgba(231, 229, 228, var(--text-opacity));
    * }
@@ -2393,7 +2591,7 @@ interface TextAtomStyle {
   $stone200: ClassName;
   /**
    * ```css
-   * .text\:\$stone300 {
+   * .text\:\:\$stone300 {
    *   --text-opacity: 1;
    *   color: rgba(214, 211, 209, var(--text-opacity));
    * }
@@ -2402,7 +2600,7 @@ interface TextAtomStyle {
   $stone300: ClassName;
   /**
    * ```css
-   * .text\:\$stone400 {
+   * .text\:\:\$stone400 {
    *   --text-opacity: 1;
    *   color: rgba(168, 162, 158, var(--text-opacity));
    * }
@@ -2411,7 +2609,7 @@ interface TextAtomStyle {
   $stone400: ClassName;
   /**
    * ```css
-   * .text\:\$stone500 {
+   * .text\:\:\$stone500 {
    *   --text-opacity: 1;
    *   color: rgba(120, 113, 108, var(--text-opacity));
    * }
@@ -2420,7 +2618,7 @@ interface TextAtomStyle {
   $stone500: ClassName;
   /**
    * ```css
-   * .text\:\$stone600 {
+   * .text\:\:\$stone600 {
    *   --text-opacity: 1;
    *   color: rgba(87, 83, 78, var(--text-opacity));
    * }
@@ -2429,7 +2627,7 @@ interface TextAtomStyle {
   $stone600: ClassName;
   /**
    * ```css
-   * .text\:\$stone700 {
+   * .text\:\:\$stone700 {
    *   --text-opacity: 1;
    *   color: rgba(68, 64, 60, var(--text-opacity));
    * }
@@ -2438,7 +2636,7 @@ interface TextAtomStyle {
   $stone700: ClassName;
   /**
    * ```css
-   * .text\:\$stone800 {
+   * .text\:\:\$stone800 {
    *   --text-opacity: 1;
    *   color: rgba(41, 37, 36, var(--text-opacity));
    * }
@@ -2447,7 +2645,7 @@ interface TextAtomStyle {
   $stone800: ClassName;
   /**
    * ```css
-   * .text\:\$stone900 {
+   * .text\:\:\$stone900 {
    *   --text-opacity: 1;
    *   color: rgba(28, 25, 23, var(--text-opacity));
    * }
@@ -2456,7 +2654,7 @@ interface TextAtomStyle {
   $stone900: ClassName;
   /**
    * ```css
-   * .text\:\$red50 {
+   * .text\:\:\$red50 {
    *   --text-opacity: 1;
    *   color: rgba(254, 242, 242, var(--text-opacity));
    * }
@@ -2465,7 +2663,7 @@ interface TextAtomStyle {
   $red50: ClassName;
   /**
    * ```css
-   * .text\:\$red100 {
+   * .text\:\:\$red100 {
    *   --text-opacity: 1;
    *   color: rgba(254, 226, 226, var(--text-opacity));
    * }
@@ -2474,7 +2672,7 @@ interface TextAtomStyle {
   $red100: ClassName;
   /**
    * ```css
-   * .text\:\$red200 {
+   * .text\:\:\$red200 {
    *   --text-opacity: 1;
    *   color: rgba(254, 202, 202, var(--text-opacity));
    * }
@@ -2483,7 +2681,7 @@ interface TextAtomStyle {
   $red200: ClassName;
   /**
    * ```css
-   * .text\:\$red300 {
+   * .text\:\:\$red300 {
    *   --text-opacity: 1;
    *   color: rgba(252, 165, 165, var(--text-opacity));
    * }
@@ -2492,7 +2690,7 @@ interface TextAtomStyle {
   $red300: ClassName;
   /**
    * ```css
-   * .text\:\$red400 {
+   * .text\:\:\$red400 {
    *   --text-opacity: 1;
    *   color: rgba(248, 113, 113, var(--text-opacity));
    * }
@@ -2501,7 +2699,7 @@ interface TextAtomStyle {
   $red400: ClassName;
   /**
    * ```css
-   * .text\:\$red500 {
+   * .text\:\:\$red500 {
    *   --text-opacity: 1;
    *   color: rgba(239, 68, 68, var(--text-opacity));
    * }
@@ -2510,7 +2708,7 @@ interface TextAtomStyle {
   $red500: ClassName;
   /**
    * ```css
-   * .text\:\$red600 {
+   * .text\:\:\$red600 {
    *   --text-opacity: 1;
    *   color: rgba(220, 38, 38, var(--text-opacity));
    * }
@@ -2519,7 +2717,7 @@ interface TextAtomStyle {
   $red600: ClassName;
   /**
    * ```css
-   * .text\:\$red700 {
+   * .text\:\:\$red700 {
    *   --text-opacity: 1;
    *   color: rgba(185, 28, 28, var(--text-opacity));
    * }
@@ -2528,7 +2726,7 @@ interface TextAtomStyle {
   $red700: ClassName;
   /**
    * ```css
-   * .text\:\$red800 {
+   * .text\:\:\$red800 {
    *   --text-opacity: 1;
    *   color: rgba(153, 27, 27, var(--text-opacity));
    * }
@@ -2537,7 +2735,7 @@ interface TextAtomStyle {
   $red800: ClassName;
   /**
    * ```css
-   * .text\:\$red900 {
+   * .text\:\:\$red900 {
    *   --text-opacity: 1;
    *   color: rgba(127, 29, 29, var(--text-opacity));
    * }
@@ -2546,7 +2744,7 @@ interface TextAtomStyle {
   $red900: ClassName;
   /**
    * ```css
-   * .text\:\$orange50 {
+   * .text\:\:\$orange50 {
    *   --text-opacity: 1;
    *   color: rgba(255, 247, 237, var(--text-opacity));
    * }
@@ -2555,7 +2753,7 @@ interface TextAtomStyle {
   $orange50: ClassName;
   /**
    * ```css
-   * .text\:\$orange100 {
+   * .text\:\:\$orange100 {
    *   --text-opacity: 1;
    *   color: rgba(255, 237, 213, var(--text-opacity));
    * }
@@ -2564,7 +2762,7 @@ interface TextAtomStyle {
   $orange100: ClassName;
   /**
    * ```css
-   * .text\:\$orange200 {
+   * .text\:\:\$orange200 {
    *   --text-opacity: 1;
    *   color: rgba(254, 215, 170, var(--text-opacity));
    * }
@@ -2573,7 +2771,7 @@ interface TextAtomStyle {
   $orange200: ClassName;
   /**
    * ```css
-   * .text\:\$orange300 {
+   * .text\:\:\$orange300 {
    *   --text-opacity: 1;
    *   color: rgba(253, 186, 116, var(--text-opacity));
    * }
@@ -2582,7 +2780,7 @@ interface TextAtomStyle {
   $orange300: ClassName;
   /**
    * ```css
-   * .text\:\$orange400 {
+   * .text\:\:\$orange400 {
    *   --text-opacity: 1;
    *   color: rgba(251, 146, 60, var(--text-opacity));
    * }
@@ -2591,7 +2789,7 @@ interface TextAtomStyle {
   $orange400: ClassName;
   /**
    * ```css
-   * .text\:\$orange500 {
+   * .text\:\:\$orange500 {
    *   --text-opacity: 1;
    *   color: rgba(249, 115, 22, var(--text-opacity));
    * }
@@ -2600,7 +2798,7 @@ interface TextAtomStyle {
   $orange500: ClassName;
   /**
    * ```css
-   * .text\:\$orange600 {
+   * .text\:\:\$orange600 {
    *   --text-opacity: 1;
    *   color: rgba(234, 88, 12, var(--text-opacity));
    * }
@@ -2609,7 +2807,7 @@ interface TextAtomStyle {
   $orange600: ClassName;
   /**
    * ```css
-   * .text\:\$orange700 {
+   * .text\:\:\$orange700 {
    *   --text-opacity: 1;
    *   color: rgba(194, 65, 12, var(--text-opacity));
    * }
@@ -2618,7 +2816,7 @@ interface TextAtomStyle {
   $orange700: ClassName;
   /**
    * ```css
-   * .text\:\$orange800 {
+   * .text\:\:\$orange800 {
    *   --text-opacity: 1;
    *   color: rgba(154, 52, 18, var(--text-opacity));
    * }
@@ -2627,7 +2825,7 @@ interface TextAtomStyle {
   $orange800: ClassName;
   /**
    * ```css
-   * .text\:\$orange900 {
+   * .text\:\:\$orange900 {
    *   --text-opacity: 1;
    *   color: rgba(124, 45, 18, var(--text-opacity));
    * }
@@ -2636,7 +2834,7 @@ interface TextAtomStyle {
   $orange900: ClassName;
   /**
    * ```css
-   * .text\:\$amber50 {
+   * .text\:\:\$amber50 {
    *   --text-opacity: 1;
    *   color: rgba(255, 251, 235, var(--text-opacity));
    * }
@@ -2645,7 +2843,7 @@ interface TextAtomStyle {
   $amber50: ClassName;
   /**
    * ```css
-   * .text\:\$amber100 {
+   * .text\:\:\$amber100 {
    *   --text-opacity: 1;
    *   color: rgba(254, 243, 199, var(--text-opacity));
    * }
@@ -2654,7 +2852,7 @@ interface TextAtomStyle {
   $amber100: ClassName;
   /**
    * ```css
-   * .text\:\$amber200 {
+   * .text\:\:\$amber200 {
    *   --text-opacity: 1;
    *   color: rgba(253, 230, 138, var(--text-opacity));
    * }
@@ -2663,7 +2861,7 @@ interface TextAtomStyle {
   $amber200: ClassName;
   /**
    * ```css
-   * .text\:\$amber300 {
+   * .text\:\:\$amber300 {
    *   --text-opacity: 1;
    *   color: rgba(252, 211, 77, var(--text-opacity));
    * }
@@ -2672,7 +2870,7 @@ interface TextAtomStyle {
   $amber300: ClassName;
   /**
    * ```css
-   * .text\:\$amber400 {
+   * .text\:\:\$amber400 {
    *   --text-opacity: 1;
    *   color: rgba(251, 191, 36, var(--text-opacity));
    * }
@@ -2681,7 +2879,7 @@ interface TextAtomStyle {
   $amber400: ClassName;
   /**
    * ```css
-   * .text\:\$amber500 {
+   * .text\:\:\$amber500 {
    *   --text-opacity: 1;
    *   color: rgba(245, 158, 11, var(--text-opacity));
    * }
@@ -2690,7 +2888,7 @@ interface TextAtomStyle {
   $amber500: ClassName;
   /**
    * ```css
-   * .text\:\$amber600 {
+   * .text\:\:\$amber600 {
    *   --text-opacity: 1;
    *   color: rgba(217, 119, 6, var(--text-opacity));
    * }
@@ -2699,7 +2897,7 @@ interface TextAtomStyle {
   $amber600: ClassName;
   /**
    * ```css
-   * .text\:\$amber700 {
+   * .text\:\:\$amber700 {
    *   --text-opacity: 1;
    *   color: rgba(180, 83, 9, var(--text-opacity));
    * }
@@ -2708,7 +2906,7 @@ interface TextAtomStyle {
   $amber700: ClassName;
   /**
    * ```css
-   * .text\:\$amber800 {
+   * .text\:\:\$amber800 {
    *   --text-opacity: 1;
    *   color: rgba(146, 64, 14, var(--text-opacity));
    * }
@@ -2717,7 +2915,7 @@ interface TextAtomStyle {
   $amber800: ClassName;
   /**
    * ```css
-   * .text\:\$amber900 {
+   * .text\:\:\$amber900 {
    *   --text-opacity: 1;
    *   color: rgba(120, 53, 15, var(--text-opacity));
    * }
@@ -2726,7 +2924,7 @@ interface TextAtomStyle {
   $amber900: ClassName;
   /**
    * ```css
-   * .text\:\$yellow50 {
+   * .text\:\:\$yellow50 {
    *   --text-opacity: 1;
    *   color: rgba(254, 252, 232, var(--text-opacity));
    * }
@@ -2735,7 +2933,7 @@ interface TextAtomStyle {
   $yellow50: ClassName;
   /**
    * ```css
-   * .text\:\$yellow100 {
+   * .text\:\:\$yellow100 {
    *   --text-opacity: 1;
    *   color: rgba(254, 249, 195, var(--text-opacity));
    * }
@@ -2744,7 +2942,7 @@ interface TextAtomStyle {
   $yellow100: ClassName;
   /**
    * ```css
-   * .text\:\$yellow200 {
+   * .text\:\:\$yellow200 {
    *   --text-opacity: 1;
    *   color: rgba(254, 240, 138, var(--text-opacity));
    * }
@@ -2753,7 +2951,7 @@ interface TextAtomStyle {
   $yellow200: ClassName;
   /**
    * ```css
-   * .text\:\$yellow300 {
+   * .text\:\:\$yellow300 {
    *   --text-opacity: 1;
    *   color: rgba(253, 224, 71, var(--text-opacity));
    * }
@@ -2762,7 +2960,7 @@ interface TextAtomStyle {
   $yellow300: ClassName;
   /**
    * ```css
-   * .text\:\$yellow400 {
+   * .text\:\:\$yellow400 {
    *   --text-opacity: 1;
    *   color: rgba(250, 204, 21, var(--text-opacity));
    * }
@@ -2771,7 +2969,7 @@ interface TextAtomStyle {
   $yellow400: ClassName;
   /**
    * ```css
-   * .text\:\$yellow500 {
+   * .text\:\:\$yellow500 {
    *   --text-opacity: 1;
    *   color: rgba(234, 179, 8, var(--text-opacity));
    * }
@@ -2780,7 +2978,7 @@ interface TextAtomStyle {
   $yellow500: ClassName;
   /**
    * ```css
-   * .text\:\$yellow600 {
+   * .text\:\:\$yellow600 {
    *   --text-opacity: 1;
    *   color: rgba(202, 138, 4, var(--text-opacity));
    * }
@@ -2789,7 +2987,7 @@ interface TextAtomStyle {
   $yellow600: ClassName;
   /**
    * ```css
-   * .text\:\$yellow700 {
+   * .text\:\:\$yellow700 {
    *   --text-opacity: 1;
    *   color: rgba(161, 98, 7, var(--text-opacity));
    * }
@@ -2798,7 +2996,7 @@ interface TextAtomStyle {
   $yellow700: ClassName;
   /**
    * ```css
-   * .text\:\$yellow800 {
+   * .text\:\:\$yellow800 {
    *   --text-opacity: 1;
    *   color: rgba(133, 77, 14, var(--text-opacity));
    * }
@@ -2807,7 +3005,7 @@ interface TextAtomStyle {
   $yellow800: ClassName;
   /**
    * ```css
-   * .text\:\$yellow900 {
+   * .text\:\:\$yellow900 {
    *   --text-opacity: 1;
    *   color: rgba(113, 63, 18, var(--text-opacity));
    * }
@@ -2816,7 +3014,7 @@ interface TextAtomStyle {
   $yellow900: ClassName;
   /**
    * ```css
-   * .text\:\$lime50 {
+   * .text\:\:\$lime50 {
    *   --text-opacity: 1;
    *   color: rgba(247, 254, 231, var(--text-opacity));
    * }
@@ -2825,7 +3023,7 @@ interface TextAtomStyle {
   $lime50: ClassName;
   /**
    * ```css
-   * .text\:\$lime100 {
+   * .text\:\:\$lime100 {
    *   --text-opacity: 1;
    *   color: rgba(236, 252, 203, var(--text-opacity));
    * }
@@ -2834,7 +3032,7 @@ interface TextAtomStyle {
   $lime100: ClassName;
   /**
    * ```css
-   * .text\:\$lime200 {
+   * .text\:\:\$lime200 {
    *   --text-opacity: 1;
    *   color: rgba(217, 249, 157, var(--text-opacity));
    * }
@@ -2843,7 +3041,7 @@ interface TextAtomStyle {
   $lime200: ClassName;
   /**
    * ```css
-   * .text\:\$lime300 {
+   * .text\:\:\$lime300 {
    *   --text-opacity: 1;
    *   color: rgba(190, 242, 100, var(--text-opacity));
    * }
@@ -2852,7 +3050,7 @@ interface TextAtomStyle {
   $lime300: ClassName;
   /**
    * ```css
-   * .text\:\$lime400 {
+   * .text\:\:\$lime400 {
    *   --text-opacity: 1;
    *   color: rgba(163, 230, 53, var(--text-opacity));
    * }
@@ -2861,7 +3059,7 @@ interface TextAtomStyle {
   $lime400: ClassName;
   /**
    * ```css
-   * .text\:\$lime500 {
+   * .text\:\:\$lime500 {
    *   --text-opacity: 1;
    *   color: rgba(132, 204, 22, var(--text-opacity));
    * }
@@ -2870,7 +3068,7 @@ interface TextAtomStyle {
   $lime500: ClassName;
   /**
    * ```css
-   * .text\:\$lime600 {
+   * .text\:\:\$lime600 {
    *   --text-opacity: 1;
    *   color: rgba(101, 163, 13, var(--text-opacity));
    * }
@@ -2879,7 +3077,7 @@ interface TextAtomStyle {
   $lime600: ClassName;
   /**
    * ```css
-   * .text\:\$lime700 {
+   * .text\:\:\$lime700 {
    *   --text-opacity: 1;
    *   color: rgba(77, 124, 15, var(--text-opacity));
    * }
@@ -2888,7 +3086,7 @@ interface TextAtomStyle {
   $lime700: ClassName;
   /**
    * ```css
-   * .text\:\$lime800 {
+   * .text\:\:\$lime800 {
    *   --text-opacity: 1;
    *   color: rgba(63, 98, 18, var(--text-opacity));
    * }
@@ -2897,7 +3095,7 @@ interface TextAtomStyle {
   $lime800: ClassName;
   /**
    * ```css
-   * .text\:\$lime900 {
+   * .text\:\:\$lime900 {
    *   --text-opacity: 1;
    *   color: rgba(54, 83, 20, var(--text-opacity));
    * }
@@ -2906,7 +3104,7 @@ interface TextAtomStyle {
   $lime900: ClassName;
   /**
    * ```css
-   * .text\:\$green50 {
+   * .text\:\:\$green50 {
    *   --text-opacity: 1;
    *   color: rgba(240, 253, 244, var(--text-opacity));
    * }
@@ -2915,7 +3113,7 @@ interface TextAtomStyle {
   $green50: ClassName;
   /**
    * ```css
-   * .text\:\$green100 {
+   * .text\:\:\$green100 {
    *   --text-opacity: 1;
    *   color: rgba(220, 252, 231, var(--text-opacity));
    * }
@@ -2924,7 +3122,7 @@ interface TextAtomStyle {
   $green100: ClassName;
   /**
    * ```css
-   * .text\:\$green200 {
+   * .text\:\:\$green200 {
    *   --text-opacity: 1;
    *   color: rgba(187, 247, 208, var(--text-opacity));
    * }
@@ -2933,7 +3131,7 @@ interface TextAtomStyle {
   $green200: ClassName;
   /**
    * ```css
-   * .text\:\$green300 {
+   * .text\:\:\$green300 {
    *   --text-opacity: 1;
    *   color: rgba(134, 239, 172, var(--text-opacity));
    * }
@@ -2942,7 +3140,7 @@ interface TextAtomStyle {
   $green300: ClassName;
   /**
    * ```css
-   * .text\:\$green400 {
+   * .text\:\:\$green400 {
    *   --text-opacity: 1;
    *   color: rgba(74, 222, 128, var(--text-opacity));
    * }
@@ -2951,7 +3149,7 @@ interface TextAtomStyle {
   $green400: ClassName;
   /**
    * ```css
-   * .text\:\$green500 {
+   * .text\:\:\$green500 {
    *   --text-opacity: 1;
    *   color: rgba(34, 197, 94, var(--text-opacity));
    * }
@@ -2960,7 +3158,7 @@ interface TextAtomStyle {
   $green500: ClassName;
   /**
    * ```css
-   * .text\:\$green600 {
+   * .text\:\:\$green600 {
    *   --text-opacity: 1;
    *   color: rgba(22, 163, 74, var(--text-opacity));
    * }
@@ -2969,7 +3167,7 @@ interface TextAtomStyle {
   $green600: ClassName;
   /**
    * ```css
-   * .text\:\$green700 {
+   * .text\:\:\$green700 {
    *   --text-opacity: 1;
    *   color: rgba(21, 128, 61, var(--text-opacity));
    * }
@@ -2978,7 +3176,7 @@ interface TextAtomStyle {
   $green700: ClassName;
   /**
    * ```css
-   * .text\:\$green800 {
+   * .text\:\:\$green800 {
    *   --text-opacity: 1;
    *   color: rgba(22, 101, 52, var(--text-opacity));
    * }
@@ -2987,7 +3185,7 @@ interface TextAtomStyle {
   $green800: ClassName;
   /**
    * ```css
-   * .text\:\$green900 {
+   * .text\:\:\$green900 {
    *   --text-opacity: 1;
    *   color: rgba(20, 83, 45, var(--text-opacity));
    * }
@@ -2996,7 +3194,7 @@ interface TextAtomStyle {
   $green900: ClassName;
   /**
    * ```css
-   * .text\:\$emerald50 {
+   * .text\:\:\$emerald50 {
    *   --text-opacity: 1;
    *   color: rgba(236, 253, 245, var(--text-opacity));
    * }
@@ -3005,7 +3203,7 @@ interface TextAtomStyle {
   $emerald50: ClassName;
   /**
    * ```css
-   * .text\:\$emerald100 {
+   * .text\:\:\$emerald100 {
    *   --text-opacity: 1;
    *   color: rgba(209, 250, 229, var(--text-opacity));
    * }
@@ -3014,7 +3212,7 @@ interface TextAtomStyle {
   $emerald100: ClassName;
   /**
    * ```css
-   * .text\:\$emerald200 {
+   * .text\:\:\$emerald200 {
    *   --text-opacity: 1;
    *   color: rgba(167, 243, 208, var(--text-opacity));
    * }
@@ -3023,7 +3221,7 @@ interface TextAtomStyle {
   $emerald200: ClassName;
   /**
    * ```css
-   * .text\:\$emerald300 {
+   * .text\:\:\$emerald300 {
    *   --text-opacity: 1;
    *   color: rgba(110, 231, 183, var(--text-opacity));
    * }
@@ -3032,7 +3230,7 @@ interface TextAtomStyle {
   $emerald300: ClassName;
   /**
    * ```css
-   * .text\:\$emerald400 {
+   * .text\:\:\$emerald400 {
    *   --text-opacity: 1;
    *   color: rgba(52, 211, 153, var(--text-opacity));
    * }
@@ -3041,7 +3239,7 @@ interface TextAtomStyle {
   $emerald400: ClassName;
   /**
    * ```css
-   * .text\:\$emerald500 {
+   * .text\:\:\$emerald500 {
    *   --text-opacity: 1;
    *   color: rgba(16, 185, 129, var(--text-opacity));
    * }
@@ -3050,7 +3248,7 @@ interface TextAtomStyle {
   $emerald500: ClassName;
   /**
    * ```css
-   * .text\:\$emerald600 {
+   * .text\:\:\$emerald600 {
    *   --text-opacity: 1;
    *   color: rgba(5, 150, 105, var(--text-opacity));
    * }
@@ -3059,7 +3257,7 @@ interface TextAtomStyle {
   $emerald600: ClassName;
   /**
    * ```css
-   * .text\:\$emerald700 {
+   * .text\:\:\$emerald700 {
    *   --text-opacity: 1;
    *   color: rgba(4, 120, 87, var(--text-opacity));
    * }
@@ -3068,7 +3266,7 @@ interface TextAtomStyle {
   $emerald700: ClassName;
   /**
    * ```css
-   * .text\:\$emerald800 {
+   * .text\:\:\$emerald800 {
    *   --text-opacity: 1;
    *   color: rgba(6, 95, 70, var(--text-opacity));
    * }
@@ -3077,7 +3275,7 @@ interface TextAtomStyle {
   $emerald800: ClassName;
   /**
    * ```css
-   * .text\:\$emerald900 {
+   * .text\:\:\$emerald900 {
    *   --text-opacity: 1;
    *   color: rgba(6, 78, 59, var(--text-opacity));
    * }
@@ -3086,7 +3284,7 @@ interface TextAtomStyle {
   $emerald900: ClassName;
   /**
    * ```css
-   * .text\:\$teal50 {
+   * .text\:\:\$teal50 {
    *   --text-opacity: 1;
    *   color: rgba(240, 253, 250, var(--text-opacity));
    * }
@@ -3095,7 +3293,7 @@ interface TextAtomStyle {
   $teal50: ClassName;
   /**
    * ```css
-   * .text\:\$teal100 {
+   * .text\:\:\$teal100 {
    *   --text-opacity: 1;
    *   color: rgba(204, 251, 241, var(--text-opacity));
    * }
@@ -3104,7 +3302,7 @@ interface TextAtomStyle {
   $teal100: ClassName;
   /**
    * ```css
-   * .text\:\$teal200 {
+   * .text\:\:\$teal200 {
    *   --text-opacity: 1;
    *   color: rgba(153, 246, 228, var(--text-opacity));
    * }
@@ -3113,7 +3311,7 @@ interface TextAtomStyle {
   $teal200: ClassName;
   /**
    * ```css
-   * .text\:\$teal300 {
+   * .text\:\:\$teal300 {
    *   --text-opacity: 1;
    *   color: rgba(94, 234, 212, var(--text-opacity));
    * }
@@ -3122,7 +3320,7 @@ interface TextAtomStyle {
   $teal300: ClassName;
   /**
    * ```css
-   * .text\:\$teal400 {
+   * .text\:\:\$teal400 {
    *   --text-opacity: 1;
    *   color: rgba(45, 212, 191, var(--text-opacity));
    * }
@@ -3131,7 +3329,7 @@ interface TextAtomStyle {
   $teal400: ClassName;
   /**
    * ```css
-   * .text\:\$teal500 {
+   * .text\:\:\$teal500 {
    *   --text-opacity: 1;
    *   color: rgba(20, 184, 166, var(--text-opacity));
    * }
@@ -3140,7 +3338,7 @@ interface TextAtomStyle {
   $teal500: ClassName;
   /**
    * ```css
-   * .text\:\$teal600 {
+   * .text\:\:\$teal600 {
    *   --text-opacity: 1;
    *   color: rgba(13, 148, 136, var(--text-opacity));
    * }
@@ -3149,7 +3347,7 @@ interface TextAtomStyle {
   $teal600: ClassName;
   /**
    * ```css
-   * .text\:\$teal700 {
+   * .text\:\:\$teal700 {
    *   --text-opacity: 1;
    *   color: rgba(15, 118, 110, var(--text-opacity));
    * }
@@ -3158,7 +3356,7 @@ interface TextAtomStyle {
   $teal700: ClassName;
   /**
    * ```css
-   * .text\:\$teal800 {
+   * .text\:\:\$teal800 {
    *   --text-opacity: 1;
    *   color: rgba(17, 94, 89, var(--text-opacity));
    * }
@@ -3167,7 +3365,7 @@ interface TextAtomStyle {
   $teal800: ClassName;
   /**
    * ```css
-   * .text\:\$teal900 {
+   * .text\:\:\$teal900 {
    *   --text-opacity: 1;
    *   color: rgba(19, 78, 74, var(--text-opacity));
    * }
@@ -3176,7 +3374,7 @@ interface TextAtomStyle {
   $teal900: ClassName;
   /**
    * ```css
-   * .text\:\$cyan50 {
+   * .text\:\:\$cyan50 {
    *   --text-opacity: 1;
    *   color: rgba(236, 254, 255, var(--text-opacity));
    * }
@@ -3185,7 +3383,7 @@ interface TextAtomStyle {
   $cyan50: ClassName;
   /**
    * ```css
-   * .text\:\$cyan100 {
+   * .text\:\:\$cyan100 {
    *   --text-opacity: 1;
    *   color: rgba(207, 250, 254, var(--text-opacity));
    * }
@@ -3194,7 +3392,7 @@ interface TextAtomStyle {
   $cyan100: ClassName;
   /**
    * ```css
-   * .text\:\$cyan200 {
+   * .text\:\:\$cyan200 {
    *   --text-opacity: 1;
    *   color: rgba(165, 243, 252, var(--text-opacity));
    * }
@@ -3203,7 +3401,7 @@ interface TextAtomStyle {
   $cyan200: ClassName;
   /**
    * ```css
-   * .text\:\$cyan300 {
+   * .text\:\:\$cyan300 {
    *   --text-opacity: 1;
    *   color: rgba(103, 232, 249, var(--text-opacity));
    * }
@@ -3212,7 +3410,7 @@ interface TextAtomStyle {
   $cyan300: ClassName;
   /**
    * ```css
-   * .text\:\$cyan400 {
+   * .text\:\:\$cyan400 {
    *   --text-opacity: 1;
    *   color: rgba(34, 211, 238, var(--text-opacity));
    * }
@@ -3221,7 +3419,7 @@ interface TextAtomStyle {
   $cyan400: ClassName;
   /**
    * ```css
-   * .text\:\$cyan500 {
+   * .text\:\:\$cyan500 {
    *   --text-opacity: 1;
    *   color: rgba(6, 182, 212, var(--text-opacity));
    * }
@@ -3230,7 +3428,7 @@ interface TextAtomStyle {
   $cyan500: ClassName;
   /**
    * ```css
-   * .text\:\$cyan600 {
+   * .text\:\:\$cyan600 {
    *   --text-opacity: 1;
    *   color: rgba(8, 145, 178, var(--text-opacity));
    * }
@@ -3239,7 +3437,7 @@ interface TextAtomStyle {
   $cyan600: ClassName;
   /**
    * ```css
-   * .text\:\$cyan700 {
+   * .text\:\:\$cyan700 {
    *   --text-opacity: 1;
    *   color: rgba(14, 116, 144, var(--text-opacity));
    * }
@@ -3248,7 +3446,7 @@ interface TextAtomStyle {
   $cyan700: ClassName;
   /**
    * ```css
-   * .text\:\$cyan800 {
+   * .text\:\:\$cyan800 {
    *   --text-opacity: 1;
    *   color: rgba(21, 94, 117, var(--text-opacity));
    * }
@@ -3257,7 +3455,7 @@ interface TextAtomStyle {
   $cyan800: ClassName;
   /**
    * ```css
-   * .text\:\$cyan900 {
+   * .text\:\:\$cyan900 {
    *   --text-opacity: 1;
    *   color: rgba(22, 78, 99, var(--text-opacity));
    * }
@@ -3266,7 +3464,7 @@ interface TextAtomStyle {
   $cyan900: ClassName;
   /**
    * ```css
-   * .text\:\$sky50 {
+   * .text\:\:\$sky50 {
    *   --text-opacity: 1;
    *   color: rgba(240, 249, 255, var(--text-opacity));
    * }
@@ -3275,7 +3473,7 @@ interface TextAtomStyle {
   $sky50: ClassName;
   /**
    * ```css
-   * .text\:\$sky100 {
+   * .text\:\:\$sky100 {
    *   --text-opacity: 1;
    *   color: rgba(224, 242, 254, var(--text-opacity));
    * }
@@ -3284,7 +3482,7 @@ interface TextAtomStyle {
   $sky100: ClassName;
   /**
    * ```css
-   * .text\:\$sky200 {
+   * .text\:\:\$sky200 {
    *   --text-opacity: 1;
    *   color: rgba(186, 230, 253, var(--text-opacity));
    * }
@@ -3293,7 +3491,7 @@ interface TextAtomStyle {
   $sky200: ClassName;
   /**
    * ```css
-   * .text\:\$sky300 {
+   * .text\:\:\$sky300 {
    *   --text-opacity: 1;
    *   color: rgba(125, 211, 252, var(--text-opacity));
    * }
@@ -3302,7 +3500,7 @@ interface TextAtomStyle {
   $sky300: ClassName;
   /**
    * ```css
-   * .text\:\$sky400 {
+   * .text\:\:\$sky400 {
    *   --text-opacity: 1;
    *   color: rgba(56, 189, 248, var(--text-opacity));
    * }
@@ -3311,7 +3509,7 @@ interface TextAtomStyle {
   $sky400: ClassName;
   /**
    * ```css
-   * .text\:\$sky500 {
+   * .text\:\:\$sky500 {
    *   --text-opacity: 1;
    *   color: rgba(14, 165, 233, var(--text-opacity));
    * }
@@ -3320,7 +3518,7 @@ interface TextAtomStyle {
   $sky500: ClassName;
   /**
    * ```css
-   * .text\:\$sky600 {
+   * .text\:\:\$sky600 {
    *   --text-opacity: 1;
    *   color: rgba(2, 132, 199, var(--text-opacity));
    * }
@@ -3329,7 +3527,7 @@ interface TextAtomStyle {
   $sky600: ClassName;
   /**
    * ```css
-   * .text\:\$sky700 {
+   * .text\:\:\$sky700 {
    *   --text-opacity: 1;
    *   color: rgba(3, 105, 161, var(--text-opacity));
    * }
@@ -3338,7 +3536,7 @@ interface TextAtomStyle {
   $sky700: ClassName;
   /**
    * ```css
-   * .text\:\$sky800 {
+   * .text\:\:\$sky800 {
    *   --text-opacity: 1;
    *   color: rgba(7, 89, 133, var(--text-opacity));
    * }
@@ -3347,7 +3545,7 @@ interface TextAtomStyle {
   $sky800: ClassName;
   /**
    * ```css
-   * .text\:\$sky900 {
+   * .text\:\:\$sky900 {
    *   --text-opacity: 1;
    *   color: rgba(12, 74, 110, var(--text-opacity));
    * }
@@ -3356,7 +3554,7 @@ interface TextAtomStyle {
   $sky900: ClassName;
   /**
    * ```css
-   * .text\:\$blue50 {
+   * .text\:\:\$blue50 {
    *   --text-opacity: 1;
    *   color: rgba(239, 246, 255, var(--text-opacity));
    * }
@@ -3365,7 +3563,7 @@ interface TextAtomStyle {
   $blue50: ClassName;
   /**
    * ```css
-   * .text\:\$blue100 {
+   * .text\:\:\$blue100 {
    *   --text-opacity: 1;
    *   color: rgba(219, 234, 254, var(--text-opacity));
    * }
@@ -3374,7 +3572,7 @@ interface TextAtomStyle {
   $blue100: ClassName;
   /**
    * ```css
-   * .text\:\$blue200 {
+   * .text\:\:\$blue200 {
    *   --text-opacity: 1;
    *   color: rgba(191, 219, 254, var(--text-opacity));
    * }
@@ -3383,7 +3581,7 @@ interface TextAtomStyle {
   $blue200: ClassName;
   /**
    * ```css
-   * .text\:\$blue300 {
+   * .text\:\:\$blue300 {
    *   --text-opacity: 1;
    *   color: rgba(147, 197, 253, var(--text-opacity));
    * }
@@ -3392,7 +3590,7 @@ interface TextAtomStyle {
   $blue300: ClassName;
   /**
    * ```css
-   * .text\:\$blue400 {
+   * .text\:\:\$blue400 {
    *   --text-opacity: 1;
    *   color: rgba(96, 165, 250, var(--text-opacity));
    * }
@@ -3401,7 +3599,7 @@ interface TextAtomStyle {
   $blue400: ClassName;
   /**
    * ```css
-   * .text\:\$blue500 {
+   * .text\:\:\$blue500 {
    *   --text-opacity: 1;
    *   color: rgba(59, 130, 246, var(--text-opacity));
    * }
@@ -3410,7 +3608,7 @@ interface TextAtomStyle {
   $blue500: ClassName;
   /**
    * ```css
-   * .text\:\$blue600 {
+   * .text\:\:\$blue600 {
    *   --text-opacity: 1;
    *   color: rgba(37, 99, 235, var(--text-opacity));
    * }
@@ -3419,7 +3617,7 @@ interface TextAtomStyle {
   $blue600: ClassName;
   /**
    * ```css
-   * .text\:\$blue700 {
+   * .text\:\:\$blue700 {
    *   --text-opacity: 1;
    *   color: rgba(29, 78, 216, var(--text-opacity));
    * }
@@ -3428,7 +3626,7 @@ interface TextAtomStyle {
   $blue700: ClassName;
   /**
    * ```css
-   * .text\:\$blue800 {
+   * .text\:\:\$blue800 {
    *   --text-opacity: 1;
    *   color: rgba(30, 64, 175, var(--text-opacity));
    * }
@@ -3437,7 +3635,7 @@ interface TextAtomStyle {
   $blue800: ClassName;
   /**
    * ```css
-   * .text\:\$blue900 {
+   * .text\:\:\$blue900 {
    *   --text-opacity: 1;
    *   color: rgba(30, 58, 138, var(--text-opacity));
    * }
@@ -3446,7 +3644,7 @@ interface TextAtomStyle {
   $blue900: ClassName;
   /**
    * ```css
-   * .text\:\$indigo50 {
+   * .text\:\:\$indigo50 {
    *   --text-opacity: 1;
    *   color: rgba(238, 242, 255, var(--text-opacity));
    * }
@@ -3455,7 +3653,7 @@ interface TextAtomStyle {
   $indigo50: ClassName;
   /**
    * ```css
-   * .text\:\$indigo100 {
+   * .text\:\:\$indigo100 {
    *   --text-opacity: 1;
    *   color: rgba(224, 231, 255, var(--text-opacity));
    * }
@@ -3464,7 +3662,7 @@ interface TextAtomStyle {
   $indigo100: ClassName;
   /**
    * ```css
-   * .text\:\$indigo200 {
+   * .text\:\:\$indigo200 {
    *   --text-opacity: 1;
    *   color: rgba(199, 210, 254, var(--text-opacity));
    * }
@@ -3473,7 +3671,7 @@ interface TextAtomStyle {
   $indigo200: ClassName;
   /**
    * ```css
-   * .text\:\$indigo300 {
+   * .text\:\:\$indigo300 {
    *   --text-opacity: 1;
    *   color: rgba(165, 180, 252, var(--text-opacity));
    * }
@@ -3482,7 +3680,7 @@ interface TextAtomStyle {
   $indigo300: ClassName;
   /**
    * ```css
-   * .text\:\$indigo400 {
+   * .text\:\:\$indigo400 {
    *   --text-opacity: 1;
    *   color: rgba(129, 140, 248, var(--text-opacity));
    * }
@@ -3491,7 +3689,7 @@ interface TextAtomStyle {
   $indigo400: ClassName;
   /**
    * ```css
-   * .text\:\$indigo500 {
+   * .text\:\:\$indigo500 {
    *   --text-opacity: 1;
    *   color: rgba(99, 102, 241, var(--text-opacity));
    * }
@@ -3500,7 +3698,7 @@ interface TextAtomStyle {
   $indigo500: ClassName;
   /**
    * ```css
-   * .text\:\$indigo600 {
+   * .text\:\:\$indigo600 {
    *   --text-opacity: 1;
    *   color: rgba(79, 70, 229, var(--text-opacity));
    * }
@@ -3509,7 +3707,7 @@ interface TextAtomStyle {
   $indigo600: ClassName;
   /**
    * ```css
-   * .text\:\$indigo700 {
+   * .text\:\:\$indigo700 {
    *   --text-opacity: 1;
    *   color: rgba(67, 56, 202, var(--text-opacity));
    * }
@@ -3518,7 +3716,7 @@ interface TextAtomStyle {
   $indigo700: ClassName;
   /**
    * ```css
-   * .text\:\$indigo800 {
+   * .text\:\:\$indigo800 {
    *   --text-opacity: 1;
    *   color: rgba(55, 48, 163, var(--text-opacity));
    * }
@@ -3527,7 +3725,7 @@ interface TextAtomStyle {
   $indigo800: ClassName;
   /**
    * ```css
-   * .text\:\$indigo900 {
+   * .text\:\:\$indigo900 {
    *   --text-opacity: 1;
    *   color: rgba(49, 46, 129, var(--text-opacity));
    * }
@@ -3536,7 +3734,7 @@ interface TextAtomStyle {
   $indigo900: ClassName;
   /**
    * ```css
-   * .text\:\$violet50 {
+   * .text\:\:\$violet50 {
    *   --text-opacity: 1;
    *   color: rgba(245, 243, 255, var(--text-opacity));
    * }
@@ -3545,7 +3743,7 @@ interface TextAtomStyle {
   $violet50: ClassName;
   /**
    * ```css
-   * .text\:\$violet100 {
+   * .text\:\:\$violet100 {
    *   --text-opacity: 1;
    *   color: rgba(237, 233, 254, var(--text-opacity));
    * }
@@ -3554,7 +3752,7 @@ interface TextAtomStyle {
   $violet100: ClassName;
   /**
    * ```css
-   * .text\:\$violet200 {
+   * .text\:\:\$violet200 {
    *   --text-opacity: 1;
    *   color: rgba(221, 214, 254, var(--text-opacity));
    * }
@@ -3563,7 +3761,7 @@ interface TextAtomStyle {
   $violet200: ClassName;
   /**
    * ```css
-   * .text\:\$violet300 {
+   * .text\:\:\$violet300 {
    *   --text-opacity: 1;
    *   color: rgba(196, 181, 253, var(--text-opacity));
    * }
@@ -3572,7 +3770,7 @@ interface TextAtomStyle {
   $violet300: ClassName;
   /**
    * ```css
-   * .text\:\$violet400 {
+   * .text\:\:\$violet400 {
    *   --text-opacity: 1;
    *   color: rgba(167, 139, 250, var(--text-opacity));
    * }
@@ -3581,7 +3779,7 @@ interface TextAtomStyle {
   $violet400: ClassName;
   /**
    * ```css
-   * .text\:\$violet500 {
+   * .text\:\:\$violet500 {
    *   --text-opacity: 1;
    *   color: rgba(139, 92, 246, var(--text-opacity));
    * }
@@ -3590,7 +3788,7 @@ interface TextAtomStyle {
   $violet500: ClassName;
   /**
    * ```css
-   * .text\:\$violet600 {
+   * .text\:\:\$violet600 {
    *   --text-opacity: 1;
    *   color: rgba(124, 58, 237, var(--text-opacity));
    * }
@@ -3599,7 +3797,7 @@ interface TextAtomStyle {
   $violet600: ClassName;
   /**
    * ```css
-   * .text\:\$violet700 {
+   * .text\:\:\$violet700 {
    *   --text-opacity: 1;
    *   color: rgba(109, 40, 217, var(--text-opacity));
    * }
@@ -3608,7 +3806,7 @@ interface TextAtomStyle {
   $violet700: ClassName;
   /**
    * ```css
-   * .text\:\$violet800 {
+   * .text\:\:\$violet800 {
    *   --text-opacity: 1;
    *   color: rgba(91, 33, 182, var(--text-opacity));
    * }
@@ -3617,7 +3815,7 @@ interface TextAtomStyle {
   $violet800: ClassName;
   /**
    * ```css
-   * .text\:\$violet900 {
+   * .text\:\:\$violet900 {
    *   --text-opacity: 1;
    *   color: rgba(76, 29, 149, var(--text-opacity));
    * }
@@ -3626,7 +3824,7 @@ interface TextAtomStyle {
   $violet900: ClassName;
   /**
    * ```css
-   * .text\:\$purple50 {
+   * .text\:\:\$purple50 {
    *   --text-opacity: 1;
    *   color: rgba(250, 245, 255, var(--text-opacity));
    * }
@@ -3635,7 +3833,7 @@ interface TextAtomStyle {
   $purple50: ClassName;
   /**
    * ```css
-   * .text\:\$purple100 {
+   * .text\:\:\$purple100 {
    *   --text-opacity: 1;
    *   color: rgba(243, 232, 255, var(--text-opacity));
    * }
@@ -3644,7 +3842,7 @@ interface TextAtomStyle {
   $purple100: ClassName;
   /**
    * ```css
-   * .text\:\$purple200 {
+   * .text\:\:\$purple200 {
    *   --text-opacity: 1;
    *   color: rgba(233, 213, 255, var(--text-opacity));
    * }
@@ -3653,7 +3851,7 @@ interface TextAtomStyle {
   $purple200: ClassName;
   /**
    * ```css
-   * .text\:\$purple300 {
+   * .text\:\:\$purple300 {
    *   --text-opacity: 1;
    *   color: rgba(216, 180, 254, var(--text-opacity));
    * }
@@ -3662,7 +3860,7 @@ interface TextAtomStyle {
   $purple300: ClassName;
   /**
    * ```css
-   * .text\:\$purple400 {
+   * .text\:\:\$purple400 {
    *   --text-opacity: 1;
    *   color: rgba(192, 132, 252, var(--text-opacity));
    * }
@@ -3671,7 +3869,7 @@ interface TextAtomStyle {
   $purple400: ClassName;
   /**
    * ```css
-   * .text\:\$purple500 {
+   * .text\:\:\$purple500 {
    *   --text-opacity: 1;
    *   color: rgba(168, 85, 247, var(--text-opacity));
    * }
@@ -3680,7 +3878,7 @@ interface TextAtomStyle {
   $purple500: ClassName;
   /**
    * ```css
-   * .text\:\$purple600 {
+   * .text\:\:\$purple600 {
    *   --text-opacity: 1;
    *   color: rgba(147, 51, 234, var(--text-opacity));
    * }
@@ -3689,7 +3887,7 @@ interface TextAtomStyle {
   $purple600: ClassName;
   /**
    * ```css
-   * .text\:\$purple700 {
+   * .text\:\:\$purple700 {
    *   --text-opacity: 1;
    *   color: rgba(126, 34, 206, var(--text-opacity));
    * }
@@ -3698,7 +3896,7 @@ interface TextAtomStyle {
   $purple700: ClassName;
   /**
    * ```css
-   * .text\:\$purple800 {
+   * .text\:\:\$purple800 {
    *   --text-opacity: 1;
    *   color: rgba(107, 33, 168, var(--text-opacity));
    * }
@@ -3707,7 +3905,7 @@ interface TextAtomStyle {
   $purple800: ClassName;
   /**
    * ```css
-   * .text\:\$purple900 {
+   * .text\:\:\$purple900 {
    *   --text-opacity: 1;
    *   color: rgba(88, 28, 135, var(--text-opacity));
    * }
@@ -3716,7 +3914,7 @@ interface TextAtomStyle {
   $purple900: ClassName;
   /**
    * ```css
-   * .text\:\$fuchsia50 {
+   * .text\:\:\$fuchsia50 {
    *   --text-opacity: 1;
    *   color: rgba(253, 244, 255, var(--text-opacity));
    * }
@@ -3725,7 +3923,7 @@ interface TextAtomStyle {
   $fuchsia50: ClassName;
   /**
    * ```css
-   * .text\:\$fuchsia100 {
+   * .text\:\:\$fuchsia100 {
    *   --text-opacity: 1;
    *   color: rgba(250, 232, 255, var(--text-opacity));
    * }
@@ -3734,7 +3932,7 @@ interface TextAtomStyle {
   $fuchsia100: ClassName;
   /**
    * ```css
-   * .text\:\$fuchsia200 {
+   * .text\:\:\$fuchsia200 {
    *   --text-opacity: 1;
    *   color: rgba(245, 208, 254, var(--text-opacity));
    * }
@@ -3743,7 +3941,7 @@ interface TextAtomStyle {
   $fuchsia200: ClassName;
   /**
    * ```css
-   * .text\:\$fuchsia300 {
+   * .text\:\:\$fuchsia300 {
    *   --text-opacity: 1;
    *   color: rgba(240, 171, 252, var(--text-opacity));
    * }
@@ -3752,7 +3950,7 @@ interface TextAtomStyle {
   $fuchsia300: ClassName;
   /**
    * ```css
-   * .text\:\$fuchsia400 {
+   * .text\:\:\$fuchsia400 {
    *   --text-opacity: 1;
    *   color: rgba(232, 121, 249, var(--text-opacity));
    * }
@@ -3761,7 +3959,7 @@ interface TextAtomStyle {
   $fuchsia400: ClassName;
   /**
    * ```css
-   * .text\:\$fuchsia500 {
+   * .text\:\:\$fuchsia500 {
    *   --text-opacity: 1;
    *   color: rgba(217, 70, 239, var(--text-opacity));
    * }
@@ -3770,7 +3968,7 @@ interface TextAtomStyle {
   $fuchsia500: ClassName;
   /**
    * ```css
-   * .text\:\$fuchsia600 {
+   * .text\:\:\$fuchsia600 {
    *   --text-opacity: 1;
    *   color: rgba(192, 38, 211, var(--text-opacity));
    * }
@@ -3779,7 +3977,7 @@ interface TextAtomStyle {
   $fuchsia600: ClassName;
   /**
    * ```css
-   * .text\:\$fuchsia700 {
+   * .text\:\:\$fuchsia700 {
    *   --text-opacity: 1;
    *   color: rgba(162, 28, 175, var(--text-opacity));
    * }
@@ -3788,7 +3986,7 @@ interface TextAtomStyle {
   $fuchsia700: ClassName;
   /**
    * ```css
-   * .text\:\$fuchsia800 {
+   * .text\:\:\$fuchsia800 {
    *   --text-opacity: 1;
    *   color: rgba(134, 25, 143, var(--text-opacity));
    * }
@@ -3797,7 +3995,7 @@ interface TextAtomStyle {
   $fuchsia800: ClassName;
   /**
    * ```css
-   * .text\:\$fuchsia900 {
+   * .text\:\:\$fuchsia900 {
    *   --text-opacity: 1;
    *   color: rgba(112, 26, 117, var(--text-opacity));
    * }
@@ -3806,7 +4004,7 @@ interface TextAtomStyle {
   $fuchsia900: ClassName;
   /**
    * ```css
-   * .text\:\$pink50 {
+   * .text\:\:\$pink50 {
    *   --text-opacity: 1;
    *   color: rgba(253, 242, 248, var(--text-opacity));
    * }
@@ -3815,7 +4013,7 @@ interface TextAtomStyle {
   $pink50: ClassName;
   /**
    * ```css
-   * .text\:\$pink100 {
+   * .text\:\:\$pink100 {
    *   --text-opacity: 1;
    *   color: rgba(252, 231, 243, var(--text-opacity));
    * }
@@ -3824,7 +4022,7 @@ interface TextAtomStyle {
   $pink100: ClassName;
   /**
    * ```css
-   * .text\:\$pink200 {
+   * .text\:\:\$pink200 {
    *   --text-opacity: 1;
    *   color: rgba(251, 207, 232, var(--text-opacity));
    * }
@@ -3833,7 +4031,7 @@ interface TextAtomStyle {
   $pink200: ClassName;
   /**
    * ```css
-   * .text\:\$pink300 {
+   * .text\:\:\$pink300 {
    *   --text-opacity: 1;
    *   color: rgba(249, 168, 212, var(--text-opacity));
    * }
@@ -3842,7 +4040,7 @@ interface TextAtomStyle {
   $pink300: ClassName;
   /**
    * ```css
-   * .text\:\$pink400 {
+   * .text\:\:\$pink400 {
    *   --text-opacity: 1;
    *   color: rgba(244, 114, 182, var(--text-opacity));
    * }
@@ -3851,7 +4049,7 @@ interface TextAtomStyle {
   $pink400: ClassName;
   /**
    * ```css
-   * .text\:\$pink500 {
+   * .text\:\:\$pink500 {
    *   --text-opacity: 1;
    *   color: rgba(236, 72, 153, var(--text-opacity));
    * }
@@ -3860,7 +4058,7 @@ interface TextAtomStyle {
   $pink500: ClassName;
   /**
    * ```css
-   * .text\:\$pink600 {
+   * .text\:\:\$pink600 {
    *   --text-opacity: 1;
    *   color: rgba(219, 39, 119, var(--text-opacity));
    * }
@@ -3869,7 +4067,7 @@ interface TextAtomStyle {
   $pink600: ClassName;
   /**
    * ```css
-   * .text\:\$pink700 {
+   * .text\:\:\$pink700 {
    *   --text-opacity: 1;
    *   color: rgba(190, 24, 93, var(--text-opacity));
    * }
@@ -3878,7 +4076,7 @@ interface TextAtomStyle {
   $pink700: ClassName;
   /**
    * ```css
-   * .text\:\$pink800 {
+   * .text\:\:\$pink800 {
    *   --text-opacity: 1;
    *   color: rgba(157, 23, 77, var(--text-opacity));
    * }
@@ -3887,7 +4085,7 @@ interface TextAtomStyle {
   $pink800: ClassName;
   /**
    * ```css
-   * .text\:\$pink900 {
+   * .text\:\:\$pink900 {
    *   --text-opacity: 1;
    *   color: rgba(131, 24, 67, var(--text-opacity));
    * }
@@ -3896,7 +4094,7 @@ interface TextAtomStyle {
   $pink900: ClassName;
   /**
    * ```css
-   * .text\:\$rose50 {
+   * .text\:\:\$rose50 {
    *   --text-opacity: 1;
    *   color: rgba(255, 241, 242, var(--text-opacity));
    * }
@@ -3905,7 +4103,7 @@ interface TextAtomStyle {
   $rose50: ClassName;
   /**
    * ```css
-   * .text\:\$rose100 {
+   * .text\:\:\$rose100 {
    *   --text-opacity: 1;
    *   color: rgba(255, 228, 230, var(--text-opacity));
    * }
@@ -3914,7 +4112,7 @@ interface TextAtomStyle {
   $rose100: ClassName;
   /**
    * ```css
-   * .text\:\$rose200 {
+   * .text\:\:\$rose200 {
    *   --text-opacity: 1;
    *   color: rgba(254, 205, 211, var(--text-opacity));
    * }
@@ -3923,7 +4121,7 @@ interface TextAtomStyle {
   $rose200: ClassName;
   /**
    * ```css
-   * .text\:\$rose300 {
+   * .text\:\:\$rose300 {
    *   --text-opacity: 1;
    *   color: rgba(253, 164, 175, var(--text-opacity));
    * }
@@ -3932,7 +4130,7 @@ interface TextAtomStyle {
   $rose300: ClassName;
   /**
    * ```css
-   * .text\:\$rose400 {
+   * .text\:\:\$rose400 {
    *   --text-opacity: 1;
    *   color: rgba(251, 113, 133, var(--text-opacity));
    * }
@@ -3941,7 +4139,7 @@ interface TextAtomStyle {
   $rose400: ClassName;
   /**
    * ```css
-   * .text\:\$rose500 {
+   * .text\:\:\$rose500 {
    *   --text-opacity: 1;
    *   color: rgba(244, 63, 94, var(--text-opacity));
    * }
@@ -3950,7 +4148,7 @@ interface TextAtomStyle {
   $rose500: ClassName;
   /**
    * ```css
-   * .text\:\$rose600 {
+   * .text\:\:\$rose600 {
    *   --text-opacity: 1;
    *   color: rgba(225, 29, 72, var(--text-opacity));
    * }
@@ -3959,7 +4157,7 @@ interface TextAtomStyle {
   $rose600: ClassName;
   /**
    * ```css
-   * .text\:\$rose700 {
+   * .text\:\:\$rose700 {
    *   --text-opacity: 1;
    *   color: rgba(190, 18, 60, var(--text-opacity));
    * }
@@ -3968,7 +4166,7 @@ interface TextAtomStyle {
   $rose700: ClassName;
   /**
    * ```css
-   * .text\:\$rose800 {
+   * .text\:\:\$rose800 {
    *   --text-opacity: 1;
    *   color: rgba(159, 18, 57, var(--text-opacity));
    * }
@@ -3977,7 +4175,7 @@ interface TextAtomStyle {
   $rose800: ClassName;
   /**
    * ```css
-   * .text\:\$rose900 {
+   * .text\:\:\$rose900 {
    *   --text-opacity: 1;
    *   color: rgba(136, 19, 55, var(--text-opacity));
    * }
@@ -3986,7 +4184,7 @@ interface TextAtomStyle {
   $rose900: ClassName;
   /**
    * ```css
-   * .text\:\$primary {
+   * .text\:\:\$primary {
    *   --text-opacity: 1;
    *   color: var(--color-text-primary);
    * }
@@ -3995,7 +4193,7 @@ interface TextAtomStyle {
   $primary: ClassName;
   /**
    * ```css
-   * .text\:\$secondary {
+   * .text\:\:\$secondary {
    *   --text-opacity: 1;
    *   color: var(--color-text-secondary);
    * }
@@ -4004,7 +4202,7 @@ interface TextAtomStyle {
   $secondary: ClassName;
   /**
    * ```css
-   * .text\:\$text {
+   * .text\:\:\$text {
    *   --text-opacity: 1;
    *   color: var(--color-text-text);
    * }
@@ -4013,7 +4211,7 @@ interface TextAtomStyle {
   $text: ClassName;
   /**
    * ```css
-   * .text\:\$background {
+   * .text\:\:\$background {
    *   --text-opacity: 1;
    *   color: var(--color-text-background);
    * }
@@ -4022,7 +4220,7 @@ interface TextAtomStyle {
   $background: ClassName;
   /**
    * ```css
-   * .text\:\$border {
+   * .text\:\:\$border {
    *   --text-opacity: 1;
    *   color: var(--color-text-border);
    * }
@@ -4031,7 +4229,7 @@ interface TextAtomStyle {
   $border: ClassName;
   /**
    * ```css
-   * .text\:\$media {
+   * .text\:\:\$media {
    *   --text-opacity: 1;
    *   color: var(--color-text-media);
    * }
@@ -4043,7 +4241,7 @@ interface TextAtomStyle {
 interface BgAtomStyle {
   /**
    * ```css
-   * .bg\:\$inherit {
+   * .bg\:\:\$inherit {
    *   --bg-opacity: 1;
    *   color: inherit;
    * }
@@ -4052,7 +4250,7 @@ interface BgAtomStyle {
   $inherit: ClassName;
   /**
    * ```css
-   * .bg\:\$current {
+   * .bg\:\:\$current {
    *   --bg-opacity: 1;
    *   color: currentColor;
    * }
@@ -4061,7 +4259,7 @@ interface BgAtomStyle {
   $current: ClassName;
   /**
    * ```css
-   * .bg\:\$transparent {
+   * .bg\:\:\$transparent {
    *   --bg-opacity: 1;
    *   color: transparent;
    * }
@@ -4070,7 +4268,7 @@ interface BgAtomStyle {
   $transparent: ClassName;
   /**
    * ```css
-   * .bg\:\$black {
+   * .bg\:\:\$black {
    *   --bg-opacity: 1;
    *   color: rgba(0, 0, 0, var(--bg-opacity));
    * }
@@ -4079,7 +4277,7 @@ interface BgAtomStyle {
   $black: ClassName;
   /**
    * ```css
-   * .bg\:\$white {
+   * .bg\:\:\$white {
    *   --bg-opacity: 1;
    *   color: rgba(255, 255, 255, var(--bg-opacity));
    * }
@@ -4088,7 +4286,7 @@ interface BgAtomStyle {
   $white: ClassName;
   /**
    * ```css
-   * .bg\:\$slate50 {
+   * .bg\:\:\$slate50 {
    *   --bg-opacity: 1;
    *   color: rgba(248, 250, 252, var(--bg-opacity));
    * }
@@ -4097,7 +4295,7 @@ interface BgAtomStyle {
   $slate50: ClassName;
   /**
    * ```css
-   * .bg\:\$slate100 {
+   * .bg\:\:\$slate100 {
    *   --bg-opacity: 1;
    *   color: rgba(241, 245, 249, var(--bg-opacity));
    * }
@@ -4106,7 +4304,7 @@ interface BgAtomStyle {
   $slate100: ClassName;
   /**
    * ```css
-   * .bg\:\$slate200 {
+   * .bg\:\:\$slate200 {
    *   --bg-opacity: 1;
    *   color: rgba(226, 232, 240, var(--bg-opacity));
    * }
@@ -4115,7 +4313,7 @@ interface BgAtomStyle {
   $slate200: ClassName;
   /**
    * ```css
-   * .bg\:\$slate300 {
+   * .bg\:\:\$slate300 {
    *   --bg-opacity: 1;
    *   color: rgba(203, 213, 225, var(--bg-opacity));
    * }
@@ -4124,7 +4322,7 @@ interface BgAtomStyle {
   $slate300: ClassName;
   /**
    * ```css
-   * .bg\:\$slate400 {
+   * .bg\:\:\$slate400 {
    *   --bg-opacity: 1;
    *   color: rgba(148, 163, 184, var(--bg-opacity));
    * }
@@ -4133,7 +4331,7 @@ interface BgAtomStyle {
   $slate400: ClassName;
   /**
    * ```css
-   * .bg\:\$slate500 {
+   * .bg\:\:\$slate500 {
    *   --bg-opacity: 1;
    *   color: rgba(100, 116, 139, var(--bg-opacity));
    * }
@@ -4142,7 +4340,7 @@ interface BgAtomStyle {
   $slate500: ClassName;
   /**
    * ```css
-   * .bg\:\$slate600 {
+   * .bg\:\:\$slate600 {
    *   --bg-opacity: 1;
    *   color: rgba(71, 85, 105, var(--bg-opacity));
    * }
@@ -4151,7 +4349,7 @@ interface BgAtomStyle {
   $slate600: ClassName;
   /**
    * ```css
-   * .bg\:\$slate700 {
+   * .bg\:\:\$slate700 {
    *   --bg-opacity: 1;
    *   color: rgba(51, 65, 85, var(--bg-opacity));
    * }
@@ -4160,7 +4358,7 @@ interface BgAtomStyle {
   $slate700: ClassName;
   /**
    * ```css
-   * .bg\:\$slate800 {
+   * .bg\:\:\$slate800 {
    *   --bg-opacity: 1;
    *   color: rgba(30, 41, 59, var(--bg-opacity));
    * }
@@ -4169,7 +4367,7 @@ interface BgAtomStyle {
   $slate800: ClassName;
   /**
    * ```css
-   * .bg\:\$slate900 {
+   * .bg\:\:\$slate900 {
    *   --bg-opacity: 1;
    *   color: rgba(15, 23, 42, var(--bg-opacity));
    * }
@@ -4178,7 +4376,7 @@ interface BgAtomStyle {
   $slate900: ClassName;
   /**
    * ```css
-   * .bg\:\$gray50 {
+   * .bg\:\:\$gray50 {
    *   --bg-opacity: 1;
    *   color: rgba(249, 250, 251, var(--bg-opacity));
    * }
@@ -4187,7 +4385,7 @@ interface BgAtomStyle {
   $gray50: ClassName;
   /**
    * ```css
-   * .bg\:\$gray100 {
+   * .bg\:\:\$gray100 {
    *   --bg-opacity: 1;
    *   color: rgba(243, 244, 246, var(--bg-opacity));
    * }
@@ -4196,7 +4394,7 @@ interface BgAtomStyle {
   $gray100: ClassName;
   /**
    * ```css
-   * .bg\:\$gray200 {
+   * .bg\:\:\$gray200 {
    *   --bg-opacity: 1;
    *   color: rgba(229, 231, 235, var(--bg-opacity));
    * }
@@ -4205,7 +4403,7 @@ interface BgAtomStyle {
   $gray200: ClassName;
   /**
    * ```css
-   * .bg\:\$gray300 {
+   * .bg\:\:\$gray300 {
    *   --bg-opacity: 1;
    *   color: rgba(209, 213, 219, var(--bg-opacity));
    * }
@@ -4214,7 +4412,7 @@ interface BgAtomStyle {
   $gray300: ClassName;
   /**
    * ```css
-   * .bg\:\$gray400 {
+   * .bg\:\:\$gray400 {
    *   --bg-opacity: 1;
    *   color: rgba(156, 163, 175, var(--bg-opacity));
    * }
@@ -4223,7 +4421,7 @@ interface BgAtomStyle {
   $gray400: ClassName;
   /**
    * ```css
-   * .bg\:\$gray500 {
+   * .bg\:\:\$gray500 {
    *   --bg-opacity: 1;
    *   color: rgba(107, 114, 128, var(--bg-opacity));
    * }
@@ -4232,7 +4430,7 @@ interface BgAtomStyle {
   $gray500: ClassName;
   /**
    * ```css
-   * .bg\:\$gray600 {
+   * .bg\:\:\$gray600 {
    *   --bg-opacity: 1;
    *   color: rgba(75, 85, 99, var(--bg-opacity));
    * }
@@ -4241,7 +4439,7 @@ interface BgAtomStyle {
   $gray600: ClassName;
   /**
    * ```css
-   * .bg\:\$gray700 {
+   * .bg\:\:\$gray700 {
    *   --bg-opacity: 1;
    *   color: rgba(55, 65, 81, var(--bg-opacity));
    * }
@@ -4250,7 +4448,7 @@ interface BgAtomStyle {
   $gray700: ClassName;
   /**
    * ```css
-   * .bg\:\$gray800 {
+   * .bg\:\:\$gray800 {
    *   --bg-opacity: 1;
    *   color: rgba(31, 41, 55, var(--bg-opacity));
    * }
@@ -4259,7 +4457,7 @@ interface BgAtomStyle {
   $gray800: ClassName;
   /**
    * ```css
-   * .bg\:\$gray900 {
+   * .bg\:\:\$gray900 {
    *   --bg-opacity: 1;
    *   color: rgba(17, 24, 39, var(--bg-opacity));
    * }
@@ -4268,7 +4466,7 @@ interface BgAtomStyle {
   $gray900: ClassName;
   /**
    * ```css
-   * .bg\:\$zinc50 {
+   * .bg\:\:\$zinc50 {
    *   --bg-opacity: 1;
    *   color: rgba(250, 250, 250, var(--bg-opacity));
    * }
@@ -4277,7 +4475,7 @@ interface BgAtomStyle {
   $zinc50: ClassName;
   /**
    * ```css
-   * .bg\:\$zinc100 {
+   * .bg\:\:\$zinc100 {
    *   --bg-opacity: 1;
    *   color: rgba(244, 244, 245, var(--bg-opacity));
    * }
@@ -4286,7 +4484,7 @@ interface BgAtomStyle {
   $zinc100: ClassName;
   /**
    * ```css
-   * .bg\:\$zinc200 {
+   * .bg\:\:\$zinc200 {
    *   --bg-opacity: 1;
    *   color: rgba(228, 228, 231, var(--bg-opacity));
    * }
@@ -4295,7 +4493,7 @@ interface BgAtomStyle {
   $zinc200: ClassName;
   /**
    * ```css
-   * .bg\:\$zinc300 {
+   * .bg\:\:\$zinc300 {
    *   --bg-opacity: 1;
    *   color: rgba(212, 212, 216, var(--bg-opacity));
    * }
@@ -4304,7 +4502,7 @@ interface BgAtomStyle {
   $zinc300: ClassName;
   /**
    * ```css
-   * .bg\:\$zinc400 {
+   * .bg\:\:\$zinc400 {
    *   --bg-opacity: 1;
    *   color: rgba(161, 161, 170, var(--bg-opacity));
    * }
@@ -4313,7 +4511,7 @@ interface BgAtomStyle {
   $zinc400: ClassName;
   /**
    * ```css
-   * .bg\:\$zinc500 {
+   * .bg\:\:\$zinc500 {
    *   --bg-opacity: 1;
    *   color: rgba(113, 113, 122, var(--bg-opacity));
    * }
@@ -4322,7 +4520,7 @@ interface BgAtomStyle {
   $zinc500: ClassName;
   /**
    * ```css
-   * .bg\:\$zinc600 {
+   * .bg\:\:\$zinc600 {
    *   --bg-opacity: 1;
    *   color: rgba(82, 82, 91, var(--bg-opacity));
    * }
@@ -4331,7 +4529,7 @@ interface BgAtomStyle {
   $zinc600: ClassName;
   /**
    * ```css
-   * .bg\:\$zinc700 {
+   * .bg\:\:\$zinc700 {
    *   --bg-opacity: 1;
    *   color: rgba(63, 63, 70, var(--bg-opacity));
    * }
@@ -4340,7 +4538,7 @@ interface BgAtomStyle {
   $zinc700: ClassName;
   /**
    * ```css
-   * .bg\:\$zinc800 {
+   * .bg\:\:\$zinc800 {
    *   --bg-opacity: 1;
    *   color: rgba(39, 39, 42, var(--bg-opacity));
    * }
@@ -4349,7 +4547,7 @@ interface BgAtomStyle {
   $zinc800: ClassName;
   /**
    * ```css
-   * .bg\:\$zinc900 {
+   * .bg\:\:\$zinc900 {
    *   --bg-opacity: 1;
    *   color: rgba(24, 24, 27, var(--bg-opacity));
    * }
@@ -4358,7 +4556,7 @@ interface BgAtomStyle {
   $zinc900: ClassName;
   /**
    * ```css
-   * .bg\:\$neutral50 {
+   * .bg\:\:\$neutral50 {
    *   --bg-opacity: 1;
    *   color: rgba(250, 250, 250, var(--bg-opacity));
    * }
@@ -4367,7 +4565,7 @@ interface BgAtomStyle {
   $neutral50: ClassName;
   /**
    * ```css
-   * .bg\:\$neutral100 {
+   * .bg\:\:\$neutral100 {
    *   --bg-opacity: 1;
    *   color: rgba(245, 245, 245, var(--bg-opacity));
    * }
@@ -4376,7 +4574,7 @@ interface BgAtomStyle {
   $neutral100: ClassName;
   /**
    * ```css
-   * .bg\:\$neutral200 {
+   * .bg\:\:\$neutral200 {
    *   --bg-opacity: 1;
    *   color: rgba(229, 229, 229, var(--bg-opacity));
    * }
@@ -4385,7 +4583,7 @@ interface BgAtomStyle {
   $neutral200: ClassName;
   /**
    * ```css
-   * .bg\:\$neutral300 {
+   * .bg\:\:\$neutral300 {
    *   --bg-opacity: 1;
    *   color: rgba(212, 212, 212, var(--bg-opacity));
    * }
@@ -4394,7 +4592,7 @@ interface BgAtomStyle {
   $neutral300: ClassName;
   /**
    * ```css
-   * .bg\:\$neutral400 {
+   * .bg\:\:\$neutral400 {
    *   --bg-opacity: 1;
    *   color: rgba(163, 163, 163, var(--bg-opacity));
    * }
@@ -4403,7 +4601,7 @@ interface BgAtomStyle {
   $neutral400: ClassName;
   /**
    * ```css
-   * .bg\:\$neutral500 {
+   * .bg\:\:\$neutral500 {
    *   --bg-opacity: 1;
    *   color: rgba(115, 115, 115, var(--bg-opacity));
    * }
@@ -4412,7 +4610,7 @@ interface BgAtomStyle {
   $neutral500: ClassName;
   /**
    * ```css
-   * .bg\:\$neutral600 {
+   * .bg\:\:\$neutral600 {
    *   --bg-opacity: 1;
    *   color: rgba(82, 82, 82, var(--bg-opacity));
    * }
@@ -4421,7 +4619,7 @@ interface BgAtomStyle {
   $neutral600: ClassName;
   /**
    * ```css
-   * .bg\:\$neutral700 {
+   * .bg\:\:\$neutral700 {
    *   --bg-opacity: 1;
    *   color: rgba(64, 64, 64, var(--bg-opacity));
    * }
@@ -4430,7 +4628,7 @@ interface BgAtomStyle {
   $neutral700: ClassName;
   /**
    * ```css
-   * .bg\:\$neutral800 {
+   * .bg\:\:\$neutral800 {
    *   --bg-opacity: 1;
    *   color: rgba(38, 38, 38, var(--bg-opacity));
    * }
@@ -4439,7 +4637,7 @@ interface BgAtomStyle {
   $neutral800: ClassName;
   /**
    * ```css
-   * .bg\:\$neutral900 {
+   * .bg\:\:\$neutral900 {
    *   --bg-opacity: 1;
    *   color: rgba(23, 23, 23, var(--bg-opacity));
    * }
@@ -4448,7 +4646,7 @@ interface BgAtomStyle {
   $neutral900: ClassName;
   /**
    * ```css
-   * .bg\:\$stone50 {
+   * .bg\:\:\$stone50 {
    *   --bg-opacity: 1;
    *   color: rgba(250, 250, 249, var(--bg-opacity));
    * }
@@ -4457,7 +4655,7 @@ interface BgAtomStyle {
   $stone50: ClassName;
   /**
    * ```css
-   * .bg\:\$stone100 {
+   * .bg\:\:\$stone100 {
    *   --bg-opacity: 1;
    *   color: rgba(245, 245, 244, var(--bg-opacity));
    * }
@@ -4466,7 +4664,7 @@ interface BgAtomStyle {
   $stone100: ClassName;
   /**
    * ```css
-   * .bg\:\$stone200 {
+   * .bg\:\:\$stone200 {
    *   --bg-opacity: 1;
    *   color: rgba(231, 229, 228, var(--bg-opacity));
    * }
@@ -4475,7 +4673,7 @@ interface BgAtomStyle {
   $stone200: ClassName;
   /**
    * ```css
-   * .bg\:\$stone300 {
+   * .bg\:\:\$stone300 {
    *   --bg-opacity: 1;
    *   color: rgba(214, 211, 209, var(--bg-opacity));
    * }
@@ -4484,7 +4682,7 @@ interface BgAtomStyle {
   $stone300: ClassName;
   /**
    * ```css
-   * .bg\:\$stone400 {
+   * .bg\:\:\$stone400 {
    *   --bg-opacity: 1;
    *   color: rgba(168, 162, 158, var(--bg-opacity));
    * }
@@ -4493,7 +4691,7 @@ interface BgAtomStyle {
   $stone400: ClassName;
   /**
    * ```css
-   * .bg\:\$stone500 {
+   * .bg\:\:\$stone500 {
    *   --bg-opacity: 1;
    *   color: rgba(120, 113, 108, var(--bg-opacity));
    * }
@@ -4502,7 +4700,7 @@ interface BgAtomStyle {
   $stone500: ClassName;
   /**
    * ```css
-   * .bg\:\$stone600 {
+   * .bg\:\:\$stone600 {
    *   --bg-opacity: 1;
    *   color: rgba(87, 83, 78, var(--bg-opacity));
    * }
@@ -4511,7 +4709,7 @@ interface BgAtomStyle {
   $stone600: ClassName;
   /**
    * ```css
-   * .bg\:\$stone700 {
+   * .bg\:\:\$stone700 {
    *   --bg-opacity: 1;
    *   color: rgba(68, 64, 60, var(--bg-opacity));
    * }
@@ -4520,7 +4718,7 @@ interface BgAtomStyle {
   $stone700: ClassName;
   /**
    * ```css
-   * .bg\:\$stone800 {
+   * .bg\:\:\$stone800 {
    *   --bg-opacity: 1;
    *   color: rgba(41, 37, 36, var(--bg-opacity));
    * }
@@ -4529,7 +4727,7 @@ interface BgAtomStyle {
   $stone800: ClassName;
   /**
    * ```css
-   * .bg\:\$stone900 {
+   * .bg\:\:\$stone900 {
    *   --bg-opacity: 1;
    *   color: rgba(28, 25, 23, var(--bg-opacity));
    * }
@@ -4538,7 +4736,7 @@ interface BgAtomStyle {
   $stone900: ClassName;
   /**
    * ```css
-   * .bg\:\$red50 {
+   * .bg\:\:\$red50 {
    *   --bg-opacity: 1;
    *   color: rgba(254, 242, 242, var(--bg-opacity));
    * }
@@ -4547,7 +4745,7 @@ interface BgAtomStyle {
   $red50: ClassName;
   /**
    * ```css
-   * .bg\:\$red100 {
+   * .bg\:\:\$red100 {
    *   --bg-opacity: 1;
    *   color: rgba(254, 226, 226, var(--bg-opacity));
    * }
@@ -4556,7 +4754,7 @@ interface BgAtomStyle {
   $red100: ClassName;
   /**
    * ```css
-   * .bg\:\$red200 {
+   * .bg\:\:\$red200 {
    *   --bg-opacity: 1;
    *   color: rgba(254, 202, 202, var(--bg-opacity));
    * }
@@ -4565,7 +4763,7 @@ interface BgAtomStyle {
   $red200: ClassName;
   /**
    * ```css
-   * .bg\:\$red300 {
+   * .bg\:\:\$red300 {
    *   --bg-opacity: 1;
    *   color: rgba(252, 165, 165, var(--bg-opacity));
    * }
@@ -4574,7 +4772,7 @@ interface BgAtomStyle {
   $red300: ClassName;
   /**
    * ```css
-   * .bg\:\$red400 {
+   * .bg\:\:\$red400 {
    *   --bg-opacity: 1;
    *   color: rgba(248, 113, 113, var(--bg-opacity));
    * }
@@ -4583,7 +4781,7 @@ interface BgAtomStyle {
   $red400: ClassName;
   /**
    * ```css
-   * .bg\:\$red500 {
+   * .bg\:\:\$red500 {
    *   --bg-opacity: 1;
    *   color: rgba(239, 68, 68, var(--bg-opacity));
    * }
@@ -4592,7 +4790,7 @@ interface BgAtomStyle {
   $red500: ClassName;
   /**
    * ```css
-   * .bg\:\$red600 {
+   * .bg\:\:\$red600 {
    *   --bg-opacity: 1;
    *   color: rgba(220, 38, 38, var(--bg-opacity));
    * }
@@ -4601,7 +4799,7 @@ interface BgAtomStyle {
   $red600: ClassName;
   /**
    * ```css
-   * .bg\:\$red700 {
+   * .bg\:\:\$red700 {
    *   --bg-opacity: 1;
    *   color: rgba(185, 28, 28, var(--bg-opacity));
    * }
@@ -4610,7 +4808,7 @@ interface BgAtomStyle {
   $red700: ClassName;
   /**
    * ```css
-   * .bg\:\$red800 {
+   * .bg\:\:\$red800 {
    *   --bg-opacity: 1;
    *   color: rgba(153, 27, 27, var(--bg-opacity));
    * }
@@ -4619,7 +4817,7 @@ interface BgAtomStyle {
   $red800: ClassName;
   /**
    * ```css
-   * .bg\:\$red900 {
+   * .bg\:\:\$red900 {
    *   --bg-opacity: 1;
    *   color: rgba(127, 29, 29, var(--bg-opacity));
    * }
@@ -4628,7 +4826,7 @@ interface BgAtomStyle {
   $red900: ClassName;
   /**
    * ```css
-   * .bg\:\$orange50 {
+   * .bg\:\:\$orange50 {
    *   --bg-opacity: 1;
    *   color: rgba(255, 247, 237, var(--bg-opacity));
    * }
@@ -4637,7 +4835,7 @@ interface BgAtomStyle {
   $orange50: ClassName;
   /**
    * ```css
-   * .bg\:\$orange100 {
+   * .bg\:\:\$orange100 {
    *   --bg-opacity: 1;
    *   color: rgba(255, 237, 213, var(--bg-opacity));
    * }
@@ -4646,7 +4844,7 @@ interface BgAtomStyle {
   $orange100: ClassName;
   /**
    * ```css
-   * .bg\:\$orange200 {
+   * .bg\:\:\$orange200 {
    *   --bg-opacity: 1;
    *   color: rgba(254, 215, 170, var(--bg-opacity));
    * }
@@ -4655,7 +4853,7 @@ interface BgAtomStyle {
   $orange200: ClassName;
   /**
    * ```css
-   * .bg\:\$orange300 {
+   * .bg\:\:\$orange300 {
    *   --bg-opacity: 1;
    *   color: rgba(253, 186, 116, var(--bg-opacity));
    * }
@@ -4664,7 +4862,7 @@ interface BgAtomStyle {
   $orange300: ClassName;
   /**
    * ```css
-   * .bg\:\$orange400 {
+   * .bg\:\:\$orange400 {
    *   --bg-opacity: 1;
    *   color: rgba(251, 146, 60, var(--bg-opacity));
    * }
@@ -4673,7 +4871,7 @@ interface BgAtomStyle {
   $orange400: ClassName;
   /**
    * ```css
-   * .bg\:\$orange500 {
+   * .bg\:\:\$orange500 {
    *   --bg-opacity: 1;
    *   color: rgba(249, 115, 22, var(--bg-opacity));
    * }
@@ -4682,7 +4880,7 @@ interface BgAtomStyle {
   $orange500: ClassName;
   /**
    * ```css
-   * .bg\:\$orange600 {
+   * .bg\:\:\$orange600 {
    *   --bg-opacity: 1;
    *   color: rgba(234, 88, 12, var(--bg-opacity));
    * }
@@ -4691,7 +4889,7 @@ interface BgAtomStyle {
   $orange600: ClassName;
   /**
    * ```css
-   * .bg\:\$orange700 {
+   * .bg\:\:\$orange700 {
    *   --bg-opacity: 1;
    *   color: rgba(194, 65, 12, var(--bg-opacity));
    * }
@@ -4700,7 +4898,7 @@ interface BgAtomStyle {
   $orange700: ClassName;
   /**
    * ```css
-   * .bg\:\$orange800 {
+   * .bg\:\:\$orange800 {
    *   --bg-opacity: 1;
    *   color: rgba(154, 52, 18, var(--bg-opacity));
    * }
@@ -4709,7 +4907,7 @@ interface BgAtomStyle {
   $orange800: ClassName;
   /**
    * ```css
-   * .bg\:\$orange900 {
+   * .bg\:\:\$orange900 {
    *   --bg-opacity: 1;
    *   color: rgba(124, 45, 18, var(--bg-opacity));
    * }
@@ -4718,7 +4916,7 @@ interface BgAtomStyle {
   $orange900: ClassName;
   /**
    * ```css
-   * .bg\:\$amber50 {
+   * .bg\:\:\$amber50 {
    *   --bg-opacity: 1;
    *   color: rgba(255, 251, 235, var(--bg-opacity));
    * }
@@ -4727,7 +4925,7 @@ interface BgAtomStyle {
   $amber50: ClassName;
   /**
    * ```css
-   * .bg\:\$amber100 {
+   * .bg\:\:\$amber100 {
    *   --bg-opacity: 1;
    *   color: rgba(254, 243, 199, var(--bg-opacity));
    * }
@@ -4736,7 +4934,7 @@ interface BgAtomStyle {
   $amber100: ClassName;
   /**
    * ```css
-   * .bg\:\$amber200 {
+   * .bg\:\:\$amber200 {
    *   --bg-opacity: 1;
    *   color: rgba(253, 230, 138, var(--bg-opacity));
    * }
@@ -4745,7 +4943,7 @@ interface BgAtomStyle {
   $amber200: ClassName;
   /**
    * ```css
-   * .bg\:\$amber300 {
+   * .bg\:\:\$amber300 {
    *   --bg-opacity: 1;
    *   color: rgba(252, 211, 77, var(--bg-opacity));
    * }
@@ -4754,7 +4952,7 @@ interface BgAtomStyle {
   $amber300: ClassName;
   /**
    * ```css
-   * .bg\:\$amber400 {
+   * .bg\:\:\$amber400 {
    *   --bg-opacity: 1;
    *   color: rgba(251, 191, 36, var(--bg-opacity));
    * }
@@ -4763,7 +4961,7 @@ interface BgAtomStyle {
   $amber400: ClassName;
   /**
    * ```css
-   * .bg\:\$amber500 {
+   * .bg\:\:\$amber500 {
    *   --bg-opacity: 1;
    *   color: rgba(245, 158, 11, var(--bg-opacity));
    * }
@@ -4772,7 +4970,7 @@ interface BgAtomStyle {
   $amber500: ClassName;
   /**
    * ```css
-   * .bg\:\$amber600 {
+   * .bg\:\:\$amber600 {
    *   --bg-opacity: 1;
    *   color: rgba(217, 119, 6, var(--bg-opacity));
    * }
@@ -4781,7 +4979,7 @@ interface BgAtomStyle {
   $amber600: ClassName;
   /**
    * ```css
-   * .bg\:\$amber700 {
+   * .bg\:\:\$amber700 {
    *   --bg-opacity: 1;
    *   color: rgba(180, 83, 9, var(--bg-opacity));
    * }
@@ -4790,7 +4988,7 @@ interface BgAtomStyle {
   $amber700: ClassName;
   /**
    * ```css
-   * .bg\:\$amber800 {
+   * .bg\:\:\$amber800 {
    *   --bg-opacity: 1;
    *   color: rgba(146, 64, 14, var(--bg-opacity));
    * }
@@ -4799,7 +4997,7 @@ interface BgAtomStyle {
   $amber800: ClassName;
   /**
    * ```css
-   * .bg\:\$amber900 {
+   * .bg\:\:\$amber900 {
    *   --bg-opacity: 1;
    *   color: rgba(120, 53, 15, var(--bg-opacity));
    * }
@@ -4808,7 +5006,7 @@ interface BgAtomStyle {
   $amber900: ClassName;
   /**
    * ```css
-   * .bg\:\$yellow50 {
+   * .bg\:\:\$yellow50 {
    *   --bg-opacity: 1;
    *   color: rgba(254, 252, 232, var(--bg-opacity));
    * }
@@ -4817,7 +5015,7 @@ interface BgAtomStyle {
   $yellow50: ClassName;
   /**
    * ```css
-   * .bg\:\$yellow100 {
+   * .bg\:\:\$yellow100 {
    *   --bg-opacity: 1;
    *   color: rgba(254, 249, 195, var(--bg-opacity));
    * }
@@ -4826,7 +5024,7 @@ interface BgAtomStyle {
   $yellow100: ClassName;
   /**
    * ```css
-   * .bg\:\$yellow200 {
+   * .bg\:\:\$yellow200 {
    *   --bg-opacity: 1;
    *   color: rgba(254, 240, 138, var(--bg-opacity));
    * }
@@ -4835,7 +5033,7 @@ interface BgAtomStyle {
   $yellow200: ClassName;
   /**
    * ```css
-   * .bg\:\$yellow300 {
+   * .bg\:\:\$yellow300 {
    *   --bg-opacity: 1;
    *   color: rgba(253, 224, 71, var(--bg-opacity));
    * }
@@ -4844,7 +5042,7 @@ interface BgAtomStyle {
   $yellow300: ClassName;
   /**
    * ```css
-   * .bg\:\$yellow400 {
+   * .bg\:\:\$yellow400 {
    *   --bg-opacity: 1;
    *   color: rgba(250, 204, 21, var(--bg-opacity));
    * }
@@ -4853,7 +5051,7 @@ interface BgAtomStyle {
   $yellow400: ClassName;
   /**
    * ```css
-   * .bg\:\$yellow500 {
+   * .bg\:\:\$yellow500 {
    *   --bg-opacity: 1;
    *   color: rgba(234, 179, 8, var(--bg-opacity));
    * }
@@ -4862,7 +5060,7 @@ interface BgAtomStyle {
   $yellow500: ClassName;
   /**
    * ```css
-   * .bg\:\$yellow600 {
+   * .bg\:\:\$yellow600 {
    *   --bg-opacity: 1;
    *   color: rgba(202, 138, 4, var(--bg-opacity));
    * }
@@ -4871,7 +5069,7 @@ interface BgAtomStyle {
   $yellow600: ClassName;
   /**
    * ```css
-   * .bg\:\$yellow700 {
+   * .bg\:\:\$yellow700 {
    *   --bg-opacity: 1;
    *   color: rgba(161, 98, 7, var(--bg-opacity));
    * }
@@ -4880,7 +5078,7 @@ interface BgAtomStyle {
   $yellow700: ClassName;
   /**
    * ```css
-   * .bg\:\$yellow800 {
+   * .bg\:\:\$yellow800 {
    *   --bg-opacity: 1;
    *   color: rgba(133, 77, 14, var(--bg-opacity));
    * }
@@ -4889,7 +5087,7 @@ interface BgAtomStyle {
   $yellow800: ClassName;
   /**
    * ```css
-   * .bg\:\$yellow900 {
+   * .bg\:\:\$yellow900 {
    *   --bg-opacity: 1;
    *   color: rgba(113, 63, 18, var(--bg-opacity));
    * }
@@ -4898,7 +5096,7 @@ interface BgAtomStyle {
   $yellow900: ClassName;
   /**
    * ```css
-   * .bg\:\$lime50 {
+   * .bg\:\:\$lime50 {
    *   --bg-opacity: 1;
    *   color: rgba(247, 254, 231, var(--bg-opacity));
    * }
@@ -4907,7 +5105,7 @@ interface BgAtomStyle {
   $lime50: ClassName;
   /**
    * ```css
-   * .bg\:\$lime100 {
+   * .bg\:\:\$lime100 {
    *   --bg-opacity: 1;
    *   color: rgba(236, 252, 203, var(--bg-opacity));
    * }
@@ -4916,7 +5114,7 @@ interface BgAtomStyle {
   $lime100: ClassName;
   /**
    * ```css
-   * .bg\:\$lime200 {
+   * .bg\:\:\$lime200 {
    *   --bg-opacity: 1;
    *   color: rgba(217, 249, 157, var(--bg-opacity));
    * }
@@ -4925,7 +5123,7 @@ interface BgAtomStyle {
   $lime200: ClassName;
   /**
    * ```css
-   * .bg\:\$lime300 {
+   * .bg\:\:\$lime300 {
    *   --bg-opacity: 1;
    *   color: rgba(190, 242, 100, var(--bg-opacity));
    * }
@@ -4934,7 +5132,7 @@ interface BgAtomStyle {
   $lime300: ClassName;
   /**
    * ```css
-   * .bg\:\$lime400 {
+   * .bg\:\:\$lime400 {
    *   --bg-opacity: 1;
    *   color: rgba(163, 230, 53, var(--bg-opacity));
    * }
@@ -4943,7 +5141,7 @@ interface BgAtomStyle {
   $lime400: ClassName;
   /**
    * ```css
-   * .bg\:\$lime500 {
+   * .bg\:\:\$lime500 {
    *   --bg-opacity: 1;
    *   color: rgba(132, 204, 22, var(--bg-opacity));
    * }
@@ -4952,7 +5150,7 @@ interface BgAtomStyle {
   $lime500: ClassName;
   /**
    * ```css
-   * .bg\:\$lime600 {
+   * .bg\:\:\$lime600 {
    *   --bg-opacity: 1;
    *   color: rgba(101, 163, 13, var(--bg-opacity));
    * }
@@ -4961,7 +5159,7 @@ interface BgAtomStyle {
   $lime600: ClassName;
   /**
    * ```css
-   * .bg\:\$lime700 {
+   * .bg\:\:\$lime700 {
    *   --bg-opacity: 1;
    *   color: rgba(77, 124, 15, var(--bg-opacity));
    * }
@@ -4970,7 +5168,7 @@ interface BgAtomStyle {
   $lime700: ClassName;
   /**
    * ```css
-   * .bg\:\$lime800 {
+   * .bg\:\:\$lime800 {
    *   --bg-opacity: 1;
    *   color: rgba(63, 98, 18, var(--bg-opacity));
    * }
@@ -4979,7 +5177,7 @@ interface BgAtomStyle {
   $lime800: ClassName;
   /**
    * ```css
-   * .bg\:\$lime900 {
+   * .bg\:\:\$lime900 {
    *   --bg-opacity: 1;
    *   color: rgba(54, 83, 20, var(--bg-opacity));
    * }
@@ -4988,7 +5186,7 @@ interface BgAtomStyle {
   $lime900: ClassName;
   /**
    * ```css
-   * .bg\:\$green50 {
+   * .bg\:\:\$green50 {
    *   --bg-opacity: 1;
    *   color: rgba(240, 253, 244, var(--bg-opacity));
    * }
@@ -4997,7 +5195,7 @@ interface BgAtomStyle {
   $green50: ClassName;
   /**
    * ```css
-   * .bg\:\$green100 {
+   * .bg\:\:\$green100 {
    *   --bg-opacity: 1;
    *   color: rgba(220, 252, 231, var(--bg-opacity));
    * }
@@ -5006,7 +5204,7 @@ interface BgAtomStyle {
   $green100: ClassName;
   /**
    * ```css
-   * .bg\:\$green200 {
+   * .bg\:\:\$green200 {
    *   --bg-opacity: 1;
    *   color: rgba(187, 247, 208, var(--bg-opacity));
    * }
@@ -5015,7 +5213,7 @@ interface BgAtomStyle {
   $green200: ClassName;
   /**
    * ```css
-   * .bg\:\$green300 {
+   * .bg\:\:\$green300 {
    *   --bg-opacity: 1;
    *   color: rgba(134, 239, 172, var(--bg-opacity));
    * }
@@ -5024,7 +5222,7 @@ interface BgAtomStyle {
   $green300: ClassName;
   /**
    * ```css
-   * .bg\:\$green400 {
+   * .bg\:\:\$green400 {
    *   --bg-opacity: 1;
    *   color: rgba(74, 222, 128, var(--bg-opacity));
    * }
@@ -5033,7 +5231,7 @@ interface BgAtomStyle {
   $green400: ClassName;
   /**
    * ```css
-   * .bg\:\$green500 {
+   * .bg\:\:\$green500 {
    *   --bg-opacity: 1;
    *   color: rgba(34, 197, 94, var(--bg-opacity));
    * }
@@ -5042,7 +5240,7 @@ interface BgAtomStyle {
   $green500: ClassName;
   /**
    * ```css
-   * .bg\:\$green600 {
+   * .bg\:\:\$green600 {
    *   --bg-opacity: 1;
    *   color: rgba(22, 163, 74, var(--bg-opacity));
    * }
@@ -5051,7 +5249,7 @@ interface BgAtomStyle {
   $green600: ClassName;
   /**
    * ```css
-   * .bg\:\$green700 {
+   * .bg\:\:\$green700 {
    *   --bg-opacity: 1;
    *   color: rgba(21, 128, 61, var(--bg-opacity));
    * }
@@ -5060,7 +5258,7 @@ interface BgAtomStyle {
   $green700: ClassName;
   /**
    * ```css
-   * .bg\:\$green800 {
+   * .bg\:\:\$green800 {
    *   --bg-opacity: 1;
    *   color: rgba(22, 101, 52, var(--bg-opacity));
    * }
@@ -5069,7 +5267,7 @@ interface BgAtomStyle {
   $green800: ClassName;
   /**
    * ```css
-   * .bg\:\$green900 {
+   * .bg\:\:\$green900 {
    *   --bg-opacity: 1;
    *   color: rgba(20, 83, 45, var(--bg-opacity));
    * }
@@ -5078,7 +5276,7 @@ interface BgAtomStyle {
   $green900: ClassName;
   /**
    * ```css
-   * .bg\:\$emerald50 {
+   * .bg\:\:\$emerald50 {
    *   --bg-opacity: 1;
    *   color: rgba(236, 253, 245, var(--bg-opacity));
    * }
@@ -5087,7 +5285,7 @@ interface BgAtomStyle {
   $emerald50: ClassName;
   /**
    * ```css
-   * .bg\:\$emerald100 {
+   * .bg\:\:\$emerald100 {
    *   --bg-opacity: 1;
    *   color: rgba(209, 250, 229, var(--bg-opacity));
    * }
@@ -5096,7 +5294,7 @@ interface BgAtomStyle {
   $emerald100: ClassName;
   /**
    * ```css
-   * .bg\:\$emerald200 {
+   * .bg\:\:\$emerald200 {
    *   --bg-opacity: 1;
    *   color: rgba(167, 243, 208, var(--bg-opacity));
    * }
@@ -5105,7 +5303,7 @@ interface BgAtomStyle {
   $emerald200: ClassName;
   /**
    * ```css
-   * .bg\:\$emerald300 {
+   * .bg\:\:\$emerald300 {
    *   --bg-opacity: 1;
    *   color: rgba(110, 231, 183, var(--bg-opacity));
    * }
@@ -5114,7 +5312,7 @@ interface BgAtomStyle {
   $emerald300: ClassName;
   /**
    * ```css
-   * .bg\:\$emerald400 {
+   * .bg\:\:\$emerald400 {
    *   --bg-opacity: 1;
    *   color: rgba(52, 211, 153, var(--bg-opacity));
    * }
@@ -5123,7 +5321,7 @@ interface BgAtomStyle {
   $emerald400: ClassName;
   /**
    * ```css
-   * .bg\:\$emerald500 {
+   * .bg\:\:\$emerald500 {
    *   --bg-opacity: 1;
    *   color: rgba(16, 185, 129, var(--bg-opacity));
    * }
@@ -5132,7 +5330,7 @@ interface BgAtomStyle {
   $emerald500: ClassName;
   /**
    * ```css
-   * .bg\:\$emerald600 {
+   * .bg\:\:\$emerald600 {
    *   --bg-opacity: 1;
    *   color: rgba(5, 150, 105, var(--bg-opacity));
    * }
@@ -5141,7 +5339,7 @@ interface BgAtomStyle {
   $emerald600: ClassName;
   /**
    * ```css
-   * .bg\:\$emerald700 {
+   * .bg\:\:\$emerald700 {
    *   --bg-opacity: 1;
    *   color: rgba(4, 120, 87, var(--bg-opacity));
    * }
@@ -5150,7 +5348,7 @@ interface BgAtomStyle {
   $emerald700: ClassName;
   /**
    * ```css
-   * .bg\:\$emerald800 {
+   * .bg\:\:\$emerald800 {
    *   --bg-opacity: 1;
    *   color: rgba(6, 95, 70, var(--bg-opacity));
    * }
@@ -5159,7 +5357,7 @@ interface BgAtomStyle {
   $emerald800: ClassName;
   /**
    * ```css
-   * .bg\:\$emerald900 {
+   * .bg\:\:\$emerald900 {
    *   --bg-opacity: 1;
    *   color: rgba(6, 78, 59, var(--bg-opacity));
    * }
@@ -5168,7 +5366,7 @@ interface BgAtomStyle {
   $emerald900: ClassName;
   /**
    * ```css
-   * .bg\:\$teal50 {
+   * .bg\:\:\$teal50 {
    *   --bg-opacity: 1;
    *   color: rgba(240, 253, 250, var(--bg-opacity));
    * }
@@ -5177,7 +5375,7 @@ interface BgAtomStyle {
   $teal50: ClassName;
   /**
    * ```css
-   * .bg\:\$teal100 {
+   * .bg\:\:\$teal100 {
    *   --bg-opacity: 1;
    *   color: rgba(204, 251, 241, var(--bg-opacity));
    * }
@@ -5186,7 +5384,7 @@ interface BgAtomStyle {
   $teal100: ClassName;
   /**
    * ```css
-   * .bg\:\$teal200 {
+   * .bg\:\:\$teal200 {
    *   --bg-opacity: 1;
    *   color: rgba(153, 246, 228, var(--bg-opacity));
    * }
@@ -5195,7 +5393,7 @@ interface BgAtomStyle {
   $teal200: ClassName;
   /**
    * ```css
-   * .bg\:\$teal300 {
+   * .bg\:\:\$teal300 {
    *   --bg-opacity: 1;
    *   color: rgba(94, 234, 212, var(--bg-opacity));
    * }
@@ -5204,7 +5402,7 @@ interface BgAtomStyle {
   $teal300: ClassName;
   /**
    * ```css
-   * .bg\:\$teal400 {
+   * .bg\:\:\$teal400 {
    *   --bg-opacity: 1;
    *   color: rgba(45, 212, 191, var(--bg-opacity));
    * }
@@ -5213,7 +5411,7 @@ interface BgAtomStyle {
   $teal400: ClassName;
   /**
    * ```css
-   * .bg\:\$teal500 {
+   * .bg\:\:\$teal500 {
    *   --bg-opacity: 1;
    *   color: rgba(20, 184, 166, var(--bg-opacity));
    * }
@@ -5222,7 +5420,7 @@ interface BgAtomStyle {
   $teal500: ClassName;
   /**
    * ```css
-   * .bg\:\$teal600 {
+   * .bg\:\:\$teal600 {
    *   --bg-opacity: 1;
    *   color: rgba(13, 148, 136, var(--bg-opacity));
    * }
@@ -5231,7 +5429,7 @@ interface BgAtomStyle {
   $teal600: ClassName;
   /**
    * ```css
-   * .bg\:\$teal700 {
+   * .bg\:\:\$teal700 {
    *   --bg-opacity: 1;
    *   color: rgba(15, 118, 110, var(--bg-opacity));
    * }
@@ -5240,7 +5438,7 @@ interface BgAtomStyle {
   $teal700: ClassName;
   /**
    * ```css
-   * .bg\:\$teal800 {
+   * .bg\:\:\$teal800 {
    *   --bg-opacity: 1;
    *   color: rgba(17, 94, 89, var(--bg-opacity));
    * }
@@ -5249,7 +5447,7 @@ interface BgAtomStyle {
   $teal800: ClassName;
   /**
    * ```css
-   * .bg\:\$teal900 {
+   * .bg\:\:\$teal900 {
    *   --bg-opacity: 1;
    *   color: rgba(19, 78, 74, var(--bg-opacity));
    * }
@@ -5258,7 +5456,7 @@ interface BgAtomStyle {
   $teal900: ClassName;
   /**
    * ```css
-   * .bg\:\$cyan50 {
+   * .bg\:\:\$cyan50 {
    *   --bg-opacity: 1;
    *   color: rgba(236, 254, 255, var(--bg-opacity));
    * }
@@ -5267,7 +5465,7 @@ interface BgAtomStyle {
   $cyan50: ClassName;
   /**
    * ```css
-   * .bg\:\$cyan100 {
+   * .bg\:\:\$cyan100 {
    *   --bg-opacity: 1;
    *   color: rgba(207, 250, 254, var(--bg-opacity));
    * }
@@ -5276,7 +5474,7 @@ interface BgAtomStyle {
   $cyan100: ClassName;
   /**
    * ```css
-   * .bg\:\$cyan200 {
+   * .bg\:\:\$cyan200 {
    *   --bg-opacity: 1;
    *   color: rgba(165, 243, 252, var(--bg-opacity));
    * }
@@ -5285,7 +5483,7 @@ interface BgAtomStyle {
   $cyan200: ClassName;
   /**
    * ```css
-   * .bg\:\$cyan300 {
+   * .bg\:\:\$cyan300 {
    *   --bg-opacity: 1;
    *   color: rgba(103, 232, 249, var(--bg-opacity));
    * }
@@ -5294,7 +5492,7 @@ interface BgAtomStyle {
   $cyan300: ClassName;
   /**
    * ```css
-   * .bg\:\$cyan400 {
+   * .bg\:\:\$cyan400 {
    *   --bg-opacity: 1;
    *   color: rgba(34, 211, 238, var(--bg-opacity));
    * }
@@ -5303,7 +5501,7 @@ interface BgAtomStyle {
   $cyan400: ClassName;
   /**
    * ```css
-   * .bg\:\$cyan500 {
+   * .bg\:\:\$cyan500 {
    *   --bg-opacity: 1;
    *   color: rgba(6, 182, 212, var(--bg-opacity));
    * }
@@ -5312,7 +5510,7 @@ interface BgAtomStyle {
   $cyan500: ClassName;
   /**
    * ```css
-   * .bg\:\$cyan600 {
+   * .bg\:\:\$cyan600 {
    *   --bg-opacity: 1;
    *   color: rgba(8, 145, 178, var(--bg-opacity));
    * }
@@ -5321,7 +5519,7 @@ interface BgAtomStyle {
   $cyan600: ClassName;
   /**
    * ```css
-   * .bg\:\$cyan700 {
+   * .bg\:\:\$cyan700 {
    *   --bg-opacity: 1;
    *   color: rgba(14, 116, 144, var(--bg-opacity));
    * }
@@ -5330,7 +5528,7 @@ interface BgAtomStyle {
   $cyan700: ClassName;
   /**
    * ```css
-   * .bg\:\$cyan800 {
+   * .bg\:\:\$cyan800 {
    *   --bg-opacity: 1;
    *   color: rgba(21, 94, 117, var(--bg-opacity));
    * }
@@ -5339,7 +5537,7 @@ interface BgAtomStyle {
   $cyan800: ClassName;
   /**
    * ```css
-   * .bg\:\$cyan900 {
+   * .bg\:\:\$cyan900 {
    *   --bg-opacity: 1;
    *   color: rgba(22, 78, 99, var(--bg-opacity));
    * }
@@ -5348,7 +5546,7 @@ interface BgAtomStyle {
   $cyan900: ClassName;
   /**
    * ```css
-   * .bg\:\$sky50 {
+   * .bg\:\:\$sky50 {
    *   --bg-opacity: 1;
    *   color: rgba(240, 249, 255, var(--bg-opacity));
    * }
@@ -5357,7 +5555,7 @@ interface BgAtomStyle {
   $sky50: ClassName;
   /**
    * ```css
-   * .bg\:\$sky100 {
+   * .bg\:\:\$sky100 {
    *   --bg-opacity: 1;
    *   color: rgba(224, 242, 254, var(--bg-opacity));
    * }
@@ -5366,7 +5564,7 @@ interface BgAtomStyle {
   $sky100: ClassName;
   /**
    * ```css
-   * .bg\:\$sky200 {
+   * .bg\:\:\$sky200 {
    *   --bg-opacity: 1;
    *   color: rgba(186, 230, 253, var(--bg-opacity));
    * }
@@ -5375,7 +5573,7 @@ interface BgAtomStyle {
   $sky200: ClassName;
   /**
    * ```css
-   * .bg\:\$sky300 {
+   * .bg\:\:\$sky300 {
    *   --bg-opacity: 1;
    *   color: rgba(125, 211, 252, var(--bg-opacity));
    * }
@@ -5384,7 +5582,7 @@ interface BgAtomStyle {
   $sky300: ClassName;
   /**
    * ```css
-   * .bg\:\$sky400 {
+   * .bg\:\:\$sky400 {
    *   --bg-opacity: 1;
    *   color: rgba(56, 189, 248, var(--bg-opacity));
    * }
@@ -5393,7 +5591,7 @@ interface BgAtomStyle {
   $sky400: ClassName;
   /**
    * ```css
-   * .bg\:\$sky500 {
+   * .bg\:\:\$sky500 {
    *   --bg-opacity: 1;
    *   color: rgba(14, 165, 233, var(--bg-opacity));
    * }
@@ -5402,7 +5600,7 @@ interface BgAtomStyle {
   $sky500: ClassName;
   /**
    * ```css
-   * .bg\:\$sky600 {
+   * .bg\:\:\$sky600 {
    *   --bg-opacity: 1;
    *   color: rgba(2, 132, 199, var(--bg-opacity));
    * }
@@ -5411,7 +5609,7 @@ interface BgAtomStyle {
   $sky600: ClassName;
   /**
    * ```css
-   * .bg\:\$sky700 {
+   * .bg\:\:\$sky700 {
    *   --bg-opacity: 1;
    *   color: rgba(3, 105, 161, var(--bg-opacity));
    * }
@@ -5420,7 +5618,7 @@ interface BgAtomStyle {
   $sky700: ClassName;
   /**
    * ```css
-   * .bg\:\$sky800 {
+   * .bg\:\:\$sky800 {
    *   --bg-opacity: 1;
    *   color: rgba(7, 89, 133, var(--bg-opacity));
    * }
@@ -5429,7 +5627,7 @@ interface BgAtomStyle {
   $sky800: ClassName;
   /**
    * ```css
-   * .bg\:\$sky900 {
+   * .bg\:\:\$sky900 {
    *   --bg-opacity: 1;
    *   color: rgba(12, 74, 110, var(--bg-opacity));
    * }
@@ -5438,7 +5636,7 @@ interface BgAtomStyle {
   $sky900: ClassName;
   /**
    * ```css
-   * .bg\:\$blue50 {
+   * .bg\:\:\$blue50 {
    *   --bg-opacity: 1;
    *   color: rgba(239, 246, 255, var(--bg-opacity));
    * }
@@ -5447,7 +5645,7 @@ interface BgAtomStyle {
   $blue50: ClassName;
   /**
    * ```css
-   * .bg\:\$blue100 {
+   * .bg\:\:\$blue100 {
    *   --bg-opacity: 1;
    *   color: rgba(219, 234, 254, var(--bg-opacity));
    * }
@@ -5456,7 +5654,7 @@ interface BgAtomStyle {
   $blue100: ClassName;
   /**
    * ```css
-   * .bg\:\$blue200 {
+   * .bg\:\:\$blue200 {
    *   --bg-opacity: 1;
    *   color: rgba(191, 219, 254, var(--bg-opacity));
    * }
@@ -5465,7 +5663,7 @@ interface BgAtomStyle {
   $blue200: ClassName;
   /**
    * ```css
-   * .bg\:\$blue300 {
+   * .bg\:\:\$blue300 {
    *   --bg-opacity: 1;
    *   color: rgba(147, 197, 253, var(--bg-opacity));
    * }
@@ -5474,7 +5672,7 @@ interface BgAtomStyle {
   $blue300: ClassName;
   /**
    * ```css
-   * .bg\:\$blue400 {
+   * .bg\:\:\$blue400 {
    *   --bg-opacity: 1;
    *   color: rgba(96, 165, 250, var(--bg-opacity));
    * }
@@ -5483,7 +5681,7 @@ interface BgAtomStyle {
   $blue400: ClassName;
   /**
    * ```css
-   * .bg\:\$blue500 {
+   * .bg\:\:\$blue500 {
    *   --bg-opacity: 1;
    *   color: rgba(59, 130, 246, var(--bg-opacity));
    * }
@@ -5492,7 +5690,7 @@ interface BgAtomStyle {
   $blue500: ClassName;
   /**
    * ```css
-   * .bg\:\$blue600 {
+   * .bg\:\:\$blue600 {
    *   --bg-opacity: 1;
    *   color: rgba(37, 99, 235, var(--bg-opacity));
    * }
@@ -5501,7 +5699,7 @@ interface BgAtomStyle {
   $blue600: ClassName;
   /**
    * ```css
-   * .bg\:\$blue700 {
+   * .bg\:\:\$blue700 {
    *   --bg-opacity: 1;
    *   color: rgba(29, 78, 216, var(--bg-opacity));
    * }
@@ -5510,7 +5708,7 @@ interface BgAtomStyle {
   $blue700: ClassName;
   /**
    * ```css
-   * .bg\:\$blue800 {
+   * .bg\:\:\$blue800 {
    *   --bg-opacity: 1;
    *   color: rgba(30, 64, 175, var(--bg-opacity));
    * }
@@ -5519,7 +5717,7 @@ interface BgAtomStyle {
   $blue800: ClassName;
   /**
    * ```css
-   * .bg\:\$blue900 {
+   * .bg\:\:\$blue900 {
    *   --bg-opacity: 1;
    *   color: rgba(30, 58, 138, var(--bg-opacity));
    * }
@@ -5528,7 +5726,7 @@ interface BgAtomStyle {
   $blue900: ClassName;
   /**
    * ```css
-   * .bg\:\$indigo50 {
+   * .bg\:\:\$indigo50 {
    *   --bg-opacity: 1;
    *   color: rgba(238, 242, 255, var(--bg-opacity));
    * }
@@ -5537,7 +5735,7 @@ interface BgAtomStyle {
   $indigo50: ClassName;
   /**
    * ```css
-   * .bg\:\$indigo100 {
+   * .bg\:\:\$indigo100 {
    *   --bg-opacity: 1;
    *   color: rgba(224, 231, 255, var(--bg-opacity));
    * }
@@ -5546,7 +5744,7 @@ interface BgAtomStyle {
   $indigo100: ClassName;
   /**
    * ```css
-   * .bg\:\$indigo200 {
+   * .bg\:\:\$indigo200 {
    *   --bg-opacity: 1;
    *   color: rgba(199, 210, 254, var(--bg-opacity));
    * }
@@ -5555,7 +5753,7 @@ interface BgAtomStyle {
   $indigo200: ClassName;
   /**
    * ```css
-   * .bg\:\$indigo300 {
+   * .bg\:\:\$indigo300 {
    *   --bg-opacity: 1;
    *   color: rgba(165, 180, 252, var(--bg-opacity));
    * }
@@ -5564,7 +5762,7 @@ interface BgAtomStyle {
   $indigo300: ClassName;
   /**
    * ```css
-   * .bg\:\$indigo400 {
+   * .bg\:\:\$indigo400 {
    *   --bg-opacity: 1;
    *   color: rgba(129, 140, 248, var(--bg-opacity));
    * }
@@ -5573,7 +5771,7 @@ interface BgAtomStyle {
   $indigo400: ClassName;
   /**
    * ```css
-   * .bg\:\$indigo500 {
+   * .bg\:\:\$indigo500 {
    *   --bg-opacity: 1;
    *   color: rgba(99, 102, 241, var(--bg-opacity));
    * }
@@ -5582,7 +5780,7 @@ interface BgAtomStyle {
   $indigo500: ClassName;
   /**
    * ```css
-   * .bg\:\$indigo600 {
+   * .bg\:\:\$indigo600 {
    *   --bg-opacity: 1;
    *   color: rgba(79, 70, 229, var(--bg-opacity));
    * }
@@ -5591,7 +5789,7 @@ interface BgAtomStyle {
   $indigo600: ClassName;
   /**
    * ```css
-   * .bg\:\$indigo700 {
+   * .bg\:\:\$indigo700 {
    *   --bg-opacity: 1;
    *   color: rgba(67, 56, 202, var(--bg-opacity));
    * }
@@ -5600,7 +5798,7 @@ interface BgAtomStyle {
   $indigo700: ClassName;
   /**
    * ```css
-   * .bg\:\$indigo800 {
+   * .bg\:\:\$indigo800 {
    *   --bg-opacity: 1;
    *   color: rgba(55, 48, 163, var(--bg-opacity));
    * }
@@ -5609,7 +5807,7 @@ interface BgAtomStyle {
   $indigo800: ClassName;
   /**
    * ```css
-   * .bg\:\$indigo900 {
+   * .bg\:\:\$indigo900 {
    *   --bg-opacity: 1;
    *   color: rgba(49, 46, 129, var(--bg-opacity));
    * }
@@ -5618,7 +5816,7 @@ interface BgAtomStyle {
   $indigo900: ClassName;
   /**
    * ```css
-   * .bg\:\$violet50 {
+   * .bg\:\:\$violet50 {
    *   --bg-opacity: 1;
    *   color: rgba(245, 243, 255, var(--bg-opacity));
    * }
@@ -5627,7 +5825,7 @@ interface BgAtomStyle {
   $violet50: ClassName;
   /**
    * ```css
-   * .bg\:\$violet100 {
+   * .bg\:\:\$violet100 {
    *   --bg-opacity: 1;
    *   color: rgba(237, 233, 254, var(--bg-opacity));
    * }
@@ -5636,7 +5834,7 @@ interface BgAtomStyle {
   $violet100: ClassName;
   /**
    * ```css
-   * .bg\:\$violet200 {
+   * .bg\:\:\$violet200 {
    *   --bg-opacity: 1;
    *   color: rgba(221, 214, 254, var(--bg-opacity));
    * }
@@ -5645,7 +5843,7 @@ interface BgAtomStyle {
   $violet200: ClassName;
   /**
    * ```css
-   * .bg\:\$violet300 {
+   * .bg\:\:\$violet300 {
    *   --bg-opacity: 1;
    *   color: rgba(196, 181, 253, var(--bg-opacity));
    * }
@@ -5654,7 +5852,7 @@ interface BgAtomStyle {
   $violet300: ClassName;
   /**
    * ```css
-   * .bg\:\$violet400 {
+   * .bg\:\:\$violet400 {
    *   --bg-opacity: 1;
    *   color: rgba(167, 139, 250, var(--bg-opacity));
    * }
@@ -5663,7 +5861,7 @@ interface BgAtomStyle {
   $violet400: ClassName;
   /**
    * ```css
-   * .bg\:\$violet500 {
+   * .bg\:\:\$violet500 {
    *   --bg-opacity: 1;
    *   color: rgba(139, 92, 246, var(--bg-opacity));
    * }
@@ -5672,7 +5870,7 @@ interface BgAtomStyle {
   $violet500: ClassName;
   /**
    * ```css
-   * .bg\:\$violet600 {
+   * .bg\:\:\$violet600 {
    *   --bg-opacity: 1;
    *   color: rgba(124, 58, 237, var(--bg-opacity));
    * }
@@ -5681,7 +5879,7 @@ interface BgAtomStyle {
   $violet600: ClassName;
   /**
    * ```css
-   * .bg\:\$violet700 {
+   * .bg\:\:\$violet700 {
    *   --bg-opacity: 1;
    *   color: rgba(109, 40, 217, var(--bg-opacity));
    * }
@@ -5690,7 +5888,7 @@ interface BgAtomStyle {
   $violet700: ClassName;
   /**
    * ```css
-   * .bg\:\$violet800 {
+   * .bg\:\:\$violet800 {
    *   --bg-opacity: 1;
    *   color: rgba(91, 33, 182, var(--bg-opacity));
    * }
@@ -5699,7 +5897,7 @@ interface BgAtomStyle {
   $violet800: ClassName;
   /**
    * ```css
-   * .bg\:\$violet900 {
+   * .bg\:\:\$violet900 {
    *   --bg-opacity: 1;
    *   color: rgba(76, 29, 149, var(--bg-opacity));
    * }
@@ -5708,7 +5906,7 @@ interface BgAtomStyle {
   $violet900: ClassName;
   /**
    * ```css
-   * .bg\:\$purple50 {
+   * .bg\:\:\$purple50 {
    *   --bg-opacity: 1;
    *   color: rgba(250, 245, 255, var(--bg-opacity));
    * }
@@ -5717,7 +5915,7 @@ interface BgAtomStyle {
   $purple50: ClassName;
   /**
    * ```css
-   * .bg\:\$purple100 {
+   * .bg\:\:\$purple100 {
    *   --bg-opacity: 1;
    *   color: rgba(243, 232, 255, var(--bg-opacity));
    * }
@@ -5726,7 +5924,7 @@ interface BgAtomStyle {
   $purple100: ClassName;
   /**
    * ```css
-   * .bg\:\$purple200 {
+   * .bg\:\:\$purple200 {
    *   --bg-opacity: 1;
    *   color: rgba(233, 213, 255, var(--bg-opacity));
    * }
@@ -5735,7 +5933,7 @@ interface BgAtomStyle {
   $purple200: ClassName;
   /**
    * ```css
-   * .bg\:\$purple300 {
+   * .bg\:\:\$purple300 {
    *   --bg-opacity: 1;
    *   color: rgba(216, 180, 254, var(--bg-opacity));
    * }
@@ -5744,7 +5942,7 @@ interface BgAtomStyle {
   $purple300: ClassName;
   /**
    * ```css
-   * .bg\:\$purple400 {
+   * .bg\:\:\$purple400 {
    *   --bg-opacity: 1;
    *   color: rgba(192, 132, 252, var(--bg-opacity));
    * }
@@ -5753,7 +5951,7 @@ interface BgAtomStyle {
   $purple400: ClassName;
   /**
    * ```css
-   * .bg\:\$purple500 {
+   * .bg\:\:\$purple500 {
    *   --bg-opacity: 1;
    *   color: rgba(168, 85, 247, var(--bg-opacity));
    * }
@@ -5762,7 +5960,7 @@ interface BgAtomStyle {
   $purple500: ClassName;
   /**
    * ```css
-   * .bg\:\$purple600 {
+   * .bg\:\:\$purple600 {
    *   --bg-opacity: 1;
    *   color: rgba(147, 51, 234, var(--bg-opacity));
    * }
@@ -5771,7 +5969,7 @@ interface BgAtomStyle {
   $purple600: ClassName;
   /**
    * ```css
-   * .bg\:\$purple700 {
+   * .bg\:\:\$purple700 {
    *   --bg-opacity: 1;
    *   color: rgba(126, 34, 206, var(--bg-opacity));
    * }
@@ -5780,7 +5978,7 @@ interface BgAtomStyle {
   $purple700: ClassName;
   /**
    * ```css
-   * .bg\:\$purple800 {
+   * .bg\:\:\$purple800 {
    *   --bg-opacity: 1;
    *   color: rgba(107, 33, 168, var(--bg-opacity));
    * }
@@ -5789,7 +5987,7 @@ interface BgAtomStyle {
   $purple800: ClassName;
   /**
    * ```css
-   * .bg\:\$purple900 {
+   * .bg\:\:\$purple900 {
    *   --bg-opacity: 1;
    *   color: rgba(88, 28, 135, var(--bg-opacity));
    * }
@@ -5798,7 +5996,7 @@ interface BgAtomStyle {
   $purple900: ClassName;
   /**
    * ```css
-   * .bg\:\$fuchsia50 {
+   * .bg\:\:\$fuchsia50 {
    *   --bg-opacity: 1;
    *   color: rgba(253, 244, 255, var(--bg-opacity));
    * }
@@ -5807,7 +6005,7 @@ interface BgAtomStyle {
   $fuchsia50: ClassName;
   /**
    * ```css
-   * .bg\:\$fuchsia100 {
+   * .bg\:\:\$fuchsia100 {
    *   --bg-opacity: 1;
    *   color: rgba(250, 232, 255, var(--bg-opacity));
    * }
@@ -5816,7 +6014,7 @@ interface BgAtomStyle {
   $fuchsia100: ClassName;
   /**
    * ```css
-   * .bg\:\$fuchsia200 {
+   * .bg\:\:\$fuchsia200 {
    *   --bg-opacity: 1;
    *   color: rgba(245, 208, 254, var(--bg-opacity));
    * }
@@ -5825,7 +6023,7 @@ interface BgAtomStyle {
   $fuchsia200: ClassName;
   /**
    * ```css
-   * .bg\:\$fuchsia300 {
+   * .bg\:\:\$fuchsia300 {
    *   --bg-opacity: 1;
    *   color: rgba(240, 171, 252, var(--bg-opacity));
    * }
@@ -5834,7 +6032,7 @@ interface BgAtomStyle {
   $fuchsia300: ClassName;
   /**
    * ```css
-   * .bg\:\$fuchsia400 {
+   * .bg\:\:\$fuchsia400 {
    *   --bg-opacity: 1;
    *   color: rgba(232, 121, 249, var(--bg-opacity));
    * }
@@ -5843,7 +6041,7 @@ interface BgAtomStyle {
   $fuchsia400: ClassName;
   /**
    * ```css
-   * .bg\:\$fuchsia500 {
+   * .bg\:\:\$fuchsia500 {
    *   --bg-opacity: 1;
    *   color: rgba(217, 70, 239, var(--bg-opacity));
    * }
@@ -5852,7 +6050,7 @@ interface BgAtomStyle {
   $fuchsia500: ClassName;
   /**
    * ```css
-   * .bg\:\$fuchsia600 {
+   * .bg\:\:\$fuchsia600 {
    *   --bg-opacity: 1;
    *   color: rgba(192, 38, 211, var(--bg-opacity));
    * }
@@ -5861,7 +6059,7 @@ interface BgAtomStyle {
   $fuchsia600: ClassName;
   /**
    * ```css
-   * .bg\:\$fuchsia700 {
+   * .bg\:\:\$fuchsia700 {
    *   --bg-opacity: 1;
    *   color: rgba(162, 28, 175, var(--bg-opacity));
    * }
@@ -5870,7 +6068,7 @@ interface BgAtomStyle {
   $fuchsia700: ClassName;
   /**
    * ```css
-   * .bg\:\$fuchsia800 {
+   * .bg\:\:\$fuchsia800 {
    *   --bg-opacity: 1;
    *   color: rgba(134, 25, 143, var(--bg-opacity));
    * }
@@ -5879,7 +6077,7 @@ interface BgAtomStyle {
   $fuchsia800: ClassName;
   /**
    * ```css
-   * .bg\:\$fuchsia900 {
+   * .bg\:\:\$fuchsia900 {
    *   --bg-opacity: 1;
    *   color: rgba(112, 26, 117, var(--bg-opacity));
    * }
@@ -5888,7 +6086,7 @@ interface BgAtomStyle {
   $fuchsia900: ClassName;
   /**
    * ```css
-   * .bg\:\$pink50 {
+   * .bg\:\:\$pink50 {
    *   --bg-opacity: 1;
    *   color: rgba(253, 242, 248, var(--bg-opacity));
    * }
@@ -5897,7 +6095,7 @@ interface BgAtomStyle {
   $pink50: ClassName;
   /**
    * ```css
-   * .bg\:\$pink100 {
+   * .bg\:\:\$pink100 {
    *   --bg-opacity: 1;
    *   color: rgba(252, 231, 243, var(--bg-opacity));
    * }
@@ -5906,7 +6104,7 @@ interface BgAtomStyle {
   $pink100: ClassName;
   /**
    * ```css
-   * .bg\:\$pink200 {
+   * .bg\:\:\$pink200 {
    *   --bg-opacity: 1;
    *   color: rgba(251, 207, 232, var(--bg-opacity));
    * }
@@ -5915,7 +6113,7 @@ interface BgAtomStyle {
   $pink200: ClassName;
   /**
    * ```css
-   * .bg\:\$pink300 {
+   * .bg\:\:\$pink300 {
    *   --bg-opacity: 1;
    *   color: rgba(249, 168, 212, var(--bg-opacity));
    * }
@@ -5924,7 +6122,7 @@ interface BgAtomStyle {
   $pink300: ClassName;
   /**
    * ```css
-   * .bg\:\$pink400 {
+   * .bg\:\:\$pink400 {
    *   --bg-opacity: 1;
    *   color: rgba(244, 114, 182, var(--bg-opacity));
    * }
@@ -5933,7 +6131,7 @@ interface BgAtomStyle {
   $pink400: ClassName;
   /**
    * ```css
-   * .bg\:\$pink500 {
+   * .bg\:\:\$pink500 {
    *   --bg-opacity: 1;
    *   color: rgba(236, 72, 153, var(--bg-opacity));
    * }
@@ -5942,7 +6140,7 @@ interface BgAtomStyle {
   $pink500: ClassName;
   /**
    * ```css
-   * .bg\:\$pink600 {
+   * .bg\:\:\$pink600 {
    *   --bg-opacity: 1;
    *   color: rgba(219, 39, 119, var(--bg-opacity));
    * }
@@ -5951,7 +6149,7 @@ interface BgAtomStyle {
   $pink600: ClassName;
   /**
    * ```css
-   * .bg\:\$pink700 {
+   * .bg\:\:\$pink700 {
    *   --bg-opacity: 1;
    *   color: rgba(190, 24, 93, var(--bg-opacity));
    * }
@@ -5960,7 +6158,7 @@ interface BgAtomStyle {
   $pink700: ClassName;
   /**
    * ```css
-   * .bg\:\$pink800 {
+   * .bg\:\:\$pink800 {
    *   --bg-opacity: 1;
    *   color: rgba(157, 23, 77, var(--bg-opacity));
    * }
@@ -5969,7 +6167,7 @@ interface BgAtomStyle {
   $pink800: ClassName;
   /**
    * ```css
-   * .bg\:\$pink900 {
+   * .bg\:\:\$pink900 {
    *   --bg-opacity: 1;
    *   color: rgba(131, 24, 67, var(--bg-opacity));
    * }
@@ -5978,7 +6176,7 @@ interface BgAtomStyle {
   $pink900: ClassName;
   /**
    * ```css
-   * .bg\:\$rose50 {
+   * .bg\:\:\$rose50 {
    *   --bg-opacity: 1;
    *   color: rgba(255, 241, 242, var(--bg-opacity));
    * }
@@ -5987,7 +6185,7 @@ interface BgAtomStyle {
   $rose50: ClassName;
   /**
    * ```css
-   * .bg\:\$rose100 {
+   * .bg\:\:\$rose100 {
    *   --bg-opacity: 1;
    *   color: rgba(255, 228, 230, var(--bg-opacity));
    * }
@@ -5996,7 +6194,7 @@ interface BgAtomStyle {
   $rose100: ClassName;
   /**
    * ```css
-   * .bg\:\$rose200 {
+   * .bg\:\:\$rose200 {
    *   --bg-opacity: 1;
    *   color: rgba(254, 205, 211, var(--bg-opacity));
    * }
@@ -6005,7 +6203,7 @@ interface BgAtomStyle {
   $rose200: ClassName;
   /**
    * ```css
-   * .bg\:\$rose300 {
+   * .bg\:\:\$rose300 {
    *   --bg-opacity: 1;
    *   color: rgba(253, 164, 175, var(--bg-opacity));
    * }
@@ -6014,7 +6212,7 @@ interface BgAtomStyle {
   $rose300: ClassName;
   /**
    * ```css
-   * .bg\:\$rose400 {
+   * .bg\:\:\$rose400 {
    *   --bg-opacity: 1;
    *   color: rgba(251, 113, 133, var(--bg-opacity));
    * }
@@ -6023,7 +6221,7 @@ interface BgAtomStyle {
   $rose400: ClassName;
   /**
    * ```css
-   * .bg\:\$rose500 {
+   * .bg\:\:\$rose500 {
    *   --bg-opacity: 1;
    *   color: rgba(244, 63, 94, var(--bg-opacity));
    * }
@@ -6032,7 +6230,7 @@ interface BgAtomStyle {
   $rose500: ClassName;
   /**
    * ```css
-   * .bg\:\$rose600 {
+   * .bg\:\:\$rose600 {
    *   --bg-opacity: 1;
    *   color: rgba(225, 29, 72, var(--bg-opacity));
    * }
@@ -6041,7 +6239,7 @@ interface BgAtomStyle {
   $rose600: ClassName;
   /**
    * ```css
-   * .bg\:\$rose700 {
+   * .bg\:\:\$rose700 {
    *   --bg-opacity: 1;
    *   color: rgba(190, 18, 60, var(--bg-opacity));
    * }
@@ -6050,7 +6248,7 @@ interface BgAtomStyle {
   $rose700: ClassName;
   /**
    * ```css
-   * .bg\:\$rose800 {
+   * .bg\:\:\$rose800 {
    *   --bg-opacity: 1;
    *   color: rgba(159, 18, 57, var(--bg-opacity));
    * }
@@ -6059,7 +6257,7 @@ interface BgAtomStyle {
   $rose800: ClassName;
   /**
    * ```css
-   * .bg\:\$rose900 {
+   * .bg\:\:\$rose900 {
    *   --bg-opacity: 1;
    *   color: rgba(136, 19, 55, var(--bg-opacity));
    * }
@@ -6068,7 +6266,7 @@ interface BgAtomStyle {
   $rose900: ClassName;
   /**
    * ```css
-   * .bg\:\$primary {
+   * .bg\:\:\$primary {
    *   --bg-opacity: 1;
    *   color: var(--color-bg-primary);
    * }
@@ -6077,7 +6275,7 @@ interface BgAtomStyle {
   $primary: ClassName;
   /**
    * ```css
-   * .bg\:\$secondary {
+   * .bg\:\:\$secondary {
    *   --bg-opacity: 1;
    *   color: var(--color-bg-secondary);
    * }
@@ -6086,7 +6284,7 @@ interface BgAtomStyle {
   $secondary: ClassName;
   /**
    * ```css
-   * .bg\:\$text {
+   * .bg\:\:\$text {
    *   --bg-opacity: 1;
    *   color: var(--color-bg-text);
    * }
@@ -6095,7 +6293,7 @@ interface BgAtomStyle {
   $text: ClassName;
   /**
    * ```css
-   * .bg\:\$background {
+   * .bg\:\:\$background {
    *   --bg-opacity: 1;
    *   color: var(--color-bg-background);
    * }
@@ -6104,7 +6302,7 @@ interface BgAtomStyle {
   $background: ClassName;
   /**
    * ```css
-   * .bg\:\$border {
+   * .bg\:\:\$border {
    *   --bg-opacity: 1;
    *   color: var(--color-bg-border);
    * }
@@ -6113,7 +6311,7 @@ interface BgAtomStyle {
   $border: ClassName;
   /**
    * ```css
-   * .bg\:\$media {
+   * .bg\:\:\$media {
    *   --bg-opacity: 1;
    *   color: var(--color-bg-media);
    * }
@@ -6125,1396 +6323,2371 @@ interface BgAtomStyle {
 interface BorderAtomStyle {
   /**
    * ```css
-   * .border\:\$inherit {}
+   * .border\:\:\$inherit {}
    * ```
    */
   $inherit: ClassName;
   /**
    * ```css
-   * .border\:\$current {}
+   * .border\:\:\$current {}
    * ```
    */
   $current: ClassName;
   /**
    * ```css
-   * .border\:\$transparent {}
+   * .border\:\:\$transparent {}
    * ```
    */
   $transparent: ClassName;
   /**
    * ```css
-   * .border\:\$black {}
+   * .border\:\:\$black {}
    * ```
    */
   $black: ClassName;
   /**
    * ```css
-   * .border\:\$white {}
+   * .border\:\:\$white {}
    * ```
    */
   $white: ClassName;
   /**
    * ```css
-   * .border\:\$slate50 {}
+   * .border\:\:\$slate50 {}
    * ```
    */
   $slate50: ClassName;
   /**
    * ```css
-   * .border\:\$slate100 {}
+   * .border\:\:\$slate100 {}
    * ```
    */
   $slate100: ClassName;
   /**
    * ```css
-   * .border\:\$slate200 {}
+   * .border\:\:\$slate200 {}
    * ```
    */
   $slate200: ClassName;
   /**
    * ```css
-   * .border\:\$slate300 {}
+   * .border\:\:\$slate300 {}
    * ```
    */
   $slate300: ClassName;
   /**
    * ```css
-   * .border\:\$slate400 {}
+   * .border\:\:\$slate400 {}
    * ```
    */
   $slate400: ClassName;
   /**
    * ```css
-   * .border\:\$slate500 {}
+   * .border\:\:\$slate500 {}
    * ```
    */
   $slate500: ClassName;
   /**
    * ```css
-   * .border\:\$slate600 {}
+   * .border\:\:\$slate600 {}
    * ```
    */
   $slate600: ClassName;
   /**
    * ```css
-   * .border\:\$slate700 {}
+   * .border\:\:\$slate700 {}
    * ```
    */
   $slate700: ClassName;
   /**
    * ```css
-   * .border\:\$slate800 {}
+   * .border\:\:\$slate800 {}
    * ```
    */
   $slate800: ClassName;
   /**
    * ```css
-   * .border\:\$slate900 {}
+   * .border\:\:\$slate900 {}
    * ```
    */
   $slate900: ClassName;
   /**
    * ```css
-   * .border\:\$gray50 {}
+   * .border\:\:\$gray50 {}
    * ```
    */
   $gray50: ClassName;
   /**
    * ```css
-   * .border\:\$gray100 {}
+   * .border\:\:\$gray100 {}
    * ```
    */
   $gray100: ClassName;
   /**
    * ```css
-   * .border\:\$gray200 {}
+   * .border\:\:\$gray200 {}
    * ```
    */
   $gray200: ClassName;
   /**
    * ```css
-   * .border\:\$gray300 {}
+   * .border\:\:\$gray300 {}
    * ```
    */
   $gray300: ClassName;
   /**
    * ```css
-   * .border\:\$gray400 {}
+   * .border\:\:\$gray400 {}
    * ```
    */
   $gray400: ClassName;
   /**
    * ```css
-   * .border\:\$gray500 {}
+   * .border\:\:\$gray500 {}
    * ```
    */
   $gray500: ClassName;
   /**
    * ```css
-   * .border\:\$gray600 {}
+   * .border\:\:\$gray600 {}
    * ```
    */
   $gray600: ClassName;
   /**
    * ```css
-   * .border\:\$gray700 {}
+   * .border\:\:\$gray700 {}
    * ```
    */
   $gray700: ClassName;
   /**
    * ```css
-   * .border\:\$gray800 {}
+   * .border\:\:\$gray800 {}
    * ```
    */
   $gray800: ClassName;
   /**
    * ```css
-   * .border\:\$gray900 {}
+   * .border\:\:\$gray900 {}
    * ```
    */
   $gray900: ClassName;
   /**
    * ```css
-   * .border\:\$zinc50 {}
+   * .border\:\:\$zinc50 {}
    * ```
    */
   $zinc50: ClassName;
   /**
    * ```css
-   * .border\:\$zinc100 {}
+   * .border\:\:\$zinc100 {}
    * ```
    */
   $zinc100: ClassName;
   /**
    * ```css
-   * .border\:\$zinc200 {}
+   * .border\:\:\$zinc200 {}
    * ```
    */
   $zinc200: ClassName;
   /**
    * ```css
-   * .border\:\$zinc300 {}
+   * .border\:\:\$zinc300 {}
    * ```
    */
   $zinc300: ClassName;
   /**
    * ```css
-   * .border\:\$zinc400 {}
+   * .border\:\:\$zinc400 {}
    * ```
    */
   $zinc400: ClassName;
   /**
    * ```css
-   * .border\:\$zinc500 {}
+   * .border\:\:\$zinc500 {}
    * ```
    */
   $zinc500: ClassName;
   /**
    * ```css
-   * .border\:\$zinc600 {}
+   * .border\:\:\$zinc600 {}
    * ```
    */
   $zinc600: ClassName;
   /**
    * ```css
-   * .border\:\$zinc700 {}
+   * .border\:\:\$zinc700 {}
    * ```
    */
   $zinc700: ClassName;
   /**
    * ```css
-   * .border\:\$zinc800 {}
+   * .border\:\:\$zinc800 {}
    * ```
    */
   $zinc800: ClassName;
   /**
    * ```css
-   * .border\:\$zinc900 {}
+   * .border\:\:\$zinc900 {}
    * ```
    */
   $zinc900: ClassName;
   /**
    * ```css
-   * .border\:\$neutral50 {}
+   * .border\:\:\$neutral50 {}
    * ```
    */
   $neutral50: ClassName;
   /**
    * ```css
-   * .border\:\$neutral100 {}
+   * .border\:\:\$neutral100 {}
    * ```
    */
   $neutral100: ClassName;
   /**
    * ```css
-   * .border\:\$neutral200 {}
+   * .border\:\:\$neutral200 {}
    * ```
    */
   $neutral200: ClassName;
   /**
    * ```css
-   * .border\:\$neutral300 {}
+   * .border\:\:\$neutral300 {}
    * ```
    */
   $neutral300: ClassName;
   /**
    * ```css
-   * .border\:\$neutral400 {}
+   * .border\:\:\$neutral400 {}
    * ```
    */
   $neutral400: ClassName;
   /**
    * ```css
-   * .border\:\$neutral500 {}
+   * .border\:\:\$neutral500 {}
    * ```
    */
   $neutral500: ClassName;
   /**
    * ```css
-   * .border\:\$neutral600 {}
+   * .border\:\:\$neutral600 {}
    * ```
    */
   $neutral600: ClassName;
   /**
    * ```css
-   * .border\:\$neutral700 {}
+   * .border\:\:\$neutral700 {}
    * ```
    */
   $neutral700: ClassName;
   /**
    * ```css
-   * .border\:\$neutral800 {}
+   * .border\:\:\$neutral800 {}
    * ```
    */
   $neutral800: ClassName;
   /**
    * ```css
-   * .border\:\$neutral900 {}
+   * .border\:\:\$neutral900 {}
    * ```
    */
   $neutral900: ClassName;
   /**
    * ```css
-   * .border\:\$stone50 {}
+   * .border\:\:\$stone50 {}
    * ```
    */
   $stone50: ClassName;
   /**
    * ```css
-   * .border\:\$stone100 {}
+   * .border\:\:\$stone100 {}
    * ```
    */
   $stone100: ClassName;
   /**
    * ```css
-   * .border\:\$stone200 {}
+   * .border\:\:\$stone200 {}
    * ```
    */
   $stone200: ClassName;
   /**
    * ```css
-   * .border\:\$stone300 {}
+   * .border\:\:\$stone300 {}
    * ```
    */
   $stone300: ClassName;
   /**
    * ```css
-   * .border\:\$stone400 {}
+   * .border\:\:\$stone400 {}
    * ```
    */
   $stone400: ClassName;
   /**
    * ```css
-   * .border\:\$stone500 {}
+   * .border\:\:\$stone500 {}
    * ```
    */
   $stone500: ClassName;
   /**
    * ```css
-   * .border\:\$stone600 {}
+   * .border\:\:\$stone600 {}
    * ```
    */
   $stone600: ClassName;
   /**
    * ```css
-   * .border\:\$stone700 {}
+   * .border\:\:\$stone700 {}
    * ```
    */
   $stone700: ClassName;
   /**
    * ```css
-   * .border\:\$stone800 {}
+   * .border\:\:\$stone800 {}
    * ```
    */
   $stone800: ClassName;
   /**
    * ```css
-   * .border\:\$stone900 {}
+   * .border\:\:\$stone900 {}
    * ```
    */
   $stone900: ClassName;
   /**
    * ```css
-   * .border\:\$red50 {}
+   * .border\:\:\$red50 {}
    * ```
    */
   $red50: ClassName;
   /**
    * ```css
-   * .border\:\$red100 {}
+   * .border\:\:\$red100 {}
    * ```
    */
   $red100: ClassName;
   /**
    * ```css
-   * .border\:\$red200 {}
+   * .border\:\:\$red200 {}
    * ```
    */
   $red200: ClassName;
   /**
    * ```css
-   * .border\:\$red300 {}
+   * .border\:\:\$red300 {}
    * ```
    */
   $red300: ClassName;
   /**
    * ```css
-   * .border\:\$red400 {}
+   * .border\:\:\$red400 {}
    * ```
    */
   $red400: ClassName;
   /**
    * ```css
-   * .border\:\$red500 {}
+   * .border\:\:\$red500 {}
    * ```
    */
   $red500: ClassName;
   /**
    * ```css
-   * .border\:\$red600 {}
+   * .border\:\:\$red600 {}
    * ```
    */
   $red600: ClassName;
   /**
    * ```css
-   * .border\:\$red700 {}
+   * .border\:\:\$red700 {}
    * ```
    */
   $red700: ClassName;
   /**
    * ```css
-   * .border\:\$red800 {}
+   * .border\:\:\$red800 {}
    * ```
    */
   $red800: ClassName;
   /**
    * ```css
-   * .border\:\$red900 {}
+   * .border\:\:\$red900 {}
    * ```
    */
   $red900: ClassName;
   /**
    * ```css
-   * .border\:\$orange50 {}
+   * .border\:\:\$orange50 {}
    * ```
    */
   $orange50: ClassName;
   /**
    * ```css
-   * .border\:\$orange100 {}
+   * .border\:\:\$orange100 {}
    * ```
    */
   $orange100: ClassName;
   /**
    * ```css
-   * .border\:\$orange200 {}
+   * .border\:\:\$orange200 {}
    * ```
    */
   $orange200: ClassName;
   /**
    * ```css
-   * .border\:\$orange300 {}
+   * .border\:\:\$orange300 {}
    * ```
    */
   $orange300: ClassName;
   /**
    * ```css
-   * .border\:\$orange400 {}
+   * .border\:\:\$orange400 {}
    * ```
    */
   $orange400: ClassName;
   /**
    * ```css
-   * .border\:\$orange500 {}
+   * .border\:\:\$orange500 {}
    * ```
    */
   $orange500: ClassName;
   /**
    * ```css
-   * .border\:\$orange600 {}
+   * .border\:\:\$orange600 {}
    * ```
    */
   $orange600: ClassName;
   /**
    * ```css
-   * .border\:\$orange700 {}
+   * .border\:\:\$orange700 {}
    * ```
    */
   $orange700: ClassName;
   /**
    * ```css
-   * .border\:\$orange800 {}
+   * .border\:\:\$orange800 {}
    * ```
    */
   $orange800: ClassName;
   /**
    * ```css
-   * .border\:\$orange900 {}
+   * .border\:\:\$orange900 {}
    * ```
    */
   $orange900: ClassName;
   /**
    * ```css
-   * .border\:\$amber50 {}
+   * .border\:\:\$amber50 {}
    * ```
    */
   $amber50: ClassName;
   /**
    * ```css
-   * .border\:\$amber100 {}
+   * .border\:\:\$amber100 {}
    * ```
    */
   $amber100: ClassName;
   /**
    * ```css
-   * .border\:\$amber200 {}
+   * .border\:\:\$amber200 {}
    * ```
    */
   $amber200: ClassName;
   /**
    * ```css
-   * .border\:\$amber300 {}
+   * .border\:\:\$amber300 {}
    * ```
    */
   $amber300: ClassName;
   /**
    * ```css
-   * .border\:\$amber400 {}
+   * .border\:\:\$amber400 {}
    * ```
    */
   $amber400: ClassName;
   /**
    * ```css
-   * .border\:\$amber500 {}
+   * .border\:\:\$amber500 {}
    * ```
    */
   $amber500: ClassName;
   /**
    * ```css
-   * .border\:\$amber600 {}
+   * .border\:\:\$amber600 {}
    * ```
    */
   $amber600: ClassName;
   /**
    * ```css
-   * .border\:\$amber700 {}
+   * .border\:\:\$amber700 {}
    * ```
    */
   $amber700: ClassName;
   /**
    * ```css
-   * .border\:\$amber800 {}
+   * .border\:\:\$amber800 {}
    * ```
    */
   $amber800: ClassName;
   /**
    * ```css
-   * .border\:\$amber900 {}
+   * .border\:\:\$amber900 {}
    * ```
    */
   $amber900: ClassName;
   /**
    * ```css
-   * .border\:\$yellow50 {}
+   * .border\:\:\$yellow50 {}
    * ```
    */
   $yellow50: ClassName;
   /**
    * ```css
-   * .border\:\$yellow100 {}
+   * .border\:\:\$yellow100 {}
    * ```
    */
   $yellow100: ClassName;
   /**
    * ```css
-   * .border\:\$yellow200 {}
+   * .border\:\:\$yellow200 {}
    * ```
    */
   $yellow200: ClassName;
   /**
    * ```css
-   * .border\:\$yellow300 {}
+   * .border\:\:\$yellow300 {}
    * ```
    */
   $yellow300: ClassName;
   /**
    * ```css
-   * .border\:\$yellow400 {}
+   * .border\:\:\$yellow400 {}
    * ```
    */
   $yellow400: ClassName;
   /**
    * ```css
-   * .border\:\$yellow500 {}
+   * .border\:\:\$yellow500 {}
    * ```
    */
   $yellow500: ClassName;
   /**
    * ```css
-   * .border\:\$yellow600 {}
+   * .border\:\:\$yellow600 {}
    * ```
    */
   $yellow600: ClassName;
   /**
    * ```css
-   * .border\:\$yellow700 {}
+   * .border\:\:\$yellow700 {}
    * ```
    */
   $yellow700: ClassName;
   /**
    * ```css
-   * .border\:\$yellow800 {}
+   * .border\:\:\$yellow800 {}
    * ```
    */
   $yellow800: ClassName;
   /**
    * ```css
-   * .border\:\$yellow900 {}
+   * .border\:\:\$yellow900 {}
    * ```
    */
   $yellow900: ClassName;
   /**
    * ```css
-   * .border\:\$lime50 {}
+   * .border\:\:\$lime50 {}
    * ```
    */
   $lime50: ClassName;
   /**
    * ```css
-   * .border\:\$lime100 {}
+   * .border\:\:\$lime100 {}
    * ```
    */
   $lime100: ClassName;
   /**
    * ```css
-   * .border\:\$lime200 {}
+   * .border\:\:\$lime200 {}
    * ```
    */
   $lime200: ClassName;
   /**
    * ```css
-   * .border\:\$lime300 {}
+   * .border\:\:\$lime300 {}
    * ```
    */
   $lime300: ClassName;
   /**
    * ```css
-   * .border\:\$lime400 {}
+   * .border\:\:\$lime400 {}
    * ```
    */
   $lime400: ClassName;
   /**
    * ```css
-   * .border\:\$lime500 {}
+   * .border\:\:\$lime500 {}
    * ```
    */
   $lime500: ClassName;
   /**
    * ```css
-   * .border\:\$lime600 {}
+   * .border\:\:\$lime600 {}
    * ```
    */
   $lime600: ClassName;
   /**
    * ```css
-   * .border\:\$lime700 {}
+   * .border\:\:\$lime700 {}
    * ```
    */
   $lime700: ClassName;
   /**
    * ```css
-   * .border\:\$lime800 {}
+   * .border\:\:\$lime800 {}
    * ```
    */
   $lime800: ClassName;
   /**
    * ```css
-   * .border\:\$lime900 {}
+   * .border\:\:\$lime900 {}
    * ```
    */
   $lime900: ClassName;
   /**
    * ```css
-   * .border\:\$green50 {}
+   * .border\:\:\$green50 {}
    * ```
    */
   $green50: ClassName;
   /**
    * ```css
-   * .border\:\$green100 {}
+   * .border\:\:\$green100 {}
    * ```
    */
   $green100: ClassName;
   /**
    * ```css
-   * .border\:\$green200 {}
+   * .border\:\:\$green200 {}
    * ```
    */
   $green200: ClassName;
   /**
    * ```css
-   * .border\:\$green300 {}
+   * .border\:\:\$green300 {}
    * ```
    */
   $green300: ClassName;
   /**
    * ```css
-   * .border\:\$green400 {}
+   * .border\:\:\$green400 {}
    * ```
    */
   $green400: ClassName;
   /**
    * ```css
-   * .border\:\$green500 {}
+   * .border\:\:\$green500 {}
    * ```
    */
   $green500: ClassName;
   /**
    * ```css
-   * .border\:\$green600 {}
+   * .border\:\:\$green600 {}
    * ```
    */
   $green600: ClassName;
   /**
    * ```css
-   * .border\:\$green700 {}
+   * .border\:\:\$green700 {}
    * ```
    */
   $green700: ClassName;
   /**
    * ```css
-   * .border\:\$green800 {}
+   * .border\:\:\$green800 {}
    * ```
    */
   $green800: ClassName;
   /**
    * ```css
-   * .border\:\$green900 {}
+   * .border\:\:\$green900 {}
    * ```
    */
   $green900: ClassName;
   /**
    * ```css
-   * .border\:\$emerald50 {}
+   * .border\:\:\$emerald50 {}
    * ```
    */
   $emerald50: ClassName;
   /**
    * ```css
-   * .border\:\$emerald100 {}
+   * .border\:\:\$emerald100 {}
    * ```
    */
   $emerald100: ClassName;
   /**
    * ```css
-   * .border\:\$emerald200 {}
+   * .border\:\:\$emerald200 {}
    * ```
    */
   $emerald200: ClassName;
   /**
    * ```css
-   * .border\:\$emerald300 {}
+   * .border\:\:\$emerald300 {}
    * ```
    */
   $emerald300: ClassName;
   /**
    * ```css
-   * .border\:\$emerald400 {}
+   * .border\:\:\$emerald400 {}
    * ```
    */
   $emerald400: ClassName;
   /**
    * ```css
-   * .border\:\$emerald500 {}
+   * .border\:\:\$emerald500 {}
    * ```
    */
   $emerald500: ClassName;
   /**
    * ```css
-   * .border\:\$emerald600 {}
+   * .border\:\:\$emerald600 {}
    * ```
    */
   $emerald600: ClassName;
   /**
    * ```css
-   * .border\:\$emerald700 {}
+   * .border\:\:\$emerald700 {}
    * ```
    */
   $emerald700: ClassName;
   /**
    * ```css
-   * .border\:\$emerald800 {}
+   * .border\:\:\$emerald800 {}
    * ```
    */
   $emerald800: ClassName;
   /**
    * ```css
-   * .border\:\$emerald900 {}
+   * .border\:\:\$emerald900 {}
    * ```
    */
   $emerald900: ClassName;
   /**
    * ```css
-   * .border\:\$teal50 {}
+   * .border\:\:\$teal50 {}
    * ```
    */
   $teal50: ClassName;
   /**
    * ```css
-   * .border\:\$teal100 {}
+   * .border\:\:\$teal100 {}
    * ```
    */
   $teal100: ClassName;
   /**
    * ```css
-   * .border\:\$teal200 {}
+   * .border\:\:\$teal200 {}
    * ```
    */
   $teal200: ClassName;
   /**
    * ```css
-   * .border\:\$teal300 {}
+   * .border\:\:\$teal300 {}
    * ```
    */
   $teal300: ClassName;
   /**
    * ```css
-   * .border\:\$teal400 {}
+   * .border\:\:\$teal400 {}
    * ```
    */
   $teal400: ClassName;
   /**
    * ```css
-   * .border\:\$teal500 {}
+   * .border\:\:\$teal500 {}
    * ```
    */
   $teal500: ClassName;
   /**
    * ```css
-   * .border\:\$teal600 {}
+   * .border\:\:\$teal600 {}
    * ```
    */
   $teal600: ClassName;
   /**
    * ```css
-   * .border\:\$teal700 {}
+   * .border\:\:\$teal700 {}
    * ```
    */
   $teal700: ClassName;
   /**
    * ```css
-   * .border\:\$teal800 {}
+   * .border\:\:\$teal800 {}
    * ```
    */
   $teal800: ClassName;
   /**
    * ```css
-   * .border\:\$teal900 {}
+   * .border\:\:\$teal900 {}
    * ```
    */
   $teal900: ClassName;
   /**
    * ```css
-   * .border\:\$cyan50 {}
+   * .border\:\:\$cyan50 {}
    * ```
    */
   $cyan50: ClassName;
   /**
    * ```css
-   * .border\:\$cyan100 {}
+   * .border\:\:\$cyan100 {}
    * ```
    */
   $cyan100: ClassName;
   /**
    * ```css
-   * .border\:\$cyan200 {}
+   * .border\:\:\$cyan200 {}
    * ```
    */
   $cyan200: ClassName;
   /**
    * ```css
-   * .border\:\$cyan300 {}
+   * .border\:\:\$cyan300 {}
    * ```
    */
   $cyan300: ClassName;
   /**
    * ```css
-   * .border\:\$cyan400 {}
+   * .border\:\:\$cyan400 {}
    * ```
    */
   $cyan400: ClassName;
   /**
    * ```css
-   * .border\:\$cyan500 {}
+   * .border\:\:\$cyan500 {}
    * ```
    */
   $cyan500: ClassName;
   /**
    * ```css
-   * .border\:\$cyan600 {}
+   * .border\:\:\$cyan600 {}
    * ```
    */
   $cyan600: ClassName;
   /**
    * ```css
-   * .border\:\$cyan700 {}
+   * .border\:\:\$cyan700 {}
    * ```
    */
   $cyan700: ClassName;
   /**
    * ```css
-   * .border\:\$cyan800 {}
+   * .border\:\:\$cyan800 {}
    * ```
    */
   $cyan800: ClassName;
   /**
    * ```css
-   * .border\:\$cyan900 {}
+   * .border\:\:\$cyan900 {}
    * ```
    */
   $cyan900: ClassName;
   /**
    * ```css
-   * .border\:\$sky50 {}
+   * .border\:\:\$sky50 {}
    * ```
    */
   $sky50: ClassName;
   /**
    * ```css
-   * .border\:\$sky100 {}
+   * .border\:\:\$sky100 {}
    * ```
    */
   $sky100: ClassName;
   /**
    * ```css
-   * .border\:\$sky200 {}
+   * .border\:\:\$sky200 {}
    * ```
    */
   $sky200: ClassName;
   /**
    * ```css
-   * .border\:\$sky300 {}
+   * .border\:\:\$sky300 {}
    * ```
    */
   $sky300: ClassName;
   /**
    * ```css
-   * .border\:\$sky400 {}
+   * .border\:\:\$sky400 {}
    * ```
    */
   $sky400: ClassName;
   /**
    * ```css
-   * .border\:\$sky500 {}
+   * .border\:\:\$sky500 {}
    * ```
    */
   $sky500: ClassName;
   /**
    * ```css
-   * .border\:\$sky600 {}
+   * .border\:\:\$sky600 {}
    * ```
    */
   $sky600: ClassName;
   /**
    * ```css
-   * .border\:\$sky700 {}
+   * .border\:\:\$sky700 {}
    * ```
    */
   $sky700: ClassName;
   /**
    * ```css
-   * .border\:\$sky800 {}
+   * .border\:\:\$sky800 {}
    * ```
    */
   $sky800: ClassName;
   /**
    * ```css
-   * .border\:\$sky900 {}
+   * .border\:\:\$sky900 {}
    * ```
    */
   $sky900: ClassName;
   /**
    * ```css
-   * .border\:\$blue50 {}
+   * .border\:\:\$blue50 {}
    * ```
    */
   $blue50: ClassName;
   /**
    * ```css
-   * .border\:\$blue100 {}
+   * .border\:\:\$blue100 {}
    * ```
    */
   $blue100: ClassName;
   /**
    * ```css
-   * .border\:\$blue200 {}
+   * .border\:\:\$blue200 {}
    * ```
    */
   $blue200: ClassName;
   /**
    * ```css
-   * .border\:\$blue300 {}
+   * .border\:\:\$blue300 {}
    * ```
    */
   $blue300: ClassName;
   /**
    * ```css
-   * .border\:\$blue400 {}
+   * .border\:\:\$blue400 {}
    * ```
    */
   $blue400: ClassName;
   /**
    * ```css
-   * .border\:\$blue500 {}
+   * .border\:\:\$blue500 {}
    * ```
    */
   $blue500: ClassName;
   /**
    * ```css
-   * .border\:\$blue600 {}
+   * .border\:\:\$blue600 {}
    * ```
    */
   $blue600: ClassName;
   /**
    * ```css
-   * .border\:\$blue700 {}
+   * .border\:\:\$blue700 {}
    * ```
    */
   $blue700: ClassName;
   /**
    * ```css
-   * .border\:\$blue800 {}
+   * .border\:\:\$blue800 {}
    * ```
    */
   $blue800: ClassName;
   /**
    * ```css
-   * .border\:\$blue900 {}
+   * .border\:\:\$blue900 {}
    * ```
    */
   $blue900: ClassName;
   /**
    * ```css
-   * .border\:\$indigo50 {}
+   * .border\:\:\$indigo50 {}
    * ```
    */
   $indigo50: ClassName;
   /**
    * ```css
-   * .border\:\$indigo100 {}
+   * .border\:\:\$indigo100 {}
    * ```
    */
   $indigo100: ClassName;
   /**
    * ```css
-   * .border\:\$indigo200 {}
+   * .border\:\:\$indigo200 {}
    * ```
    */
   $indigo200: ClassName;
   /**
    * ```css
-   * .border\:\$indigo300 {}
+   * .border\:\:\$indigo300 {}
    * ```
    */
   $indigo300: ClassName;
   /**
    * ```css
-   * .border\:\$indigo400 {}
+   * .border\:\:\$indigo400 {}
    * ```
    */
   $indigo400: ClassName;
   /**
    * ```css
-   * .border\:\$indigo500 {}
+   * .border\:\:\$indigo500 {}
    * ```
    */
   $indigo500: ClassName;
   /**
    * ```css
-   * .border\:\$indigo600 {}
+   * .border\:\:\$indigo600 {}
    * ```
    */
   $indigo600: ClassName;
   /**
    * ```css
-   * .border\:\$indigo700 {}
+   * .border\:\:\$indigo700 {}
    * ```
    */
   $indigo700: ClassName;
   /**
    * ```css
-   * .border\:\$indigo800 {}
+   * .border\:\:\$indigo800 {}
    * ```
    */
   $indigo800: ClassName;
   /**
    * ```css
-   * .border\:\$indigo900 {}
+   * .border\:\:\$indigo900 {}
    * ```
    */
   $indigo900: ClassName;
   /**
    * ```css
-   * .border\:\$violet50 {}
+   * .border\:\:\$violet50 {}
    * ```
    */
   $violet50: ClassName;
   /**
    * ```css
-   * .border\:\$violet100 {}
+   * .border\:\:\$violet100 {}
    * ```
    */
   $violet100: ClassName;
   /**
    * ```css
-   * .border\:\$violet200 {}
+   * .border\:\:\$violet200 {}
    * ```
    */
   $violet200: ClassName;
   /**
    * ```css
-   * .border\:\$violet300 {}
+   * .border\:\:\$violet300 {}
    * ```
    */
   $violet300: ClassName;
   /**
    * ```css
-   * .border\:\$violet400 {}
+   * .border\:\:\$violet400 {}
    * ```
    */
   $violet400: ClassName;
   /**
    * ```css
-   * .border\:\$violet500 {}
+   * .border\:\:\$violet500 {}
    * ```
    */
   $violet500: ClassName;
   /**
    * ```css
-   * .border\:\$violet600 {}
+   * .border\:\:\$violet600 {}
    * ```
    */
   $violet600: ClassName;
   /**
    * ```css
-   * .border\:\$violet700 {}
+   * .border\:\:\$violet700 {}
    * ```
    */
   $violet700: ClassName;
   /**
    * ```css
-   * .border\:\$violet800 {}
+   * .border\:\:\$violet800 {}
    * ```
    */
   $violet800: ClassName;
   /**
    * ```css
-   * .border\:\$violet900 {}
+   * .border\:\:\$violet900 {}
    * ```
    */
   $violet900: ClassName;
   /**
    * ```css
-   * .border\:\$purple50 {}
+   * .border\:\:\$purple50 {}
    * ```
    */
   $purple50: ClassName;
   /**
    * ```css
-   * .border\:\$purple100 {}
+   * .border\:\:\$purple100 {}
    * ```
    */
   $purple100: ClassName;
   /**
    * ```css
-   * .border\:\$purple200 {}
+   * .border\:\:\$purple200 {}
    * ```
    */
   $purple200: ClassName;
   /**
    * ```css
-   * .border\:\$purple300 {}
+   * .border\:\:\$purple300 {}
    * ```
    */
   $purple300: ClassName;
   /**
    * ```css
-   * .border\:\$purple400 {}
+   * .border\:\:\$purple400 {}
    * ```
    */
   $purple400: ClassName;
   /**
    * ```css
-   * .border\:\$purple500 {}
+   * .border\:\:\$purple500 {}
    * ```
    */
   $purple500: ClassName;
   /**
    * ```css
-   * .border\:\$purple600 {}
+   * .border\:\:\$purple600 {}
    * ```
    */
   $purple600: ClassName;
   /**
    * ```css
-   * .border\:\$purple700 {}
+   * .border\:\:\$purple700 {}
    * ```
    */
   $purple700: ClassName;
   /**
    * ```css
-   * .border\:\$purple800 {}
+   * .border\:\:\$purple800 {}
    * ```
    */
   $purple800: ClassName;
   /**
    * ```css
-   * .border\:\$purple900 {}
+   * .border\:\:\$purple900 {}
    * ```
    */
   $purple900: ClassName;
   /**
    * ```css
-   * .border\:\$fuchsia50 {}
+   * .border\:\:\$fuchsia50 {}
    * ```
    */
   $fuchsia50: ClassName;
   /**
    * ```css
-   * .border\:\$fuchsia100 {}
+   * .border\:\:\$fuchsia100 {}
    * ```
    */
   $fuchsia100: ClassName;
   /**
    * ```css
-   * .border\:\$fuchsia200 {}
+   * .border\:\:\$fuchsia200 {}
    * ```
    */
   $fuchsia200: ClassName;
   /**
    * ```css
-   * .border\:\$fuchsia300 {}
+   * .border\:\:\$fuchsia300 {}
    * ```
    */
   $fuchsia300: ClassName;
   /**
    * ```css
-   * .border\:\$fuchsia400 {}
+   * .border\:\:\$fuchsia400 {}
    * ```
    */
   $fuchsia400: ClassName;
   /**
    * ```css
-   * .border\:\$fuchsia500 {}
+   * .border\:\:\$fuchsia500 {}
    * ```
    */
   $fuchsia500: ClassName;
   /**
    * ```css
-   * .border\:\$fuchsia600 {}
+   * .border\:\:\$fuchsia600 {}
    * ```
    */
   $fuchsia600: ClassName;
   /**
    * ```css
-   * .border\:\$fuchsia700 {}
+   * .border\:\:\$fuchsia700 {}
    * ```
    */
   $fuchsia700: ClassName;
   /**
    * ```css
-   * .border\:\$fuchsia800 {}
+   * .border\:\:\$fuchsia800 {}
    * ```
    */
   $fuchsia800: ClassName;
   /**
    * ```css
-   * .border\:\$fuchsia900 {}
+   * .border\:\:\$fuchsia900 {}
    * ```
    */
   $fuchsia900: ClassName;
   /**
    * ```css
-   * .border\:\$pink50 {}
+   * .border\:\:\$pink50 {}
    * ```
    */
   $pink50: ClassName;
   /**
    * ```css
-   * .border\:\$pink100 {}
+   * .border\:\:\$pink100 {}
    * ```
    */
   $pink100: ClassName;
   /**
    * ```css
-   * .border\:\$pink200 {}
+   * .border\:\:\$pink200 {}
    * ```
    */
   $pink200: ClassName;
   /**
    * ```css
-   * .border\:\$pink300 {}
+   * .border\:\:\$pink300 {}
    * ```
    */
   $pink300: ClassName;
   /**
    * ```css
-   * .border\:\$pink400 {}
+   * .border\:\:\$pink400 {}
    * ```
    */
   $pink400: ClassName;
   /**
    * ```css
-   * .border\:\$pink500 {}
+   * .border\:\:\$pink500 {}
    * ```
    */
   $pink500: ClassName;
   /**
    * ```css
-   * .border\:\$pink600 {}
+   * .border\:\:\$pink600 {}
    * ```
    */
   $pink600: ClassName;
   /**
    * ```css
-   * .border\:\$pink700 {}
+   * .border\:\:\$pink700 {}
    * ```
    */
   $pink700: ClassName;
   /**
    * ```css
-   * .border\:\$pink800 {}
+   * .border\:\:\$pink800 {}
    * ```
    */
   $pink800: ClassName;
   /**
    * ```css
-   * .border\:\$pink900 {}
+   * .border\:\:\$pink900 {}
    * ```
    */
   $pink900: ClassName;
   /**
    * ```css
-   * .border\:\$rose50 {}
+   * .border\:\:\$rose50 {}
    * ```
    */
   $rose50: ClassName;
   /**
    * ```css
-   * .border\:\$rose100 {}
+   * .border\:\:\$rose100 {}
    * ```
    */
   $rose100: ClassName;
   /**
    * ```css
-   * .border\:\$rose200 {}
+   * .border\:\:\$rose200 {}
    * ```
    */
   $rose200: ClassName;
   /**
    * ```css
-   * .border\:\$rose300 {}
+   * .border\:\:\$rose300 {}
    * ```
    */
   $rose300: ClassName;
   /**
    * ```css
-   * .border\:\$rose400 {}
+   * .border\:\:\$rose400 {}
    * ```
    */
   $rose400: ClassName;
   /**
    * ```css
-   * .border\:\$rose500 {}
+   * .border\:\:\$rose500 {}
    * ```
    */
   $rose500: ClassName;
   /**
    * ```css
-   * .border\:\$rose600 {}
+   * .border\:\:\$rose600 {}
    * ```
    */
   $rose600: ClassName;
   /**
    * ```css
-   * .border\:\$rose700 {}
+   * .border\:\:\$rose700 {}
    * ```
    */
   $rose700: ClassName;
   /**
    * ```css
-   * .border\:\$rose800 {}
+   * .border\:\:\$rose800 {}
    * ```
    */
   $rose800: ClassName;
   /**
    * ```css
-   * .border\:\$rose900 {}
+   * .border\:\:\$rose900 {}
    * ```
    */
   $rose900: ClassName;
   /**
    * ```css
-   * .border\:\$primary {}
+   * .border\:\:\$primary {}
    * ```
    */
   $primary: ClassName;
   /**
    * ```css
-   * .border\:\$secondary {}
+   * .border\:\:\$secondary {}
    * ```
    */
   $secondary: ClassName;
   /**
    * ```css
-   * .border\:\$text {}
+   * .border\:\:\$text {}
    * ```
    */
   $text: ClassName;
   /**
    * ```css
-   * .border\:\$background {}
+   * .border\:\:\$background {}
    * ```
    */
   $background: ClassName;
   /**
    * ```css
-   * .border\:\$border {}
+   * .border\:\:\$border {}
    * ```
    */
   $border: ClassName;
   /**
    * ```css
-   * .border\:\$media {}
+   * .border\:\:\$media {}
    * ```
    */
   $media: ClassName;
 }
 
+interface FontAtomStyle {
+  /**
+   * ```css
+   * .font\:\:\$sans {
+   *   font-family: ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+   * }
+   * ```
+   */
+  $sans: ClassName;
+  /**
+   * ```css
+   * .font\:\:\$serif {
+   *   font-family: ui-serif,Georgia,Cambria,"Times New Roman",Times,serif;
+   * }
+   * ```
+   */
+  $serif: ClassName;
+  /**
+   * ```css
+   * .font\:\:\$mono {
+   *   font-family: ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+   * }
+   * ```
+   */
+  $mono: ClassName;
+}
+
+interface BlurAtomStyle {
+  /**
+   * ```css
+   * .blur\:\:\$none {
+   *   --filter-blur: blur(0);
+   * }
+   * ```
+   */
+  $none: ClassName;
+  /**
+   * ```css
+   * .blur\:\:\$sm {
+   *   --filter-blur: blur(4px);
+   * }
+   * ```
+   */
+  $sm: ClassName;
+  /**
+   * ```css
+   * .blur\:\:\$ {
+   *   --filter-blur: blur(8px);
+   * }
+   * ```
+   */
+  $: ClassName;
+  /**
+   * ```css
+   * .blur\:\:\$md {
+   *   --filter-blur: blur(12px);
+   * }
+   * ```
+   */
+  $md: ClassName;
+  /**
+   * ```css
+   * .blur\:\:\$lg {
+   *   --filter-blur: blur(16px);
+   * }
+   * ```
+   */
+  $lg: ClassName;
+  /**
+   * ```css
+   * .blur\:\:\$xl {
+   *   --filter-blur: blur(24px);
+   * }
+   * ```
+   */
+  $xl: ClassName;
+  /**
+   * ```css
+   * .blur\:\:\$2xl {
+   *   --filter-blur: blur(40px);
+   * }
+   * ```
+   */
+  $2xl: ClassName;
+  /**
+   * ```css
+   * .blur\:\:\$3xl {
+   *   --filter-blur: blur(64px);
+   * }
+   * ```
+   */
+  $3xl: ClassName;
+}
+
+interface BackdropBlurAtomStyle {
+  /**
+   * ```css
+   * .backdropBlur\:\:\$none {
+   *   --backdrop-blur: blur(0);
+   * }
+   * ```
+   */
+  $none: ClassName;
+  /**
+   * ```css
+   * .backdropBlur\:\:\$sm {
+   *   --backdrop-blur: blur(4px);
+   * }
+   * ```
+   */
+  $sm: ClassName;
+  /**
+   * ```css
+   * .backdropBlur\:\:\$ {
+   *   --backdrop-blur: blur(8px);
+   * }
+   * ```
+   */
+  $: ClassName;
+  /**
+   * ```css
+   * .backdropBlur\:\:\$md {
+   *   --backdrop-blur: blur(12px);
+   * }
+   * ```
+   */
+  $md: ClassName;
+  /**
+   * ```css
+   * .backdropBlur\:\:\$lg {
+   *   --backdrop-blur: blur(16px);
+   * }
+   * ```
+   */
+  $lg: ClassName;
+  /**
+   * ```css
+   * .backdropBlur\:\:\$xl {
+   *   --backdrop-blur: blur(24px);
+   * }
+   * ```
+   */
+  $xl: ClassName;
+  /**
+   * ```css
+   * .backdropBlur\:\:\$2xl {
+   *   --backdrop-blur: blur(40px);
+   * }
+   * ```
+   */
+  $2xl: ClassName;
+  /**
+   * ```css
+   * .backdropBlur\:\:\$3xl {
+   *   --backdrop-blur: blur(64px);
+   * }
+   * ```
+   */
+  $3xl: ClassName;
+}
+
+interface BrightnessAtomStyle {
+  /**
+   * ```css
+   * .brightness\:\:\$0 {
+   *   --filter-brightness: brightness(0);
+   * }
+   * ```
+   */
+  $0: ClassName;
+  /**
+   * ```css
+   * .brightness\:\:\$50 {
+   *   --filter-brightness: brightness(.5);
+   * }
+   * ```
+   */
+  $50: ClassName;
+  /**
+   * ```css
+   * .brightness\:\:\$75 {
+   *   --filter-brightness: brightness(.75);
+   * }
+   * ```
+   */
+  $75: ClassName;
+  /**
+   * ```css
+   * .brightness\:\:\$90 {
+   *   --filter-brightness: brightness(.9);
+   * }
+   * ```
+   */
+  $90: ClassName;
+  /**
+   * ```css
+   * .brightness\:\:\$95 {
+   *   --filter-brightness: brightness(.95);
+   * }
+   * ```
+   */
+  $95: ClassName;
+  /**
+   * ```css
+   * .brightness\:\:\$100 {
+   *   --filter-brightness: brightness(1);
+   * }
+   * ```
+   */
+  $100: ClassName;
+  /**
+   * ```css
+   * .brightness\:\:\$105 {
+   *   --filter-brightness: brightness(1.05);
+   * }
+   * ```
+   */
+  $105: ClassName;
+  /**
+   * ```css
+   * .brightness\:\:\$110 {
+   *   --filter-brightness: brightness(1.1);
+   * }
+   * ```
+   */
+  $110: ClassName;
+  /**
+   * ```css
+   * .brightness\:\:\$125 {
+   *   --filter-brightness: brightness(1.25);
+   * }
+   * ```
+   */
+  $125: ClassName;
+  /**
+   * ```css
+   * .brightness\:\:\$150 {
+   *   --filter-brightness: brightness(1.5);
+   * }
+   * ```
+   */
+  $150: ClassName;
+  /**
+   * ```css
+   * .brightness\:\:\$200 {
+   *   --filter-brightness: brightness(2);
+   * }
+   * ```
+   */
+  $200: ClassName;
+}
+
+interface BackdropBrightnessAtomStyle {
+  /**
+   * ```css
+   * .backdropBrightness\:\:\$0 {
+   *   --backdrop-brightness: brightness(0);
+   * }
+   * ```
+   */
+  $0: ClassName;
+  /**
+   * ```css
+   * .backdropBrightness\:\:\$50 {
+   *   --backdrop-brightness: brightness(.5);
+   * }
+   * ```
+   */
+  $50: ClassName;
+  /**
+   * ```css
+   * .backdropBrightness\:\:\$75 {
+   *   --backdrop-brightness: brightness(.75);
+   * }
+   * ```
+   */
+  $75: ClassName;
+  /**
+   * ```css
+   * .backdropBrightness\:\:\$90 {
+   *   --backdrop-brightness: brightness(.9);
+   * }
+   * ```
+   */
+  $90: ClassName;
+  /**
+   * ```css
+   * .backdropBrightness\:\:\$95 {
+   *   --backdrop-brightness: brightness(.95);
+   * }
+   * ```
+   */
+  $95: ClassName;
+  /**
+   * ```css
+   * .backdropBrightness\:\:\$100 {
+   *   --backdrop-brightness: brightness(1);
+   * }
+   * ```
+   */
+  $100: ClassName;
+  /**
+   * ```css
+   * .backdropBrightness\:\:\$105 {
+   *   --backdrop-brightness: brightness(1.05);
+   * }
+   * ```
+   */
+  $105: ClassName;
+  /**
+   * ```css
+   * .backdropBrightness\:\:\$110 {
+   *   --backdrop-brightness: brightness(1.1);
+   * }
+   * ```
+   */
+  $110: ClassName;
+  /**
+   * ```css
+   * .backdropBrightness\:\:\$125 {
+   *   --backdrop-brightness: brightness(1.25);
+   * }
+   * ```
+   */
+  $125: ClassName;
+  /**
+   * ```css
+   * .backdropBrightness\:\:\$150 {
+   *   --backdrop-brightness: brightness(1.5);
+   * }
+   * ```
+   */
+  $150: ClassName;
+  /**
+   * ```css
+   * .backdropBrightness\:\:\$200 {
+   *   --backdrop-brightness: brightness(2);
+   * }
+   * ```
+   */
+  $200: ClassName;
+}
+
+interface ContrastAtomStyle {
+  /**
+   * ```css
+   * .contrast\:\:\$0 {
+   *   --filter-contrast: contrast(0);
+   * }
+   * ```
+   */
+  $0: ClassName;
+  /**
+   * ```css
+   * .contrast\:\:\$50 {
+   *   --filter-contrast: contrast(.5);
+   * }
+   * ```
+   */
+  $50: ClassName;
+  /**
+   * ```css
+   * .contrast\:\:\$75 {
+   *   --filter-contrast: contrast(.75);
+   * }
+   * ```
+   */
+  $75: ClassName;
+  /**
+   * ```css
+   * .contrast\:\:\$100 {
+   *   --filter-contrast: contrast(1);
+   * }
+   * ```
+   */
+  $100: ClassName;
+  /**
+   * ```css
+   * .contrast\:\:\$125 {
+   *   --filter-contrast: contrast(1.25);
+   * }
+   * ```
+   */
+  $125: ClassName;
+  /**
+   * ```css
+   * .contrast\:\:\$150 {
+   *   --filter-contrast: contrast(1.5);
+   * }
+   * ```
+   */
+  $150: ClassName;
+  /**
+   * ```css
+   * .contrast\:\:\$200 {
+   *   --filter-contrast: contrast(2);
+   * }
+   * ```
+   */
+  $200: ClassName;
+}
+
+interface BackdropContrastAtomStyle {
+  /**
+   * ```css
+   * .backdropContrast\:\:\$0 {
+   *   --backdrop-contrast: contrast(0);
+   * }
+   * ```
+   */
+  $0: ClassName;
+  /**
+   * ```css
+   * .backdropContrast\:\:\$50 {
+   *   --backdrop-contrast: contrast(.5);
+   * }
+   * ```
+   */
+  $50: ClassName;
+  /**
+   * ```css
+   * .backdropContrast\:\:\$75 {
+   *   --backdrop-contrast: contrast(.75);
+   * }
+   * ```
+   */
+  $75: ClassName;
+  /**
+   * ```css
+   * .backdropContrast\:\:\$100 {
+   *   --backdrop-contrast: contrast(1);
+   * }
+   * ```
+   */
+  $100: ClassName;
+  /**
+   * ```css
+   * .backdropContrast\:\:\$125 {
+   *   --backdrop-contrast: contrast(1.25);
+   * }
+   * ```
+   */
+  $125: ClassName;
+  /**
+   * ```css
+   * .backdropContrast\:\:\$150 {
+   *   --backdrop-contrast: contrast(1.5);
+   * }
+   * ```
+   */
+  $150: ClassName;
+  /**
+   * ```css
+   * .backdropContrast\:\:\$200 {
+   *   --backdrop-contrast: contrast(2);
+   * }
+   * ```
+   */
+  $200: ClassName;
+}
+
+interface DropShadowAtomStyle {
+  /**
+   * ```css
+   * .dropShadow\:\:\$ {
+   *   --filter-drop-shadow: drop-shadow(0 1px 2px rgb(0 0 0 / 0.1)) drop-shadow(0 1px 1px rgb(0 0 0 / 0.06));
+   * }
+   * ```
+   */
+  $: ClassName;
+  /**
+   * ```css
+   * .dropShadow\:\:\$sm {
+   *   --filter-drop-shadow: drop-shadow(0 1px 1px rgb(0 0 0 / 0.05));
+   * }
+   * ```
+   */
+  $sm: ClassName;
+  /**
+   * ```css
+   * .dropShadow\:\:\$md {
+   *   --filter-drop-shadow: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
+   * }
+   * ```
+   */
+  $md: ClassName;
+  /**
+   * ```css
+   * .dropShadow\:\:\$lg {
+   *   --filter-drop-shadow: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
+   * }
+   * ```
+   */
+  $lg: ClassName;
+  /**
+   * ```css
+   * .dropShadow\:\:\$xl {
+   *   --filter-drop-shadow: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
+   * }
+   * ```
+   */
+  $xl: ClassName;
+  /**
+   * ```css
+   * .dropShadow\:\:\$2xl {
+   *   --filter-drop-shadow: drop-shadow(0 25px 25px rgb(0 0 0 / 0.15));
+   * }
+   * ```
+   */
+  $2xl: ClassName;
+  /**
+   * ```css
+   * .dropShadow\:\:\$none {
+   *   --filter-drop-shadow: drop-shadow(0 0 #0000);
+   * }
+   * ```
+   */
+  $none: ClassName;
+}
+
+interface BackdropDropShadowAtomStyle {
+  /**
+   * ```css
+   * .backdropDropShadow\:\:\$ {
+   *   --backdrop-drop-shadow: drop-shadow(0 1px 2px rgb(0 0 0 / 0.1)) drop-shadow(0 1px 1px rgb(0 0 0 / 0.06));
+   * }
+   * ```
+   */
+  $: ClassName;
+  /**
+   * ```css
+   * .backdropDropShadow\:\:\$sm {
+   *   --backdrop-drop-shadow: drop-shadow(0 1px 1px rgb(0 0 0 / 0.05));
+   * }
+   * ```
+   */
+  $sm: ClassName;
+  /**
+   * ```css
+   * .backdropDropShadow\:\:\$md {
+   *   --backdrop-drop-shadow: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
+   * }
+   * ```
+   */
+  $md: ClassName;
+  /**
+   * ```css
+   * .backdropDropShadow\:\:\$lg {
+   *   --backdrop-drop-shadow: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
+   * }
+   * ```
+   */
+  $lg: ClassName;
+  /**
+   * ```css
+   * .backdropDropShadow\:\:\$xl {
+   *   --backdrop-drop-shadow: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
+   * }
+   * ```
+   */
+  $xl: ClassName;
+  /**
+   * ```css
+   * .backdropDropShadow\:\:\$2xl {
+   *   --backdrop-drop-shadow: drop-shadow(0 25px 25px rgb(0 0 0 / 0.15));
+   * }
+   * ```
+   */
+  $2xl: ClassName;
+  /**
+   * ```css
+   * .backdropDropShadow\:\:\$none {
+   *   --backdrop-drop-shadow: drop-shadow(0 0 #0000);
+   * }
+   * ```
+   */
+  $none: ClassName;
+}
+
+interface GrayScaleAtomStyle {
+  /**
+   * ```css
+   * .grayScale\:\:\$0 {}
+   * ```
+   */
+  $0: ClassName;
+  /**
+   * ```css
+   * .grayScale\:\:\$25 {}
+   * ```
+   */
+  $25: ClassName;
+  /**
+   * ```css
+   * .grayScale\:\:\$50 {}
+   * ```
+   */
+  $50: ClassName;
+  /**
+   * ```css
+   * .grayScale\:\:\$75 {}
+   * ```
+   */
+  $75: ClassName;
+  /**
+   * ```css
+   * .grayScale\:\:\$100 {}
+   * ```
+   */
+  $100: ClassName;
+  /**
+   * ```css
+   * .grayScale\:\:\$ {}
+   * ```
+   */
+  $: ClassName;
+}
+
+interface BackdropGrayScaleAtomStyle {
+  /**
+   * ```css
+   * .backdropGrayScale\:\:\$0 {}
+   * ```
+   */
+  $0: ClassName;
+  /**
+   * ```css
+   * .backdropGrayScale\:\:\$25 {}
+   * ```
+   */
+  $25: ClassName;
+  /**
+   * ```css
+   * .backdropGrayScale\:\:\$50 {}
+   * ```
+   */
+  $50: ClassName;
+  /**
+   * ```css
+   * .backdropGrayScale\:\:\$75 {}
+   * ```
+   */
+  $75: ClassName;
+  /**
+   * ```css
+   * .backdropGrayScale\:\:\$100 {}
+   * ```
+   */
+  $100: ClassName;
+  /**
+   * ```css
+   * .backdropGrayScale\:\:\$ {}
+   * ```
+   */
+  $: ClassName;
+}
+
+interface HueRotateAtomStyle {
+  /**
+   * ```css
+   * .hueRotate\:\:\$0 {
+   *   --filter-hue-rotate: hue-rotate(0deg);
+   * }
+   * ```
+   */
+  $0: ClassName;
+  /**
+   * ```css
+   * .hueRotate\:\:\$15 {
+   *   --filter-hue-rotate: hue-rotate(15deg);
+   * }
+   * ```
+   */
+  $15: ClassName;
+  /**
+   * ```css
+   * .hueRotate\:\:\$30 {
+   *   --filter-hue-rotate: hue-rotate(30deg);
+   * }
+   * ```
+   */
+  $30: ClassName;
+  /**
+   * ```css
+   * .hueRotate\:\:\$60 {
+   *   --filter-hue-rotate: hue-rotate(60deg);
+   * }
+   * ```
+   */
+  $60: ClassName;
+  /**
+   * ```css
+   * .hueRotate\:\:\$90 {
+   *   --filter-hue-rotate: hue-rotate(90deg);
+   * }
+   * ```
+   */
+  $90: ClassName;
+  /**
+   * ```css
+   * .hueRotate\:\:\$180 {
+   *   --filter-hue-rotate: hue-rotate(180deg);
+   * }
+   * ```
+   */
+  $180: ClassName;
+}
+
+interface BackdropHueRotateAtomStyle {
+  /**
+   * ```css
+   * .backdropHueRotate\:\:\$0 {
+   *   --backdrop-hue-rotate: hue-rotate(0deg);
+   * }
+   * ```
+   */
+  $0: ClassName;
+  /**
+   * ```css
+   * .backdropHueRotate\:\:\$15 {
+   *   --backdrop-hue-rotate: hue-rotate(15deg);
+   * }
+   * ```
+   */
+  $15: ClassName;
+  /**
+   * ```css
+   * .backdropHueRotate\:\:\$30 {
+   *   --backdrop-hue-rotate: hue-rotate(30deg);
+   * }
+   * ```
+   */
+  $30: ClassName;
+  /**
+   * ```css
+   * .backdropHueRotate\:\:\$60 {
+   *   --backdrop-hue-rotate: hue-rotate(60deg);
+   * }
+   * ```
+   */
+  $60: ClassName;
+  /**
+   * ```css
+   * .backdropHueRotate\:\:\$90 {
+   *   --backdrop-hue-rotate: hue-rotate(90deg);
+   * }
+   * ```
+   */
+  $90: ClassName;
+  /**
+   * ```css
+   * .backdropHueRotate\:\:\$180 {
+   *   --backdrop-hue-rotate: hue-rotate(180deg);
+   * }
+   * ```
+   */
+  $180: ClassName;
+}
+
+interface InvertAtomStyle {
+  /**
+   * ```css
+   * .invert\:\:\$0 {
+   *   --filter-invert: invert(0);
+   * }
+   * ```
+   */
+  $0: ClassName;
+  /**
+   * ```css
+   * .invert\:\:\$100 {
+   *   --filter-invert: invert(100%);
+   * }
+   * ```
+   */
+  $100: ClassName;
+  /**
+   * ```css
+   * .invert\:\:\$ {
+   *   --filter-invert: invert(100%);
+   * }
+   * ```
+   */
+  $: ClassName;
+}
+
+interface BackdropInvertAtomStyle {
+  /**
+   * ```css
+   * .backdropInvert\:\:\$0 {
+   *   --backdrop-invert: invert(0);
+   * }
+   * ```
+   */
+  $0: ClassName;
+  /**
+   * ```css
+   * .backdropInvert\:\:\$100 {
+   *   --backdrop-invert: invert(100%);
+   * }
+   * ```
+   */
+  $100: ClassName;
+  /**
+   * ```css
+   * .backdropInvert\:\:\$ {
+   *   --backdrop-invert: invert(100%);
+   * }
+   * ```
+   */
+  $: ClassName;
+}
+
+interface SaturateAtomStyle {
+  /**
+   * ```css
+   * .saturate\:\:\$0 {
+   *   --filter-saturate: saturate(0);
+   * }
+   * ```
+   */
+  $0: ClassName;
+  /**
+   * ```css
+   * .saturate\:\:\$50 {
+   *   --filter-saturate: saturate(.5);
+   * }
+   * ```
+   */
+  $50: ClassName;
+  /**
+   * ```css
+   * .saturate\:\:\$100 {
+   *   --filter-saturate: saturate(1);
+   * }
+   * ```
+   */
+  $100: ClassName;
+  /**
+   * ```css
+   * .saturate\:\:\$150 {
+   *   --filter-saturate: saturate(1.5);
+   * }
+   * ```
+   */
+  $150: ClassName;
+  /**
+   * ```css
+   * .saturate\:\:\$200 {
+   *   --filter-saturate: saturate(2);
+   * }
+   * ```
+   */
+  $200: ClassName;
+}
+
+interface BackdropSaturateAtomStyle {
+  /**
+   * ```css
+   * .backdropSaturate\:\:\$0 {
+   *   --backdrop-saturate: saturate(0);
+   * }
+   * ```
+   */
+  $0: ClassName;
+  /**
+   * ```css
+   * .backdropSaturate\:\:\$50 {
+   *   --backdrop-saturate: saturate(.5);
+   * }
+   * ```
+   */
+  $50: ClassName;
+  /**
+   * ```css
+   * .backdropSaturate\:\:\$100 {
+   *   --backdrop-saturate: saturate(1);
+   * }
+   * ```
+   */
+  $100: ClassName;
+  /**
+   * ```css
+   * .backdropSaturate\:\:\$150 {
+   *   --backdrop-saturate: saturate(1.5);
+   * }
+   * ```
+   */
+  $150: ClassName;
+  /**
+   * ```css
+   * .backdropSaturate\:\:\$200 {
+   *   --backdrop-saturate: saturate(2);
+   * }
+   * ```
+   */
+  $200: ClassName;
+}
+
+interface SepiaAtomStyle {
+  /**
+   * ```css
+   * .sepia\:\:\$0 {
+   *   --filter-sepia: sepia(0);
+   * }
+   * ```
+   */
+  $0: ClassName;
+  /**
+   * ```css
+   * .sepia\:\:\$100 {
+   *   --filter-sepia: sepia(100%);
+   * }
+   * ```
+   */
+  $100: ClassName;
+  /**
+   * ```css
+   * .sepia\:\:\$ {
+   *   --filter-sepia: sepia(100%);
+   * }
+   * ```
+   */
+  $: ClassName;
+}
+
+interface BackdropSepiaAtomStyle {
+  /**
+   * ```css
+   * .backdropSepia\:\:\$0 {
+   *   --backdrop-sepia: sepia(0);
+   * }
+   * ```
+   */
+  $0: ClassName;
+  /**
+   * ```css
+   * .backdropSepia\:\:\$100 {
+   *   --backdrop-sepia: sepia(100%);
+   * }
+   * ```
+   */
+  $100: ClassName;
+  /**
+   * ```css
+   * .backdropSepia\:\:\$ {
+   *   --backdrop-sepia: sepia(100%);
+   * }
+   * ```
+   */
+  $: ClassName;
+}
+
+interface FilterAtomStyle {
+  /**
+   * ```css
+   * .filter\:\:\$rough {
+   *   --filter-custom: var(--custom-filter-roughen);
+   * }
+   * ```
+   */
+  $rough: ClassName;
+}
+
+interface BackdropAtomStyle {
+  /**
+   * ```css
+   * .backdrop\:\:\$rough {
+   *   --backdrop-custom: var(--custom-filter-roughen);
+   * }
+   * ```
+   */
+  $rough: ClassName;
+}
+
 interface PAtomStyle {
   /**
    * ```css
-   * .p\:\$0 {
+   * .p\:\:\$0 {
    *   padding: 0px;
    * }
    * ```
@@ -7522,23 +8695,7 @@ interface PAtomStyle {
   $0: ClassName;
   /**
    * ```css
-   * .p\:\$px {
-   *   padding: 1px;
-   * }
-   * ```
-   */
-  $px: ClassName;
-  /**
-   * ```css
-   * .p\:\$0-5 {
-   *   padding: 0.125rem;
-   * }
-   * ```
-   */
-  $0_5: ClassName;
-  /**
-   * ```css
-   * .p\:\$1 {
+   * .p\:\:\$1 {
    *   padding: 0.25rem;
    * }
    * ```
@@ -7546,15 +8703,7 @@ interface PAtomStyle {
   $1: ClassName;
   /**
    * ```css
-   * .p\:\$1-5 {
-   *   padding: 0.375rem;
-   * }
-   * ```
-   */
-  $1_5: ClassName;
-  /**
-   * ```css
-   * .p\:\$2 {
+   * .p\:\:\$2 {
    *   padding: 0.5rem;
    * }
    * ```
@@ -7562,15 +8711,7 @@ interface PAtomStyle {
   $2: ClassName;
   /**
    * ```css
-   * .p\:\$2-5 {
-   *   padding: 0.625rem;
-   * }
-   * ```
-   */
-  $2_5: ClassName;
-  /**
-   * ```css
-   * .p\:\$3 {
+   * .p\:\:\$3 {
    *   padding: 0.75rem;
    * }
    * ```
@@ -7578,15 +8719,7 @@ interface PAtomStyle {
   $3: ClassName;
   /**
    * ```css
-   * .p\:\$3-5 {
-   *   padding: 0.875rem;
-   * }
-   * ```
-   */
-  $3_5: ClassName;
-  /**
-   * ```css
-   * .p\:\$4 {
+   * .p\:\:\$4 {
    *   padding: 1rem;
    * }
    * ```
@@ -7594,7 +8727,7 @@ interface PAtomStyle {
   $4: ClassName;
   /**
    * ```css
-   * .p\:\$5 {
+   * .p\:\:\$5 {
    *   padding: 1.25rem;
    * }
    * ```
@@ -7602,7 +8735,7 @@ interface PAtomStyle {
   $5: ClassName;
   /**
    * ```css
-   * .p\:\$6 {
+   * .p\:\:\$6 {
    *   padding: 1.5rem;
    * }
    * ```
@@ -7610,7 +8743,7 @@ interface PAtomStyle {
   $6: ClassName;
   /**
    * ```css
-   * .p\:\$7 {
+   * .p\:\:\$7 {
    *   padding: 1.75rem;
    * }
    * ```
@@ -7618,7 +8751,7 @@ interface PAtomStyle {
   $7: ClassName;
   /**
    * ```css
-   * .p\:\$8 {
+   * .p\:\:\$8 {
    *   padding: 2rem;
    * }
    * ```
@@ -7626,7 +8759,7 @@ interface PAtomStyle {
   $8: ClassName;
   /**
    * ```css
-   * .p\:\$9 {
+   * .p\:\:\$9 {
    *   padding: 2.25rem;
    * }
    * ```
@@ -7634,7 +8767,7 @@ interface PAtomStyle {
   $9: ClassName;
   /**
    * ```css
-   * .p\:\$10 {
+   * .p\:\:\$10 {
    *   padding: 2.5rem;
    * }
    * ```
@@ -7642,7 +8775,7 @@ interface PAtomStyle {
   $10: ClassName;
   /**
    * ```css
-   * .p\:\$11 {
+   * .p\:\:\$11 {
    *   padding: 2.75rem;
    * }
    * ```
@@ -7650,7 +8783,7 @@ interface PAtomStyle {
   $11: ClassName;
   /**
    * ```css
-   * .p\:\$12 {
+   * .p\:\:\$12 {
    *   padding: 3rem;
    * }
    * ```
@@ -7658,7 +8791,7 @@ interface PAtomStyle {
   $12: ClassName;
   /**
    * ```css
-   * .p\:\$14 {
+   * .p\:\:\$14 {
    *   padding: 3.5rem;
    * }
    * ```
@@ -7666,7 +8799,7 @@ interface PAtomStyle {
   $14: ClassName;
   /**
    * ```css
-   * .p\:\$16 {
+   * .p\:\:\$16 {
    *   padding: 4rem;
    * }
    * ```
@@ -7674,7 +8807,7 @@ interface PAtomStyle {
   $16: ClassName;
   /**
    * ```css
-   * .p\:\$20 {
+   * .p\:\:\$20 {
    *   padding: 5rem;
    * }
    * ```
@@ -7682,7 +8815,7 @@ interface PAtomStyle {
   $20: ClassName;
   /**
    * ```css
-   * .p\:\$24 {
+   * .p\:\:\$24 {
    *   padding: 6rem;
    * }
    * ```
@@ -7690,7 +8823,7 @@ interface PAtomStyle {
   $24: ClassName;
   /**
    * ```css
-   * .p\:\$28 {
+   * .p\:\:\$28 {
    *   padding: 7rem;
    * }
    * ```
@@ -7698,7 +8831,7 @@ interface PAtomStyle {
   $28: ClassName;
   /**
    * ```css
-   * .p\:\$32 {
+   * .p\:\:\$32 {
    *   padding: 8rem;
    * }
    * ```
@@ -7706,7 +8839,7 @@ interface PAtomStyle {
   $32: ClassName;
   /**
    * ```css
-   * .p\:\$36 {
+   * .p\:\:\$36 {
    *   padding: 9rem;
    * }
    * ```
@@ -7714,7 +8847,7 @@ interface PAtomStyle {
   $36: ClassName;
   /**
    * ```css
-   * .p\:\$40 {
+   * .p\:\:\$40 {
    *   padding: 10rem;
    * }
    * ```
@@ -7722,7 +8855,7 @@ interface PAtomStyle {
   $40: ClassName;
   /**
    * ```css
-   * .p\:\$44 {
+   * .p\:\:\$44 {
    *   padding: 11rem;
    * }
    * ```
@@ -7730,7 +8863,7 @@ interface PAtomStyle {
   $44: ClassName;
   /**
    * ```css
-   * .p\:\$48 {
+   * .p\:\:\$48 {
    *   padding: 12rem;
    * }
    * ```
@@ -7738,7 +8871,7 @@ interface PAtomStyle {
   $48: ClassName;
   /**
    * ```css
-   * .p\:\$52 {
+   * .p\:\:\$52 {
    *   padding: 13rem;
    * }
    * ```
@@ -7746,7 +8879,7 @@ interface PAtomStyle {
   $52: ClassName;
   /**
    * ```css
-   * .p\:\$56 {
+   * .p\:\:\$56 {
    *   padding: 14rem;
    * }
    * ```
@@ -7754,7 +8887,7 @@ interface PAtomStyle {
   $56: ClassName;
   /**
    * ```css
-   * .p\:\$60 {
+   * .p\:\:\$60 {
    *   padding: 15rem;
    * }
    * ```
@@ -7762,7 +8895,7 @@ interface PAtomStyle {
   $60: ClassName;
   /**
    * ```css
-   * .p\:\$64 {
+   * .p\:\:\$64 {
    *   padding: 16rem;
    * }
    * ```
@@ -7770,7 +8903,7 @@ interface PAtomStyle {
   $64: ClassName;
   /**
    * ```css
-   * .p\:\$72 {
+   * .p\:\:\$72 {
    *   padding: 18rem;
    * }
    * ```
@@ -7778,7 +8911,7 @@ interface PAtomStyle {
   $72: ClassName;
   /**
    * ```css
-   * .p\:\$80 {
+   * .p\:\:\$80 {
    *   padding: 20rem;
    * }
    * ```
@@ -7786,18 +8919,58 @@ interface PAtomStyle {
   $80: ClassName;
   /**
    * ```css
-   * .p\:\$96 {
+   * .p\:\:\$96 {
    *   padding: 24rem;
    * }
    * ```
    */
   $96: ClassName;
+  /**
+   * ```css
+   * .p\:\:\$px {
+   *   padding: 1px;
+   * }
+   * ```
+   */
+  $px: ClassName;
+  /**
+   * ```css
+   * .p\:\:\$0_5 {
+   *   padding: 0.125rem;
+   * }
+   * ```
+   */
+  $0_5: ClassName;
+  /**
+   * ```css
+   * .p\:\:\$1_5 {
+   *   padding: 0.375rem;
+   * }
+   * ```
+   */
+  $1_5: ClassName;
+  /**
+   * ```css
+   * .p\:\:\$2_5 {
+   *   padding: 0.625rem;
+   * }
+   * ```
+   */
+  $2_5: ClassName;
+  /**
+   * ```css
+   * .p\:\:\$3_5 {
+   *   padding: 0.875rem;
+   * }
+   * ```
+   */
+  $3_5: ClassName;
 }
 
 interface PyAtomStyle {
   /**
    * ```css
-   * .py\:\$0 {
+   * .py\:\:\$0 {
    *   padding-top: 0px;
    *   padding-bottom: 0px;
    * }
@@ -7806,25 +8979,7 @@ interface PyAtomStyle {
   $0: ClassName;
   /**
    * ```css
-   * .py\:\$px {
-   *   padding-top: 1px;
-   *   padding-bottom: 1px;
-   * }
-   * ```
-   */
-  $px: ClassName;
-  /**
-   * ```css
-   * .py\:\$0-5 {
-   *   padding-top: 0.125rem;
-   *   padding-bottom: 0.125rem;
-   * }
-   * ```
-   */
-  $0_5: ClassName;
-  /**
-   * ```css
-   * .py\:\$1 {
+   * .py\:\:\$1 {
    *   padding-top: 0.25rem;
    *   padding-bottom: 0.25rem;
    * }
@@ -7833,16 +8988,7 @@ interface PyAtomStyle {
   $1: ClassName;
   /**
    * ```css
-   * .py\:\$1-5 {
-   *   padding-top: 0.375rem;
-   *   padding-bottom: 0.375rem;
-   * }
-   * ```
-   */
-  $1_5: ClassName;
-  /**
-   * ```css
-   * .py\:\$2 {
+   * .py\:\:\$2 {
    *   padding-top: 0.5rem;
    *   padding-bottom: 0.5rem;
    * }
@@ -7851,16 +8997,7 @@ interface PyAtomStyle {
   $2: ClassName;
   /**
    * ```css
-   * .py\:\$2-5 {
-   *   padding-top: 0.625rem;
-   *   padding-bottom: 0.625rem;
-   * }
-   * ```
-   */
-  $2_5: ClassName;
-  /**
-   * ```css
-   * .py\:\$3 {
+   * .py\:\:\$3 {
    *   padding-top: 0.75rem;
    *   padding-bottom: 0.75rem;
    * }
@@ -7869,16 +9006,7 @@ interface PyAtomStyle {
   $3: ClassName;
   /**
    * ```css
-   * .py\:\$3-5 {
-   *   padding-top: 0.875rem;
-   *   padding-bottom: 0.875rem;
-   * }
-   * ```
-   */
-  $3_5: ClassName;
-  /**
-   * ```css
-   * .py\:\$4 {
+   * .py\:\:\$4 {
    *   padding-top: 1rem;
    *   padding-bottom: 1rem;
    * }
@@ -7887,7 +9015,7 @@ interface PyAtomStyle {
   $4: ClassName;
   /**
    * ```css
-   * .py\:\$5 {
+   * .py\:\:\$5 {
    *   padding-top: 1.25rem;
    *   padding-bottom: 1.25rem;
    * }
@@ -7896,7 +9024,7 @@ interface PyAtomStyle {
   $5: ClassName;
   /**
    * ```css
-   * .py\:\$6 {
+   * .py\:\:\$6 {
    *   padding-top: 1.5rem;
    *   padding-bottom: 1.5rem;
    * }
@@ -7905,7 +9033,7 @@ interface PyAtomStyle {
   $6: ClassName;
   /**
    * ```css
-   * .py\:\$7 {
+   * .py\:\:\$7 {
    *   padding-top: 1.75rem;
    *   padding-bottom: 1.75rem;
    * }
@@ -7914,7 +9042,7 @@ interface PyAtomStyle {
   $7: ClassName;
   /**
    * ```css
-   * .py\:\$8 {
+   * .py\:\:\$8 {
    *   padding-top: 2rem;
    *   padding-bottom: 2rem;
    * }
@@ -7923,7 +9051,7 @@ interface PyAtomStyle {
   $8: ClassName;
   /**
    * ```css
-   * .py\:\$9 {
+   * .py\:\:\$9 {
    *   padding-top: 2.25rem;
    *   padding-bottom: 2.25rem;
    * }
@@ -7932,7 +9060,7 @@ interface PyAtomStyle {
   $9: ClassName;
   /**
    * ```css
-   * .py\:\$10 {
+   * .py\:\:\$10 {
    *   padding-top: 2.5rem;
    *   padding-bottom: 2.5rem;
    * }
@@ -7941,7 +9069,7 @@ interface PyAtomStyle {
   $10: ClassName;
   /**
    * ```css
-   * .py\:\$11 {
+   * .py\:\:\$11 {
    *   padding-top: 2.75rem;
    *   padding-bottom: 2.75rem;
    * }
@@ -7950,7 +9078,7 @@ interface PyAtomStyle {
   $11: ClassName;
   /**
    * ```css
-   * .py\:\$12 {
+   * .py\:\:\$12 {
    *   padding-top: 3rem;
    *   padding-bottom: 3rem;
    * }
@@ -7959,7 +9087,7 @@ interface PyAtomStyle {
   $12: ClassName;
   /**
    * ```css
-   * .py\:\$14 {
+   * .py\:\:\$14 {
    *   padding-top: 3.5rem;
    *   padding-bottom: 3.5rem;
    * }
@@ -7968,7 +9096,7 @@ interface PyAtomStyle {
   $14: ClassName;
   /**
    * ```css
-   * .py\:\$16 {
+   * .py\:\:\$16 {
    *   padding-top: 4rem;
    *   padding-bottom: 4rem;
    * }
@@ -7977,7 +9105,7 @@ interface PyAtomStyle {
   $16: ClassName;
   /**
    * ```css
-   * .py\:\$20 {
+   * .py\:\:\$20 {
    *   padding-top: 5rem;
    *   padding-bottom: 5rem;
    * }
@@ -7986,7 +9114,7 @@ interface PyAtomStyle {
   $20: ClassName;
   /**
    * ```css
-   * .py\:\$24 {
+   * .py\:\:\$24 {
    *   padding-top: 6rem;
    *   padding-bottom: 6rem;
    * }
@@ -7995,7 +9123,7 @@ interface PyAtomStyle {
   $24: ClassName;
   /**
    * ```css
-   * .py\:\$28 {
+   * .py\:\:\$28 {
    *   padding-top: 7rem;
    *   padding-bottom: 7rem;
    * }
@@ -8004,7 +9132,7 @@ interface PyAtomStyle {
   $28: ClassName;
   /**
    * ```css
-   * .py\:\$32 {
+   * .py\:\:\$32 {
    *   padding-top: 8rem;
    *   padding-bottom: 8rem;
    * }
@@ -8013,7 +9141,7 @@ interface PyAtomStyle {
   $32: ClassName;
   /**
    * ```css
-   * .py\:\$36 {
+   * .py\:\:\$36 {
    *   padding-top: 9rem;
    *   padding-bottom: 9rem;
    * }
@@ -8022,7 +9150,7 @@ interface PyAtomStyle {
   $36: ClassName;
   /**
    * ```css
-   * .py\:\$40 {
+   * .py\:\:\$40 {
    *   padding-top: 10rem;
    *   padding-bottom: 10rem;
    * }
@@ -8031,7 +9159,7 @@ interface PyAtomStyle {
   $40: ClassName;
   /**
    * ```css
-   * .py\:\$44 {
+   * .py\:\:\$44 {
    *   padding-top: 11rem;
    *   padding-bottom: 11rem;
    * }
@@ -8040,7 +9168,7 @@ interface PyAtomStyle {
   $44: ClassName;
   /**
    * ```css
-   * .py\:\$48 {
+   * .py\:\:\$48 {
    *   padding-top: 12rem;
    *   padding-bottom: 12rem;
    * }
@@ -8049,7 +9177,7 @@ interface PyAtomStyle {
   $48: ClassName;
   /**
    * ```css
-   * .py\:\$52 {
+   * .py\:\:\$52 {
    *   padding-top: 13rem;
    *   padding-bottom: 13rem;
    * }
@@ -8058,7 +9186,7 @@ interface PyAtomStyle {
   $52: ClassName;
   /**
    * ```css
-   * .py\:\$56 {
+   * .py\:\:\$56 {
    *   padding-top: 14rem;
    *   padding-bottom: 14rem;
    * }
@@ -8067,7 +9195,7 @@ interface PyAtomStyle {
   $56: ClassName;
   /**
    * ```css
-   * .py\:\$60 {
+   * .py\:\:\$60 {
    *   padding-top: 15rem;
    *   padding-bottom: 15rem;
    * }
@@ -8076,7 +9204,7 @@ interface PyAtomStyle {
   $60: ClassName;
   /**
    * ```css
-   * .py\:\$64 {
+   * .py\:\:\$64 {
    *   padding-top: 16rem;
    *   padding-bottom: 16rem;
    * }
@@ -8085,7 +9213,7 @@ interface PyAtomStyle {
   $64: ClassName;
   /**
    * ```css
-   * .py\:\$72 {
+   * .py\:\:\$72 {
    *   padding-top: 18rem;
    *   padding-bottom: 18rem;
    * }
@@ -8094,7 +9222,7 @@ interface PyAtomStyle {
   $72: ClassName;
   /**
    * ```css
-   * .py\:\$80 {
+   * .py\:\:\$80 {
    *   padding-top: 20rem;
    *   padding-bottom: 20rem;
    * }
@@ -8103,19 +9231,64 @@ interface PyAtomStyle {
   $80: ClassName;
   /**
    * ```css
-   * .py\:\$96 {
+   * .py\:\:\$96 {
    *   padding-top: 24rem;
    *   padding-bottom: 24rem;
    * }
    * ```
    */
   $96: ClassName;
+  /**
+   * ```css
+   * .py\:\:\$px {
+   *   padding-top: 1px;
+   *   padding-bottom: 1px;
+   * }
+   * ```
+   */
+  $px: ClassName;
+  /**
+   * ```css
+   * .py\:\:\$0_5 {
+   *   padding-top: 0.125rem;
+   *   padding-bottom: 0.125rem;
+   * }
+   * ```
+   */
+  $0_5: ClassName;
+  /**
+   * ```css
+   * .py\:\:\$1_5 {
+   *   padding-top: 0.375rem;
+   *   padding-bottom: 0.375rem;
+   * }
+   * ```
+   */
+  $1_5: ClassName;
+  /**
+   * ```css
+   * .py\:\:\$2_5 {
+   *   padding-top: 0.625rem;
+   *   padding-bottom: 0.625rem;
+   * }
+   * ```
+   */
+  $2_5: ClassName;
+  /**
+   * ```css
+   * .py\:\:\$3_5 {
+   *   padding-top: 0.875rem;
+   *   padding-bottom: 0.875rem;
+   * }
+   * ```
+   */
+  $3_5: ClassName;
 }
 
 interface PxAtomStyle {
   /**
    * ```css
-   * .px\:\$0 {
+   * .px\:\:\$0 {
    *   padding-right: 0px;
    *   padding-left: 0px;
    * }
@@ -8124,25 +9297,7 @@ interface PxAtomStyle {
   $0: ClassName;
   /**
    * ```css
-   * .px\:\$px {
-   *   padding-right: 1px;
-   *   padding-left: 1px;
-   * }
-   * ```
-   */
-  $px: ClassName;
-  /**
-   * ```css
-   * .px\:\$0-5 {
-   *   padding-right: 0.125rem;
-   *   padding-left: 0.125rem;
-   * }
-   * ```
-   */
-  $0_5: ClassName;
-  /**
-   * ```css
-   * .px\:\$1 {
+   * .px\:\:\$1 {
    *   padding-right: 0.25rem;
    *   padding-left: 0.25rem;
    * }
@@ -8151,16 +9306,7 @@ interface PxAtomStyle {
   $1: ClassName;
   /**
    * ```css
-   * .px\:\$1-5 {
-   *   padding-right: 0.375rem;
-   *   padding-left: 0.375rem;
-   * }
-   * ```
-   */
-  $1_5: ClassName;
-  /**
-   * ```css
-   * .px\:\$2 {
+   * .px\:\:\$2 {
    *   padding-right: 0.5rem;
    *   padding-left: 0.5rem;
    * }
@@ -8169,16 +9315,7 @@ interface PxAtomStyle {
   $2: ClassName;
   /**
    * ```css
-   * .px\:\$2-5 {
-   *   padding-right: 0.625rem;
-   *   padding-left: 0.625rem;
-   * }
-   * ```
-   */
-  $2_5: ClassName;
-  /**
-   * ```css
-   * .px\:\$3 {
+   * .px\:\:\$3 {
    *   padding-right: 0.75rem;
    *   padding-left: 0.75rem;
    * }
@@ -8187,16 +9324,7 @@ interface PxAtomStyle {
   $3: ClassName;
   /**
    * ```css
-   * .px\:\$3-5 {
-   *   padding-right: 0.875rem;
-   *   padding-left: 0.875rem;
-   * }
-   * ```
-   */
-  $3_5: ClassName;
-  /**
-   * ```css
-   * .px\:\$4 {
+   * .px\:\:\$4 {
    *   padding-right: 1rem;
    *   padding-left: 1rem;
    * }
@@ -8205,7 +9333,7 @@ interface PxAtomStyle {
   $4: ClassName;
   /**
    * ```css
-   * .px\:\$5 {
+   * .px\:\:\$5 {
    *   padding-right: 1.25rem;
    *   padding-left: 1.25rem;
    * }
@@ -8214,7 +9342,7 @@ interface PxAtomStyle {
   $5: ClassName;
   /**
    * ```css
-   * .px\:\$6 {
+   * .px\:\:\$6 {
    *   padding-right: 1.5rem;
    *   padding-left: 1.5rem;
    * }
@@ -8223,7 +9351,7 @@ interface PxAtomStyle {
   $6: ClassName;
   /**
    * ```css
-   * .px\:\$7 {
+   * .px\:\:\$7 {
    *   padding-right: 1.75rem;
    *   padding-left: 1.75rem;
    * }
@@ -8232,7 +9360,7 @@ interface PxAtomStyle {
   $7: ClassName;
   /**
    * ```css
-   * .px\:\$8 {
+   * .px\:\:\$8 {
    *   padding-right: 2rem;
    *   padding-left: 2rem;
    * }
@@ -8241,7 +9369,7 @@ interface PxAtomStyle {
   $8: ClassName;
   /**
    * ```css
-   * .px\:\$9 {
+   * .px\:\:\$9 {
    *   padding-right: 2.25rem;
    *   padding-left: 2.25rem;
    * }
@@ -8250,7 +9378,7 @@ interface PxAtomStyle {
   $9: ClassName;
   /**
    * ```css
-   * .px\:\$10 {
+   * .px\:\:\$10 {
    *   padding-right: 2.5rem;
    *   padding-left: 2.5rem;
    * }
@@ -8259,7 +9387,7 @@ interface PxAtomStyle {
   $10: ClassName;
   /**
    * ```css
-   * .px\:\$11 {
+   * .px\:\:\$11 {
    *   padding-right: 2.75rem;
    *   padding-left: 2.75rem;
    * }
@@ -8268,7 +9396,7 @@ interface PxAtomStyle {
   $11: ClassName;
   /**
    * ```css
-   * .px\:\$12 {
+   * .px\:\:\$12 {
    *   padding-right: 3rem;
    *   padding-left: 3rem;
    * }
@@ -8277,7 +9405,7 @@ interface PxAtomStyle {
   $12: ClassName;
   /**
    * ```css
-   * .px\:\$14 {
+   * .px\:\:\$14 {
    *   padding-right: 3.5rem;
    *   padding-left: 3.5rem;
    * }
@@ -8286,7 +9414,7 @@ interface PxAtomStyle {
   $14: ClassName;
   /**
    * ```css
-   * .px\:\$16 {
+   * .px\:\:\$16 {
    *   padding-right: 4rem;
    *   padding-left: 4rem;
    * }
@@ -8295,7 +9423,7 @@ interface PxAtomStyle {
   $16: ClassName;
   /**
    * ```css
-   * .px\:\$20 {
+   * .px\:\:\$20 {
    *   padding-right: 5rem;
    *   padding-left: 5rem;
    * }
@@ -8304,7 +9432,7 @@ interface PxAtomStyle {
   $20: ClassName;
   /**
    * ```css
-   * .px\:\$24 {
+   * .px\:\:\$24 {
    *   padding-right: 6rem;
    *   padding-left: 6rem;
    * }
@@ -8313,7 +9441,7 @@ interface PxAtomStyle {
   $24: ClassName;
   /**
    * ```css
-   * .px\:\$28 {
+   * .px\:\:\$28 {
    *   padding-right: 7rem;
    *   padding-left: 7rem;
    * }
@@ -8322,7 +9450,7 @@ interface PxAtomStyle {
   $28: ClassName;
   /**
    * ```css
-   * .px\:\$32 {
+   * .px\:\:\$32 {
    *   padding-right: 8rem;
    *   padding-left: 8rem;
    * }
@@ -8331,7 +9459,7 @@ interface PxAtomStyle {
   $32: ClassName;
   /**
    * ```css
-   * .px\:\$36 {
+   * .px\:\:\$36 {
    *   padding-right: 9rem;
    *   padding-left: 9rem;
    * }
@@ -8340,7 +9468,7 @@ interface PxAtomStyle {
   $36: ClassName;
   /**
    * ```css
-   * .px\:\$40 {
+   * .px\:\:\$40 {
    *   padding-right: 10rem;
    *   padding-left: 10rem;
    * }
@@ -8349,7 +9477,7 @@ interface PxAtomStyle {
   $40: ClassName;
   /**
    * ```css
-   * .px\:\$44 {
+   * .px\:\:\$44 {
    *   padding-right: 11rem;
    *   padding-left: 11rem;
    * }
@@ -8358,7 +9486,7 @@ interface PxAtomStyle {
   $44: ClassName;
   /**
    * ```css
-   * .px\:\$48 {
+   * .px\:\:\$48 {
    *   padding-right: 12rem;
    *   padding-left: 12rem;
    * }
@@ -8367,7 +9495,7 @@ interface PxAtomStyle {
   $48: ClassName;
   /**
    * ```css
-   * .px\:\$52 {
+   * .px\:\:\$52 {
    *   padding-right: 13rem;
    *   padding-left: 13rem;
    * }
@@ -8376,7 +9504,7 @@ interface PxAtomStyle {
   $52: ClassName;
   /**
    * ```css
-   * .px\:\$56 {
+   * .px\:\:\$56 {
    *   padding-right: 14rem;
    *   padding-left: 14rem;
    * }
@@ -8385,7 +9513,7 @@ interface PxAtomStyle {
   $56: ClassName;
   /**
    * ```css
-   * .px\:\$60 {
+   * .px\:\:\$60 {
    *   padding-right: 15rem;
    *   padding-left: 15rem;
    * }
@@ -8394,7 +9522,7 @@ interface PxAtomStyle {
   $60: ClassName;
   /**
    * ```css
-   * .px\:\$64 {
+   * .px\:\:\$64 {
    *   padding-right: 16rem;
    *   padding-left: 16rem;
    * }
@@ -8403,7 +9531,7 @@ interface PxAtomStyle {
   $64: ClassName;
   /**
    * ```css
-   * .px\:\$72 {
+   * .px\:\:\$72 {
    *   padding-right: 18rem;
    *   padding-left: 18rem;
    * }
@@ -8412,7 +9540,7 @@ interface PxAtomStyle {
   $72: ClassName;
   /**
    * ```css
-   * .px\:\$80 {
+   * .px\:\:\$80 {
    *   padding-right: 20rem;
    *   padding-left: 20rem;
    * }
@@ -8421,19 +9549,64 @@ interface PxAtomStyle {
   $80: ClassName;
   /**
    * ```css
-   * .px\:\$96 {
+   * .px\:\:\$96 {
    *   padding-right: 24rem;
    *   padding-left: 24rem;
    * }
    * ```
    */
   $96: ClassName;
+  /**
+   * ```css
+   * .px\:\:\$px {
+   *   padding-right: 1px;
+   *   padding-left: 1px;
+   * }
+   * ```
+   */
+  $px: ClassName;
+  /**
+   * ```css
+   * .px\:\:\$0_5 {
+   *   padding-right: 0.125rem;
+   *   padding-left: 0.125rem;
+   * }
+   * ```
+   */
+  $0_5: ClassName;
+  /**
+   * ```css
+   * .px\:\:\$1_5 {
+   *   padding-right: 0.375rem;
+   *   padding-left: 0.375rem;
+   * }
+   * ```
+   */
+  $1_5: ClassName;
+  /**
+   * ```css
+   * .px\:\:\$2_5 {
+   *   padding-right: 0.625rem;
+   *   padding-left: 0.625rem;
+   * }
+   * ```
+   */
+  $2_5: ClassName;
+  /**
+   * ```css
+   * .px\:\:\$3_5 {
+   *   padding-right: 0.875rem;
+   *   padding-left: 0.875rem;
+   * }
+   * ```
+   */
+  $3_5: ClassName;
 }
 
 interface PtAtomStyle {
   /**
    * ```css
-   * .pt\:\$0 {
+   * .pt\:\:\$0 {
    *   padding-top: 0px;
    * }
    * ```
@@ -8441,23 +9614,7 @@ interface PtAtomStyle {
   $0: ClassName;
   /**
    * ```css
-   * .pt\:\$px {
-   *   padding-top: 1px;
-   * }
-   * ```
-   */
-  $px: ClassName;
-  /**
-   * ```css
-   * .pt\:\$0-5 {
-   *   padding-top: 0.125rem;
-   * }
-   * ```
-   */
-  $0_5: ClassName;
-  /**
-   * ```css
-   * .pt\:\$1 {
+   * .pt\:\:\$1 {
    *   padding-top: 0.25rem;
    * }
    * ```
@@ -8465,15 +9622,7 @@ interface PtAtomStyle {
   $1: ClassName;
   /**
    * ```css
-   * .pt\:\$1-5 {
-   *   padding-top: 0.375rem;
-   * }
-   * ```
-   */
-  $1_5: ClassName;
-  /**
-   * ```css
-   * .pt\:\$2 {
+   * .pt\:\:\$2 {
    *   padding-top: 0.5rem;
    * }
    * ```
@@ -8481,15 +9630,7 @@ interface PtAtomStyle {
   $2: ClassName;
   /**
    * ```css
-   * .pt\:\$2-5 {
-   *   padding-top: 0.625rem;
-   * }
-   * ```
-   */
-  $2_5: ClassName;
-  /**
-   * ```css
-   * .pt\:\$3 {
+   * .pt\:\:\$3 {
    *   padding-top: 0.75rem;
    * }
    * ```
@@ -8497,15 +9638,7 @@ interface PtAtomStyle {
   $3: ClassName;
   /**
    * ```css
-   * .pt\:\$3-5 {
-   *   padding-top: 0.875rem;
-   * }
-   * ```
-   */
-  $3_5: ClassName;
-  /**
-   * ```css
-   * .pt\:\$4 {
+   * .pt\:\:\$4 {
    *   padding-top: 1rem;
    * }
    * ```
@@ -8513,7 +9646,7 @@ interface PtAtomStyle {
   $4: ClassName;
   /**
    * ```css
-   * .pt\:\$5 {
+   * .pt\:\:\$5 {
    *   padding-top: 1.25rem;
    * }
    * ```
@@ -8521,7 +9654,7 @@ interface PtAtomStyle {
   $5: ClassName;
   /**
    * ```css
-   * .pt\:\$6 {
+   * .pt\:\:\$6 {
    *   padding-top: 1.5rem;
    * }
    * ```
@@ -8529,7 +9662,7 @@ interface PtAtomStyle {
   $6: ClassName;
   /**
    * ```css
-   * .pt\:\$7 {
+   * .pt\:\:\$7 {
    *   padding-top: 1.75rem;
    * }
    * ```
@@ -8537,7 +9670,7 @@ interface PtAtomStyle {
   $7: ClassName;
   /**
    * ```css
-   * .pt\:\$8 {
+   * .pt\:\:\$8 {
    *   padding-top: 2rem;
    * }
    * ```
@@ -8545,7 +9678,7 @@ interface PtAtomStyle {
   $8: ClassName;
   /**
    * ```css
-   * .pt\:\$9 {
+   * .pt\:\:\$9 {
    *   padding-top: 2.25rem;
    * }
    * ```
@@ -8553,7 +9686,7 @@ interface PtAtomStyle {
   $9: ClassName;
   /**
    * ```css
-   * .pt\:\$10 {
+   * .pt\:\:\$10 {
    *   padding-top: 2.5rem;
    * }
    * ```
@@ -8561,7 +9694,7 @@ interface PtAtomStyle {
   $10: ClassName;
   /**
    * ```css
-   * .pt\:\$11 {
+   * .pt\:\:\$11 {
    *   padding-top: 2.75rem;
    * }
    * ```
@@ -8569,7 +9702,7 @@ interface PtAtomStyle {
   $11: ClassName;
   /**
    * ```css
-   * .pt\:\$12 {
+   * .pt\:\:\$12 {
    *   padding-top: 3rem;
    * }
    * ```
@@ -8577,7 +9710,7 @@ interface PtAtomStyle {
   $12: ClassName;
   /**
    * ```css
-   * .pt\:\$14 {
+   * .pt\:\:\$14 {
    *   padding-top: 3.5rem;
    * }
    * ```
@@ -8585,7 +9718,7 @@ interface PtAtomStyle {
   $14: ClassName;
   /**
    * ```css
-   * .pt\:\$16 {
+   * .pt\:\:\$16 {
    *   padding-top: 4rem;
    * }
    * ```
@@ -8593,7 +9726,7 @@ interface PtAtomStyle {
   $16: ClassName;
   /**
    * ```css
-   * .pt\:\$20 {
+   * .pt\:\:\$20 {
    *   padding-top: 5rem;
    * }
    * ```
@@ -8601,7 +9734,7 @@ interface PtAtomStyle {
   $20: ClassName;
   /**
    * ```css
-   * .pt\:\$24 {
+   * .pt\:\:\$24 {
    *   padding-top: 6rem;
    * }
    * ```
@@ -8609,7 +9742,7 @@ interface PtAtomStyle {
   $24: ClassName;
   /**
    * ```css
-   * .pt\:\$28 {
+   * .pt\:\:\$28 {
    *   padding-top: 7rem;
    * }
    * ```
@@ -8617,7 +9750,7 @@ interface PtAtomStyle {
   $28: ClassName;
   /**
    * ```css
-   * .pt\:\$32 {
+   * .pt\:\:\$32 {
    *   padding-top: 8rem;
    * }
    * ```
@@ -8625,7 +9758,7 @@ interface PtAtomStyle {
   $32: ClassName;
   /**
    * ```css
-   * .pt\:\$36 {
+   * .pt\:\:\$36 {
    *   padding-top: 9rem;
    * }
    * ```
@@ -8633,7 +9766,7 @@ interface PtAtomStyle {
   $36: ClassName;
   /**
    * ```css
-   * .pt\:\$40 {
+   * .pt\:\:\$40 {
    *   padding-top: 10rem;
    * }
    * ```
@@ -8641,7 +9774,7 @@ interface PtAtomStyle {
   $40: ClassName;
   /**
    * ```css
-   * .pt\:\$44 {
+   * .pt\:\:\$44 {
    *   padding-top: 11rem;
    * }
    * ```
@@ -8649,7 +9782,7 @@ interface PtAtomStyle {
   $44: ClassName;
   /**
    * ```css
-   * .pt\:\$48 {
+   * .pt\:\:\$48 {
    *   padding-top: 12rem;
    * }
    * ```
@@ -8657,7 +9790,7 @@ interface PtAtomStyle {
   $48: ClassName;
   /**
    * ```css
-   * .pt\:\$52 {
+   * .pt\:\:\$52 {
    *   padding-top: 13rem;
    * }
    * ```
@@ -8665,7 +9798,7 @@ interface PtAtomStyle {
   $52: ClassName;
   /**
    * ```css
-   * .pt\:\$56 {
+   * .pt\:\:\$56 {
    *   padding-top: 14rem;
    * }
    * ```
@@ -8673,7 +9806,7 @@ interface PtAtomStyle {
   $56: ClassName;
   /**
    * ```css
-   * .pt\:\$60 {
+   * .pt\:\:\$60 {
    *   padding-top: 15rem;
    * }
    * ```
@@ -8681,7 +9814,7 @@ interface PtAtomStyle {
   $60: ClassName;
   /**
    * ```css
-   * .pt\:\$64 {
+   * .pt\:\:\$64 {
    *   padding-top: 16rem;
    * }
    * ```
@@ -8689,7 +9822,7 @@ interface PtAtomStyle {
   $64: ClassName;
   /**
    * ```css
-   * .pt\:\$72 {
+   * .pt\:\:\$72 {
    *   padding-top: 18rem;
    * }
    * ```
@@ -8697,7 +9830,7 @@ interface PtAtomStyle {
   $72: ClassName;
   /**
    * ```css
-   * .pt\:\$80 {
+   * .pt\:\:\$80 {
    *   padding-top: 20rem;
    * }
    * ```
@@ -8705,18 +9838,58 @@ interface PtAtomStyle {
   $80: ClassName;
   /**
    * ```css
-   * .pt\:\$96 {
+   * .pt\:\:\$96 {
    *   padding-top: 24rem;
    * }
    * ```
    */
   $96: ClassName;
+  /**
+   * ```css
+   * .pt\:\:\$px {
+   *   padding-top: 1px;
+   * }
+   * ```
+   */
+  $px: ClassName;
+  /**
+   * ```css
+   * .pt\:\:\$0_5 {
+   *   padding-top: 0.125rem;
+   * }
+   * ```
+   */
+  $0_5: ClassName;
+  /**
+   * ```css
+   * .pt\:\:\$1_5 {
+   *   padding-top: 0.375rem;
+   * }
+   * ```
+   */
+  $1_5: ClassName;
+  /**
+   * ```css
+   * .pt\:\:\$2_5 {
+   *   padding-top: 0.625rem;
+   * }
+   * ```
+   */
+  $2_5: ClassName;
+  /**
+   * ```css
+   * .pt\:\:\$3_5 {
+   *   padding-top: 0.875rem;
+   * }
+   * ```
+   */
+  $3_5: ClassName;
 }
 
 interface PrAtomStyle {
   /**
    * ```css
-   * .pr\:\$0 {
+   * .pr\:\:\$0 {
    *   padding-right: 0px;
    * }
    * ```
@@ -8724,23 +9897,7 @@ interface PrAtomStyle {
   $0: ClassName;
   /**
    * ```css
-   * .pr\:\$px {
-   *   padding-right: 1px;
-   * }
-   * ```
-   */
-  $px: ClassName;
-  /**
-   * ```css
-   * .pr\:\$0-5 {
-   *   padding-right: 0.125rem;
-   * }
-   * ```
-   */
-  $0_5: ClassName;
-  /**
-   * ```css
-   * .pr\:\$1 {
+   * .pr\:\:\$1 {
    *   padding-right: 0.25rem;
    * }
    * ```
@@ -8748,15 +9905,7 @@ interface PrAtomStyle {
   $1: ClassName;
   /**
    * ```css
-   * .pr\:\$1-5 {
-   *   padding-right: 0.375rem;
-   * }
-   * ```
-   */
-  $1_5: ClassName;
-  /**
-   * ```css
-   * .pr\:\$2 {
+   * .pr\:\:\$2 {
    *   padding-right: 0.5rem;
    * }
    * ```
@@ -8764,15 +9913,7 @@ interface PrAtomStyle {
   $2: ClassName;
   /**
    * ```css
-   * .pr\:\$2-5 {
-   *   padding-right: 0.625rem;
-   * }
-   * ```
-   */
-  $2_5: ClassName;
-  /**
-   * ```css
-   * .pr\:\$3 {
+   * .pr\:\:\$3 {
    *   padding-right: 0.75rem;
    * }
    * ```
@@ -8780,15 +9921,7 @@ interface PrAtomStyle {
   $3: ClassName;
   /**
    * ```css
-   * .pr\:\$3-5 {
-   *   padding-right: 0.875rem;
-   * }
-   * ```
-   */
-  $3_5: ClassName;
-  /**
-   * ```css
-   * .pr\:\$4 {
+   * .pr\:\:\$4 {
    *   padding-right: 1rem;
    * }
    * ```
@@ -8796,7 +9929,7 @@ interface PrAtomStyle {
   $4: ClassName;
   /**
    * ```css
-   * .pr\:\$5 {
+   * .pr\:\:\$5 {
    *   padding-right: 1.25rem;
    * }
    * ```
@@ -8804,7 +9937,7 @@ interface PrAtomStyle {
   $5: ClassName;
   /**
    * ```css
-   * .pr\:\$6 {
+   * .pr\:\:\$6 {
    *   padding-right: 1.5rem;
    * }
    * ```
@@ -8812,7 +9945,7 @@ interface PrAtomStyle {
   $6: ClassName;
   /**
    * ```css
-   * .pr\:\$7 {
+   * .pr\:\:\$7 {
    *   padding-right: 1.75rem;
    * }
    * ```
@@ -8820,7 +9953,7 @@ interface PrAtomStyle {
   $7: ClassName;
   /**
    * ```css
-   * .pr\:\$8 {
+   * .pr\:\:\$8 {
    *   padding-right: 2rem;
    * }
    * ```
@@ -8828,7 +9961,7 @@ interface PrAtomStyle {
   $8: ClassName;
   /**
    * ```css
-   * .pr\:\$9 {
+   * .pr\:\:\$9 {
    *   padding-right: 2.25rem;
    * }
    * ```
@@ -8836,7 +9969,7 @@ interface PrAtomStyle {
   $9: ClassName;
   /**
    * ```css
-   * .pr\:\$10 {
+   * .pr\:\:\$10 {
    *   padding-right: 2.5rem;
    * }
    * ```
@@ -8844,7 +9977,7 @@ interface PrAtomStyle {
   $10: ClassName;
   /**
    * ```css
-   * .pr\:\$11 {
+   * .pr\:\:\$11 {
    *   padding-right: 2.75rem;
    * }
    * ```
@@ -8852,7 +9985,7 @@ interface PrAtomStyle {
   $11: ClassName;
   /**
    * ```css
-   * .pr\:\$12 {
+   * .pr\:\:\$12 {
    *   padding-right: 3rem;
    * }
    * ```
@@ -8860,7 +9993,7 @@ interface PrAtomStyle {
   $12: ClassName;
   /**
    * ```css
-   * .pr\:\$14 {
+   * .pr\:\:\$14 {
    *   padding-right: 3.5rem;
    * }
    * ```
@@ -8868,7 +10001,7 @@ interface PrAtomStyle {
   $14: ClassName;
   /**
    * ```css
-   * .pr\:\$16 {
+   * .pr\:\:\$16 {
    *   padding-right: 4rem;
    * }
    * ```
@@ -8876,7 +10009,7 @@ interface PrAtomStyle {
   $16: ClassName;
   /**
    * ```css
-   * .pr\:\$20 {
+   * .pr\:\:\$20 {
    *   padding-right: 5rem;
    * }
    * ```
@@ -8884,7 +10017,7 @@ interface PrAtomStyle {
   $20: ClassName;
   /**
    * ```css
-   * .pr\:\$24 {
+   * .pr\:\:\$24 {
    *   padding-right: 6rem;
    * }
    * ```
@@ -8892,7 +10025,7 @@ interface PrAtomStyle {
   $24: ClassName;
   /**
    * ```css
-   * .pr\:\$28 {
+   * .pr\:\:\$28 {
    *   padding-right: 7rem;
    * }
    * ```
@@ -8900,7 +10033,7 @@ interface PrAtomStyle {
   $28: ClassName;
   /**
    * ```css
-   * .pr\:\$32 {
+   * .pr\:\:\$32 {
    *   padding-right: 8rem;
    * }
    * ```
@@ -8908,7 +10041,7 @@ interface PrAtomStyle {
   $32: ClassName;
   /**
    * ```css
-   * .pr\:\$36 {
+   * .pr\:\:\$36 {
    *   padding-right: 9rem;
    * }
    * ```
@@ -8916,7 +10049,7 @@ interface PrAtomStyle {
   $36: ClassName;
   /**
    * ```css
-   * .pr\:\$40 {
+   * .pr\:\:\$40 {
    *   padding-right: 10rem;
    * }
    * ```
@@ -8924,7 +10057,7 @@ interface PrAtomStyle {
   $40: ClassName;
   /**
    * ```css
-   * .pr\:\$44 {
+   * .pr\:\:\$44 {
    *   padding-right: 11rem;
    * }
    * ```
@@ -8932,7 +10065,7 @@ interface PrAtomStyle {
   $44: ClassName;
   /**
    * ```css
-   * .pr\:\$48 {
+   * .pr\:\:\$48 {
    *   padding-right: 12rem;
    * }
    * ```
@@ -8940,7 +10073,7 @@ interface PrAtomStyle {
   $48: ClassName;
   /**
    * ```css
-   * .pr\:\$52 {
+   * .pr\:\:\$52 {
    *   padding-right: 13rem;
    * }
    * ```
@@ -8948,7 +10081,7 @@ interface PrAtomStyle {
   $52: ClassName;
   /**
    * ```css
-   * .pr\:\$56 {
+   * .pr\:\:\$56 {
    *   padding-right: 14rem;
    * }
    * ```
@@ -8956,7 +10089,7 @@ interface PrAtomStyle {
   $56: ClassName;
   /**
    * ```css
-   * .pr\:\$60 {
+   * .pr\:\:\$60 {
    *   padding-right: 15rem;
    * }
    * ```
@@ -8964,7 +10097,7 @@ interface PrAtomStyle {
   $60: ClassName;
   /**
    * ```css
-   * .pr\:\$64 {
+   * .pr\:\:\$64 {
    *   padding-right: 16rem;
    * }
    * ```
@@ -8972,7 +10105,7 @@ interface PrAtomStyle {
   $64: ClassName;
   /**
    * ```css
-   * .pr\:\$72 {
+   * .pr\:\:\$72 {
    *   padding-right: 18rem;
    * }
    * ```
@@ -8980,7 +10113,7 @@ interface PrAtomStyle {
   $72: ClassName;
   /**
    * ```css
-   * .pr\:\$80 {
+   * .pr\:\:\$80 {
    *   padding-right: 20rem;
    * }
    * ```
@@ -8988,18 +10121,58 @@ interface PrAtomStyle {
   $80: ClassName;
   /**
    * ```css
-   * .pr\:\$96 {
+   * .pr\:\:\$96 {
    *   padding-right: 24rem;
    * }
    * ```
    */
   $96: ClassName;
+  /**
+   * ```css
+   * .pr\:\:\$px {
+   *   padding-right: 1px;
+   * }
+   * ```
+   */
+  $px: ClassName;
+  /**
+   * ```css
+   * .pr\:\:\$0_5 {
+   *   padding-right: 0.125rem;
+   * }
+   * ```
+   */
+  $0_5: ClassName;
+  /**
+   * ```css
+   * .pr\:\:\$1_5 {
+   *   padding-right: 0.375rem;
+   * }
+   * ```
+   */
+  $1_5: ClassName;
+  /**
+   * ```css
+   * .pr\:\:\$2_5 {
+   *   padding-right: 0.625rem;
+   * }
+   * ```
+   */
+  $2_5: ClassName;
+  /**
+   * ```css
+   * .pr\:\:\$3_5 {
+   *   padding-right: 0.875rem;
+   * }
+   * ```
+   */
+  $3_5: ClassName;
 }
 
 interface PbAtomStyle {
   /**
    * ```css
-   * .pb\:\$0 {
+   * .pb\:\:\$0 {
    *   padding-bottom: 0px;
    * }
    * ```
@@ -9007,23 +10180,7 @@ interface PbAtomStyle {
   $0: ClassName;
   /**
    * ```css
-   * .pb\:\$px {
-   *   padding-bottom: 1px;
-   * }
-   * ```
-   */
-  $px: ClassName;
-  /**
-   * ```css
-   * .pb\:\$0-5 {
-   *   padding-bottom: 0.125rem;
-   * }
-   * ```
-   */
-  $0_5: ClassName;
-  /**
-   * ```css
-   * .pb\:\$1 {
+   * .pb\:\:\$1 {
    *   padding-bottom: 0.25rem;
    * }
    * ```
@@ -9031,15 +10188,7 @@ interface PbAtomStyle {
   $1: ClassName;
   /**
    * ```css
-   * .pb\:\$1-5 {
-   *   padding-bottom: 0.375rem;
-   * }
-   * ```
-   */
-  $1_5: ClassName;
-  /**
-   * ```css
-   * .pb\:\$2 {
+   * .pb\:\:\$2 {
    *   padding-bottom: 0.5rem;
    * }
    * ```
@@ -9047,15 +10196,7 @@ interface PbAtomStyle {
   $2: ClassName;
   /**
    * ```css
-   * .pb\:\$2-5 {
-   *   padding-bottom: 0.625rem;
-   * }
-   * ```
-   */
-  $2_5: ClassName;
-  /**
-   * ```css
-   * .pb\:\$3 {
+   * .pb\:\:\$3 {
    *   padding-bottom: 0.75rem;
    * }
    * ```
@@ -9063,15 +10204,7 @@ interface PbAtomStyle {
   $3: ClassName;
   /**
    * ```css
-   * .pb\:\$3-5 {
-   *   padding-bottom: 0.875rem;
-   * }
-   * ```
-   */
-  $3_5: ClassName;
-  /**
-   * ```css
-   * .pb\:\$4 {
+   * .pb\:\:\$4 {
    *   padding-bottom: 1rem;
    * }
    * ```
@@ -9079,7 +10212,7 @@ interface PbAtomStyle {
   $4: ClassName;
   /**
    * ```css
-   * .pb\:\$5 {
+   * .pb\:\:\$5 {
    *   padding-bottom: 1.25rem;
    * }
    * ```
@@ -9087,7 +10220,7 @@ interface PbAtomStyle {
   $5: ClassName;
   /**
    * ```css
-   * .pb\:\$6 {
+   * .pb\:\:\$6 {
    *   padding-bottom: 1.5rem;
    * }
    * ```
@@ -9095,7 +10228,7 @@ interface PbAtomStyle {
   $6: ClassName;
   /**
    * ```css
-   * .pb\:\$7 {
+   * .pb\:\:\$7 {
    *   padding-bottom: 1.75rem;
    * }
    * ```
@@ -9103,7 +10236,7 @@ interface PbAtomStyle {
   $7: ClassName;
   /**
    * ```css
-   * .pb\:\$8 {
+   * .pb\:\:\$8 {
    *   padding-bottom: 2rem;
    * }
    * ```
@@ -9111,7 +10244,7 @@ interface PbAtomStyle {
   $8: ClassName;
   /**
    * ```css
-   * .pb\:\$9 {
+   * .pb\:\:\$9 {
    *   padding-bottom: 2.25rem;
    * }
    * ```
@@ -9119,7 +10252,7 @@ interface PbAtomStyle {
   $9: ClassName;
   /**
    * ```css
-   * .pb\:\$10 {
+   * .pb\:\:\$10 {
    *   padding-bottom: 2.5rem;
    * }
    * ```
@@ -9127,7 +10260,7 @@ interface PbAtomStyle {
   $10: ClassName;
   /**
    * ```css
-   * .pb\:\$11 {
+   * .pb\:\:\$11 {
    *   padding-bottom: 2.75rem;
    * }
    * ```
@@ -9135,7 +10268,7 @@ interface PbAtomStyle {
   $11: ClassName;
   /**
    * ```css
-   * .pb\:\$12 {
+   * .pb\:\:\$12 {
    *   padding-bottom: 3rem;
    * }
    * ```
@@ -9143,7 +10276,7 @@ interface PbAtomStyle {
   $12: ClassName;
   /**
    * ```css
-   * .pb\:\$14 {
+   * .pb\:\:\$14 {
    *   padding-bottom: 3.5rem;
    * }
    * ```
@@ -9151,7 +10284,7 @@ interface PbAtomStyle {
   $14: ClassName;
   /**
    * ```css
-   * .pb\:\$16 {
+   * .pb\:\:\$16 {
    *   padding-bottom: 4rem;
    * }
    * ```
@@ -9159,7 +10292,7 @@ interface PbAtomStyle {
   $16: ClassName;
   /**
    * ```css
-   * .pb\:\$20 {
+   * .pb\:\:\$20 {
    *   padding-bottom: 5rem;
    * }
    * ```
@@ -9167,7 +10300,7 @@ interface PbAtomStyle {
   $20: ClassName;
   /**
    * ```css
-   * .pb\:\$24 {
+   * .pb\:\:\$24 {
    *   padding-bottom: 6rem;
    * }
    * ```
@@ -9175,7 +10308,7 @@ interface PbAtomStyle {
   $24: ClassName;
   /**
    * ```css
-   * .pb\:\$28 {
+   * .pb\:\:\$28 {
    *   padding-bottom: 7rem;
    * }
    * ```
@@ -9183,7 +10316,7 @@ interface PbAtomStyle {
   $28: ClassName;
   /**
    * ```css
-   * .pb\:\$32 {
+   * .pb\:\:\$32 {
    *   padding-bottom: 8rem;
    * }
    * ```
@@ -9191,7 +10324,7 @@ interface PbAtomStyle {
   $32: ClassName;
   /**
    * ```css
-   * .pb\:\$36 {
+   * .pb\:\:\$36 {
    *   padding-bottom: 9rem;
    * }
    * ```
@@ -9199,7 +10332,7 @@ interface PbAtomStyle {
   $36: ClassName;
   /**
    * ```css
-   * .pb\:\$40 {
+   * .pb\:\:\$40 {
    *   padding-bottom: 10rem;
    * }
    * ```
@@ -9207,7 +10340,7 @@ interface PbAtomStyle {
   $40: ClassName;
   /**
    * ```css
-   * .pb\:\$44 {
+   * .pb\:\:\$44 {
    *   padding-bottom: 11rem;
    * }
    * ```
@@ -9215,7 +10348,7 @@ interface PbAtomStyle {
   $44: ClassName;
   /**
    * ```css
-   * .pb\:\$48 {
+   * .pb\:\:\$48 {
    *   padding-bottom: 12rem;
    * }
    * ```
@@ -9223,7 +10356,7 @@ interface PbAtomStyle {
   $48: ClassName;
   /**
    * ```css
-   * .pb\:\$52 {
+   * .pb\:\:\$52 {
    *   padding-bottom: 13rem;
    * }
    * ```
@@ -9231,7 +10364,7 @@ interface PbAtomStyle {
   $52: ClassName;
   /**
    * ```css
-   * .pb\:\$56 {
+   * .pb\:\:\$56 {
    *   padding-bottom: 14rem;
    * }
    * ```
@@ -9239,7 +10372,7 @@ interface PbAtomStyle {
   $56: ClassName;
   /**
    * ```css
-   * .pb\:\$60 {
+   * .pb\:\:\$60 {
    *   padding-bottom: 15rem;
    * }
    * ```
@@ -9247,7 +10380,7 @@ interface PbAtomStyle {
   $60: ClassName;
   /**
    * ```css
-   * .pb\:\$64 {
+   * .pb\:\:\$64 {
    *   padding-bottom: 16rem;
    * }
    * ```
@@ -9255,7 +10388,7 @@ interface PbAtomStyle {
   $64: ClassName;
   /**
    * ```css
-   * .pb\:\$72 {
+   * .pb\:\:\$72 {
    *   padding-bottom: 18rem;
    * }
    * ```
@@ -9263,7 +10396,7 @@ interface PbAtomStyle {
   $72: ClassName;
   /**
    * ```css
-   * .pb\:\$80 {
+   * .pb\:\:\$80 {
    *   padding-bottom: 20rem;
    * }
    * ```
@@ -9271,18 +10404,58 @@ interface PbAtomStyle {
   $80: ClassName;
   /**
    * ```css
-   * .pb\:\$96 {
+   * .pb\:\:\$96 {
    *   padding-bottom: 24rem;
    * }
    * ```
    */
   $96: ClassName;
+  /**
+   * ```css
+   * .pb\:\:\$px {
+   *   padding-bottom: 1px;
+   * }
+   * ```
+   */
+  $px: ClassName;
+  /**
+   * ```css
+   * .pb\:\:\$0_5 {
+   *   padding-bottom: 0.125rem;
+   * }
+   * ```
+   */
+  $0_5: ClassName;
+  /**
+   * ```css
+   * .pb\:\:\$1_5 {
+   *   padding-bottom: 0.375rem;
+   * }
+   * ```
+   */
+  $1_5: ClassName;
+  /**
+   * ```css
+   * .pb\:\:\$2_5 {
+   *   padding-bottom: 0.625rem;
+   * }
+   * ```
+   */
+  $2_5: ClassName;
+  /**
+   * ```css
+   * .pb\:\:\$3_5 {
+   *   padding-bottom: 0.875rem;
+   * }
+   * ```
+   */
+  $3_5: ClassName;
 }
 
 interface PlAtomStyle {
   /**
    * ```css
-   * .pl\:\$0 {
+   * .pl\:\:\$0 {
    *   padding-left: 0px;
    * }
    * ```
@@ -9290,23 +10463,7 @@ interface PlAtomStyle {
   $0: ClassName;
   /**
    * ```css
-   * .pl\:\$px {
-   *   padding-left: 1px;
-   * }
-   * ```
-   */
-  $px: ClassName;
-  /**
-   * ```css
-   * .pl\:\$0-5 {
-   *   padding-left: 0.125rem;
-   * }
-   * ```
-   */
-  $0_5: ClassName;
-  /**
-   * ```css
-   * .pl\:\$1 {
+   * .pl\:\:\$1 {
    *   padding-left: 0.25rem;
    * }
    * ```
@@ -9314,15 +10471,7 @@ interface PlAtomStyle {
   $1: ClassName;
   /**
    * ```css
-   * .pl\:\$1-5 {
-   *   padding-left: 0.375rem;
-   * }
-   * ```
-   */
-  $1_5: ClassName;
-  /**
-   * ```css
-   * .pl\:\$2 {
+   * .pl\:\:\$2 {
    *   padding-left: 0.5rem;
    * }
    * ```
@@ -9330,15 +10479,7 @@ interface PlAtomStyle {
   $2: ClassName;
   /**
    * ```css
-   * .pl\:\$2-5 {
-   *   padding-left: 0.625rem;
-   * }
-   * ```
-   */
-  $2_5: ClassName;
-  /**
-   * ```css
-   * .pl\:\$3 {
+   * .pl\:\:\$3 {
    *   padding-left: 0.75rem;
    * }
    * ```
@@ -9346,15 +10487,7 @@ interface PlAtomStyle {
   $3: ClassName;
   /**
    * ```css
-   * .pl\:\$3-5 {
-   *   padding-left: 0.875rem;
-   * }
-   * ```
-   */
-  $3_5: ClassName;
-  /**
-   * ```css
-   * .pl\:\$4 {
+   * .pl\:\:\$4 {
    *   padding-left: 1rem;
    * }
    * ```
@@ -9362,7 +10495,7 @@ interface PlAtomStyle {
   $4: ClassName;
   /**
    * ```css
-   * .pl\:\$5 {
+   * .pl\:\:\$5 {
    *   padding-left: 1.25rem;
    * }
    * ```
@@ -9370,7 +10503,7 @@ interface PlAtomStyle {
   $5: ClassName;
   /**
    * ```css
-   * .pl\:\$6 {
+   * .pl\:\:\$6 {
    *   padding-left: 1.5rem;
    * }
    * ```
@@ -9378,7 +10511,7 @@ interface PlAtomStyle {
   $6: ClassName;
   /**
    * ```css
-   * .pl\:\$7 {
+   * .pl\:\:\$7 {
    *   padding-left: 1.75rem;
    * }
    * ```
@@ -9386,7 +10519,7 @@ interface PlAtomStyle {
   $7: ClassName;
   /**
    * ```css
-   * .pl\:\$8 {
+   * .pl\:\:\$8 {
    *   padding-left: 2rem;
    * }
    * ```
@@ -9394,7 +10527,7 @@ interface PlAtomStyle {
   $8: ClassName;
   /**
    * ```css
-   * .pl\:\$9 {
+   * .pl\:\:\$9 {
    *   padding-left: 2.25rem;
    * }
    * ```
@@ -9402,7 +10535,7 @@ interface PlAtomStyle {
   $9: ClassName;
   /**
    * ```css
-   * .pl\:\$10 {
+   * .pl\:\:\$10 {
    *   padding-left: 2.5rem;
    * }
    * ```
@@ -9410,7 +10543,7 @@ interface PlAtomStyle {
   $10: ClassName;
   /**
    * ```css
-   * .pl\:\$11 {
+   * .pl\:\:\$11 {
    *   padding-left: 2.75rem;
    * }
    * ```
@@ -9418,7 +10551,7 @@ interface PlAtomStyle {
   $11: ClassName;
   /**
    * ```css
-   * .pl\:\$12 {
+   * .pl\:\:\$12 {
    *   padding-left: 3rem;
    * }
    * ```
@@ -9426,7 +10559,7 @@ interface PlAtomStyle {
   $12: ClassName;
   /**
    * ```css
-   * .pl\:\$14 {
+   * .pl\:\:\$14 {
    *   padding-left: 3.5rem;
    * }
    * ```
@@ -9434,7 +10567,7 @@ interface PlAtomStyle {
   $14: ClassName;
   /**
    * ```css
-   * .pl\:\$16 {
+   * .pl\:\:\$16 {
    *   padding-left: 4rem;
    * }
    * ```
@@ -9442,7 +10575,7 @@ interface PlAtomStyle {
   $16: ClassName;
   /**
    * ```css
-   * .pl\:\$20 {
+   * .pl\:\:\$20 {
    *   padding-left: 5rem;
    * }
    * ```
@@ -9450,7 +10583,7 @@ interface PlAtomStyle {
   $20: ClassName;
   /**
    * ```css
-   * .pl\:\$24 {
+   * .pl\:\:\$24 {
    *   padding-left: 6rem;
    * }
    * ```
@@ -9458,7 +10591,7 @@ interface PlAtomStyle {
   $24: ClassName;
   /**
    * ```css
-   * .pl\:\$28 {
+   * .pl\:\:\$28 {
    *   padding-left: 7rem;
    * }
    * ```
@@ -9466,7 +10599,7 @@ interface PlAtomStyle {
   $28: ClassName;
   /**
    * ```css
-   * .pl\:\$32 {
+   * .pl\:\:\$32 {
    *   padding-left: 8rem;
    * }
    * ```
@@ -9474,7 +10607,7 @@ interface PlAtomStyle {
   $32: ClassName;
   /**
    * ```css
-   * .pl\:\$36 {
+   * .pl\:\:\$36 {
    *   padding-left: 9rem;
    * }
    * ```
@@ -9482,7 +10615,7 @@ interface PlAtomStyle {
   $36: ClassName;
   /**
    * ```css
-   * .pl\:\$40 {
+   * .pl\:\:\$40 {
    *   padding-left: 10rem;
    * }
    * ```
@@ -9490,7 +10623,7 @@ interface PlAtomStyle {
   $40: ClassName;
   /**
    * ```css
-   * .pl\:\$44 {
+   * .pl\:\:\$44 {
    *   padding-left: 11rem;
    * }
    * ```
@@ -9498,7 +10631,7 @@ interface PlAtomStyle {
   $44: ClassName;
   /**
    * ```css
-   * .pl\:\$48 {
+   * .pl\:\:\$48 {
    *   padding-left: 12rem;
    * }
    * ```
@@ -9506,7 +10639,7 @@ interface PlAtomStyle {
   $48: ClassName;
   /**
    * ```css
-   * .pl\:\$52 {
+   * .pl\:\:\$52 {
    *   padding-left: 13rem;
    * }
    * ```
@@ -9514,7 +10647,7 @@ interface PlAtomStyle {
   $52: ClassName;
   /**
    * ```css
-   * .pl\:\$56 {
+   * .pl\:\:\$56 {
    *   padding-left: 14rem;
    * }
    * ```
@@ -9522,7 +10655,7 @@ interface PlAtomStyle {
   $56: ClassName;
   /**
    * ```css
-   * .pl\:\$60 {
+   * .pl\:\:\$60 {
    *   padding-left: 15rem;
    * }
    * ```
@@ -9530,7 +10663,7 @@ interface PlAtomStyle {
   $60: ClassName;
   /**
    * ```css
-   * .pl\:\$64 {
+   * .pl\:\:\$64 {
    *   padding-left: 16rem;
    * }
    * ```
@@ -9538,7 +10671,7 @@ interface PlAtomStyle {
   $64: ClassName;
   /**
    * ```css
-   * .pl\:\$72 {
+   * .pl\:\:\$72 {
    *   padding-left: 18rem;
    * }
    * ```
@@ -9546,7 +10679,7 @@ interface PlAtomStyle {
   $72: ClassName;
   /**
    * ```css
-   * .pl\:\$80 {
+   * .pl\:\:\$80 {
    *   padding-left: 20rem;
    * }
    * ```
@@ -9554,18 +10687,58 @@ interface PlAtomStyle {
   $80: ClassName;
   /**
    * ```css
-   * .pl\:\$96 {
+   * .pl\:\:\$96 {
    *   padding-left: 24rem;
    * }
    * ```
    */
   $96: ClassName;
+  /**
+   * ```css
+   * .pl\:\:\$px {
+   *   padding-left: 1px;
+   * }
+   * ```
+   */
+  $px: ClassName;
+  /**
+   * ```css
+   * .pl\:\:\$0_5 {
+   *   padding-left: 0.125rem;
+   * }
+   * ```
+   */
+  $0_5: ClassName;
+  /**
+   * ```css
+   * .pl\:\:\$1_5 {
+   *   padding-left: 0.375rem;
+   * }
+   * ```
+   */
+  $1_5: ClassName;
+  /**
+   * ```css
+   * .pl\:\:\$2_5 {
+   *   padding-left: 0.625rem;
+   * }
+   * ```
+   */
+  $2_5: ClassName;
+  /**
+   * ```css
+   * .pl\:\:\$3_5 {
+   *   padding-left: 0.875rem;
+   * }
+   * ```
+   */
+  $3_5: ClassName;
 }
 
 interface PblAtomStyle {
   /**
    * ```css
-   * .pbl\:\$0 {
+   * .pbl\:\:\$0 {
    *   padding-block: 0px;
    * }
    * ```
@@ -9573,23 +10746,7 @@ interface PblAtomStyle {
   $0: ClassName;
   /**
    * ```css
-   * .pbl\:\$px {
-   *   padding-block: 1px;
-   * }
-   * ```
-   */
-  $px: ClassName;
-  /**
-   * ```css
-   * .pbl\:\$0-5 {
-   *   padding-block: 0.125rem;
-   * }
-   * ```
-   */
-  $0_5: ClassName;
-  /**
-   * ```css
-   * .pbl\:\$1 {
+   * .pbl\:\:\$1 {
    *   padding-block: 0.25rem;
    * }
    * ```
@@ -9597,15 +10754,7 @@ interface PblAtomStyle {
   $1: ClassName;
   /**
    * ```css
-   * .pbl\:\$1-5 {
-   *   padding-block: 0.375rem;
-   * }
-   * ```
-   */
-  $1_5: ClassName;
-  /**
-   * ```css
-   * .pbl\:\$2 {
+   * .pbl\:\:\$2 {
    *   padding-block: 0.5rem;
    * }
    * ```
@@ -9613,15 +10762,7 @@ interface PblAtomStyle {
   $2: ClassName;
   /**
    * ```css
-   * .pbl\:\$2-5 {
-   *   padding-block: 0.625rem;
-   * }
-   * ```
-   */
-  $2_5: ClassName;
-  /**
-   * ```css
-   * .pbl\:\$3 {
+   * .pbl\:\:\$3 {
    *   padding-block: 0.75rem;
    * }
    * ```
@@ -9629,15 +10770,7 @@ interface PblAtomStyle {
   $3: ClassName;
   /**
    * ```css
-   * .pbl\:\$3-5 {
-   *   padding-block: 0.875rem;
-   * }
-   * ```
-   */
-  $3_5: ClassName;
-  /**
-   * ```css
-   * .pbl\:\$4 {
+   * .pbl\:\:\$4 {
    *   padding-block: 1rem;
    * }
    * ```
@@ -9645,7 +10778,7 @@ interface PblAtomStyle {
   $4: ClassName;
   /**
    * ```css
-   * .pbl\:\$5 {
+   * .pbl\:\:\$5 {
    *   padding-block: 1.25rem;
    * }
    * ```
@@ -9653,7 +10786,7 @@ interface PblAtomStyle {
   $5: ClassName;
   /**
    * ```css
-   * .pbl\:\$6 {
+   * .pbl\:\:\$6 {
    *   padding-block: 1.5rem;
    * }
    * ```
@@ -9661,7 +10794,7 @@ interface PblAtomStyle {
   $6: ClassName;
   /**
    * ```css
-   * .pbl\:\$7 {
+   * .pbl\:\:\$7 {
    *   padding-block: 1.75rem;
    * }
    * ```
@@ -9669,7 +10802,7 @@ interface PblAtomStyle {
   $7: ClassName;
   /**
    * ```css
-   * .pbl\:\$8 {
+   * .pbl\:\:\$8 {
    *   padding-block: 2rem;
    * }
    * ```
@@ -9677,7 +10810,7 @@ interface PblAtomStyle {
   $8: ClassName;
   /**
    * ```css
-   * .pbl\:\$9 {
+   * .pbl\:\:\$9 {
    *   padding-block: 2.25rem;
    * }
    * ```
@@ -9685,7 +10818,7 @@ interface PblAtomStyle {
   $9: ClassName;
   /**
    * ```css
-   * .pbl\:\$10 {
+   * .pbl\:\:\$10 {
    *   padding-block: 2.5rem;
    * }
    * ```
@@ -9693,7 +10826,7 @@ interface PblAtomStyle {
   $10: ClassName;
   /**
    * ```css
-   * .pbl\:\$11 {
+   * .pbl\:\:\$11 {
    *   padding-block: 2.75rem;
    * }
    * ```
@@ -9701,7 +10834,7 @@ interface PblAtomStyle {
   $11: ClassName;
   /**
    * ```css
-   * .pbl\:\$12 {
+   * .pbl\:\:\$12 {
    *   padding-block: 3rem;
    * }
    * ```
@@ -9709,7 +10842,7 @@ interface PblAtomStyle {
   $12: ClassName;
   /**
    * ```css
-   * .pbl\:\$14 {
+   * .pbl\:\:\$14 {
    *   padding-block: 3.5rem;
    * }
    * ```
@@ -9717,7 +10850,7 @@ interface PblAtomStyle {
   $14: ClassName;
   /**
    * ```css
-   * .pbl\:\$16 {
+   * .pbl\:\:\$16 {
    *   padding-block: 4rem;
    * }
    * ```
@@ -9725,7 +10858,7 @@ interface PblAtomStyle {
   $16: ClassName;
   /**
    * ```css
-   * .pbl\:\$20 {
+   * .pbl\:\:\$20 {
    *   padding-block: 5rem;
    * }
    * ```
@@ -9733,7 +10866,7 @@ interface PblAtomStyle {
   $20: ClassName;
   /**
    * ```css
-   * .pbl\:\$24 {
+   * .pbl\:\:\$24 {
    *   padding-block: 6rem;
    * }
    * ```
@@ -9741,7 +10874,7 @@ interface PblAtomStyle {
   $24: ClassName;
   /**
    * ```css
-   * .pbl\:\$28 {
+   * .pbl\:\:\$28 {
    *   padding-block: 7rem;
    * }
    * ```
@@ -9749,7 +10882,7 @@ interface PblAtomStyle {
   $28: ClassName;
   /**
    * ```css
-   * .pbl\:\$32 {
+   * .pbl\:\:\$32 {
    *   padding-block: 8rem;
    * }
    * ```
@@ -9757,7 +10890,7 @@ interface PblAtomStyle {
   $32: ClassName;
   /**
    * ```css
-   * .pbl\:\$36 {
+   * .pbl\:\:\$36 {
    *   padding-block: 9rem;
    * }
    * ```
@@ -9765,7 +10898,7 @@ interface PblAtomStyle {
   $36: ClassName;
   /**
    * ```css
-   * .pbl\:\$40 {
+   * .pbl\:\:\$40 {
    *   padding-block: 10rem;
    * }
    * ```
@@ -9773,7 +10906,7 @@ interface PblAtomStyle {
   $40: ClassName;
   /**
    * ```css
-   * .pbl\:\$44 {
+   * .pbl\:\:\$44 {
    *   padding-block: 11rem;
    * }
    * ```
@@ -9781,7 +10914,7 @@ interface PblAtomStyle {
   $44: ClassName;
   /**
    * ```css
-   * .pbl\:\$48 {
+   * .pbl\:\:\$48 {
    *   padding-block: 12rem;
    * }
    * ```
@@ -9789,7 +10922,7 @@ interface PblAtomStyle {
   $48: ClassName;
   /**
    * ```css
-   * .pbl\:\$52 {
+   * .pbl\:\:\$52 {
    *   padding-block: 13rem;
    * }
    * ```
@@ -9797,7 +10930,7 @@ interface PblAtomStyle {
   $52: ClassName;
   /**
    * ```css
-   * .pbl\:\$56 {
+   * .pbl\:\:\$56 {
    *   padding-block: 14rem;
    * }
    * ```
@@ -9805,7 +10938,7 @@ interface PblAtomStyle {
   $56: ClassName;
   /**
    * ```css
-   * .pbl\:\$60 {
+   * .pbl\:\:\$60 {
    *   padding-block: 15rem;
    * }
    * ```
@@ -9813,7 +10946,7 @@ interface PblAtomStyle {
   $60: ClassName;
   /**
    * ```css
-   * .pbl\:\$64 {
+   * .pbl\:\:\$64 {
    *   padding-block: 16rem;
    * }
    * ```
@@ -9821,7 +10954,7 @@ interface PblAtomStyle {
   $64: ClassName;
   /**
    * ```css
-   * .pbl\:\$72 {
+   * .pbl\:\:\$72 {
    *   padding-block: 18rem;
    * }
    * ```
@@ -9829,7 +10962,7 @@ interface PblAtomStyle {
   $72: ClassName;
   /**
    * ```css
-   * .pbl\:\$80 {
+   * .pbl\:\:\$80 {
    *   padding-block: 20rem;
    * }
    * ```
@@ -9837,18 +10970,58 @@ interface PblAtomStyle {
   $80: ClassName;
   /**
    * ```css
-   * .pbl\:\$96 {
+   * .pbl\:\:\$96 {
    *   padding-block: 24rem;
    * }
    * ```
    */
   $96: ClassName;
+  /**
+   * ```css
+   * .pbl\:\:\$px {
+   *   padding-block: 1px;
+   * }
+   * ```
+   */
+  $px: ClassName;
+  /**
+   * ```css
+   * .pbl\:\:\$0_5 {
+   *   padding-block: 0.125rem;
+   * }
+   * ```
+   */
+  $0_5: ClassName;
+  /**
+   * ```css
+   * .pbl\:\:\$1_5 {
+   *   padding-block: 0.375rem;
+   * }
+   * ```
+   */
+  $1_5: ClassName;
+  /**
+   * ```css
+   * .pbl\:\:\$2_5 {
+   *   padding-block: 0.625rem;
+   * }
+   * ```
+   */
+  $2_5: ClassName;
+  /**
+   * ```css
+   * .pbl\:\:\$3_5 {
+   *   padding-block: 0.875rem;
+   * }
+   * ```
+   */
+  $3_5: ClassName;
 }
 
 interface PinAtomStyle {
   /**
    * ```css
-   * .pin\:\$0 {
+   * .pin\:\:\$0 {
    *   padding-inline: 0px;
    * }
    * ```
@@ -9856,23 +11029,7 @@ interface PinAtomStyle {
   $0: ClassName;
   /**
    * ```css
-   * .pin\:\$px {
-   *   padding-inline: 1px;
-   * }
-   * ```
-   */
-  $px: ClassName;
-  /**
-   * ```css
-   * .pin\:\$0-5 {
-   *   padding-inline: 0.125rem;
-   * }
-   * ```
-   */
-  $0_5: ClassName;
-  /**
-   * ```css
-   * .pin\:\$1 {
+   * .pin\:\:\$1 {
    *   padding-inline: 0.25rem;
    * }
    * ```
@@ -9880,15 +11037,7 @@ interface PinAtomStyle {
   $1: ClassName;
   /**
    * ```css
-   * .pin\:\$1-5 {
-   *   padding-inline: 0.375rem;
-   * }
-   * ```
-   */
-  $1_5: ClassName;
-  /**
-   * ```css
-   * .pin\:\$2 {
+   * .pin\:\:\$2 {
    *   padding-inline: 0.5rem;
    * }
    * ```
@@ -9896,15 +11045,7 @@ interface PinAtomStyle {
   $2: ClassName;
   /**
    * ```css
-   * .pin\:\$2-5 {
-   *   padding-inline: 0.625rem;
-   * }
-   * ```
-   */
-  $2_5: ClassName;
-  /**
-   * ```css
-   * .pin\:\$3 {
+   * .pin\:\:\$3 {
    *   padding-inline: 0.75rem;
    * }
    * ```
@@ -9912,15 +11053,7 @@ interface PinAtomStyle {
   $3: ClassName;
   /**
    * ```css
-   * .pin\:\$3-5 {
-   *   padding-inline: 0.875rem;
-   * }
-   * ```
-   */
-  $3_5: ClassName;
-  /**
-   * ```css
-   * .pin\:\$4 {
+   * .pin\:\:\$4 {
    *   padding-inline: 1rem;
    * }
    * ```
@@ -9928,7 +11061,7 @@ interface PinAtomStyle {
   $4: ClassName;
   /**
    * ```css
-   * .pin\:\$5 {
+   * .pin\:\:\$5 {
    *   padding-inline: 1.25rem;
    * }
    * ```
@@ -9936,7 +11069,7 @@ interface PinAtomStyle {
   $5: ClassName;
   /**
    * ```css
-   * .pin\:\$6 {
+   * .pin\:\:\$6 {
    *   padding-inline: 1.5rem;
    * }
    * ```
@@ -9944,7 +11077,7 @@ interface PinAtomStyle {
   $6: ClassName;
   /**
    * ```css
-   * .pin\:\$7 {
+   * .pin\:\:\$7 {
    *   padding-inline: 1.75rem;
    * }
    * ```
@@ -9952,7 +11085,7 @@ interface PinAtomStyle {
   $7: ClassName;
   /**
    * ```css
-   * .pin\:\$8 {
+   * .pin\:\:\$8 {
    *   padding-inline: 2rem;
    * }
    * ```
@@ -9960,7 +11093,7 @@ interface PinAtomStyle {
   $8: ClassName;
   /**
    * ```css
-   * .pin\:\$9 {
+   * .pin\:\:\$9 {
    *   padding-inline: 2.25rem;
    * }
    * ```
@@ -9968,7 +11101,7 @@ interface PinAtomStyle {
   $9: ClassName;
   /**
    * ```css
-   * .pin\:\$10 {
+   * .pin\:\:\$10 {
    *   padding-inline: 2.5rem;
    * }
    * ```
@@ -9976,7 +11109,7 @@ interface PinAtomStyle {
   $10: ClassName;
   /**
    * ```css
-   * .pin\:\$11 {
+   * .pin\:\:\$11 {
    *   padding-inline: 2.75rem;
    * }
    * ```
@@ -9984,7 +11117,7 @@ interface PinAtomStyle {
   $11: ClassName;
   /**
    * ```css
-   * .pin\:\$12 {
+   * .pin\:\:\$12 {
    *   padding-inline: 3rem;
    * }
    * ```
@@ -9992,7 +11125,7 @@ interface PinAtomStyle {
   $12: ClassName;
   /**
    * ```css
-   * .pin\:\$14 {
+   * .pin\:\:\$14 {
    *   padding-inline: 3.5rem;
    * }
    * ```
@@ -10000,7 +11133,7 @@ interface PinAtomStyle {
   $14: ClassName;
   /**
    * ```css
-   * .pin\:\$16 {
+   * .pin\:\:\$16 {
    *   padding-inline: 4rem;
    * }
    * ```
@@ -10008,7 +11141,7 @@ interface PinAtomStyle {
   $16: ClassName;
   /**
    * ```css
-   * .pin\:\$20 {
+   * .pin\:\:\$20 {
    *   padding-inline: 5rem;
    * }
    * ```
@@ -10016,7 +11149,7 @@ interface PinAtomStyle {
   $20: ClassName;
   /**
    * ```css
-   * .pin\:\$24 {
+   * .pin\:\:\$24 {
    *   padding-inline: 6rem;
    * }
    * ```
@@ -10024,7 +11157,7 @@ interface PinAtomStyle {
   $24: ClassName;
   /**
    * ```css
-   * .pin\:\$28 {
+   * .pin\:\:\$28 {
    *   padding-inline: 7rem;
    * }
    * ```
@@ -10032,7 +11165,7 @@ interface PinAtomStyle {
   $28: ClassName;
   /**
    * ```css
-   * .pin\:\$32 {
+   * .pin\:\:\$32 {
    *   padding-inline: 8rem;
    * }
    * ```
@@ -10040,7 +11173,7 @@ interface PinAtomStyle {
   $32: ClassName;
   /**
    * ```css
-   * .pin\:\$36 {
+   * .pin\:\:\$36 {
    *   padding-inline: 9rem;
    * }
    * ```
@@ -10048,7 +11181,7 @@ interface PinAtomStyle {
   $36: ClassName;
   /**
    * ```css
-   * .pin\:\$40 {
+   * .pin\:\:\$40 {
    *   padding-inline: 10rem;
    * }
    * ```
@@ -10056,7 +11189,7 @@ interface PinAtomStyle {
   $40: ClassName;
   /**
    * ```css
-   * .pin\:\$44 {
+   * .pin\:\:\$44 {
    *   padding-inline: 11rem;
    * }
    * ```
@@ -10064,7 +11197,7 @@ interface PinAtomStyle {
   $44: ClassName;
   /**
    * ```css
-   * .pin\:\$48 {
+   * .pin\:\:\$48 {
    *   padding-inline: 12rem;
    * }
    * ```
@@ -10072,7 +11205,7 @@ interface PinAtomStyle {
   $48: ClassName;
   /**
    * ```css
-   * .pin\:\$52 {
+   * .pin\:\:\$52 {
    *   padding-inline: 13rem;
    * }
    * ```
@@ -10080,7 +11213,7 @@ interface PinAtomStyle {
   $52: ClassName;
   /**
    * ```css
-   * .pin\:\$56 {
+   * .pin\:\:\$56 {
    *   padding-inline: 14rem;
    * }
    * ```
@@ -10088,7 +11221,7 @@ interface PinAtomStyle {
   $56: ClassName;
   /**
    * ```css
-   * .pin\:\$60 {
+   * .pin\:\:\$60 {
    *   padding-inline: 15rem;
    * }
    * ```
@@ -10096,7 +11229,7 @@ interface PinAtomStyle {
   $60: ClassName;
   /**
    * ```css
-   * .pin\:\$64 {
+   * .pin\:\:\$64 {
    *   padding-inline: 16rem;
    * }
    * ```
@@ -10104,7 +11237,7 @@ interface PinAtomStyle {
   $64: ClassName;
   /**
    * ```css
-   * .pin\:\$72 {
+   * .pin\:\:\$72 {
    *   padding-inline: 18rem;
    * }
    * ```
@@ -10112,7 +11245,7 @@ interface PinAtomStyle {
   $72: ClassName;
   /**
    * ```css
-   * .pin\:\$80 {
+   * .pin\:\:\$80 {
    *   padding-inline: 20rem;
    * }
    * ```
@@ -10120,18 +11253,58 @@ interface PinAtomStyle {
   $80: ClassName;
   /**
    * ```css
-   * .pin\:\$96 {
+   * .pin\:\:\$96 {
    *   padding-inline: 24rem;
    * }
    * ```
    */
   $96: ClassName;
+  /**
+   * ```css
+   * .pin\:\:\$px {
+   *   padding-inline: 1px;
+   * }
+   * ```
+   */
+  $px: ClassName;
+  /**
+   * ```css
+   * .pin\:\:\$0_5 {
+   *   padding-inline: 0.125rem;
+   * }
+   * ```
+   */
+  $0_5: ClassName;
+  /**
+   * ```css
+   * .pin\:\:\$1_5 {
+   *   padding-inline: 0.375rem;
+   * }
+   * ```
+   */
+  $1_5: ClassName;
+  /**
+   * ```css
+   * .pin\:\:\$2_5 {
+   *   padding-inline: 0.625rem;
+   * }
+   * ```
+   */
+  $2_5: ClassName;
+  /**
+   * ```css
+   * .pin\:\:\$3_5 {
+   *   padding-inline: 0.875rem;
+   * }
+   * ```
+   */
+  $3_5: ClassName;
 }
 
 interface PinsAtomStyle {
   /**
    * ```css
-   * .pins\:\$0 {
+   * .pins\:\:\$0 {
    *   padding-inline-start: 0px;
    * }
    * ```
@@ -10139,23 +11312,7 @@ interface PinsAtomStyle {
   $0: ClassName;
   /**
    * ```css
-   * .pins\:\$px {
-   *   padding-inline-start: 1px;
-   * }
-   * ```
-   */
-  $px: ClassName;
-  /**
-   * ```css
-   * .pins\:\$0-5 {
-   *   padding-inline-start: 0.125rem;
-   * }
-   * ```
-   */
-  $0_5: ClassName;
-  /**
-   * ```css
-   * .pins\:\$1 {
+   * .pins\:\:\$1 {
    *   padding-inline-start: 0.25rem;
    * }
    * ```
@@ -10163,15 +11320,7 @@ interface PinsAtomStyle {
   $1: ClassName;
   /**
    * ```css
-   * .pins\:\$1-5 {
-   *   padding-inline-start: 0.375rem;
-   * }
-   * ```
-   */
-  $1_5: ClassName;
-  /**
-   * ```css
-   * .pins\:\$2 {
+   * .pins\:\:\$2 {
    *   padding-inline-start: 0.5rem;
    * }
    * ```
@@ -10179,15 +11328,7 @@ interface PinsAtomStyle {
   $2: ClassName;
   /**
    * ```css
-   * .pins\:\$2-5 {
-   *   padding-inline-start: 0.625rem;
-   * }
-   * ```
-   */
-  $2_5: ClassName;
-  /**
-   * ```css
-   * .pins\:\$3 {
+   * .pins\:\:\$3 {
    *   padding-inline-start: 0.75rem;
    * }
    * ```
@@ -10195,15 +11336,7 @@ interface PinsAtomStyle {
   $3: ClassName;
   /**
    * ```css
-   * .pins\:\$3-5 {
-   *   padding-inline-start: 0.875rem;
-   * }
-   * ```
-   */
-  $3_5: ClassName;
-  /**
-   * ```css
-   * .pins\:\$4 {
+   * .pins\:\:\$4 {
    *   padding-inline-start: 1rem;
    * }
    * ```
@@ -10211,7 +11344,7 @@ interface PinsAtomStyle {
   $4: ClassName;
   /**
    * ```css
-   * .pins\:\$5 {
+   * .pins\:\:\$5 {
    *   padding-inline-start: 1.25rem;
    * }
    * ```
@@ -10219,7 +11352,7 @@ interface PinsAtomStyle {
   $5: ClassName;
   /**
    * ```css
-   * .pins\:\$6 {
+   * .pins\:\:\$6 {
    *   padding-inline-start: 1.5rem;
    * }
    * ```
@@ -10227,7 +11360,7 @@ interface PinsAtomStyle {
   $6: ClassName;
   /**
    * ```css
-   * .pins\:\$7 {
+   * .pins\:\:\$7 {
    *   padding-inline-start: 1.75rem;
    * }
    * ```
@@ -10235,7 +11368,7 @@ interface PinsAtomStyle {
   $7: ClassName;
   /**
    * ```css
-   * .pins\:\$8 {
+   * .pins\:\:\$8 {
    *   padding-inline-start: 2rem;
    * }
    * ```
@@ -10243,7 +11376,7 @@ interface PinsAtomStyle {
   $8: ClassName;
   /**
    * ```css
-   * .pins\:\$9 {
+   * .pins\:\:\$9 {
    *   padding-inline-start: 2.25rem;
    * }
    * ```
@@ -10251,7 +11384,7 @@ interface PinsAtomStyle {
   $9: ClassName;
   /**
    * ```css
-   * .pins\:\$10 {
+   * .pins\:\:\$10 {
    *   padding-inline-start: 2.5rem;
    * }
    * ```
@@ -10259,7 +11392,7 @@ interface PinsAtomStyle {
   $10: ClassName;
   /**
    * ```css
-   * .pins\:\$11 {
+   * .pins\:\:\$11 {
    *   padding-inline-start: 2.75rem;
    * }
    * ```
@@ -10267,7 +11400,7 @@ interface PinsAtomStyle {
   $11: ClassName;
   /**
    * ```css
-   * .pins\:\$12 {
+   * .pins\:\:\$12 {
    *   padding-inline-start: 3rem;
    * }
    * ```
@@ -10275,7 +11408,7 @@ interface PinsAtomStyle {
   $12: ClassName;
   /**
    * ```css
-   * .pins\:\$14 {
+   * .pins\:\:\$14 {
    *   padding-inline-start: 3.5rem;
    * }
    * ```
@@ -10283,7 +11416,7 @@ interface PinsAtomStyle {
   $14: ClassName;
   /**
    * ```css
-   * .pins\:\$16 {
+   * .pins\:\:\$16 {
    *   padding-inline-start: 4rem;
    * }
    * ```
@@ -10291,7 +11424,7 @@ interface PinsAtomStyle {
   $16: ClassName;
   /**
    * ```css
-   * .pins\:\$20 {
+   * .pins\:\:\$20 {
    *   padding-inline-start: 5rem;
    * }
    * ```
@@ -10299,7 +11432,7 @@ interface PinsAtomStyle {
   $20: ClassName;
   /**
    * ```css
-   * .pins\:\$24 {
+   * .pins\:\:\$24 {
    *   padding-inline-start: 6rem;
    * }
    * ```
@@ -10307,7 +11440,7 @@ interface PinsAtomStyle {
   $24: ClassName;
   /**
    * ```css
-   * .pins\:\$28 {
+   * .pins\:\:\$28 {
    *   padding-inline-start: 7rem;
    * }
    * ```
@@ -10315,7 +11448,7 @@ interface PinsAtomStyle {
   $28: ClassName;
   /**
    * ```css
-   * .pins\:\$32 {
+   * .pins\:\:\$32 {
    *   padding-inline-start: 8rem;
    * }
    * ```
@@ -10323,7 +11456,7 @@ interface PinsAtomStyle {
   $32: ClassName;
   /**
    * ```css
-   * .pins\:\$36 {
+   * .pins\:\:\$36 {
    *   padding-inline-start: 9rem;
    * }
    * ```
@@ -10331,7 +11464,7 @@ interface PinsAtomStyle {
   $36: ClassName;
   /**
    * ```css
-   * .pins\:\$40 {
+   * .pins\:\:\$40 {
    *   padding-inline-start: 10rem;
    * }
    * ```
@@ -10339,7 +11472,7 @@ interface PinsAtomStyle {
   $40: ClassName;
   /**
    * ```css
-   * .pins\:\$44 {
+   * .pins\:\:\$44 {
    *   padding-inline-start: 11rem;
    * }
    * ```
@@ -10347,7 +11480,7 @@ interface PinsAtomStyle {
   $44: ClassName;
   /**
    * ```css
-   * .pins\:\$48 {
+   * .pins\:\:\$48 {
    *   padding-inline-start: 12rem;
    * }
    * ```
@@ -10355,7 +11488,7 @@ interface PinsAtomStyle {
   $48: ClassName;
   /**
    * ```css
-   * .pins\:\$52 {
+   * .pins\:\:\$52 {
    *   padding-inline-start: 13rem;
    * }
    * ```
@@ -10363,7 +11496,7 @@ interface PinsAtomStyle {
   $52: ClassName;
   /**
    * ```css
-   * .pins\:\$56 {
+   * .pins\:\:\$56 {
    *   padding-inline-start: 14rem;
    * }
    * ```
@@ -10371,7 +11504,7 @@ interface PinsAtomStyle {
   $56: ClassName;
   /**
    * ```css
-   * .pins\:\$60 {
+   * .pins\:\:\$60 {
    *   padding-inline-start: 15rem;
    * }
    * ```
@@ -10379,7 +11512,7 @@ interface PinsAtomStyle {
   $60: ClassName;
   /**
    * ```css
-   * .pins\:\$64 {
+   * .pins\:\:\$64 {
    *   padding-inline-start: 16rem;
    * }
    * ```
@@ -10387,7 +11520,7 @@ interface PinsAtomStyle {
   $64: ClassName;
   /**
    * ```css
-   * .pins\:\$72 {
+   * .pins\:\:\$72 {
    *   padding-inline-start: 18rem;
    * }
    * ```
@@ -10395,7 +11528,7 @@ interface PinsAtomStyle {
   $72: ClassName;
   /**
    * ```css
-   * .pins\:\$80 {
+   * .pins\:\:\$80 {
    *   padding-inline-start: 20rem;
    * }
    * ```
@@ -10403,18 +11536,58 @@ interface PinsAtomStyle {
   $80: ClassName;
   /**
    * ```css
-   * .pins\:\$96 {
+   * .pins\:\:\$96 {
    *   padding-inline-start: 24rem;
    * }
    * ```
    */
   $96: ClassName;
+  /**
+   * ```css
+   * .pins\:\:\$px {
+   *   padding-inline-start: 1px;
+   * }
+   * ```
+   */
+  $px: ClassName;
+  /**
+   * ```css
+   * .pins\:\:\$0_5 {
+   *   padding-inline-start: 0.125rem;
+   * }
+   * ```
+   */
+  $0_5: ClassName;
+  /**
+   * ```css
+   * .pins\:\:\$1_5 {
+   *   padding-inline-start: 0.375rem;
+   * }
+   * ```
+   */
+  $1_5: ClassName;
+  /**
+   * ```css
+   * .pins\:\:\$2_5 {
+   *   padding-inline-start: 0.625rem;
+   * }
+   * ```
+   */
+  $2_5: ClassName;
+  /**
+   * ```css
+   * .pins\:\:\$3_5 {
+   *   padding-inline-start: 0.875rem;
+   * }
+   * ```
+   */
+  $3_5: ClassName;
 }
 
 interface PineAtomStyle {
   /**
    * ```css
-   * .pine\:\$0 {
+   * .pine\:\:\$0 {
    *   padding-inline-end: 0px;
    * }
    * ```
@@ -10422,23 +11595,7 @@ interface PineAtomStyle {
   $0: ClassName;
   /**
    * ```css
-   * .pine\:\$px {
-   *   padding-inline-end: 1px;
-   * }
-   * ```
-   */
-  $px: ClassName;
-  /**
-   * ```css
-   * .pine\:\$0-5 {
-   *   padding-inline-end: 0.125rem;
-   * }
-   * ```
-   */
-  $0_5: ClassName;
-  /**
-   * ```css
-   * .pine\:\$1 {
+   * .pine\:\:\$1 {
    *   padding-inline-end: 0.25rem;
    * }
    * ```
@@ -10446,15 +11603,7 @@ interface PineAtomStyle {
   $1: ClassName;
   /**
    * ```css
-   * .pine\:\$1-5 {
-   *   padding-inline-end: 0.375rem;
-   * }
-   * ```
-   */
-  $1_5: ClassName;
-  /**
-   * ```css
-   * .pine\:\$2 {
+   * .pine\:\:\$2 {
    *   padding-inline-end: 0.5rem;
    * }
    * ```
@@ -10462,15 +11611,7 @@ interface PineAtomStyle {
   $2: ClassName;
   /**
    * ```css
-   * .pine\:\$2-5 {
-   *   padding-inline-end: 0.625rem;
-   * }
-   * ```
-   */
-  $2_5: ClassName;
-  /**
-   * ```css
-   * .pine\:\$3 {
+   * .pine\:\:\$3 {
    *   padding-inline-end: 0.75rem;
    * }
    * ```
@@ -10478,15 +11619,7 @@ interface PineAtomStyle {
   $3: ClassName;
   /**
    * ```css
-   * .pine\:\$3-5 {
-   *   padding-inline-end: 0.875rem;
-   * }
-   * ```
-   */
-  $3_5: ClassName;
-  /**
-   * ```css
-   * .pine\:\$4 {
+   * .pine\:\:\$4 {
    *   padding-inline-end: 1rem;
    * }
    * ```
@@ -10494,7 +11627,7 @@ interface PineAtomStyle {
   $4: ClassName;
   /**
    * ```css
-   * .pine\:\$5 {
+   * .pine\:\:\$5 {
    *   padding-inline-end: 1.25rem;
    * }
    * ```
@@ -10502,7 +11635,7 @@ interface PineAtomStyle {
   $5: ClassName;
   /**
    * ```css
-   * .pine\:\$6 {
+   * .pine\:\:\$6 {
    *   padding-inline-end: 1.5rem;
    * }
    * ```
@@ -10510,7 +11643,7 @@ interface PineAtomStyle {
   $6: ClassName;
   /**
    * ```css
-   * .pine\:\$7 {
+   * .pine\:\:\$7 {
    *   padding-inline-end: 1.75rem;
    * }
    * ```
@@ -10518,7 +11651,7 @@ interface PineAtomStyle {
   $7: ClassName;
   /**
    * ```css
-   * .pine\:\$8 {
+   * .pine\:\:\$8 {
    *   padding-inline-end: 2rem;
    * }
    * ```
@@ -10526,7 +11659,7 @@ interface PineAtomStyle {
   $8: ClassName;
   /**
    * ```css
-   * .pine\:\$9 {
+   * .pine\:\:\$9 {
    *   padding-inline-end: 2.25rem;
    * }
    * ```
@@ -10534,7 +11667,7 @@ interface PineAtomStyle {
   $9: ClassName;
   /**
    * ```css
-   * .pine\:\$10 {
+   * .pine\:\:\$10 {
    *   padding-inline-end: 2.5rem;
    * }
    * ```
@@ -10542,7 +11675,7 @@ interface PineAtomStyle {
   $10: ClassName;
   /**
    * ```css
-   * .pine\:\$11 {
+   * .pine\:\:\$11 {
    *   padding-inline-end: 2.75rem;
    * }
    * ```
@@ -10550,7 +11683,7 @@ interface PineAtomStyle {
   $11: ClassName;
   /**
    * ```css
-   * .pine\:\$12 {
+   * .pine\:\:\$12 {
    *   padding-inline-end: 3rem;
    * }
    * ```
@@ -10558,7 +11691,7 @@ interface PineAtomStyle {
   $12: ClassName;
   /**
    * ```css
-   * .pine\:\$14 {
+   * .pine\:\:\$14 {
    *   padding-inline-end: 3.5rem;
    * }
    * ```
@@ -10566,7 +11699,7 @@ interface PineAtomStyle {
   $14: ClassName;
   /**
    * ```css
-   * .pine\:\$16 {
+   * .pine\:\:\$16 {
    *   padding-inline-end: 4rem;
    * }
    * ```
@@ -10574,7 +11707,7 @@ interface PineAtomStyle {
   $16: ClassName;
   /**
    * ```css
-   * .pine\:\$20 {
+   * .pine\:\:\$20 {
    *   padding-inline-end: 5rem;
    * }
    * ```
@@ -10582,7 +11715,7 @@ interface PineAtomStyle {
   $20: ClassName;
   /**
    * ```css
-   * .pine\:\$24 {
+   * .pine\:\:\$24 {
    *   padding-inline-end: 6rem;
    * }
    * ```
@@ -10590,7 +11723,7 @@ interface PineAtomStyle {
   $24: ClassName;
   /**
    * ```css
-   * .pine\:\$28 {
+   * .pine\:\:\$28 {
    *   padding-inline-end: 7rem;
    * }
    * ```
@@ -10598,7 +11731,7 @@ interface PineAtomStyle {
   $28: ClassName;
   /**
    * ```css
-   * .pine\:\$32 {
+   * .pine\:\:\$32 {
    *   padding-inline-end: 8rem;
    * }
    * ```
@@ -10606,7 +11739,7 @@ interface PineAtomStyle {
   $32: ClassName;
   /**
    * ```css
-   * .pine\:\$36 {
+   * .pine\:\:\$36 {
    *   padding-inline-end: 9rem;
    * }
    * ```
@@ -10614,7 +11747,7 @@ interface PineAtomStyle {
   $36: ClassName;
   /**
    * ```css
-   * .pine\:\$40 {
+   * .pine\:\:\$40 {
    *   padding-inline-end: 10rem;
    * }
    * ```
@@ -10622,7 +11755,7 @@ interface PineAtomStyle {
   $40: ClassName;
   /**
    * ```css
-   * .pine\:\$44 {
+   * .pine\:\:\$44 {
    *   padding-inline-end: 11rem;
    * }
    * ```
@@ -10630,7 +11763,7 @@ interface PineAtomStyle {
   $44: ClassName;
   /**
    * ```css
-   * .pine\:\$48 {
+   * .pine\:\:\$48 {
    *   padding-inline-end: 12rem;
    * }
    * ```
@@ -10638,7 +11771,7 @@ interface PineAtomStyle {
   $48: ClassName;
   /**
    * ```css
-   * .pine\:\$52 {
+   * .pine\:\:\$52 {
    *   padding-inline-end: 13rem;
    * }
    * ```
@@ -10646,7 +11779,7 @@ interface PineAtomStyle {
   $52: ClassName;
   /**
    * ```css
-   * .pine\:\$56 {
+   * .pine\:\:\$56 {
    *   padding-inline-end: 14rem;
    * }
    * ```
@@ -10654,7 +11787,7 @@ interface PineAtomStyle {
   $56: ClassName;
   /**
    * ```css
-   * .pine\:\$60 {
+   * .pine\:\:\$60 {
    *   padding-inline-end: 15rem;
    * }
    * ```
@@ -10662,7 +11795,7 @@ interface PineAtomStyle {
   $60: ClassName;
   /**
    * ```css
-   * .pine\:\$64 {
+   * .pine\:\:\$64 {
    *   padding-inline-end: 16rem;
    * }
    * ```
@@ -10670,7 +11803,7 @@ interface PineAtomStyle {
   $64: ClassName;
   /**
    * ```css
-   * .pine\:\$72 {
+   * .pine\:\:\$72 {
    *   padding-inline-end: 18rem;
    * }
    * ```
@@ -10678,7 +11811,7 @@ interface PineAtomStyle {
   $72: ClassName;
   /**
    * ```css
-   * .pine\:\$80 {
+   * .pine\:\:\$80 {
    *   padding-inline-end: 20rem;
    * }
    * ```
@@ -10686,18 +11819,58 @@ interface PineAtomStyle {
   $80: ClassName;
   /**
    * ```css
-   * .pine\:\$96 {
+   * .pine\:\:\$96 {
    *   padding-inline-end: 24rem;
    * }
    * ```
    */
   $96: ClassName;
+  /**
+   * ```css
+   * .pine\:\:\$px {
+   *   padding-inline-end: 1px;
+   * }
+   * ```
+   */
+  $px: ClassName;
+  /**
+   * ```css
+   * .pine\:\:\$0_5 {
+   *   padding-inline-end: 0.125rem;
+   * }
+   * ```
+   */
+  $0_5: ClassName;
+  /**
+   * ```css
+   * .pine\:\:\$1_5 {
+   *   padding-inline-end: 0.375rem;
+   * }
+   * ```
+   */
+  $1_5: ClassName;
+  /**
+   * ```css
+   * .pine\:\:\$2_5 {
+   *   padding-inline-end: 0.625rem;
+   * }
+   * ```
+   */
+  $2_5: ClassName;
+  /**
+   * ```css
+   * .pine\:\:\$3_5 {
+   *   padding-inline-end: 0.875rem;
+   * }
+   * ```
+   */
+  $3_5: ClassName;
 }
 
 interface PblsAtomStyle {
   /**
    * ```css
-   * .pbls\:\$0 {
+   * .pbls\:\:\$0 {
    *   padding-block-start: 0px;
    * }
    * ```
@@ -10705,23 +11878,7 @@ interface PblsAtomStyle {
   $0: ClassName;
   /**
    * ```css
-   * .pbls\:\$px {
-   *   padding-block-start: 1px;
-   * }
-   * ```
-   */
-  $px: ClassName;
-  /**
-   * ```css
-   * .pbls\:\$0-5 {
-   *   padding-block-start: 0.125rem;
-   * }
-   * ```
-   */
-  $0_5: ClassName;
-  /**
-   * ```css
-   * .pbls\:\$1 {
+   * .pbls\:\:\$1 {
    *   padding-block-start: 0.25rem;
    * }
    * ```
@@ -10729,15 +11886,7 @@ interface PblsAtomStyle {
   $1: ClassName;
   /**
    * ```css
-   * .pbls\:\$1-5 {
-   *   padding-block-start: 0.375rem;
-   * }
-   * ```
-   */
-  $1_5: ClassName;
-  /**
-   * ```css
-   * .pbls\:\$2 {
+   * .pbls\:\:\$2 {
    *   padding-block-start: 0.5rem;
    * }
    * ```
@@ -10745,15 +11894,7 @@ interface PblsAtomStyle {
   $2: ClassName;
   /**
    * ```css
-   * .pbls\:\$2-5 {
-   *   padding-block-start: 0.625rem;
-   * }
-   * ```
-   */
-  $2_5: ClassName;
-  /**
-   * ```css
-   * .pbls\:\$3 {
+   * .pbls\:\:\$3 {
    *   padding-block-start: 0.75rem;
    * }
    * ```
@@ -10761,15 +11902,7 @@ interface PblsAtomStyle {
   $3: ClassName;
   /**
    * ```css
-   * .pbls\:\$3-5 {
-   *   padding-block-start: 0.875rem;
-   * }
-   * ```
-   */
-  $3_5: ClassName;
-  /**
-   * ```css
-   * .pbls\:\$4 {
+   * .pbls\:\:\$4 {
    *   padding-block-start: 1rem;
    * }
    * ```
@@ -10777,7 +11910,7 @@ interface PblsAtomStyle {
   $4: ClassName;
   /**
    * ```css
-   * .pbls\:\$5 {
+   * .pbls\:\:\$5 {
    *   padding-block-start: 1.25rem;
    * }
    * ```
@@ -10785,7 +11918,7 @@ interface PblsAtomStyle {
   $5: ClassName;
   /**
    * ```css
-   * .pbls\:\$6 {
+   * .pbls\:\:\$6 {
    *   padding-block-start: 1.5rem;
    * }
    * ```
@@ -10793,7 +11926,7 @@ interface PblsAtomStyle {
   $6: ClassName;
   /**
    * ```css
-   * .pbls\:\$7 {
+   * .pbls\:\:\$7 {
    *   padding-block-start: 1.75rem;
    * }
    * ```
@@ -10801,7 +11934,7 @@ interface PblsAtomStyle {
   $7: ClassName;
   /**
    * ```css
-   * .pbls\:\$8 {
+   * .pbls\:\:\$8 {
    *   padding-block-start: 2rem;
    * }
    * ```
@@ -10809,7 +11942,7 @@ interface PblsAtomStyle {
   $8: ClassName;
   /**
    * ```css
-   * .pbls\:\$9 {
+   * .pbls\:\:\$9 {
    *   padding-block-start: 2.25rem;
    * }
    * ```
@@ -10817,7 +11950,7 @@ interface PblsAtomStyle {
   $9: ClassName;
   /**
    * ```css
-   * .pbls\:\$10 {
+   * .pbls\:\:\$10 {
    *   padding-block-start: 2.5rem;
    * }
    * ```
@@ -10825,7 +11958,7 @@ interface PblsAtomStyle {
   $10: ClassName;
   /**
    * ```css
-   * .pbls\:\$11 {
+   * .pbls\:\:\$11 {
    *   padding-block-start: 2.75rem;
    * }
    * ```
@@ -10833,7 +11966,7 @@ interface PblsAtomStyle {
   $11: ClassName;
   /**
    * ```css
-   * .pbls\:\$12 {
+   * .pbls\:\:\$12 {
    *   padding-block-start: 3rem;
    * }
    * ```
@@ -10841,7 +11974,7 @@ interface PblsAtomStyle {
   $12: ClassName;
   /**
    * ```css
-   * .pbls\:\$14 {
+   * .pbls\:\:\$14 {
    *   padding-block-start: 3.5rem;
    * }
    * ```
@@ -10849,7 +11982,7 @@ interface PblsAtomStyle {
   $14: ClassName;
   /**
    * ```css
-   * .pbls\:\$16 {
+   * .pbls\:\:\$16 {
    *   padding-block-start: 4rem;
    * }
    * ```
@@ -10857,7 +11990,7 @@ interface PblsAtomStyle {
   $16: ClassName;
   /**
    * ```css
-   * .pbls\:\$20 {
+   * .pbls\:\:\$20 {
    *   padding-block-start: 5rem;
    * }
    * ```
@@ -10865,7 +11998,7 @@ interface PblsAtomStyle {
   $20: ClassName;
   /**
    * ```css
-   * .pbls\:\$24 {
+   * .pbls\:\:\$24 {
    *   padding-block-start: 6rem;
    * }
    * ```
@@ -10873,7 +12006,7 @@ interface PblsAtomStyle {
   $24: ClassName;
   /**
    * ```css
-   * .pbls\:\$28 {
+   * .pbls\:\:\$28 {
    *   padding-block-start: 7rem;
    * }
    * ```
@@ -10881,7 +12014,7 @@ interface PblsAtomStyle {
   $28: ClassName;
   /**
    * ```css
-   * .pbls\:\$32 {
+   * .pbls\:\:\$32 {
    *   padding-block-start: 8rem;
    * }
    * ```
@@ -10889,7 +12022,7 @@ interface PblsAtomStyle {
   $32: ClassName;
   /**
    * ```css
-   * .pbls\:\$36 {
+   * .pbls\:\:\$36 {
    *   padding-block-start: 9rem;
    * }
    * ```
@@ -10897,7 +12030,7 @@ interface PblsAtomStyle {
   $36: ClassName;
   /**
    * ```css
-   * .pbls\:\$40 {
+   * .pbls\:\:\$40 {
    *   padding-block-start: 10rem;
    * }
    * ```
@@ -10905,7 +12038,7 @@ interface PblsAtomStyle {
   $40: ClassName;
   /**
    * ```css
-   * .pbls\:\$44 {
+   * .pbls\:\:\$44 {
    *   padding-block-start: 11rem;
    * }
    * ```
@@ -10913,7 +12046,7 @@ interface PblsAtomStyle {
   $44: ClassName;
   /**
    * ```css
-   * .pbls\:\$48 {
+   * .pbls\:\:\$48 {
    *   padding-block-start: 12rem;
    * }
    * ```
@@ -10921,7 +12054,7 @@ interface PblsAtomStyle {
   $48: ClassName;
   /**
    * ```css
-   * .pbls\:\$52 {
+   * .pbls\:\:\$52 {
    *   padding-block-start: 13rem;
    * }
    * ```
@@ -10929,7 +12062,7 @@ interface PblsAtomStyle {
   $52: ClassName;
   /**
    * ```css
-   * .pbls\:\$56 {
+   * .pbls\:\:\$56 {
    *   padding-block-start: 14rem;
    * }
    * ```
@@ -10937,7 +12070,7 @@ interface PblsAtomStyle {
   $56: ClassName;
   /**
    * ```css
-   * .pbls\:\$60 {
+   * .pbls\:\:\$60 {
    *   padding-block-start: 15rem;
    * }
    * ```
@@ -10945,7 +12078,7 @@ interface PblsAtomStyle {
   $60: ClassName;
   /**
    * ```css
-   * .pbls\:\$64 {
+   * .pbls\:\:\$64 {
    *   padding-block-start: 16rem;
    * }
    * ```
@@ -10953,7 +12086,7 @@ interface PblsAtomStyle {
   $64: ClassName;
   /**
    * ```css
-   * .pbls\:\$72 {
+   * .pbls\:\:\$72 {
    *   padding-block-start: 18rem;
    * }
    * ```
@@ -10961,7 +12094,7 @@ interface PblsAtomStyle {
   $72: ClassName;
   /**
    * ```css
-   * .pbls\:\$80 {
+   * .pbls\:\:\$80 {
    *   padding-block-start: 20rem;
    * }
    * ```
@@ -10969,18 +12102,58 @@ interface PblsAtomStyle {
   $80: ClassName;
   /**
    * ```css
-   * .pbls\:\$96 {
+   * .pbls\:\:\$96 {
    *   padding-block-start: 24rem;
    * }
    * ```
    */
   $96: ClassName;
+  /**
+   * ```css
+   * .pbls\:\:\$px {
+   *   padding-block-start: 1px;
+   * }
+   * ```
+   */
+  $px: ClassName;
+  /**
+   * ```css
+   * .pbls\:\:\$0_5 {
+   *   padding-block-start: 0.125rem;
+   * }
+   * ```
+   */
+  $0_5: ClassName;
+  /**
+   * ```css
+   * .pbls\:\:\$1_5 {
+   *   padding-block-start: 0.375rem;
+   * }
+   * ```
+   */
+  $1_5: ClassName;
+  /**
+   * ```css
+   * .pbls\:\:\$2_5 {
+   *   padding-block-start: 0.625rem;
+   * }
+   * ```
+   */
+  $2_5: ClassName;
+  /**
+   * ```css
+   * .pbls\:\:\$3_5 {
+   *   padding-block-start: 0.875rem;
+   * }
+   * ```
+   */
+  $3_5: ClassName;
 }
 
 interface PbleAtomStyle {
   /**
    * ```css
-   * .pble\:\$0 {
+   * .pble\:\:\$0 {
    *   padding-block-end: 0px;
    * }
    * ```
@@ -10988,23 +12161,7 @@ interface PbleAtomStyle {
   $0: ClassName;
   /**
    * ```css
-   * .pble\:\$px {
-   *   padding-block-end: 1px;
-   * }
-   * ```
-   */
-  $px: ClassName;
-  /**
-   * ```css
-   * .pble\:\$0-5 {
-   *   padding-block-end: 0.125rem;
-   * }
-   * ```
-   */
-  $0_5: ClassName;
-  /**
-   * ```css
-   * .pble\:\$1 {
+   * .pble\:\:\$1 {
    *   padding-block-end: 0.25rem;
    * }
    * ```
@@ -11012,15 +12169,7 @@ interface PbleAtomStyle {
   $1: ClassName;
   /**
    * ```css
-   * .pble\:\$1-5 {
-   *   padding-block-end: 0.375rem;
-   * }
-   * ```
-   */
-  $1_5: ClassName;
-  /**
-   * ```css
-   * .pble\:\$2 {
+   * .pble\:\:\$2 {
    *   padding-block-end: 0.5rem;
    * }
    * ```
@@ -11028,15 +12177,7 @@ interface PbleAtomStyle {
   $2: ClassName;
   /**
    * ```css
-   * .pble\:\$2-5 {
-   *   padding-block-end: 0.625rem;
-   * }
-   * ```
-   */
-  $2_5: ClassName;
-  /**
-   * ```css
-   * .pble\:\$3 {
+   * .pble\:\:\$3 {
    *   padding-block-end: 0.75rem;
    * }
    * ```
@@ -11044,15 +12185,7 @@ interface PbleAtomStyle {
   $3: ClassName;
   /**
    * ```css
-   * .pble\:\$3-5 {
-   *   padding-block-end: 0.875rem;
-   * }
-   * ```
-   */
-  $3_5: ClassName;
-  /**
-   * ```css
-   * .pble\:\$4 {
+   * .pble\:\:\$4 {
    *   padding-block-end: 1rem;
    * }
    * ```
@@ -11060,7 +12193,7 @@ interface PbleAtomStyle {
   $4: ClassName;
   /**
    * ```css
-   * .pble\:\$5 {
+   * .pble\:\:\$5 {
    *   padding-block-end: 1.25rem;
    * }
    * ```
@@ -11068,7 +12201,7 @@ interface PbleAtomStyle {
   $5: ClassName;
   /**
    * ```css
-   * .pble\:\$6 {
+   * .pble\:\:\$6 {
    *   padding-block-end: 1.5rem;
    * }
    * ```
@@ -11076,7 +12209,7 @@ interface PbleAtomStyle {
   $6: ClassName;
   /**
    * ```css
-   * .pble\:\$7 {
+   * .pble\:\:\$7 {
    *   padding-block-end: 1.75rem;
    * }
    * ```
@@ -11084,7 +12217,7 @@ interface PbleAtomStyle {
   $7: ClassName;
   /**
    * ```css
-   * .pble\:\$8 {
+   * .pble\:\:\$8 {
    *   padding-block-end: 2rem;
    * }
    * ```
@@ -11092,7 +12225,7 @@ interface PbleAtomStyle {
   $8: ClassName;
   /**
    * ```css
-   * .pble\:\$9 {
+   * .pble\:\:\$9 {
    *   padding-block-end: 2.25rem;
    * }
    * ```
@@ -11100,7 +12233,7 @@ interface PbleAtomStyle {
   $9: ClassName;
   /**
    * ```css
-   * .pble\:\$10 {
+   * .pble\:\:\$10 {
    *   padding-block-end: 2.5rem;
    * }
    * ```
@@ -11108,7 +12241,7 @@ interface PbleAtomStyle {
   $10: ClassName;
   /**
    * ```css
-   * .pble\:\$11 {
+   * .pble\:\:\$11 {
    *   padding-block-end: 2.75rem;
    * }
    * ```
@@ -11116,7 +12249,7 @@ interface PbleAtomStyle {
   $11: ClassName;
   /**
    * ```css
-   * .pble\:\$12 {
+   * .pble\:\:\$12 {
    *   padding-block-end: 3rem;
    * }
    * ```
@@ -11124,7 +12257,7 @@ interface PbleAtomStyle {
   $12: ClassName;
   /**
    * ```css
-   * .pble\:\$14 {
+   * .pble\:\:\$14 {
    *   padding-block-end: 3.5rem;
    * }
    * ```
@@ -11132,7 +12265,7 @@ interface PbleAtomStyle {
   $14: ClassName;
   /**
    * ```css
-   * .pble\:\$16 {
+   * .pble\:\:\$16 {
    *   padding-block-end: 4rem;
    * }
    * ```
@@ -11140,7 +12273,7 @@ interface PbleAtomStyle {
   $16: ClassName;
   /**
    * ```css
-   * .pble\:\$20 {
+   * .pble\:\:\$20 {
    *   padding-block-end: 5rem;
    * }
    * ```
@@ -11148,7 +12281,7 @@ interface PbleAtomStyle {
   $20: ClassName;
   /**
    * ```css
-   * .pble\:\$24 {
+   * .pble\:\:\$24 {
    *   padding-block-end: 6rem;
    * }
    * ```
@@ -11156,7 +12289,7 @@ interface PbleAtomStyle {
   $24: ClassName;
   /**
    * ```css
-   * .pble\:\$28 {
+   * .pble\:\:\$28 {
    *   padding-block-end: 7rem;
    * }
    * ```
@@ -11164,7 +12297,7 @@ interface PbleAtomStyle {
   $28: ClassName;
   /**
    * ```css
-   * .pble\:\$32 {
+   * .pble\:\:\$32 {
    *   padding-block-end: 8rem;
    * }
    * ```
@@ -11172,7 +12305,7 @@ interface PbleAtomStyle {
   $32: ClassName;
   /**
    * ```css
-   * .pble\:\$36 {
+   * .pble\:\:\$36 {
    *   padding-block-end: 9rem;
    * }
    * ```
@@ -11180,7 +12313,7 @@ interface PbleAtomStyle {
   $36: ClassName;
   /**
    * ```css
-   * .pble\:\$40 {
+   * .pble\:\:\$40 {
    *   padding-block-end: 10rem;
    * }
    * ```
@@ -11188,7 +12321,7 @@ interface PbleAtomStyle {
   $40: ClassName;
   /**
    * ```css
-   * .pble\:\$44 {
+   * .pble\:\:\$44 {
    *   padding-block-end: 11rem;
    * }
    * ```
@@ -11196,7 +12329,7 @@ interface PbleAtomStyle {
   $44: ClassName;
   /**
    * ```css
-   * .pble\:\$48 {
+   * .pble\:\:\$48 {
    *   padding-block-end: 12rem;
    * }
    * ```
@@ -11204,7 +12337,7 @@ interface PbleAtomStyle {
   $48: ClassName;
   /**
    * ```css
-   * .pble\:\$52 {
+   * .pble\:\:\$52 {
    *   padding-block-end: 13rem;
    * }
    * ```
@@ -11212,7 +12345,7 @@ interface PbleAtomStyle {
   $52: ClassName;
   /**
    * ```css
-   * .pble\:\$56 {
+   * .pble\:\:\$56 {
    *   padding-block-end: 14rem;
    * }
    * ```
@@ -11220,7 +12353,7 @@ interface PbleAtomStyle {
   $56: ClassName;
   /**
    * ```css
-   * .pble\:\$60 {
+   * .pble\:\:\$60 {
    *   padding-block-end: 15rem;
    * }
    * ```
@@ -11228,7 +12361,7 @@ interface PbleAtomStyle {
   $60: ClassName;
   /**
    * ```css
-   * .pble\:\$64 {
+   * .pble\:\:\$64 {
    *   padding-block-end: 16rem;
    * }
    * ```
@@ -11236,7 +12369,7 @@ interface PbleAtomStyle {
   $64: ClassName;
   /**
    * ```css
-   * .pble\:\$72 {
+   * .pble\:\:\$72 {
    *   padding-block-end: 18rem;
    * }
    * ```
@@ -11244,7 +12377,7 @@ interface PbleAtomStyle {
   $72: ClassName;
   /**
    * ```css
-   * .pble\:\$80 {
+   * .pble\:\:\$80 {
    *   padding-block-end: 20rem;
    * }
    * ```
@@ -11252,18 +12385,58 @@ interface PbleAtomStyle {
   $80: ClassName;
   /**
    * ```css
-   * .pble\:\$96 {
+   * .pble\:\:\$96 {
    *   padding-block-end: 24rem;
    * }
    * ```
    */
   $96: ClassName;
+  /**
+   * ```css
+   * .pble\:\:\$px {
+   *   padding-block-end: 1px;
+   * }
+   * ```
+   */
+  $px: ClassName;
+  /**
+   * ```css
+   * .pble\:\:\$0_5 {
+   *   padding-block-end: 0.125rem;
+   * }
+   * ```
+   */
+  $0_5: ClassName;
+  /**
+   * ```css
+   * .pble\:\:\$1_5 {
+   *   padding-block-end: 0.375rem;
+   * }
+   * ```
+   */
+  $1_5: ClassName;
+  /**
+   * ```css
+   * .pble\:\:\$2_5 {
+   *   padding-block-end: 0.625rem;
+   * }
+   * ```
+   */
+  $2_5: ClassName;
+  /**
+   * ```css
+   * .pble\:\:\$3_5 {
+   *   padding-block-end: 0.875rem;
+   * }
+   * ```
+   */
+  $3_5: ClassName;
 }
 
 interface MAtomStyle {
   /**
    * ```css
-   * .m\:\$0 {
+   * .m\:\:\$0 {
    *   margin: 0px;
    * }
    * ```
@@ -11271,23 +12444,7 @@ interface MAtomStyle {
   $0: ClassName;
   /**
    * ```css
-   * .m\:\$px {
-   *   margin: 1px;
-   * }
-   * ```
-   */
-  $px: ClassName;
-  /**
-   * ```css
-   * .m\:\$0-5 {
-   *   margin: 0.125rem;
-   * }
-   * ```
-   */
-  $0_5: ClassName;
-  /**
-   * ```css
-   * .m\:\$1 {
+   * .m\:\:\$1 {
    *   margin: 0.25rem;
    * }
    * ```
@@ -11295,15 +12452,7 @@ interface MAtomStyle {
   $1: ClassName;
   /**
    * ```css
-   * .m\:\$1-5 {
-   *   margin: 0.375rem;
-   * }
-   * ```
-   */
-  $1_5: ClassName;
-  /**
-   * ```css
-   * .m\:\$2 {
+   * .m\:\:\$2 {
    *   margin: 0.5rem;
    * }
    * ```
@@ -11311,15 +12460,7 @@ interface MAtomStyle {
   $2: ClassName;
   /**
    * ```css
-   * .m\:\$2-5 {
-   *   margin: 0.625rem;
-   * }
-   * ```
-   */
-  $2_5: ClassName;
-  /**
-   * ```css
-   * .m\:\$3 {
+   * .m\:\:\$3 {
    *   margin: 0.75rem;
    * }
    * ```
@@ -11327,15 +12468,7 @@ interface MAtomStyle {
   $3: ClassName;
   /**
    * ```css
-   * .m\:\$3-5 {
-   *   margin: 0.875rem;
-   * }
-   * ```
-   */
-  $3_5: ClassName;
-  /**
-   * ```css
-   * .m\:\$4 {
+   * .m\:\:\$4 {
    *   margin: 1rem;
    * }
    * ```
@@ -11343,7 +12476,7 @@ interface MAtomStyle {
   $4: ClassName;
   /**
    * ```css
-   * .m\:\$5 {
+   * .m\:\:\$5 {
    *   margin: 1.25rem;
    * }
    * ```
@@ -11351,7 +12484,7 @@ interface MAtomStyle {
   $5: ClassName;
   /**
    * ```css
-   * .m\:\$6 {
+   * .m\:\:\$6 {
    *   margin: 1.5rem;
    * }
    * ```
@@ -11359,7 +12492,7 @@ interface MAtomStyle {
   $6: ClassName;
   /**
    * ```css
-   * .m\:\$7 {
+   * .m\:\:\$7 {
    *   margin: 1.75rem;
    * }
    * ```
@@ -11367,7 +12500,7 @@ interface MAtomStyle {
   $7: ClassName;
   /**
    * ```css
-   * .m\:\$8 {
+   * .m\:\:\$8 {
    *   margin: 2rem;
    * }
    * ```
@@ -11375,7 +12508,7 @@ interface MAtomStyle {
   $8: ClassName;
   /**
    * ```css
-   * .m\:\$9 {
+   * .m\:\:\$9 {
    *   margin: 2.25rem;
    * }
    * ```
@@ -11383,7 +12516,7 @@ interface MAtomStyle {
   $9: ClassName;
   /**
    * ```css
-   * .m\:\$10 {
+   * .m\:\:\$10 {
    *   margin: 2.5rem;
    * }
    * ```
@@ -11391,7 +12524,7 @@ interface MAtomStyle {
   $10: ClassName;
   /**
    * ```css
-   * .m\:\$11 {
+   * .m\:\:\$11 {
    *   margin: 2.75rem;
    * }
    * ```
@@ -11399,7 +12532,7 @@ interface MAtomStyle {
   $11: ClassName;
   /**
    * ```css
-   * .m\:\$12 {
+   * .m\:\:\$12 {
    *   margin: 3rem;
    * }
    * ```
@@ -11407,7 +12540,7 @@ interface MAtomStyle {
   $12: ClassName;
   /**
    * ```css
-   * .m\:\$14 {
+   * .m\:\:\$14 {
    *   margin: 3.5rem;
    * }
    * ```
@@ -11415,7 +12548,7 @@ interface MAtomStyle {
   $14: ClassName;
   /**
    * ```css
-   * .m\:\$16 {
+   * .m\:\:\$16 {
    *   margin: 4rem;
    * }
    * ```
@@ -11423,7 +12556,7 @@ interface MAtomStyle {
   $16: ClassName;
   /**
    * ```css
-   * .m\:\$20 {
+   * .m\:\:\$20 {
    *   margin: 5rem;
    * }
    * ```
@@ -11431,7 +12564,7 @@ interface MAtomStyle {
   $20: ClassName;
   /**
    * ```css
-   * .m\:\$24 {
+   * .m\:\:\$24 {
    *   margin: 6rem;
    * }
    * ```
@@ -11439,7 +12572,7 @@ interface MAtomStyle {
   $24: ClassName;
   /**
    * ```css
-   * .m\:\$28 {
+   * .m\:\:\$28 {
    *   margin: 7rem;
    * }
    * ```
@@ -11447,7 +12580,7 @@ interface MAtomStyle {
   $28: ClassName;
   /**
    * ```css
-   * .m\:\$32 {
+   * .m\:\:\$32 {
    *   margin: 8rem;
    * }
    * ```
@@ -11455,7 +12588,7 @@ interface MAtomStyle {
   $32: ClassName;
   /**
    * ```css
-   * .m\:\$36 {
+   * .m\:\:\$36 {
    *   margin: 9rem;
    * }
    * ```
@@ -11463,7 +12596,7 @@ interface MAtomStyle {
   $36: ClassName;
   /**
    * ```css
-   * .m\:\$40 {
+   * .m\:\:\$40 {
    *   margin: 10rem;
    * }
    * ```
@@ -11471,7 +12604,7 @@ interface MAtomStyle {
   $40: ClassName;
   /**
    * ```css
-   * .m\:\$44 {
+   * .m\:\:\$44 {
    *   margin: 11rem;
    * }
    * ```
@@ -11479,7 +12612,7 @@ interface MAtomStyle {
   $44: ClassName;
   /**
    * ```css
-   * .m\:\$48 {
+   * .m\:\:\$48 {
    *   margin: 12rem;
    * }
    * ```
@@ -11487,7 +12620,7 @@ interface MAtomStyle {
   $48: ClassName;
   /**
    * ```css
-   * .m\:\$52 {
+   * .m\:\:\$52 {
    *   margin: 13rem;
    * }
    * ```
@@ -11495,7 +12628,7 @@ interface MAtomStyle {
   $52: ClassName;
   /**
    * ```css
-   * .m\:\$56 {
+   * .m\:\:\$56 {
    *   margin: 14rem;
    * }
    * ```
@@ -11503,7 +12636,7 @@ interface MAtomStyle {
   $56: ClassName;
   /**
    * ```css
-   * .m\:\$60 {
+   * .m\:\:\$60 {
    *   margin: 15rem;
    * }
    * ```
@@ -11511,7 +12644,7 @@ interface MAtomStyle {
   $60: ClassName;
   /**
    * ```css
-   * .m\:\$64 {
+   * .m\:\:\$64 {
    *   margin: 16rem;
    * }
    * ```
@@ -11519,7 +12652,7 @@ interface MAtomStyle {
   $64: ClassName;
   /**
    * ```css
-   * .m\:\$72 {
+   * .m\:\:\$72 {
    *   margin: 18rem;
    * }
    * ```
@@ -11527,7 +12660,7 @@ interface MAtomStyle {
   $72: ClassName;
   /**
    * ```css
-   * .m\:\$80 {
+   * .m\:\:\$80 {
    *   margin: 20rem;
    * }
    * ```
@@ -11535,18 +12668,58 @@ interface MAtomStyle {
   $80: ClassName;
   /**
    * ```css
-   * .m\:\$96 {
+   * .m\:\:\$96 {
    *   margin: 24rem;
    * }
    * ```
    */
   $96: ClassName;
+  /**
+   * ```css
+   * .m\:\:\$px {
+   *   margin: 1px;
+   * }
+   * ```
+   */
+  $px: ClassName;
+  /**
+   * ```css
+   * .m\:\:\$0_5 {
+   *   margin: 0.125rem;
+   * }
+   * ```
+   */
+  $0_5: ClassName;
+  /**
+   * ```css
+   * .m\:\:\$1_5 {
+   *   margin: 0.375rem;
+   * }
+   * ```
+   */
+  $1_5: ClassName;
+  /**
+   * ```css
+   * .m\:\:\$2_5 {
+   *   margin: 0.625rem;
+   * }
+   * ```
+   */
+  $2_5: ClassName;
+  /**
+   * ```css
+   * .m\:\:\$3_5 {
+   *   margin: 0.875rem;
+   * }
+   * ```
+   */
+  $3_5: ClassName;
 }
 
 interface MyAtomStyle {
   /**
    * ```css
-   * .my\:\$0 {
+   * .my\:\:\$0 {
    *   margin-top: 0px;
    *   margin-bottom: 0px;
    * }
@@ -11555,25 +12728,7 @@ interface MyAtomStyle {
   $0: ClassName;
   /**
    * ```css
-   * .my\:\$px {
-   *   margin-top: 1px;
-   *   margin-bottom: 1px;
-   * }
-   * ```
-   */
-  $px: ClassName;
-  /**
-   * ```css
-   * .my\:\$0-5 {
-   *   margin-top: 0.125rem;
-   *   margin-bottom: 0.125rem;
-   * }
-   * ```
-   */
-  $0_5: ClassName;
-  /**
-   * ```css
-   * .my\:\$1 {
+   * .my\:\:\$1 {
    *   margin-top: 0.25rem;
    *   margin-bottom: 0.25rem;
    * }
@@ -11582,16 +12737,7 @@ interface MyAtomStyle {
   $1: ClassName;
   /**
    * ```css
-   * .my\:\$1-5 {
-   *   margin-top: 0.375rem;
-   *   margin-bottom: 0.375rem;
-   * }
-   * ```
-   */
-  $1_5: ClassName;
-  /**
-   * ```css
-   * .my\:\$2 {
+   * .my\:\:\$2 {
    *   margin-top: 0.5rem;
    *   margin-bottom: 0.5rem;
    * }
@@ -11600,16 +12746,7 @@ interface MyAtomStyle {
   $2: ClassName;
   /**
    * ```css
-   * .my\:\$2-5 {
-   *   margin-top: 0.625rem;
-   *   margin-bottom: 0.625rem;
-   * }
-   * ```
-   */
-  $2_5: ClassName;
-  /**
-   * ```css
-   * .my\:\$3 {
+   * .my\:\:\$3 {
    *   margin-top: 0.75rem;
    *   margin-bottom: 0.75rem;
    * }
@@ -11618,16 +12755,7 @@ interface MyAtomStyle {
   $3: ClassName;
   /**
    * ```css
-   * .my\:\$3-5 {
-   *   margin-top: 0.875rem;
-   *   margin-bottom: 0.875rem;
-   * }
-   * ```
-   */
-  $3_5: ClassName;
-  /**
-   * ```css
-   * .my\:\$4 {
+   * .my\:\:\$4 {
    *   margin-top: 1rem;
    *   margin-bottom: 1rem;
    * }
@@ -11636,7 +12764,7 @@ interface MyAtomStyle {
   $4: ClassName;
   /**
    * ```css
-   * .my\:\$5 {
+   * .my\:\:\$5 {
    *   margin-top: 1.25rem;
    *   margin-bottom: 1.25rem;
    * }
@@ -11645,7 +12773,7 @@ interface MyAtomStyle {
   $5: ClassName;
   /**
    * ```css
-   * .my\:\$6 {
+   * .my\:\:\$6 {
    *   margin-top: 1.5rem;
    *   margin-bottom: 1.5rem;
    * }
@@ -11654,7 +12782,7 @@ interface MyAtomStyle {
   $6: ClassName;
   /**
    * ```css
-   * .my\:\$7 {
+   * .my\:\:\$7 {
    *   margin-top: 1.75rem;
    *   margin-bottom: 1.75rem;
    * }
@@ -11663,7 +12791,7 @@ interface MyAtomStyle {
   $7: ClassName;
   /**
    * ```css
-   * .my\:\$8 {
+   * .my\:\:\$8 {
    *   margin-top: 2rem;
    *   margin-bottom: 2rem;
    * }
@@ -11672,7 +12800,7 @@ interface MyAtomStyle {
   $8: ClassName;
   /**
    * ```css
-   * .my\:\$9 {
+   * .my\:\:\$9 {
    *   margin-top: 2.25rem;
    *   margin-bottom: 2.25rem;
    * }
@@ -11681,7 +12809,7 @@ interface MyAtomStyle {
   $9: ClassName;
   /**
    * ```css
-   * .my\:\$10 {
+   * .my\:\:\$10 {
    *   margin-top: 2.5rem;
    *   margin-bottom: 2.5rem;
    * }
@@ -11690,7 +12818,7 @@ interface MyAtomStyle {
   $10: ClassName;
   /**
    * ```css
-   * .my\:\$11 {
+   * .my\:\:\$11 {
    *   margin-top: 2.75rem;
    *   margin-bottom: 2.75rem;
    * }
@@ -11699,7 +12827,7 @@ interface MyAtomStyle {
   $11: ClassName;
   /**
    * ```css
-   * .my\:\$12 {
+   * .my\:\:\$12 {
    *   margin-top: 3rem;
    *   margin-bottom: 3rem;
    * }
@@ -11708,7 +12836,7 @@ interface MyAtomStyle {
   $12: ClassName;
   /**
    * ```css
-   * .my\:\$14 {
+   * .my\:\:\$14 {
    *   margin-top: 3.5rem;
    *   margin-bottom: 3.5rem;
    * }
@@ -11717,7 +12845,7 @@ interface MyAtomStyle {
   $14: ClassName;
   /**
    * ```css
-   * .my\:\$16 {
+   * .my\:\:\$16 {
    *   margin-top: 4rem;
    *   margin-bottom: 4rem;
    * }
@@ -11726,7 +12854,7 @@ interface MyAtomStyle {
   $16: ClassName;
   /**
    * ```css
-   * .my\:\$20 {
+   * .my\:\:\$20 {
    *   margin-top: 5rem;
    *   margin-bottom: 5rem;
    * }
@@ -11735,7 +12863,7 @@ interface MyAtomStyle {
   $20: ClassName;
   /**
    * ```css
-   * .my\:\$24 {
+   * .my\:\:\$24 {
    *   margin-top: 6rem;
    *   margin-bottom: 6rem;
    * }
@@ -11744,7 +12872,7 @@ interface MyAtomStyle {
   $24: ClassName;
   /**
    * ```css
-   * .my\:\$28 {
+   * .my\:\:\$28 {
    *   margin-top: 7rem;
    *   margin-bottom: 7rem;
    * }
@@ -11753,7 +12881,7 @@ interface MyAtomStyle {
   $28: ClassName;
   /**
    * ```css
-   * .my\:\$32 {
+   * .my\:\:\$32 {
    *   margin-top: 8rem;
    *   margin-bottom: 8rem;
    * }
@@ -11762,7 +12890,7 @@ interface MyAtomStyle {
   $32: ClassName;
   /**
    * ```css
-   * .my\:\$36 {
+   * .my\:\:\$36 {
    *   margin-top: 9rem;
    *   margin-bottom: 9rem;
    * }
@@ -11771,7 +12899,7 @@ interface MyAtomStyle {
   $36: ClassName;
   /**
    * ```css
-   * .my\:\$40 {
+   * .my\:\:\$40 {
    *   margin-top: 10rem;
    *   margin-bottom: 10rem;
    * }
@@ -11780,7 +12908,7 @@ interface MyAtomStyle {
   $40: ClassName;
   /**
    * ```css
-   * .my\:\$44 {
+   * .my\:\:\$44 {
    *   margin-top: 11rem;
    *   margin-bottom: 11rem;
    * }
@@ -11789,7 +12917,7 @@ interface MyAtomStyle {
   $44: ClassName;
   /**
    * ```css
-   * .my\:\$48 {
+   * .my\:\:\$48 {
    *   margin-top: 12rem;
    *   margin-bottom: 12rem;
    * }
@@ -11798,7 +12926,7 @@ interface MyAtomStyle {
   $48: ClassName;
   /**
    * ```css
-   * .my\:\$52 {
+   * .my\:\:\$52 {
    *   margin-top: 13rem;
    *   margin-bottom: 13rem;
    * }
@@ -11807,7 +12935,7 @@ interface MyAtomStyle {
   $52: ClassName;
   /**
    * ```css
-   * .my\:\$56 {
+   * .my\:\:\$56 {
    *   margin-top: 14rem;
    *   margin-bottom: 14rem;
    * }
@@ -11816,7 +12944,7 @@ interface MyAtomStyle {
   $56: ClassName;
   /**
    * ```css
-   * .my\:\$60 {
+   * .my\:\:\$60 {
    *   margin-top: 15rem;
    *   margin-bottom: 15rem;
    * }
@@ -11825,7 +12953,7 @@ interface MyAtomStyle {
   $60: ClassName;
   /**
    * ```css
-   * .my\:\$64 {
+   * .my\:\:\$64 {
    *   margin-top: 16rem;
    *   margin-bottom: 16rem;
    * }
@@ -11834,7 +12962,7 @@ interface MyAtomStyle {
   $64: ClassName;
   /**
    * ```css
-   * .my\:\$72 {
+   * .my\:\:\$72 {
    *   margin-top: 18rem;
    *   margin-bottom: 18rem;
    * }
@@ -11843,7 +12971,7 @@ interface MyAtomStyle {
   $72: ClassName;
   /**
    * ```css
-   * .my\:\$80 {
+   * .my\:\:\$80 {
    *   margin-top: 20rem;
    *   margin-bottom: 20rem;
    * }
@@ -11852,19 +12980,64 @@ interface MyAtomStyle {
   $80: ClassName;
   /**
    * ```css
-   * .my\:\$96 {
+   * .my\:\:\$96 {
    *   margin-top: 24rem;
    *   margin-bottom: 24rem;
    * }
    * ```
    */
   $96: ClassName;
+  /**
+   * ```css
+   * .my\:\:\$px {
+   *   margin-top: 1px;
+   *   margin-bottom: 1px;
+   * }
+   * ```
+   */
+  $px: ClassName;
+  /**
+   * ```css
+   * .my\:\:\$0_5 {
+   *   margin-top: 0.125rem;
+   *   margin-bottom: 0.125rem;
+   * }
+   * ```
+   */
+  $0_5: ClassName;
+  /**
+   * ```css
+   * .my\:\:\$1_5 {
+   *   margin-top: 0.375rem;
+   *   margin-bottom: 0.375rem;
+   * }
+   * ```
+   */
+  $1_5: ClassName;
+  /**
+   * ```css
+   * .my\:\:\$2_5 {
+   *   margin-top: 0.625rem;
+   *   margin-bottom: 0.625rem;
+   * }
+   * ```
+   */
+  $2_5: ClassName;
+  /**
+   * ```css
+   * .my\:\:\$3_5 {
+   *   margin-top: 0.875rem;
+   *   margin-bottom: 0.875rem;
+   * }
+   * ```
+   */
+  $3_5: ClassName;
 }
 
 interface MxAtomStyle {
   /**
    * ```css
-   * .mx\:\$0 {
+   * .mx\:\:\$0 {
    *   margin-right: 0px;
    *   margin-left: 0px;
    * }
@@ -11873,25 +13046,7 @@ interface MxAtomStyle {
   $0: ClassName;
   /**
    * ```css
-   * .mx\:\$px {
-   *   margin-right: 1px;
-   *   margin-left: 1px;
-   * }
-   * ```
-   */
-  $px: ClassName;
-  /**
-   * ```css
-   * .mx\:\$0-5 {
-   *   margin-right: 0.125rem;
-   *   margin-left: 0.125rem;
-   * }
-   * ```
-   */
-  $0_5: ClassName;
-  /**
-   * ```css
-   * .mx\:\$1 {
+   * .mx\:\:\$1 {
    *   margin-right: 0.25rem;
    *   margin-left: 0.25rem;
    * }
@@ -11900,16 +13055,7 @@ interface MxAtomStyle {
   $1: ClassName;
   /**
    * ```css
-   * .mx\:\$1-5 {
-   *   margin-right: 0.375rem;
-   *   margin-left: 0.375rem;
-   * }
-   * ```
-   */
-  $1_5: ClassName;
-  /**
-   * ```css
-   * .mx\:\$2 {
+   * .mx\:\:\$2 {
    *   margin-right: 0.5rem;
    *   margin-left: 0.5rem;
    * }
@@ -11918,16 +13064,7 @@ interface MxAtomStyle {
   $2: ClassName;
   /**
    * ```css
-   * .mx\:\$2-5 {
-   *   margin-right: 0.625rem;
-   *   margin-left: 0.625rem;
-   * }
-   * ```
-   */
-  $2_5: ClassName;
-  /**
-   * ```css
-   * .mx\:\$3 {
+   * .mx\:\:\$3 {
    *   margin-right: 0.75rem;
    *   margin-left: 0.75rem;
    * }
@@ -11936,16 +13073,7 @@ interface MxAtomStyle {
   $3: ClassName;
   /**
    * ```css
-   * .mx\:\$3-5 {
-   *   margin-right: 0.875rem;
-   *   margin-left: 0.875rem;
-   * }
-   * ```
-   */
-  $3_5: ClassName;
-  /**
-   * ```css
-   * .mx\:\$4 {
+   * .mx\:\:\$4 {
    *   margin-right: 1rem;
    *   margin-left: 1rem;
    * }
@@ -11954,7 +13082,7 @@ interface MxAtomStyle {
   $4: ClassName;
   /**
    * ```css
-   * .mx\:\$5 {
+   * .mx\:\:\$5 {
    *   margin-right: 1.25rem;
    *   margin-left: 1.25rem;
    * }
@@ -11963,7 +13091,7 @@ interface MxAtomStyle {
   $5: ClassName;
   /**
    * ```css
-   * .mx\:\$6 {
+   * .mx\:\:\$6 {
    *   margin-right: 1.5rem;
    *   margin-left: 1.5rem;
    * }
@@ -11972,7 +13100,7 @@ interface MxAtomStyle {
   $6: ClassName;
   /**
    * ```css
-   * .mx\:\$7 {
+   * .mx\:\:\$7 {
    *   margin-right: 1.75rem;
    *   margin-left: 1.75rem;
    * }
@@ -11981,7 +13109,7 @@ interface MxAtomStyle {
   $7: ClassName;
   /**
    * ```css
-   * .mx\:\$8 {
+   * .mx\:\:\$8 {
    *   margin-right: 2rem;
    *   margin-left: 2rem;
    * }
@@ -11990,7 +13118,7 @@ interface MxAtomStyle {
   $8: ClassName;
   /**
    * ```css
-   * .mx\:\$9 {
+   * .mx\:\:\$9 {
    *   margin-right: 2.25rem;
    *   margin-left: 2.25rem;
    * }
@@ -11999,7 +13127,7 @@ interface MxAtomStyle {
   $9: ClassName;
   /**
    * ```css
-   * .mx\:\$10 {
+   * .mx\:\:\$10 {
    *   margin-right: 2.5rem;
    *   margin-left: 2.5rem;
    * }
@@ -12008,7 +13136,7 @@ interface MxAtomStyle {
   $10: ClassName;
   /**
    * ```css
-   * .mx\:\$11 {
+   * .mx\:\:\$11 {
    *   margin-right: 2.75rem;
    *   margin-left: 2.75rem;
    * }
@@ -12017,7 +13145,7 @@ interface MxAtomStyle {
   $11: ClassName;
   /**
    * ```css
-   * .mx\:\$12 {
+   * .mx\:\:\$12 {
    *   margin-right: 3rem;
    *   margin-left: 3rem;
    * }
@@ -12026,7 +13154,7 @@ interface MxAtomStyle {
   $12: ClassName;
   /**
    * ```css
-   * .mx\:\$14 {
+   * .mx\:\:\$14 {
    *   margin-right: 3.5rem;
    *   margin-left: 3.5rem;
    * }
@@ -12035,7 +13163,7 @@ interface MxAtomStyle {
   $14: ClassName;
   /**
    * ```css
-   * .mx\:\$16 {
+   * .mx\:\:\$16 {
    *   margin-right: 4rem;
    *   margin-left: 4rem;
    * }
@@ -12044,7 +13172,7 @@ interface MxAtomStyle {
   $16: ClassName;
   /**
    * ```css
-   * .mx\:\$20 {
+   * .mx\:\:\$20 {
    *   margin-right: 5rem;
    *   margin-left: 5rem;
    * }
@@ -12053,7 +13181,7 @@ interface MxAtomStyle {
   $20: ClassName;
   /**
    * ```css
-   * .mx\:\$24 {
+   * .mx\:\:\$24 {
    *   margin-right: 6rem;
    *   margin-left: 6rem;
    * }
@@ -12062,7 +13190,7 @@ interface MxAtomStyle {
   $24: ClassName;
   /**
    * ```css
-   * .mx\:\$28 {
+   * .mx\:\:\$28 {
    *   margin-right: 7rem;
    *   margin-left: 7rem;
    * }
@@ -12071,7 +13199,7 @@ interface MxAtomStyle {
   $28: ClassName;
   /**
    * ```css
-   * .mx\:\$32 {
+   * .mx\:\:\$32 {
    *   margin-right: 8rem;
    *   margin-left: 8rem;
    * }
@@ -12080,7 +13208,7 @@ interface MxAtomStyle {
   $32: ClassName;
   /**
    * ```css
-   * .mx\:\$36 {
+   * .mx\:\:\$36 {
    *   margin-right: 9rem;
    *   margin-left: 9rem;
    * }
@@ -12089,7 +13217,7 @@ interface MxAtomStyle {
   $36: ClassName;
   /**
    * ```css
-   * .mx\:\$40 {
+   * .mx\:\:\$40 {
    *   margin-right: 10rem;
    *   margin-left: 10rem;
    * }
@@ -12098,7 +13226,7 @@ interface MxAtomStyle {
   $40: ClassName;
   /**
    * ```css
-   * .mx\:\$44 {
+   * .mx\:\:\$44 {
    *   margin-right: 11rem;
    *   margin-left: 11rem;
    * }
@@ -12107,7 +13235,7 @@ interface MxAtomStyle {
   $44: ClassName;
   /**
    * ```css
-   * .mx\:\$48 {
+   * .mx\:\:\$48 {
    *   margin-right: 12rem;
    *   margin-left: 12rem;
    * }
@@ -12116,7 +13244,7 @@ interface MxAtomStyle {
   $48: ClassName;
   /**
    * ```css
-   * .mx\:\$52 {
+   * .mx\:\:\$52 {
    *   margin-right: 13rem;
    *   margin-left: 13rem;
    * }
@@ -12125,7 +13253,7 @@ interface MxAtomStyle {
   $52: ClassName;
   /**
    * ```css
-   * .mx\:\$56 {
+   * .mx\:\:\$56 {
    *   margin-right: 14rem;
    *   margin-left: 14rem;
    * }
@@ -12134,7 +13262,7 @@ interface MxAtomStyle {
   $56: ClassName;
   /**
    * ```css
-   * .mx\:\$60 {
+   * .mx\:\:\$60 {
    *   margin-right: 15rem;
    *   margin-left: 15rem;
    * }
@@ -12143,7 +13271,7 @@ interface MxAtomStyle {
   $60: ClassName;
   /**
    * ```css
-   * .mx\:\$64 {
+   * .mx\:\:\$64 {
    *   margin-right: 16rem;
    *   margin-left: 16rem;
    * }
@@ -12152,7 +13280,7 @@ interface MxAtomStyle {
   $64: ClassName;
   /**
    * ```css
-   * .mx\:\$72 {
+   * .mx\:\:\$72 {
    *   margin-right: 18rem;
    *   margin-left: 18rem;
    * }
@@ -12161,7 +13289,7 @@ interface MxAtomStyle {
   $72: ClassName;
   /**
    * ```css
-   * .mx\:\$80 {
+   * .mx\:\:\$80 {
    *   margin-right: 20rem;
    *   margin-left: 20rem;
    * }
@@ -12170,19 +13298,64 @@ interface MxAtomStyle {
   $80: ClassName;
   /**
    * ```css
-   * .mx\:\$96 {
+   * .mx\:\:\$96 {
    *   margin-right: 24rem;
    *   margin-left: 24rem;
    * }
    * ```
    */
   $96: ClassName;
+  /**
+   * ```css
+   * .mx\:\:\$px {
+   *   margin-right: 1px;
+   *   margin-left: 1px;
+   * }
+   * ```
+   */
+  $px: ClassName;
+  /**
+   * ```css
+   * .mx\:\:\$0_5 {
+   *   margin-right: 0.125rem;
+   *   margin-left: 0.125rem;
+   * }
+   * ```
+   */
+  $0_5: ClassName;
+  /**
+   * ```css
+   * .mx\:\:\$1_5 {
+   *   margin-right: 0.375rem;
+   *   margin-left: 0.375rem;
+   * }
+   * ```
+   */
+  $1_5: ClassName;
+  /**
+   * ```css
+   * .mx\:\:\$2_5 {
+   *   margin-right: 0.625rem;
+   *   margin-left: 0.625rem;
+   * }
+   * ```
+   */
+  $2_5: ClassName;
+  /**
+   * ```css
+   * .mx\:\:\$3_5 {
+   *   margin-right: 0.875rem;
+   *   margin-left: 0.875rem;
+   * }
+   * ```
+   */
+  $3_5: ClassName;
 }
 
 interface MtAtomStyle {
   /**
    * ```css
-   * .mt\:\$0 {
+   * .mt\:\:\$0 {
    *   margin-top: 0px;
    * }
    * ```
@@ -12190,23 +13363,7 @@ interface MtAtomStyle {
   $0: ClassName;
   /**
    * ```css
-   * .mt\:\$px {
-   *   margin-top: 1px;
-   * }
-   * ```
-   */
-  $px: ClassName;
-  /**
-   * ```css
-   * .mt\:\$0-5 {
-   *   margin-top: 0.125rem;
-   * }
-   * ```
-   */
-  $0_5: ClassName;
-  /**
-   * ```css
-   * .mt\:\$1 {
+   * .mt\:\:\$1 {
    *   margin-top: 0.25rem;
    * }
    * ```
@@ -12214,15 +13371,7 @@ interface MtAtomStyle {
   $1: ClassName;
   /**
    * ```css
-   * .mt\:\$1-5 {
-   *   margin-top: 0.375rem;
-   * }
-   * ```
-   */
-  $1_5: ClassName;
-  /**
-   * ```css
-   * .mt\:\$2 {
+   * .mt\:\:\$2 {
    *   margin-top: 0.5rem;
    * }
    * ```
@@ -12230,15 +13379,7 @@ interface MtAtomStyle {
   $2: ClassName;
   /**
    * ```css
-   * .mt\:\$2-5 {
-   *   margin-top: 0.625rem;
-   * }
-   * ```
-   */
-  $2_5: ClassName;
-  /**
-   * ```css
-   * .mt\:\$3 {
+   * .mt\:\:\$3 {
    *   margin-top: 0.75rem;
    * }
    * ```
@@ -12246,15 +13387,7 @@ interface MtAtomStyle {
   $3: ClassName;
   /**
    * ```css
-   * .mt\:\$3-5 {
-   *   margin-top: 0.875rem;
-   * }
-   * ```
-   */
-  $3_5: ClassName;
-  /**
-   * ```css
-   * .mt\:\$4 {
+   * .mt\:\:\$4 {
    *   margin-top: 1rem;
    * }
    * ```
@@ -12262,7 +13395,7 @@ interface MtAtomStyle {
   $4: ClassName;
   /**
    * ```css
-   * .mt\:\$5 {
+   * .mt\:\:\$5 {
    *   margin-top: 1.25rem;
    * }
    * ```
@@ -12270,7 +13403,7 @@ interface MtAtomStyle {
   $5: ClassName;
   /**
    * ```css
-   * .mt\:\$6 {
+   * .mt\:\:\$6 {
    *   margin-top: 1.5rem;
    * }
    * ```
@@ -12278,7 +13411,7 @@ interface MtAtomStyle {
   $6: ClassName;
   /**
    * ```css
-   * .mt\:\$7 {
+   * .mt\:\:\$7 {
    *   margin-top: 1.75rem;
    * }
    * ```
@@ -12286,7 +13419,7 @@ interface MtAtomStyle {
   $7: ClassName;
   /**
    * ```css
-   * .mt\:\$8 {
+   * .mt\:\:\$8 {
    *   margin-top: 2rem;
    * }
    * ```
@@ -12294,7 +13427,7 @@ interface MtAtomStyle {
   $8: ClassName;
   /**
    * ```css
-   * .mt\:\$9 {
+   * .mt\:\:\$9 {
    *   margin-top: 2.25rem;
    * }
    * ```
@@ -12302,7 +13435,7 @@ interface MtAtomStyle {
   $9: ClassName;
   /**
    * ```css
-   * .mt\:\$10 {
+   * .mt\:\:\$10 {
    *   margin-top: 2.5rem;
    * }
    * ```
@@ -12310,7 +13443,7 @@ interface MtAtomStyle {
   $10: ClassName;
   /**
    * ```css
-   * .mt\:\$11 {
+   * .mt\:\:\$11 {
    *   margin-top: 2.75rem;
    * }
    * ```
@@ -12318,7 +13451,7 @@ interface MtAtomStyle {
   $11: ClassName;
   /**
    * ```css
-   * .mt\:\$12 {
+   * .mt\:\:\$12 {
    *   margin-top: 3rem;
    * }
    * ```
@@ -12326,7 +13459,7 @@ interface MtAtomStyle {
   $12: ClassName;
   /**
    * ```css
-   * .mt\:\$14 {
+   * .mt\:\:\$14 {
    *   margin-top: 3.5rem;
    * }
    * ```
@@ -12334,7 +13467,7 @@ interface MtAtomStyle {
   $14: ClassName;
   /**
    * ```css
-   * .mt\:\$16 {
+   * .mt\:\:\$16 {
    *   margin-top: 4rem;
    * }
    * ```
@@ -12342,7 +13475,7 @@ interface MtAtomStyle {
   $16: ClassName;
   /**
    * ```css
-   * .mt\:\$20 {
+   * .mt\:\:\$20 {
    *   margin-top: 5rem;
    * }
    * ```
@@ -12350,7 +13483,7 @@ interface MtAtomStyle {
   $20: ClassName;
   /**
    * ```css
-   * .mt\:\$24 {
+   * .mt\:\:\$24 {
    *   margin-top: 6rem;
    * }
    * ```
@@ -12358,7 +13491,7 @@ interface MtAtomStyle {
   $24: ClassName;
   /**
    * ```css
-   * .mt\:\$28 {
+   * .mt\:\:\$28 {
    *   margin-top: 7rem;
    * }
    * ```
@@ -12366,7 +13499,7 @@ interface MtAtomStyle {
   $28: ClassName;
   /**
    * ```css
-   * .mt\:\$32 {
+   * .mt\:\:\$32 {
    *   margin-top: 8rem;
    * }
    * ```
@@ -12374,7 +13507,7 @@ interface MtAtomStyle {
   $32: ClassName;
   /**
    * ```css
-   * .mt\:\$36 {
+   * .mt\:\:\$36 {
    *   margin-top: 9rem;
    * }
    * ```
@@ -12382,7 +13515,7 @@ interface MtAtomStyle {
   $36: ClassName;
   /**
    * ```css
-   * .mt\:\$40 {
+   * .mt\:\:\$40 {
    *   margin-top: 10rem;
    * }
    * ```
@@ -12390,7 +13523,7 @@ interface MtAtomStyle {
   $40: ClassName;
   /**
    * ```css
-   * .mt\:\$44 {
+   * .mt\:\:\$44 {
    *   margin-top: 11rem;
    * }
    * ```
@@ -12398,7 +13531,7 @@ interface MtAtomStyle {
   $44: ClassName;
   /**
    * ```css
-   * .mt\:\$48 {
+   * .mt\:\:\$48 {
    *   margin-top: 12rem;
    * }
    * ```
@@ -12406,7 +13539,7 @@ interface MtAtomStyle {
   $48: ClassName;
   /**
    * ```css
-   * .mt\:\$52 {
+   * .mt\:\:\$52 {
    *   margin-top: 13rem;
    * }
    * ```
@@ -12414,7 +13547,7 @@ interface MtAtomStyle {
   $52: ClassName;
   /**
    * ```css
-   * .mt\:\$56 {
+   * .mt\:\:\$56 {
    *   margin-top: 14rem;
    * }
    * ```
@@ -12422,7 +13555,7 @@ interface MtAtomStyle {
   $56: ClassName;
   /**
    * ```css
-   * .mt\:\$60 {
+   * .mt\:\:\$60 {
    *   margin-top: 15rem;
    * }
    * ```
@@ -12430,7 +13563,7 @@ interface MtAtomStyle {
   $60: ClassName;
   /**
    * ```css
-   * .mt\:\$64 {
+   * .mt\:\:\$64 {
    *   margin-top: 16rem;
    * }
    * ```
@@ -12438,7 +13571,7 @@ interface MtAtomStyle {
   $64: ClassName;
   /**
    * ```css
-   * .mt\:\$72 {
+   * .mt\:\:\$72 {
    *   margin-top: 18rem;
    * }
    * ```
@@ -12446,7 +13579,7 @@ interface MtAtomStyle {
   $72: ClassName;
   /**
    * ```css
-   * .mt\:\$80 {
+   * .mt\:\:\$80 {
    *   margin-top: 20rem;
    * }
    * ```
@@ -12454,18 +13587,58 @@ interface MtAtomStyle {
   $80: ClassName;
   /**
    * ```css
-   * .mt\:\$96 {
+   * .mt\:\:\$96 {
    *   margin-top: 24rem;
    * }
    * ```
    */
   $96: ClassName;
+  /**
+   * ```css
+   * .mt\:\:\$px {
+   *   margin-top: 1px;
+   * }
+   * ```
+   */
+  $px: ClassName;
+  /**
+   * ```css
+   * .mt\:\:\$0_5 {
+   *   margin-top: 0.125rem;
+   * }
+   * ```
+   */
+  $0_5: ClassName;
+  /**
+   * ```css
+   * .mt\:\:\$1_5 {
+   *   margin-top: 0.375rem;
+   * }
+   * ```
+   */
+  $1_5: ClassName;
+  /**
+   * ```css
+   * .mt\:\:\$2_5 {
+   *   margin-top: 0.625rem;
+   * }
+   * ```
+   */
+  $2_5: ClassName;
+  /**
+   * ```css
+   * .mt\:\:\$3_5 {
+   *   margin-top: 0.875rem;
+   * }
+   * ```
+   */
+  $3_5: ClassName;
 }
 
 interface MrAtomStyle {
   /**
    * ```css
-   * .mr\:\$0 {
+   * .mr\:\:\$0 {
    *   margin-right: 0px;
    * }
    * ```
@@ -12473,23 +13646,7 @@ interface MrAtomStyle {
   $0: ClassName;
   /**
    * ```css
-   * .mr\:\$px {
-   *   margin-right: 1px;
-   * }
-   * ```
-   */
-  $px: ClassName;
-  /**
-   * ```css
-   * .mr\:\$0-5 {
-   *   margin-right: 0.125rem;
-   * }
-   * ```
-   */
-  $0_5: ClassName;
-  /**
-   * ```css
-   * .mr\:\$1 {
+   * .mr\:\:\$1 {
    *   margin-right: 0.25rem;
    * }
    * ```
@@ -12497,15 +13654,7 @@ interface MrAtomStyle {
   $1: ClassName;
   /**
    * ```css
-   * .mr\:\$1-5 {
-   *   margin-right: 0.375rem;
-   * }
-   * ```
-   */
-  $1_5: ClassName;
-  /**
-   * ```css
-   * .mr\:\$2 {
+   * .mr\:\:\$2 {
    *   margin-right: 0.5rem;
    * }
    * ```
@@ -12513,15 +13662,7 @@ interface MrAtomStyle {
   $2: ClassName;
   /**
    * ```css
-   * .mr\:\$2-5 {
-   *   margin-right: 0.625rem;
-   * }
-   * ```
-   */
-  $2_5: ClassName;
-  /**
-   * ```css
-   * .mr\:\$3 {
+   * .mr\:\:\$3 {
    *   margin-right: 0.75rem;
    * }
    * ```
@@ -12529,15 +13670,7 @@ interface MrAtomStyle {
   $3: ClassName;
   /**
    * ```css
-   * .mr\:\$3-5 {
-   *   margin-right: 0.875rem;
-   * }
-   * ```
-   */
-  $3_5: ClassName;
-  /**
-   * ```css
-   * .mr\:\$4 {
+   * .mr\:\:\$4 {
    *   margin-right: 1rem;
    * }
    * ```
@@ -12545,7 +13678,7 @@ interface MrAtomStyle {
   $4: ClassName;
   /**
    * ```css
-   * .mr\:\$5 {
+   * .mr\:\:\$5 {
    *   margin-right: 1.25rem;
    * }
    * ```
@@ -12553,7 +13686,7 @@ interface MrAtomStyle {
   $5: ClassName;
   /**
    * ```css
-   * .mr\:\$6 {
+   * .mr\:\:\$6 {
    *   margin-right: 1.5rem;
    * }
    * ```
@@ -12561,7 +13694,7 @@ interface MrAtomStyle {
   $6: ClassName;
   /**
    * ```css
-   * .mr\:\$7 {
+   * .mr\:\:\$7 {
    *   margin-right: 1.75rem;
    * }
    * ```
@@ -12569,7 +13702,7 @@ interface MrAtomStyle {
   $7: ClassName;
   /**
    * ```css
-   * .mr\:\$8 {
+   * .mr\:\:\$8 {
    *   margin-right: 2rem;
    * }
    * ```
@@ -12577,7 +13710,7 @@ interface MrAtomStyle {
   $8: ClassName;
   /**
    * ```css
-   * .mr\:\$9 {
+   * .mr\:\:\$9 {
    *   margin-right: 2.25rem;
    * }
    * ```
@@ -12585,7 +13718,7 @@ interface MrAtomStyle {
   $9: ClassName;
   /**
    * ```css
-   * .mr\:\$10 {
+   * .mr\:\:\$10 {
    *   margin-right: 2.5rem;
    * }
    * ```
@@ -12593,7 +13726,7 @@ interface MrAtomStyle {
   $10: ClassName;
   /**
    * ```css
-   * .mr\:\$11 {
+   * .mr\:\:\$11 {
    *   margin-right: 2.75rem;
    * }
    * ```
@@ -12601,7 +13734,7 @@ interface MrAtomStyle {
   $11: ClassName;
   /**
    * ```css
-   * .mr\:\$12 {
+   * .mr\:\:\$12 {
    *   margin-right: 3rem;
    * }
    * ```
@@ -12609,7 +13742,7 @@ interface MrAtomStyle {
   $12: ClassName;
   /**
    * ```css
-   * .mr\:\$14 {
+   * .mr\:\:\$14 {
    *   margin-right: 3.5rem;
    * }
    * ```
@@ -12617,7 +13750,7 @@ interface MrAtomStyle {
   $14: ClassName;
   /**
    * ```css
-   * .mr\:\$16 {
+   * .mr\:\:\$16 {
    *   margin-right: 4rem;
    * }
    * ```
@@ -12625,7 +13758,7 @@ interface MrAtomStyle {
   $16: ClassName;
   /**
    * ```css
-   * .mr\:\$20 {
+   * .mr\:\:\$20 {
    *   margin-right: 5rem;
    * }
    * ```
@@ -12633,7 +13766,7 @@ interface MrAtomStyle {
   $20: ClassName;
   /**
    * ```css
-   * .mr\:\$24 {
+   * .mr\:\:\$24 {
    *   margin-right: 6rem;
    * }
    * ```
@@ -12641,7 +13774,7 @@ interface MrAtomStyle {
   $24: ClassName;
   /**
    * ```css
-   * .mr\:\$28 {
+   * .mr\:\:\$28 {
    *   margin-right: 7rem;
    * }
    * ```
@@ -12649,7 +13782,7 @@ interface MrAtomStyle {
   $28: ClassName;
   /**
    * ```css
-   * .mr\:\$32 {
+   * .mr\:\:\$32 {
    *   margin-right: 8rem;
    * }
    * ```
@@ -12657,7 +13790,7 @@ interface MrAtomStyle {
   $32: ClassName;
   /**
    * ```css
-   * .mr\:\$36 {
+   * .mr\:\:\$36 {
    *   margin-right: 9rem;
    * }
    * ```
@@ -12665,7 +13798,7 @@ interface MrAtomStyle {
   $36: ClassName;
   /**
    * ```css
-   * .mr\:\$40 {
+   * .mr\:\:\$40 {
    *   margin-right: 10rem;
    * }
    * ```
@@ -12673,7 +13806,7 @@ interface MrAtomStyle {
   $40: ClassName;
   /**
    * ```css
-   * .mr\:\$44 {
+   * .mr\:\:\$44 {
    *   margin-right: 11rem;
    * }
    * ```
@@ -12681,7 +13814,7 @@ interface MrAtomStyle {
   $44: ClassName;
   /**
    * ```css
-   * .mr\:\$48 {
+   * .mr\:\:\$48 {
    *   margin-right: 12rem;
    * }
    * ```
@@ -12689,7 +13822,7 @@ interface MrAtomStyle {
   $48: ClassName;
   /**
    * ```css
-   * .mr\:\$52 {
+   * .mr\:\:\$52 {
    *   margin-right: 13rem;
    * }
    * ```
@@ -12697,7 +13830,7 @@ interface MrAtomStyle {
   $52: ClassName;
   /**
    * ```css
-   * .mr\:\$56 {
+   * .mr\:\:\$56 {
    *   margin-right: 14rem;
    * }
    * ```
@@ -12705,7 +13838,7 @@ interface MrAtomStyle {
   $56: ClassName;
   /**
    * ```css
-   * .mr\:\$60 {
+   * .mr\:\:\$60 {
    *   margin-right: 15rem;
    * }
    * ```
@@ -12713,7 +13846,7 @@ interface MrAtomStyle {
   $60: ClassName;
   /**
    * ```css
-   * .mr\:\$64 {
+   * .mr\:\:\$64 {
    *   margin-right: 16rem;
    * }
    * ```
@@ -12721,7 +13854,7 @@ interface MrAtomStyle {
   $64: ClassName;
   /**
    * ```css
-   * .mr\:\$72 {
+   * .mr\:\:\$72 {
    *   margin-right: 18rem;
    * }
    * ```
@@ -12729,7 +13862,7 @@ interface MrAtomStyle {
   $72: ClassName;
   /**
    * ```css
-   * .mr\:\$80 {
+   * .mr\:\:\$80 {
    *   margin-right: 20rem;
    * }
    * ```
@@ -12737,18 +13870,58 @@ interface MrAtomStyle {
   $80: ClassName;
   /**
    * ```css
-   * .mr\:\$96 {
+   * .mr\:\:\$96 {
    *   margin-right: 24rem;
    * }
    * ```
    */
   $96: ClassName;
+  /**
+   * ```css
+   * .mr\:\:\$px {
+   *   margin-right: 1px;
+   * }
+   * ```
+   */
+  $px: ClassName;
+  /**
+   * ```css
+   * .mr\:\:\$0_5 {
+   *   margin-right: 0.125rem;
+   * }
+   * ```
+   */
+  $0_5: ClassName;
+  /**
+   * ```css
+   * .mr\:\:\$1_5 {
+   *   margin-right: 0.375rem;
+   * }
+   * ```
+   */
+  $1_5: ClassName;
+  /**
+   * ```css
+   * .mr\:\:\$2_5 {
+   *   margin-right: 0.625rem;
+   * }
+   * ```
+   */
+  $2_5: ClassName;
+  /**
+   * ```css
+   * .mr\:\:\$3_5 {
+   *   margin-right: 0.875rem;
+   * }
+   * ```
+   */
+  $3_5: ClassName;
 }
 
 interface MbAtomStyle {
   /**
    * ```css
-   * .mb\:\$0 {
+   * .mb\:\:\$0 {
    *   margin-bottom: 0px;
    * }
    * ```
@@ -12756,23 +13929,7 @@ interface MbAtomStyle {
   $0: ClassName;
   /**
    * ```css
-   * .mb\:\$px {
-   *   margin-bottom: 1px;
-   * }
-   * ```
-   */
-  $px: ClassName;
-  /**
-   * ```css
-   * .mb\:\$0-5 {
-   *   margin-bottom: 0.125rem;
-   * }
-   * ```
-   */
-  $0_5: ClassName;
-  /**
-   * ```css
-   * .mb\:\$1 {
+   * .mb\:\:\$1 {
    *   margin-bottom: 0.25rem;
    * }
    * ```
@@ -12780,15 +13937,7 @@ interface MbAtomStyle {
   $1: ClassName;
   /**
    * ```css
-   * .mb\:\$1-5 {
-   *   margin-bottom: 0.375rem;
-   * }
-   * ```
-   */
-  $1_5: ClassName;
-  /**
-   * ```css
-   * .mb\:\$2 {
+   * .mb\:\:\$2 {
    *   margin-bottom: 0.5rem;
    * }
    * ```
@@ -12796,15 +13945,7 @@ interface MbAtomStyle {
   $2: ClassName;
   /**
    * ```css
-   * .mb\:\$2-5 {
-   *   margin-bottom: 0.625rem;
-   * }
-   * ```
-   */
-  $2_5: ClassName;
-  /**
-   * ```css
-   * .mb\:\$3 {
+   * .mb\:\:\$3 {
    *   margin-bottom: 0.75rem;
    * }
    * ```
@@ -12812,15 +13953,7 @@ interface MbAtomStyle {
   $3: ClassName;
   /**
    * ```css
-   * .mb\:\$3-5 {
-   *   margin-bottom: 0.875rem;
-   * }
-   * ```
-   */
-  $3_5: ClassName;
-  /**
-   * ```css
-   * .mb\:\$4 {
+   * .mb\:\:\$4 {
    *   margin-bottom: 1rem;
    * }
    * ```
@@ -12828,7 +13961,7 @@ interface MbAtomStyle {
   $4: ClassName;
   /**
    * ```css
-   * .mb\:\$5 {
+   * .mb\:\:\$5 {
    *   margin-bottom: 1.25rem;
    * }
    * ```
@@ -12836,7 +13969,7 @@ interface MbAtomStyle {
   $5: ClassName;
   /**
    * ```css
-   * .mb\:\$6 {
+   * .mb\:\:\$6 {
    *   margin-bottom: 1.5rem;
    * }
    * ```
@@ -12844,7 +13977,7 @@ interface MbAtomStyle {
   $6: ClassName;
   /**
    * ```css
-   * .mb\:\$7 {
+   * .mb\:\:\$7 {
    *   margin-bottom: 1.75rem;
    * }
    * ```
@@ -12852,7 +13985,7 @@ interface MbAtomStyle {
   $7: ClassName;
   /**
    * ```css
-   * .mb\:\$8 {
+   * .mb\:\:\$8 {
    *   margin-bottom: 2rem;
    * }
    * ```
@@ -12860,7 +13993,7 @@ interface MbAtomStyle {
   $8: ClassName;
   /**
    * ```css
-   * .mb\:\$9 {
+   * .mb\:\:\$9 {
    *   margin-bottom: 2.25rem;
    * }
    * ```
@@ -12868,7 +14001,7 @@ interface MbAtomStyle {
   $9: ClassName;
   /**
    * ```css
-   * .mb\:\$10 {
+   * .mb\:\:\$10 {
    *   margin-bottom: 2.5rem;
    * }
    * ```
@@ -12876,7 +14009,7 @@ interface MbAtomStyle {
   $10: ClassName;
   /**
    * ```css
-   * .mb\:\$11 {
+   * .mb\:\:\$11 {
    *   margin-bottom: 2.75rem;
    * }
    * ```
@@ -12884,7 +14017,7 @@ interface MbAtomStyle {
   $11: ClassName;
   /**
    * ```css
-   * .mb\:\$12 {
+   * .mb\:\:\$12 {
    *   margin-bottom: 3rem;
    * }
    * ```
@@ -12892,7 +14025,7 @@ interface MbAtomStyle {
   $12: ClassName;
   /**
    * ```css
-   * .mb\:\$14 {
+   * .mb\:\:\$14 {
    *   margin-bottom: 3.5rem;
    * }
    * ```
@@ -12900,7 +14033,7 @@ interface MbAtomStyle {
   $14: ClassName;
   /**
    * ```css
-   * .mb\:\$16 {
+   * .mb\:\:\$16 {
    *   margin-bottom: 4rem;
    * }
    * ```
@@ -12908,7 +14041,7 @@ interface MbAtomStyle {
   $16: ClassName;
   /**
    * ```css
-   * .mb\:\$20 {
+   * .mb\:\:\$20 {
    *   margin-bottom: 5rem;
    * }
    * ```
@@ -12916,7 +14049,7 @@ interface MbAtomStyle {
   $20: ClassName;
   /**
    * ```css
-   * .mb\:\$24 {
+   * .mb\:\:\$24 {
    *   margin-bottom: 6rem;
    * }
    * ```
@@ -12924,7 +14057,7 @@ interface MbAtomStyle {
   $24: ClassName;
   /**
    * ```css
-   * .mb\:\$28 {
+   * .mb\:\:\$28 {
    *   margin-bottom: 7rem;
    * }
    * ```
@@ -12932,7 +14065,7 @@ interface MbAtomStyle {
   $28: ClassName;
   /**
    * ```css
-   * .mb\:\$32 {
+   * .mb\:\:\$32 {
    *   margin-bottom: 8rem;
    * }
    * ```
@@ -12940,7 +14073,7 @@ interface MbAtomStyle {
   $32: ClassName;
   /**
    * ```css
-   * .mb\:\$36 {
+   * .mb\:\:\$36 {
    *   margin-bottom: 9rem;
    * }
    * ```
@@ -12948,7 +14081,7 @@ interface MbAtomStyle {
   $36: ClassName;
   /**
    * ```css
-   * .mb\:\$40 {
+   * .mb\:\:\$40 {
    *   margin-bottom: 10rem;
    * }
    * ```
@@ -12956,7 +14089,7 @@ interface MbAtomStyle {
   $40: ClassName;
   /**
    * ```css
-   * .mb\:\$44 {
+   * .mb\:\:\$44 {
    *   margin-bottom: 11rem;
    * }
    * ```
@@ -12964,7 +14097,7 @@ interface MbAtomStyle {
   $44: ClassName;
   /**
    * ```css
-   * .mb\:\$48 {
+   * .mb\:\:\$48 {
    *   margin-bottom: 12rem;
    * }
    * ```
@@ -12972,7 +14105,7 @@ interface MbAtomStyle {
   $48: ClassName;
   /**
    * ```css
-   * .mb\:\$52 {
+   * .mb\:\:\$52 {
    *   margin-bottom: 13rem;
    * }
    * ```
@@ -12980,7 +14113,7 @@ interface MbAtomStyle {
   $52: ClassName;
   /**
    * ```css
-   * .mb\:\$56 {
+   * .mb\:\:\$56 {
    *   margin-bottom: 14rem;
    * }
    * ```
@@ -12988,7 +14121,7 @@ interface MbAtomStyle {
   $56: ClassName;
   /**
    * ```css
-   * .mb\:\$60 {
+   * .mb\:\:\$60 {
    *   margin-bottom: 15rem;
    * }
    * ```
@@ -12996,7 +14129,7 @@ interface MbAtomStyle {
   $60: ClassName;
   /**
    * ```css
-   * .mb\:\$64 {
+   * .mb\:\:\$64 {
    *   margin-bottom: 16rem;
    * }
    * ```
@@ -13004,7 +14137,7 @@ interface MbAtomStyle {
   $64: ClassName;
   /**
    * ```css
-   * .mb\:\$72 {
+   * .mb\:\:\$72 {
    *   margin-bottom: 18rem;
    * }
    * ```
@@ -13012,7 +14145,7 @@ interface MbAtomStyle {
   $72: ClassName;
   /**
    * ```css
-   * .mb\:\$80 {
+   * .mb\:\:\$80 {
    *   margin-bottom: 20rem;
    * }
    * ```
@@ -13020,18 +14153,58 @@ interface MbAtomStyle {
   $80: ClassName;
   /**
    * ```css
-   * .mb\:\$96 {
+   * .mb\:\:\$96 {
    *   margin-bottom: 24rem;
    * }
    * ```
    */
   $96: ClassName;
+  /**
+   * ```css
+   * .mb\:\:\$px {
+   *   margin-bottom: 1px;
+   * }
+   * ```
+   */
+  $px: ClassName;
+  /**
+   * ```css
+   * .mb\:\:\$0_5 {
+   *   margin-bottom: 0.125rem;
+   * }
+   * ```
+   */
+  $0_5: ClassName;
+  /**
+   * ```css
+   * .mb\:\:\$1_5 {
+   *   margin-bottom: 0.375rem;
+   * }
+   * ```
+   */
+  $1_5: ClassName;
+  /**
+   * ```css
+   * .mb\:\:\$2_5 {
+   *   margin-bottom: 0.625rem;
+   * }
+   * ```
+   */
+  $2_5: ClassName;
+  /**
+   * ```css
+   * .mb\:\:\$3_5 {
+   *   margin-bottom: 0.875rem;
+   * }
+   * ```
+   */
+  $3_5: ClassName;
 }
 
 interface MlAtomStyle {
   /**
    * ```css
-   * .ml\:\$0 {
+   * .ml\:\:\$0 {
    *   margin-left: 0px;
    * }
    * ```
@@ -13039,23 +14212,7 @@ interface MlAtomStyle {
   $0: ClassName;
   /**
    * ```css
-   * .ml\:\$px {
-   *   margin-left: 1px;
-   * }
-   * ```
-   */
-  $px: ClassName;
-  /**
-   * ```css
-   * .ml\:\$0-5 {
-   *   margin-left: 0.125rem;
-   * }
-   * ```
-   */
-  $0_5: ClassName;
-  /**
-   * ```css
-   * .ml\:\$1 {
+   * .ml\:\:\$1 {
    *   margin-left: 0.25rem;
    * }
    * ```
@@ -13063,15 +14220,7 @@ interface MlAtomStyle {
   $1: ClassName;
   /**
    * ```css
-   * .ml\:\$1-5 {
-   *   margin-left: 0.375rem;
-   * }
-   * ```
-   */
-  $1_5: ClassName;
-  /**
-   * ```css
-   * .ml\:\$2 {
+   * .ml\:\:\$2 {
    *   margin-left: 0.5rem;
    * }
    * ```
@@ -13079,15 +14228,7 @@ interface MlAtomStyle {
   $2: ClassName;
   /**
    * ```css
-   * .ml\:\$2-5 {
-   *   margin-left: 0.625rem;
-   * }
-   * ```
-   */
-  $2_5: ClassName;
-  /**
-   * ```css
-   * .ml\:\$3 {
+   * .ml\:\:\$3 {
    *   margin-left: 0.75rem;
    * }
    * ```
@@ -13095,15 +14236,7 @@ interface MlAtomStyle {
   $3: ClassName;
   /**
    * ```css
-   * .ml\:\$3-5 {
-   *   margin-left: 0.875rem;
-   * }
-   * ```
-   */
-  $3_5: ClassName;
-  /**
-   * ```css
-   * .ml\:\$4 {
+   * .ml\:\:\$4 {
    *   margin-left: 1rem;
    * }
    * ```
@@ -13111,7 +14244,7 @@ interface MlAtomStyle {
   $4: ClassName;
   /**
    * ```css
-   * .ml\:\$5 {
+   * .ml\:\:\$5 {
    *   margin-left: 1.25rem;
    * }
    * ```
@@ -13119,7 +14252,7 @@ interface MlAtomStyle {
   $5: ClassName;
   /**
    * ```css
-   * .ml\:\$6 {
+   * .ml\:\:\$6 {
    *   margin-left: 1.5rem;
    * }
    * ```
@@ -13127,7 +14260,7 @@ interface MlAtomStyle {
   $6: ClassName;
   /**
    * ```css
-   * .ml\:\$7 {
+   * .ml\:\:\$7 {
    *   margin-left: 1.75rem;
    * }
    * ```
@@ -13135,7 +14268,7 @@ interface MlAtomStyle {
   $7: ClassName;
   /**
    * ```css
-   * .ml\:\$8 {
+   * .ml\:\:\$8 {
    *   margin-left: 2rem;
    * }
    * ```
@@ -13143,7 +14276,7 @@ interface MlAtomStyle {
   $8: ClassName;
   /**
    * ```css
-   * .ml\:\$9 {
+   * .ml\:\:\$9 {
    *   margin-left: 2.25rem;
    * }
    * ```
@@ -13151,7 +14284,7 @@ interface MlAtomStyle {
   $9: ClassName;
   /**
    * ```css
-   * .ml\:\$10 {
+   * .ml\:\:\$10 {
    *   margin-left: 2.5rem;
    * }
    * ```
@@ -13159,7 +14292,7 @@ interface MlAtomStyle {
   $10: ClassName;
   /**
    * ```css
-   * .ml\:\$11 {
+   * .ml\:\:\$11 {
    *   margin-left: 2.75rem;
    * }
    * ```
@@ -13167,7 +14300,7 @@ interface MlAtomStyle {
   $11: ClassName;
   /**
    * ```css
-   * .ml\:\$12 {
+   * .ml\:\:\$12 {
    *   margin-left: 3rem;
    * }
    * ```
@@ -13175,7 +14308,7 @@ interface MlAtomStyle {
   $12: ClassName;
   /**
    * ```css
-   * .ml\:\$14 {
+   * .ml\:\:\$14 {
    *   margin-left: 3.5rem;
    * }
    * ```
@@ -13183,7 +14316,7 @@ interface MlAtomStyle {
   $14: ClassName;
   /**
    * ```css
-   * .ml\:\$16 {
+   * .ml\:\:\$16 {
    *   margin-left: 4rem;
    * }
    * ```
@@ -13191,7 +14324,7 @@ interface MlAtomStyle {
   $16: ClassName;
   /**
    * ```css
-   * .ml\:\$20 {
+   * .ml\:\:\$20 {
    *   margin-left: 5rem;
    * }
    * ```
@@ -13199,7 +14332,7 @@ interface MlAtomStyle {
   $20: ClassName;
   /**
    * ```css
-   * .ml\:\$24 {
+   * .ml\:\:\$24 {
    *   margin-left: 6rem;
    * }
    * ```
@@ -13207,7 +14340,7 @@ interface MlAtomStyle {
   $24: ClassName;
   /**
    * ```css
-   * .ml\:\$28 {
+   * .ml\:\:\$28 {
    *   margin-left: 7rem;
    * }
    * ```
@@ -13215,7 +14348,7 @@ interface MlAtomStyle {
   $28: ClassName;
   /**
    * ```css
-   * .ml\:\$32 {
+   * .ml\:\:\$32 {
    *   margin-left: 8rem;
    * }
    * ```
@@ -13223,7 +14356,7 @@ interface MlAtomStyle {
   $32: ClassName;
   /**
    * ```css
-   * .ml\:\$36 {
+   * .ml\:\:\$36 {
    *   margin-left: 9rem;
    * }
    * ```
@@ -13231,7 +14364,7 @@ interface MlAtomStyle {
   $36: ClassName;
   /**
    * ```css
-   * .ml\:\$40 {
+   * .ml\:\:\$40 {
    *   margin-left: 10rem;
    * }
    * ```
@@ -13239,7 +14372,7 @@ interface MlAtomStyle {
   $40: ClassName;
   /**
    * ```css
-   * .ml\:\$44 {
+   * .ml\:\:\$44 {
    *   margin-left: 11rem;
    * }
    * ```
@@ -13247,7 +14380,7 @@ interface MlAtomStyle {
   $44: ClassName;
   /**
    * ```css
-   * .ml\:\$48 {
+   * .ml\:\:\$48 {
    *   margin-left: 12rem;
    * }
    * ```
@@ -13255,7 +14388,7 @@ interface MlAtomStyle {
   $48: ClassName;
   /**
    * ```css
-   * .ml\:\$52 {
+   * .ml\:\:\$52 {
    *   margin-left: 13rem;
    * }
    * ```
@@ -13263,7 +14396,7 @@ interface MlAtomStyle {
   $52: ClassName;
   /**
    * ```css
-   * .ml\:\$56 {
+   * .ml\:\:\$56 {
    *   margin-left: 14rem;
    * }
    * ```
@@ -13271,7 +14404,7 @@ interface MlAtomStyle {
   $56: ClassName;
   /**
    * ```css
-   * .ml\:\$60 {
+   * .ml\:\:\$60 {
    *   margin-left: 15rem;
    * }
    * ```
@@ -13279,7 +14412,7 @@ interface MlAtomStyle {
   $60: ClassName;
   /**
    * ```css
-   * .ml\:\$64 {
+   * .ml\:\:\$64 {
    *   margin-left: 16rem;
    * }
    * ```
@@ -13287,7 +14420,7 @@ interface MlAtomStyle {
   $64: ClassName;
   /**
    * ```css
-   * .ml\:\$72 {
+   * .ml\:\:\$72 {
    *   margin-left: 18rem;
    * }
    * ```
@@ -13295,7 +14428,7 @@ interface MlAtomStyle {
   $72: ClassName;
   /**
    * ```css
-   * .ml\:\$80 {
+   * .ml\:\:\$80 {
    *   margin-left: 20rem;
    * }
    * ```
@@ -13303,18 +14436,58 @@ interface MlAtomStyle {
   $80: ClassName;
   /**
    * ```css
-   * .ml\:\$96 {
+   * .ml\:\:\$96 {
    *   margin-left: 24rem;
    * }
    * ```
    */
   $96: ClassName;
+  /**
+   * ```css
+   * .ml\:\:\$px {
+   *   margin-left: 1px;
+   * }
+   * ```
+   */
+  $px: ClassName;
+  /**
+   * ```css
+   * .ml\:\:\$0_5 {
+   *   margin-left: 0.125rem;
+   * }
+   * ```
+   */
+  $0_5: ClassName;
+  /**
+   * ```css
+   * .ml\:\:\$1_5 {
+   *   margin-left: 0.375rem;
+   * }
+   * ```
+   */
+  $1_5: ClassName;
+  /**
+   * ```css
+   * .ml\:\:\$2_5 {
+   *   margin-left: 0.625rem;
+   * }
+   * ```
+   */
+  $2_5: ClassName;
+  /**
+   * ```css
+   * .ml\:\:\$3_5 {
+   *   margin-left: 0.875rem;
+   * }
+   * ```
+   */
+  $3_5: ClassName;
 }
 
 interface FontSizeAtomStyle {
   /**
    * ```css
-   * .font-size\:\$xs {
+   * .fontSize\:\:\$xs {
    *   font-size: 0.75rem;
    * }
    * ```
@@ -13322,7 +14495,7 @@ interface FontSizeAtomStyle {
   $xs: ClassName;
   /**
    * ```css
-   * .font-size\:\$sm {
+   * .fontSize\:\:\$sm {
    *   font-size: 0.875rem;
    * }
    * ```
@@ -13330,7 +14503,7 @@ interface FontSizeAtomStyle {
   $sm: ClassName;
   /**
    * ```css
-   * .font-size\:\$base {
+   * .fontSize\:\:\$base {
    *   font-size: 1rem;
    * }
    * ```
@@ -13338,7 +14511,7 @@ interface FontSizeAtomStyle {
   $base: ClassName;
   /**
    * ```css
-   * .font-size\:\$lg {
+   * .fontSize\:\:\$lg {
    *   font-size: 1.125rem;
    * }
    * ```
@@ -13346,7 +14519,7 @@ interface FontSizeAtomStyle {
   $lg: ClassName;
   /**
    * ```css
-   * .font-size\:\$xl {
+   * .fontSize\:\:\$xl {
    *   font-size: 1.25rem;
    * }
    * ```
@@ -13354,7 +14527,7 @@ interface FontSizeAtomStyle {
   $xl: ClassName;
   /**
    * ```css
-   * .font-size\:\$2xl {
+   * .fontSize\:\:\$2xl {
    *   font-size: 1.5rem;
    * }
    * ```
@@ -13362,7 +14535,7 @@ interface FontSizeAtomStyle {
   $2xl: ClassName;
   /**
    * ```css
-   * .font-size\:\$3xl {
+   * .fontSize\:\:\$3xl {
    *   font-size: 1.875rem;
    * }
    * ```
@@ -13370,7 +14543,7 @@ interface FontSizeAtomStyle {
   $3xl: ClassName;
   /**
    * ```css
-   * .font-size\:\$4xl {
+   * .fontSize\:\:\$4xl {
    *   font-size: 2.25rem;
    * }
    * ```
@@ -13378,7 +14551,7 @@ interface FontSizeAtomStyle {
   $4xl: ClassName;
   /**
    * ```css
-   * .font-size\:\$5xl {
+   * .fontSize\:\:\$5xl {
    *   font-size: 3rem;
    * }
    * ```
@@ -13386,7 +14559,7 @@ interface FontSizeAtomStyle {
   $5xl: ClassName;
   /**
    * ```css
-   * .font-size\:\$6xl {
+   * .fontSize\:\:\$6xl {
    *   font-size: 3.75rem;
    * }
    * ```
@@ -13394,7 +14567,7 @@ interface FontSizeAtomStyle {
   $6xl: ClassName;
   /**
    * ```css
-   * .font-size\:\$7xl {
+   * .fontSize\:\:\$7xl {
    *   font-size: 4.5rem;
    * }
    * ```
@@ -13402,7 +14575,7 @@ interface FontSizeAtomStyle {
   $7xl: ClassName;
   /**
    * ```css
-   * .font-size\:\$8xl {
+   * .fontSize\:\:\$8xl {
    *   font-size: 6rem;
    * }
    * ```
@@ -13413,7 +14586,7 @@ interface FontSizeAtomStyle {
 interface LineHeightAtomStyle {
   /**
    * ```css
-   * .line-height\:\$xs {
+   * .lineHeight\:\:\$xs {
    *   line-height: 0.75rem;
    * }
    * ```
@@ -13421,7 +14594,7 @@ interface LineHeightAtomStyle {
   $xs: ClassName;
   /**
    * ```css
-   * .line-height\:\$sm {
+   * .lineHeight\:\:\$sm {
    *   line-height: 1.25rem;
    * }
    * ```
@@ -13429,7 +14602,7 @@ interface LineHeightAtomStyle {
   $sm: ClassName;
   /**
    * ```css
-   * .line-height\:\$base {
+   * .lineHeight\:\:\$base {
    *   line-height: 1.5rem;
    * }
    * ```
@@ -13437,7 +14610,7 @@ interface LineHeightAtomStyle {
   $base: ClassName;
   /**
    * ```css
-   * .line-height\:\$lg {
+   * .lineHeight\:\:\$lg {
    *   line-height: 1.75rem;
    * }
    * ```
@@ -13445,7 +14618,7 @@ interface LineHeightAtomStyle {
   $lg: ClassName;
   /**
    * ```css
-   * .line-height\:\$xl {
+   * .lineHeight\:\:\$xl {
    *   line-height: 1.75rem;
    * }
    * ```
@@ -13453,7 +14626,7 @@ interface LineHeightAtomStyle {
   $xl: ClassName;
   /**
    * ```css
-   * .line-height\:\$2xl {
+   * .lineHeight\:\:\$2xl {
    *   line-height: 2rem;
    * }
    * ```
@@ -13461,7 +14634,7 @@ interface LineHeightAtomStyle {
   $2xl: ClassName;
   /**
    * ```css
-   * .line-height\:\$3xl {
+   * .lineHeight\:\:\$3xl {
    *   line-height: 2.25rem;
    * }
    * ```
@@ -13469,7 +14642,7 @@ interface LineHeightAtomStyle {
   $3xl: ClassName;
   /**
    * ```css
-   * .line-height\:\$4xl {
+   * .lineHeight\:\:\$4xl {
    *   line-height: 2.5rem;
    * }
    * ```
@@ -13477,7 +14650,7 @@ interface LineHeightAtomStyle {
   $4xl: ClassName;
   /**
    * ```css
-   * .line-height\:\$5xl {
+   * .lineHeight\:\:\$5xl {
    *   line-height: 1;
    * }
    * ```
@@ -13485,7 +14658,7 @@ interface LineHeightAtomStyle {
   $5xl: ClassName;
   /**
    * ```css
-   * .line-height\:\$6xl {
+   * .lineHeight\:\:\$6xl {
    *   line-height: 1;
    * }
    * ```
@@ -13493,7 +14666,7 @@ interface LineHeightAtomStyle {
   $6xl: ClassName;
   /**
    * ```css
-   * .line-height\:\$7xl {
+   * .lineHeight\:\:\$7xl {
    *   line-height: 1;
    * }
    * ```
@@ -13501,7 +14674,7 @@ interface LineHeightAtomStyle {
   $7xl: ClassName;
   /**
    * ```css
-   * .line-height\:\$8xl {
+   * .lineHeight\:\:\$8xl {
    *   line-height: 1;
    * }
    * ```
@@ -13512,7 +14685,7 @@ interface LineHeightAtomStyle {
 interface DirAtomStyle {
   /**
    * ```css
-   * .dir\:\$ltr {
+   * .dir\:\:\$ltr {
    *   direction: ltr;
    * }
    * ```
@@ -13520,7 +14693,7 @@ interface DirAtomStyle {
   $ltr: ClassName;
   /**
    * ```css
-   * .dir\:\$rtl {
+   * .dir\:\:\$rtl {
    *   direction: rtl;
    * }
    * ```
@@ -13531,43 +14704,43 @@ interface DirAtomStyle {
 interface DisplayAtomStyle {
   /**
    * ```css
-   * .display\:\$block {}
+   * .display\:\:\$block {}
    * ```
    */
   $block: ClassName;
   /**
    * ```css
-   * .display\:\$inline-block {}
+   * .display\:\:\$inlineBlock {}
    * ```
    */
   $inlineBlock: ClassName;
   /**
    * ```css
-   * .display\:\$inline {}
+   * .display\:\:\$inline {}
    * ```
    */
   $inline: ClassName;
   /**
    * ```css
-   * .display\:\$flow-root {}
+   * .display\:\:\$flowRoot {}
    * ```
    */
   $flowRoot: ClassName;
   /**
    * ```css
-   * .display\:\$content {}
+   * .display\:\:\$content {}
    * ```
    */
   $content: ClassName;
   /**
    * ```css
-   * .display\:\$hidden {}
+   * .display\:\:\$hidden {}
    * ```
    */
   $hidden: ClassName;
   /**
    * ```css
-   * .display\:\$list-item {}
+   * .display\:\:\$listItem {}
    * ```
    */
   $listItem: ClassName;
@@ -13576,13 +14749,13 @@ interface DisplayAtomStyle {
 interface VisibilityAtomStyle {
   /**
    * ```css
-   * .visibility\:\$hide {}
+   * .visibility\:\:\$hide {}
    * ```
    */
   $hide: ClassName;
   /**
    * ```css
-   * .visibility\:\$show {}
+   * .visibility\:\:\$show {}
    * ```
    */
   $show: ClassName;
@@ -13591,7 +14764,7 @@ interface VisibilityAtomStyle {
 interface OpacityAtomStyle {
   /**
    * ```css
-   * .opacity\:\$0 {
+   * .opacity\:\:\$0 {
    *   opacity: 0;
    * }
    * ```
@@ -13599,7 +14772,7 @@ interface OpacityAtomStyle {
   $0: ClassName;
   /**
    * ```css
-   * .opacity\:\$5 {
+   * .opacity\:\:\$5 {
    *   opacity: 5;
    * }
    * ```
@@ -13607,7 +14780,7 @@ interface OpacityAtomStyle {
   $5: ClassName;
   /**
    * ```css
-   * .opacity\:\$10 {
+   * .opacity\:\:\$10 {
    *   opacity: 10;
    * }
    * ```
@@ -13615,7 +14788,7 @@ interface OpacityAtomStyle {
   $10: ClassName;
   /**
    * ```css
-   * .opacity\:\$20 {
+   * .opacity\:\:\$20 {
    *   opacity: 20;
    * }
    * ```
@@ -13623,7 +14796,7 @@ interface OpacityAtomStyle {
   $20: ClassName;
   /**
    * ```css
-   * .opacity\:\$30 {
+   * .opacity\:\:\$30 {
    *   opacity: 30;
    * }
    * ```
@@ -13631,7 +14804,7 @@ interface OpacityAtomStyle {
   $30: ClassName;
   /**
    * ```css
-   * .opacity\:\$40 {
+   * .opacity\:\:\$40 {
    *   opacity: 40;
    * }
    * ```
@@ -13639,7 +14812,7 @@ interface OpacityAtomStyle {
   $40: ClassName;
   /**
    * ```css
-   * .opacity\:\$50 {
+   * .opacity\:\:\$50 {
    *   opacity: 50;
    * }
    * ```
@@ -13647,7 +14820,7 @@ interface OpacityAtomStyle {
   $50: ClassName;
   /**
    * ```css
-   * .opacity\:\$60 {
+   * .opacity\:\:\$60 {
    *   opacity: 60;
    * }
    * ```
@@ -13655,7 +14828,7 @@ interface OpacityAtomStyle {
   $60: ClassName;
   /**
    * ```css
-   * .opacity\:\$70 {
+   * .opacity\:\:\$70 {
    *   opacity: 70;
    * }
    * ```
@@ -13663,7 +14836,7 @@ interface OpacityAtomStyle {
   $70: ClassName;
   /**
    * ```css
-   * .opacity\:\$75 {
+   * .opacity\:\:\$75 {
    *   opacity: 75;
    * }
    * ```
@@ -13671,7 +14844,7 @@ interface OpacityAtomStyle {
   $75: ClassName;
   /**
    * ```css
-   * .opacity\:\$80 {
+   * .opacity\:\:\$80 {
    *   opacity: 80;
    * }
    * ```
@@ -13679,7 +14852,7 @@ interface OpacityAtomStyle {
   $80: ClassName;
   /**
    * ```css
-   * .opacity\:\$90 {
+   * .opacity\:\:\$90 {
    *   opacity: 90;
    * }
    * ```
@@ -13687,7 +14860,7 @@ interface OpacityAtomStyle {
   $90: ClassName;
   /**
    * ```css
-   * .opacity\:\$95 {
+   * .opacity\:\:\$95 {
    *   opacity: 95;
    * }
    * ```
@@ -13695,7 +14868,7 @@ interface OpacityAtomStyle {
   $95: ClassName;
   /**
    * ```css
-   * .opacity\:\$100 {
+   * .opacity\:\:\$100 {
    *   opacity: 100;
    * }
    * ```
@@ -13706,15 +14879,7 @@ interface OpacityAtomStyle {
 interface ZAtomStyle {
   /**
    * ```css
-   * .z\:\$auto {
-   *   z-index: auto;
-   * }
-   * ```
-   */
-  $auto: ClassName;
-  /**
-   * ```css
-   * .z\:\$0 {
+   * .z\:\:\$0 {
    *   z-index: 0;
    * }
    * ```
@@ -13722,7 +14887,7 @@ interface ZAtomStyle {
   $0: ClassName;
   /**
    * ```css
-   * .z\:\$1 {
+   * .z\:\:\$1 {
    *   z-index: 1;
    * }
    * ```
@@ -13730,7 +14895,7 @@ interface ZAtomStyle {
   $1: ClassName;
   /**
    * ```css
-   * .z\:\$2 {
+   * .z\:\:\$2 {
    *   z-index: 2;
    * }
    * ```
@@ -13738,7 +14903,7 @@ interface ZAtomStyle {
   $2: ClassName;
   /**
    * ```css
-   * .z\:\$3 {
+   * .z\:\:\$3 {
    *   z-index: 3;
    * }
    * ```
@@ -13746,7 +14911,7 @@ interface ZAtomStyle {
   $3: ClassName;
   /**
    * ```css
-   * .z\:\$4 {
+   * .z\:\:\$4 {
    *   z-index: 4;
    * }
    * ```
@@ -13754,7 +14919,7 @@ interface ZAtomStyle {
   $4: ClassName;
   /**
    * ```css
-   * .z\:\$5 {
+   * .z\:\:\$5 {
    *   z-index: 5;
    * }
    * ```
@@ -13762,7 +14927,7 @@ interface ZAtomStyle {
   $5: ClassName;
   /**
    * ```css
-   * .z\:\$10 {
+   * .z\:\:\$10 {
    *   z-index: 10;
    * }
    * ```
@@ -13770,7 +14935,7 @@ interface ZAtomStyle {
   $10: ClassName;
   /**
    * ```css
-   * .z\:\$20 {
+   * .z\:\:\$20 {
    *   z-index: 20;
    * }
    * ```
@@ -13778,7 +14943,7 @@ interface ZAtomStyle {
   $20: ClassName;
   /**
    * ```css
-   * .z\:\$30 {
+   * .z\:\:\$30 {
    *   z-index: 30;
    * }
    * ```
@@ -13786,7 +14951,7 @@ interface ZAtomStyle {
   $30: ClassName;
   /**
    * ```css
-   * .z\:\$40 {
+   * .z\:\:\$40 {
    *   z-index: 40;
    * }
    * ```
@@ -13794,7 +14959,7 @@ interface ZAtomStyle {
   $40: ClassName;
   /**
    * ```css
-   * .z\:\$50 {
+   * .z\:\:\$50 {
    *   z-index: 50;
    * }
    * ```
@@ -13802,7 +14967,7 @@ interface ZAtomStyle {
   $50: ClassName;
   /**
    * ```css
-   * .z\:\$60 {
+   * .z\:\:\$60 {
    *   z-index: 60;
    * }
    * ```
@@ -13810,7 +14975,15 @@ interface ZAtomStyle {
   $60: ClassName;
   /**
    * ```css
-   * .z\:\$1 {
+   * .z\:\:\$auto {
+   *   z-index: auto;
+   * }
+   * ```
+   */
+  $auto: ClassName;
+  /**
+   * ```css
+   * .z\:\:\$_1 {
    *   z-index: -1;
    * }
    * ```
@@ -13818,7 +14991,7 @@ interface ZAtomStyle {
   $_1: ClassName;
   /**
    * ```css
-   * .z\:\$2 {
+   * .z\:\:\$-2 {
    *   z-index: -2;
    * }
    * ```
@@ -13826,7 +14999,7 @@ interface ZAtomStyle {
   '$-2': ClassName;
   /**
    * ```css
-   * .z\:\$3 {
+   * .z\:\:\$_3 {
    *   z-index: -3;
    * }
    * ```
@@ -13834,7 +15007,7 @@ interface ZAtomStyle {
   $_3: ClassName;
   /**
    * ```css
-   * .z\:\$5 {
+   * .z\:\:\$_5 {
    *   z-index: -5;
    * }
    * ```
@@ -13845,7 +15018,7 @@ interface ZAtomStyle {
 interface TextOrientationAtomStyle {
   /**
    * ```css
-   * .text-orientation\:\$mixed {
+   * .textOrientation\:\:\$mixed {
    *   text-orientation: mixed;
    * }
    * ```
@@ -13853,7 +15026,7 @@ interface TextOrientationAtomStyle {
   $mixed: ClassName;
   /**
    * ```css
-   * .text-orientation\:\$up {
+   * .textOrientation\:\:\$up {
    *   text-orientation: upright;
    * }
    * ```
@@ -13861,7 +15034,7 @@ interface TextOrientationAtomStyle {
   $up: ClassName;
   /**
    * ```css
-   * .text-orientation\:\$s {
+   * .textOrientation\:\:\$s {
    *   text-orientation: sideways;
    * }
    * ```
@@ -13869,7 +15042,7 @@ interface TextOrientationAtomStyle {
   $s: ClassName;
   /**
    * ```css
-   * .text-orientation\:\$sr {
+   * .textOrientation\:\:\$sr {
    *   text-orientation: sideways-right;
    * }
    * ```
@@ -13877,7 +15050,7 @@ interface TextOrientationAtomStyle {
   $sr: ClassName;
   /**
    * ```css
-   * .text-orientation\:\$glyph {
+   * .textOrientation\:\:\$glyph {
    *   text-orientation: use-glyph-orientation;
    * }
    * ```
@@ -13885,7 +15058,7 @@ interface TextOrientationAtomStyle {
   $glyph: ClassName;
   /**
    * ```css
-   * .text-orientation\:\$unset {
+   * .textOrientation\:\:\$unset {
    *   text-orientation: unset;
    * }
    * ```
@@ -13896,7 +15069,7 @@ interface TextOrientationAtomStyle {
 interface WritingModeAtomStyle {
   /**
    * ```css
-   * .writing-mode\:\$htb {
+   * .writingMode\:\:\$htb {
    *   writing-mode: horizontal-tb;
    * }
    * ```
@@ -13904,7 +15077,7 @@ interface WritingModeAtomStyle {
   $htb: ClassName;
   /**
    * ```css
-   * .writing-mode\:\$vrl {
+   * .writingMode\:\:\$vrl {
    *   writing-mode: vertical-rl;
    * }
    * ```
@@ -13912,7 +15085,7 @@ interface WritingModeAtomStyle {
   $vrl: ClassName;
   /**
    * ```css
-   * .writing-mode\:\$vlr {
+   * .writingMode\:\:\$vlr {
    *   writing-mode: vertical-lr;
    * }
    * ```
@@ -13920,7 +15093,7 @@ interface WritingModeAtomStyle {
   $vlr: ClassName;
   /**
    * ```css
-   * .writing-mode\:\$srl {
+   * .writingMode\:\:\$srl {
    *   writing-mode: sideways-rl;
    * }
    * ```
@@ -13928,7 +15101,7 @@ interface WritingModeAtomStyle {
   $srl: ClassName;
   /**
    * ```css
-   * .writing-mode\:\$slr {
+   * .writingMode\:\:\$slr {
    *   writing-mode: sideways-lr;
    * }
    * ```
@@ -13936,7 +15109,7 @@ interface WritingModeAtomStyle {
   $slr: ClassName;
   /**
    * ```css
-   * .writing-mode\:\$unset {
+   * .writingMode\:\:\$unset {
    *   writing-mode: unset;
    * }
    * ```
@@ -13944,53 +15117,1209 @@ interface WritingModeAtomStyle {
   $unset: ClassName;
 }
 
-interface AnimationAtomStyle {
+interface ScaleAtomStyle {
   /**
    * ```css
-   * .animation\:\$none {
-   *   animation: none;
+   * .scale\:\:\$0 {
+   *   --transform-scale-x: 0;
+   *   --transform-scale-y: 0;
    * }
    * ```
    */
-  $none: ClassName;
+  $0: ClassName;
   /**
    * ```css
-   * .animation\:\$vrl {
-   *   animation: vertical-rl;
+   * .scale\:\:\$50 {
+   *   --transform-scale-x: .5;
+   *   --transform-scale-y: .5;
    * }
    * ```
    */
-  $vrl: ClassName;
+  $50: ClassName;
   /**
    * ```css
-   * .animation\:\$vlr {
-   *   animation: vertical-lr;
+   * .scale\:\:\$75 {
+   *   --transform-scale-x: .75;
+   *   --transform-scale-y: .75;
    * }
    * ```
    */
-  $vlr: ClassName;
+  $75: ClassName;
   /**
    * ```css
-   * .animation\:\$srl {
-   *   animation: sideways-rl;
+   * .scale\:\:\$90 {
+   *   --transform-scale-x: .9;
+   *   --transform-scale-y: .9;
    * }
    * ```
    */
-  $srl: ClassName;
+  $90: ClassName;
   /**
    * ```css
-   * .animation\:\$slr {
-   *   animation: sideways-lr;
+   * .scale\:\:\$95 {
+   *   --transform-scale-x: .95;
+   *   --transform-scale-y: .95;
    * }
    * ```
    */
-  $slr: ClassName;
+  $95: ClassName;
   /**
    * ```css
-   * .animation\:\$unset {
-   *   animation: unset;
+   * .scale\:\:\$100 {
+   *   --transform-scale-x: 1;
+   *   --transform-scale-y: 1;
    * }
    * ```
    */
-  $unset: ClassName;
+  $100: ClassName;
+  /**
+   * ```css
+   * .scale\:\:\$105 {
+   *   --transform-scale-x: 1.05;
+   *   --transform-scale-y: 1.05;
+   * }
+   * ```
+   */
+  $105: ClassName;
+  /**
+   * ```css
+   * .scale\:\:\$110 {
+   *   --transform-scale-x: 1.1;
+   *   --transform-scale-y: 1.1;
+   * }
+   * ```
+   */
+  $110: ClassName;
+  /**
+   * ```css
+   * .scale\:\:\$125 {
+   *   --transform-scale-x: 1.25;
+   *   --transform-scale-y: 1.25;
+   * }
+   * ```
+   */
+  $125: ClassName;
+  /**
+   * ```css
+   * .scale\:\:\$150 {
+   *   --transform-scale-x: 1.5;
+   *   --transform-scale-y: 1.5;
+   * }
+   * ```
+   */
+  $150: ClassName;
 }
+
+interface ScaleXAtomStyle {
+  /**
+   * ```css
+   * .scaleX\:\:\$0 {
+   *   --transform-scale-x: 0;
+   * }
+   * ```
+   */
+  $0: ClassName;
+  /**
+   * ```css
+   * .scaleX\:\:\$50 {
+   *   --transform-scale-x: .5;
+   * }
+   * ```
+   */
+  $50: ClassName;
+  /**
+   * ```css
+   * .scaleX\:\:\$75 {
+   *   --transform-scale-x: .75;
+   * }
+   * ```
+   */
+  $75: ClassName;
+  /**
+   * ```css
+   * .scaleX\:\:\$90 {
+   *   --transform-scale-x: .9;
+   * }
+   * ```
+   */
+  $90: ClassName;
+  /**
+   * ```css
+   * .scaleX\:\:\$95 {
+   *   --transform-scale-x: .95;
+   * }
+   * ```
+   */
+  $95: ClassName;
+  /**
+   * ```css
+   * .scaleX\:\:\$100 {
+   *   --transform-scale-x: 1;
+   * }
+   * ```
+   */
+  $100: ClassName;
+  /**
+   * ```css
+   * .scaleX\:\:\$105 {
+   *   --transform-scale-x: 1.05;
+   * }
+   * ```
+   */
+  $105: ClassName;
+  /**
+   * ```css
+   * .scaleX\:\:\$110 {
+   *   --transform-scale-x: 1.1;
+   * }
+   * ```
+   */
+  $110: ClassName;
+  /**
+   * ```css
+   * .scaleX\:\:\$125 {
+   *   --transform-scale-x: 1.25;
+   * }
+   * ```
+   */
+  $125: ClassName;
+  /**
+   * ```css
+   * .scaleX\:\:\$150 {
+   *   --transform-scale-x: 1.5;
+   * }
+   * ```
+   */
+  $150: ClassName;
+}
+
+interface ScaleYAtomStyle {
+  /**
+   * ```css
+   * .scaleY\:\:\$0 {
+   *   --transform-scale-y: 0;
+   * }
+   * ```
+   */
+  $0: ClassName;
+  /**
+   * ```css
+   * .scaleY\:\:\$50 {
+   *   --transform-scale-y: .5;
+   * }
+   * ```
+   */
+  $50: ClassName;
+  /**
+   * ```css
+   * .scaleY\:\:\$75 {
+   *   --transform-scale-y: .75;
+   * }
+   * ```
+   */
+  $75: ClassName;
+  /**
+   * ```css
+   * .scaleY\:\:\$90 {
+   *   --transform-scale-y: .9;
+   * }
+   * ```
+   */
+  $90: ClassName;
+  /**
+   * ```css
+   * .scaleY\:\:\$95 {
+   *   --transform-scale-y: .95;
+   * }
+   * ```
+   */
+  $95: ClassName;
+  /**
+   * ```css
+   * .scaleY\:\:\$100 {
+   *   --transform-scale-y: 1;
+   * }
+   * ```
+   */
+  $100: ClassName;
+  /**
+   * ```css
+   * .scaleY\:\:\$105 {
+   *   --transform-scale-y: 1.05;
+   * }
+   * ```
+   */
+  $105: ClassName;
+  /**
+   * ```css
+   * .scaleY\:\:\$110 {
+   *   --transform-scale-y: 1.1;
+   * }
+   * ```
+   */
+  $110: ClassName;
+  /**
+   * ```css
+   * .scaleY\:\:\$125 {
+   *   --transform-scale-y: 1.25;
+   * }
+   * ```
+   */
+  $125: ClassName;
+  /**
+   * ```css
+   * .scaleY\:\:\$150 {
+   *   --transform-scale-y: 1.5;
+   * }
+   * ```
+   */
+  $150: ClassName;
+}
+
+interface RotateAtomStyle {
+  /**
+   * ```css
+   * .rotate\:\:\$0 {
+   *   --transform-rotate: 0deg;
+   * }
+   * ```
+   */
+  $0: ClassName;
+  /**
+   * ```css
+   * .rotate\:\:\$1 {
+   *   --transform-rotate: 1deg;
+   * }
+   * ```
+   */
+  $1: ClassName;
+  /**
+   * ```css
+   * .rotate\:\:\$2 {
+   *   --transform-rotate: 2deg;
+   * }
+   * ```
+   */
+  $2: ClassName;
+  /**
+   * ```css
+   * .rotate\:\:\$3 {
+   *   --transform-rotate: 3deg;
+   * }
+   * ```
+   */
+  $3: ClassName;
+  /**
+   * ```css
+   * .rotate\:\:\$6 {
+   *   --transform-rotate: 6deg;
+   * }
+   * ```
+   */
+  $6: ClassName;
+  /**
+   * ```css
+   * .rotate\:\:\$12 {
+   *   --transform-rotate: 12deg;
+   * }
+   * ```
+   */
+  $12: ClassName;
+  /**
+   * ```css
+   * .rotate\:\:\$45 {
+   *   --transform-rotate: 45deg;
+   * }
+   * ```
+   */
+  $45: ClassName;
+  /**
+   * ```css
+   * .rotate\:\:\$90 {
+   *   --transform-rotate: 90deg;
+   * }
+   * ```
+   */
+  $90: ClassName;
+  /**
+   * ```css
+   * .rotate\:\:\$180 {
+   *   --transform-rotate: 180deg;
+   * }
+   * ```
+   */
+  $180: ClassName;
+  /**
+   * ```css
+   * .rotate\:\:\$270 {
+   *   --transform-rotate: 270deg;
+   * }
+   * ```
+   */
+  $270: ClassName;
+  /**
+   * ```css
+   * .rotate\:\:\$315 {
+   *   --transform-rotate: 315deg;
+   * }
+   * ```
+   */
+  $315: ClassName;
+}
+
+interface SkewXAtomStyle {
+  /**
+   * ```css
+   * .skewX\:\:\$0 {
+   *   --transform-skew-x: 0deg;
+   * }
+   * ```
+   */
+  $0: ClassName;
+  /**
+   * ```css
+   * .skewX\:\:\$1 {
+   *   --transform-skew-x: 1deg;
+   * }
+   * ```
+   */
+  $1: ClassName;
+  /**
+   * ```css
+   * .skewX\:\:\$2 {
+   *   --transform-skew-x: 2deg;
+   * }
+   * ```
+   */
+  $2: ClassName;
+  /**
+   * ```css
+   * .skewX\:\:\$3 {
+   *   --transform-skew-x: 3deg;
+   * }
+   * ```
+   */
+  $3: ClassName;
+  /**
+   * ```css
+   * .skewX\:\:\$6 {
+   *   --transform-skew-x: 6deg;
+   * }
+   * ```
+   */
+  $6: ClassName;
+  /**
+   * ```css
+   * .skewX\:\:\$12 {
+   *   --transform-skew-x: 12deg;
+   * }
+   * ```
+   */
+  $12: ClassName;
+}
+
+interface SkewYAtomStyle {
+  /**
+   * ```css
+   * .skewY\:\:\$0 {
+   *   --transform-skew-y: 0deg;
+   * }
+   * ```
+   */
+  $0: ClassName;
+  /**
+   * ```css
+   * .skewY\:\:\$1 {
+   *   --transform-skew-y: 1deg;
+   * }
+   * ```
+   */
+  $1: ClassName;
+  /**
+   * ```css
+   * .skewY\:\:\$2 {
+   *   --transform-skew-y: 2deg;
+   * }
+   * ```
+   */
+  $2: ClassName;
+  /**
+   * ```css
+   * .skewY\:\:\$3 {
+   *   --transform-skew-y: 3deg;
+   * }
+   * ```
+   */
+  $3: ClassName;
+  /**
+   * ```css
+   * .skewY\:\:\$6 {
+   *   --transform-skew-y: 6deg;
+   * }
+   * ```
+   */
+  $6: ClassName;
+  /**
+   * ```css
+   * .skewY\:\:\$12 {
+   *   --transform-skew-y: 12deg;
+   * }
+   * ```
+   */
+  $12: ClassName;
+}
+
+interface OriginAtomStyle {
+  /**
+   * ```css
+   * .origin\:\:\$center {
+   *   transform-origin: center;
+   * }
+   * ```
+   */
+  $center: ClassName;
+  /**
+   * ```css
+   * .origin\:\:\$top {
+   *   transform-origin: top;
+   * }
+   * ```
+   */
+  $top: ClassName;
+  /**
+   * ```css
+   * .origin\:\:\$topRight {
+   *   transform-origin: top right;
+   * }
+   * ```
+   */
+  $topRight: ClassName;
+  /**
+   * ```css
+   * .origin\:\:\$right {
+   *   transform-origin: right;
+   * }
+   * ```
+   */
+  $right: ClassName;
+  /**
+   * ```css
+   * .origin\:\:\$bottomRight {
+   *   transform-origin: bottom right;
+   * }
+   * ```
+   */
+  $bottomRight: ClassName;
+  /**
+   * ```css
+   * .origin\:\:\$bottom {
+   *   transform-origin: bottom;
+   * }
+   * ```
+   */
+  $bottom: ClassName;
+  /**
+   * ```css
+   * .origin\:\:\$bottomLeft {
+   *   transform-origin: bottom left;
+   * }
+   * ```
+   */
+  $bottomLeft: ClassName;
+  /**
+   * ```css
+   * .origin\:\:\$left {
+   *   transform-origin: left;
+   * }
+   * ```
+   */
+  $left: ClassName;
+  /**
+   * ```css
+   * .origin\:\:\$topLeft {
+   *   transform-origin: top left;
+   * }
+   * ```
+   */
+  $topLeft: ClassName;
+}
+
+interface TranslateXAtomStyle {
+  /**
+   * ```css
+   * .translateX\:\:\$0 {
+   *   --transform-translate-x: 0px;
+   * }
+   * ```
+   */
+  $0: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$1 {
+   *   --transform-translate-x: 0.25rem;
+   * }
+   * ```
+   */
+  $1: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$2 {
+   *   --transform-translate-x: 0.5rem;
+   * }
+   * ```
+   */
+  $2: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$3 {
+   *   --transform-translate-x: 0.75rem;
+   * }
+   * ```
+   */
+  $3: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$4 {
+   *   --transform-translate-x: 1rem;
+   * }
+   * ```
+   */
+  $4: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$5 {
+   *   --transform-translate-x: 1.25rem;
+   * }
+   * ```
+   */
+  $5: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$6 {
+   *   --transform-translate-x: 1.5rem;
+   * }
+   * ```
+   */
+  $6: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$7 {
+   *   --transform-translate-x: 1.75rem;
+   * }
+   * ```
+   */
+  $7: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$8 {
+   *   --transform-translate-x: 2rem;
+   * }
+   * ```
+   */
+  $8: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$9 {
+   *   --transform-translate-x: 2.25rem;
+   * }
+   * ```
+   */
+  $9: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$10 {
+   *   --transform-translate-x: 2.5rem;
+   * }
+   * ```
+   */
+  $10: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$11 {
+   *   --transform-translate-x: 2.75rem;
+   * }
+   * ```
+   */
+  $11: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$12 {
+   *   --transform-translate-x: 3rem;
+   * }
+   * ```
+   */
+  $12: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$14 {
+   *   --transform-translate-x: 3.5rem;
+   * }
+   * ```
+   */
+  $14: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$16 {
+   *   --transform-translate-x: 4rem;
+   * }
+   * ```
+   */
+  $16: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$20 {
+   *   --transform-translate-x: 5rem;
+   * }
+   * ```
+   */
+  $20: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$24 {
+   *   --transform-translate-x: 6rem;
+   * }
+   * ```
+   */
+  $24: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$28 {
+   *   --transform-translate-x: 7rem;
+   * }
+   * ```
+   */
+  $28: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$32 {
+   *   --transform-translate-x: 8rem;
+   * }
+   * ```
+   */
+  $32: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$36 {
+   *   --transform-translate-x: 9rem;
+   * }
+   * ```
+   */
+  $36: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$40 {
+   *   --transform-translate-x: 10rem;
+   * }
+   * ```
+   */
+  $40: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$44 {
+   *   --transform-translate-x: 11rem;
+   * }
+   * ```
+   */
+  $44: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$48 {
+   *   --transform-translate-x: 12rem;
+   * }
+   * ```
+   */
+  $48: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$52 {
+   *   --transform-translate-x: 13rem;
+   * }
+   * ```
+   */
+  $52: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$56 {
+   *   --transform-translate-x: 14rem;
+   * }
+   * ```
+   */
+  $56: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$60 {
+   *   --transform-translate-x: 15rem;
+   * }
+   * ```
+   */
+  $60: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$64 {
+   *   --transform-translate-x: 16rem;
+   * }
+   * ```
+   */
+  $64: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$72 {
+   *   --transform-translate-x: 18rem;
+   * }
+   * ```
+   */
+  $72: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$80 {
+   *   --transform-translate-x: 20rem;
+   * }
+   * ```
+   */
+  $80: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$96 {
+   *   --transform-translate-x: 24rem;
+   * }
+   * ```
+   */
+  $96: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$px {
+   *   --transform-translate-x: 1px;
+   * }
+   * ```
+   */
+  $px: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$0_5 {
+   *   --transform-translate-x: 0.125rem;
+   * }
+   * ```
+   */
+  $0_5: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$1_5 {
+   *   --transform-translate-x: 0.375rem;
+   * }
+   * ```
+   */
+  $1_5: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$2_5 {
+   *   --transform-translate-x: 0.625rem;
+   * }
+   * ```
+   */
+  $2_5: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$3_5 {
+   *   --transform-translate-x: 0.875rem;
+   * }
+   * ```
+   */
+  $3_5: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$1of2 {
+   *   --transform-translate-x: 50%;
+   * }
+   * ```
+   */
+  $1of2: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$1of3 {
+   *   --transform-translate-x: 33.333333%;
+   * }
+   * ```
+   */
+  $1of3: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$2of3 {
+   *   --transform-translate-x: 66.666667%;
+   * }
+   * ```
+   */
+  $2of3: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$1of4 {
+   *   --transform-translate-x: 25%;
+   * }
+   * ```
+   */
+  $1of4: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$2of4 {
+   *   --transform-translate-x: 50%;
+   * }
+   * ```
+   */
+  $2of4: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$3of4 {
+   *   --transform-translate-x: 75%;
+   * }
+   * ```
+   */
+  $3of4: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$full {
+   *   --transform-translate-x: 100%;
+   * }
+   * ```
+   */
+  $full: ClassName;
+}
+
+interface TranslateYAtomStyle {
+  /**
+   * ```css
+   * .translateY\:\:\$0 {
+   *   --transform-translate-y: 0px;
+   * }
+   * ```
+   */
+  $0: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$1 {
+   *   --transform-translate-y: 0.25rem;
+   * }
+   * ```
+   */
+  $1: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$2 {
+   *   --transform-translate-y: 0.5rem;
+   * }
+   * ```
+   */
+  $2: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$3 {
+   *   --transform-translate-y: 0.75rem;
+   * }
+   * ```
+   */
+  $3: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$4 {
+   *   --transform-translate-y: 1rem;
+   * }
+   * ```
+   */
+  $4: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$5 {
+   *   --transform-translate-y: 1.25rem;
+   * }
+   * ```
+   */
+  $5: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$6 {
+   *   --transform-translate-y: 1.5rem;
+   * }
+   * ```
+   */
+  $6: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$7 {
+   *   --transform-translate-y: 1.75rem;
+   * }
+   * ```
+   */
+  $7: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$8 {
+   *   --transform-translate-y: 2rem;
+   * }
+   * ```
+   */
+  $8: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$9 {
+   *   --transform-translate-y: 2.25rem;
+   * }
+   * ```
+   */
+  $9: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$10 {
+   *   --transform-translate-y: 2.5rem;
+   * }
+   * ```
+   */
+  $10: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$11 {
+   *   --transform-translate-y: 2.75rem;
+   * }
+   * ```
+   */
+  $11: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$12 {
+   *   --transform-translate-y: 3rem;
+   * }
+   * ```
+   */
+  $12: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$14 {
+   *   --transform-translate-y: 3.5rem;
+   * }
+   * ```
+   */
+  $14: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$16 {
+   *   --transform-translate-y: 4rem;
+   * }
+   * ```
+   */
+  $16: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$20 {
+   *   --transform-translate-y: 5rem;
+   * }
+   * ```
+   */
+  $20: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$24 {
+   *   --transform-translate-y: 6rem;
+   * }
+   * ```
+   */
+  $24: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$28 {
+   *   --transform-translate-y: 7rem;
+   * }
+   * ```
+   */
+  $28: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$32 {
+   *   --transform-translate-y: 8rem;
+   * }
+   * ```
+   */
+  $32: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$36 {
+   *   --transform-translate-y: 9rem;
+   * }
+   * ```
+   */
+  $36: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$40 {
+   *   --transform-translate-y: 10rem;
+   * }
+   * ```
+   */
+  $40: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$44 {
+   *   --transform-translate-y: 11rem;
+   * }
+   * ```
+   */
+  $44: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$48 {
+   *   --transform-translate-y: 12rem;
+   * }
+   * ```
+   */
+  $48: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$52 {
+   *   --transform-translate-y: 13rem;
+   * }
+   * ```
+   */
+  $52: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$56 {
+   *   --transform-translate-y: 14rem;
+   * }
+   * ```
+   */
+  $56: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$60 {
+   *   --transform-translate-y: 15rem;
+   * }
+   * ```
+   */
+  $60: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$64 {
+   *   --transform-translate-y: 16rem;
+   * }
+   * ```
+   */
+  $64: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$72 {
+   *   --transform-translate-y: 18rem;
+   * }
+   * ```
+   */
+  $72: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$80 {
+   *   --transform-translate-y: 20rem;
+   * }
+   * ```
+   */
+  $80: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$96 {
+   *   --transform-translate-y: 24rem;
+   * }
+   * ```
+   */
+  $96: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$px {
+   *   --transform-translate-y: 1px;
+   * }
+   * ```
+   */
+  $px: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$0_5 {
+   *   --transform-translate-y: 0.125rem;
+   * }
+   * ```
+   */
+  $0_5: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$1_5 {
+   *   --transform-translate-y: 0.375rem;
+   * }
+   * ```
+   */
+  $1_5: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$2_5 {
+   *   --transform-translate-y: 0.625rem;
+   * }
+   * ```
+   */
+  $2_5: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$3_5 {
+   *   --transform-translate-y: 0.875rem;
+   * }
+   * ```
+   */
+  $3_5: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$1of2 {
+   *   --transform-translate-y: 50%;
+   * }
+   * ```
+   */
+  $1of2: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$1of3 {
+   *   --transform-translate-y: 33.333333%;
+   * }
+   * ```
+   */
+  $1of3: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$2of3 {
+   *   --transform-translate-y: 66.666667%;
+   * }
+   * ```
+   */
+  $2of3: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$1of4 {
+   *   --transform-translate-y: 25%;
+   * }
+   * ```
+   */
+  $1of4: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$2of4 {
+   *   --transform-translate-y: 50%;
+   * }
+   * ```
+   */
+  $2of4: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$3of4 {
+   *   --transform-translate-y: 75%;
+   * }
+   * ```
+   */
+  $3of4: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$full {
+   *   --transform-translate-y: 100%;
+   * }
+   * ```
+   */
+  $full: ClassName;
+}
+
+interface AnimationAtomStyle {}

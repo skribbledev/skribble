@@ -10,7 +10,7 @@ This library answers the question? What if tailwind was integrated into TypeScri
 - [ ] Scoped values generate false positives for class names.
 
   ```tsx
-  import { c, cx } from 'skribble-css';
+  import { c, cx } from 'skribble-css/client';
 
   {
     const c = { awesome: '😢' };

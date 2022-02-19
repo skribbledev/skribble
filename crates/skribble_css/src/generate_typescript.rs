@@ -12,7 +12,7 @@ const TYPESCRIPT_UTILITIES: &str = indoc! {r#"
    * The default className signature.
    *
    * ```
-   * import { c } from 'skribble-css';
+   * import { c } from 'skribble-css/client';
    * const className = c.sm.block; // => 'sm:block'
    * ```
    */
@@ -23,7 +23,7 @@ const TYPESCRIPT_UTILITIES: &str = indoc! {r#"
    * dynamically based on the value provided.
    *
    * ```
-   * import { c } from 'skribble-css';
+   * import { c } from 'skribble-css/client';
    * const className = c.sm.focus.transformX(-100px); // => 'sm:focus:transformX(-100px)'
    * ```
    */
@@ -41,7 +41,7 @@ const TYPESCRIPT_UTILITIES: &str = indoc! {r#"
    * Currently spaces are not supported in the values.
    *
    * ```ts
-   * import { c } from 'skribble-css';
+   * import { c } from 'skribble-css/client';
    * const className = c.sm.focus('padding', '10px'); // => 'sm:focus-[padding:10px]'
    */
   export type CustomClassName = (style: string, value: string) => ClassName;

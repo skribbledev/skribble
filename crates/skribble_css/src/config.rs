@@ -48,7 +48,6 @@ impl Config {
     let user = UserConfig::new(source)?;
     let mut modifiers_map: IndexMap<String, Vec<String>> = IndexMap::new();
     let mut css_variables: IndexMap<String, PopulatedCssVariable> = IndexMap::new();
-    let palette = user.palette.to_map();
 
     let modifiers: Vec<String> = user
       .modifiers
@@ -77,8 +76,13 @@ impl Config {
           style_rules,
         }) => {
           for rule in style_rules {
-            let values: IndexMap<String, CssValue> =
-              values_from_color_options(rule, colors, &user.colors, &palette, &mut css_variables);
+            let values: IndexMap<String, CssValue> = values_from_color_options(
+              rule,
+              colors,
+              &user.colors,
+              &user.palette,
+              &mut css_variables,
+            );
 
             match atoms.get_mut(rule) {
               Some(atom) => {

@@ -8,7 +8,7 @@ expression: generate_typescript(&config)
  * The default className signature.
  *
  * ```
- * import { c } from 'skribble-css';
+ * import { c } from 'skribble-css/client';
  * const className = c.sm.block; // => 'sm:block'
  * ```
  */
@@ -19,7 +19,7 @@ export type ClassName = string;
  * dynamically based on the value provided.
  *
  * ```
- * import { c } from 'skribble-css';
+ * import { c } from 'skribble-css/client';
  * const className = c.sm.focus.transformX(-100px); // => 'sm:focus:transformX(-100px)'
  * ```
  */
@@ -37,7 +37,7 @@ export type WithDynamicClassName<Atom> = Atom & DynamicClassName;
  * Currently spaces are not supported in the values.
  *
  * ```ts
- * import { c } from 'skribble-css';
+ * import { c } from 'skribble-css/client';
  * const className = c.sm.focus('padding', '10px'); // => 'sm:focus-[padding:10px]'
  */
 export type CustomClassName = (style: string, value: string) => ClassName;
@@ -606,42 +606,6 @@ export interface SkribbleCss {
   '$oblique': ClassName;
   /**
    * ```css
-   * .\$filter {
-   *   --filter-blur: var(--empty,/*!*\/ /*!*\/);
-   *   --filter-brightness: var(--empty,/*!*\/ /*!*\/);
-   *   --filter-contrast: var(--empty,/*!*\/ /*!*\/);
-   *   --filter-grayscale: var(--empty,/*!*\/ /*!*\/);
-   *   --filter-hue-rotate: var(--empty,/*!*\/ /*!*\/);
-   *   --filter-invert: var(--empty,/*!*\/ /*!*\/);
-   *   --filter-saturate: var(--empty,/*!*\/ /*!*\/);
-   *   --filter-sepia: var(--empty,/*!*\/ /*!*\/);
-   *   --filter-drop-shadow: var(--empty,/*!*\/ /*!*\/);
-   *   --filter-custom: var(--empty,/*!*\/ /*!*\/);
-   *   filter: var(--filter-blur) var(--filter-brightness) var(--filter-contrast) var(--filter-grayscale) var(--filter-hue-rotate) var(--filter-invert) var(--filter-saturate) var(--filter-sepia) var(--filter-drop-shadow) var(--filter-custom);
-   * }
-   * ```
-   */
-  '$filter': ClassName;
-  /**
-   * ```css
-   * .\$backdropFilter {
-   *   --backdrop-blur: var(--empty,/*!*\/ /*!*\/);
-   *   --backdrop-brightness: var(--empty,/*!*\/ /*!*\/);
-   *   --backdrop-contrast: var(--empty,/*!*\/ /*!*\/);
-   *   --backdrop-grayscale: var(--empty,/*!*\/ /*!*\/);
-   *   --backdrop-hue-rotate: var(--empty,/*!*\/ /*!*\/);
-   *   --backdrop-invert: var(--empty,/*!*\/ /*!*\/);
-   *   --backdrop-saturate: var(--empty,/*!*\/ /*!*\/);
-   *   --backdrop-sepia: var(--empty,/*!*\/ /*!*\/);
-   *   --backdrop-drop-shadow: var(--empty,/*!*\/ /*!*\/);
-   *   --backdrop-custom: var(--empty,/*!*\/ /*!*\/);
-   *   backdrop-filter: var(--backdrop-blur) var(--backdrop-brightness) var(--backdrop-contrast) var(--backdrop-grayscale) var(--backdrop-hue-rotate) var(--backdrop-invert) var(--backdrop-saturate) var(--backdrop-sepia) var(--backdrop-drop-shadow) var(--backdrop-custom);
-   * }
-   * ```
-   */
-  '$backdropFilter': ClassName;
-  /**
-   * ```css
    * .\$antialiased {
    *   -webkit-font-smoothing: antialiased;
    *   -moz-osx-font-smoothing: grayscale;
@@ -724,12 +688,36 @@ export interface SkribbleCss {
   '$visible': ClassName;
   /**
    * ```css
-   * .font\:\:\[<value>\] {
-   *   font-family: <value>;
+   * .\$removeFilter {
+   *   --group-nested-filter: none;
    * }
    * ```
    */
-  'font': WithDynamicClassName<FontAtomStyle>;
+  '$removeFilter': ClassName;
+  /**
+   * ```css
+   * .\$removeBackdrop {
+   *   --group-nested-backdrop: none;
+   * }
+   * ```
+   */
+  '$removeBackdrop': ClassName;
+  /**
+   * ```css
+   * .\$transformGpu {
+   *   --group-nested-transform: var(--group-nested-transform-gpu);
+   * }
+   * ```
+   */
+  '$transformGpu': ClassName;
+  /**
+   * ```css
+   * .\$transformCpu {
+   *   --group-nested-transform: var(--group-nested-transform-cpu);
+   * }
+   * ```
+   */
+  '$transformCpu': ClassName;
   /**
    * ```css
    * .text\:\:\[<value>\] {
@@ -754,6 +742,170 @@ export interface SkribbleCss {
    * ```
    */
   'border': WithDynamicClassName<BorderAtomStyle>;
+  /**
+   * ```css
+   * .font\:\:\[<value>\] {
+   *   font-family: <value>;
+   * }
+   * ```
+   */
+  'font': WithDynamicClassName<FontAtomStyle>;
+  /**
+   * ```css
+   * .blur\:\:\[<value>\] {
+   *   --filter-blur: <value>;
+   * }
+   * ```
+   */
+  'blur': WithDynamicClassName<BlurAtomStyle>;
+  /**
+   * ```css
+   * .backdropBlur\:\:\[<value>\] {
+   *   --backdrop-blur: <value>;
+   * }
+   * ```
+   */
+  'backdropBlur': WithDynamicClassName<BackdropBlurAtomStyle>;
+  /**
+   * ```css
+   * .brightness\:\:\[<value>\] {
+   *   --filter-brightness: <value>;
+   * }
+   * ```
+   */
+  'brightness': WithDynamicClassName<BrightnessAtomStyle>;
+  /**
+   * ```css
+   * .backdropBrightness\:\:\[<value>\] {
+   *   --backdrop-brightness: <value>;
+   * }
+   * ```
+   */
+  'backdropBrightness': WithDynamicClassName<BackdropBrightnessAtomStyle>;
+  /**
+   * ```css
+   * .contrast\:\:\[<value>\] {
+   *   --filter-contrast: <value>;
+   * }
+   * ```
+   */
+  'contrast': WithDynamicClassName<ContrastAtomStyle>;
+  /**
+   * ```css
+   * .backdropContrast\:\:\[<value>\] {
+   *   --backdrop-contrast: <value>;
+   * }
+   * ```
+   */
+  'backdropContrast': WithDynamicClassName<BackdropContrastAtomStyle>;
+  /**
+   * ```css
+   * .dropShadow\:\:\[<value>\] {
+   *   --filter-drop-shadow: <value>;
+   * }
+   * ```
+   */
+  'dropShadow': WithDynamicClassName<DropShadowAtomStyle>;
+  /**
+   * ```css
+   * .backdropDropShadow\:\:\[<value>\] {
+   *   --backdrop-drop-shadow: <value>;
+   * }
+   * ```
+   */
+  'backdropDropShadow': WithDynamicClassName<BackdropDropShadowAtomStyle>;
+  /**
+   * ```css
+   * .grayScale\:\:\[<value>\] {}
+   * ```
+   */
+  'grayScale': WithDynamicClassName<GrayScaleAtomStyle>;
+  /**
+   * ```css
+   * .backdropGrayScale\:\:\[<value>\] {}
+   * ```
+   */
+  'backdropGrayScale': WithDynamicClassName<BackdropGrayScaleAtomStyle>;
+  /**
+   * ```css
+   * .hueRotate\:\:\[<value>\] {
+   *   --filter-hue-rotate: <value>;
+   * }
+   * ```
+   */
+  'hueRotate': WithDynamicClassName<HueRotateAtomStyle>;
+  /**
+   * ```css
+   * .backdropHueRotate\:\:\[<value>\] {
+   *   --backdrop-hue-rotate: <value>;
+   * }
+   * ```
+   */
+  'backdropHueRotate': WithDynamicClassName<BackdropHueRotateAtomStyle>;
+  /**
+   * ```css
+   * .invert\:\:\[<value>\] {
+   *   --filter-invert: <value>;
+   * }
+   * ```
+   */
+  'invert': WithDynamicClassName<InvertAtomStyle>;
+  /**
+   * ```css
+   * .backdropInvert\:\:\[<value>\] {
+   *   --backdrop-invert: <value>;
+   * }
+   * ```
+   */
+  'backdropInvert': WithDynamicClassName<BackdropInvertAtomStyle>;
+  /**
+   * ```css
+   * .saturate\:\:\[<value>\] {
+   *   --filter-saturate: <value>;
+   * }
+   * ```
+   */
+  'saturate': WithDynamicClassName<SaturateAtomStyle>;
+  /**
+   * ```css
+   * .backdropSaturate\:\:\[<value>\] {
+   *   --backdrop-saturate: <value>;
+   * }
+   * ```
+   */
+  'backdropSaturate': WithDynamicClassName<BackdropSaturateAtomStyle>;
+  /**
+   * ```css
+   * .sepia\:\:\[<value>\] {
+   *   --filter-sepia: <value>;
+   * }
+   * ```
+   */
+  'sepia': WithDynamicClassName<SepiaAtomStyle>;
+  /**
+   * ```css
+   * .backdropSepia\:\:\[<value>\] {
+   *   --backdrop-sepia: <value>;
+   * }
+   * ```
+   */
+  'backdropSepia': WithDynamicClassName<BackdropSepiaAtomStyle>;
+  /**
+   * ```css
+   * .filter\:\:\[<value>\] {
+   *   --filter-custom: <value>;
+   * }
+   * ```
+   */
+  'filter': WithDynamicClassName<FilterAtomStyle>;
+  /**
+   * ```css
+   * .backdrop\:\:\[<value>\] {
+   *   --backdrop-custom: <value>;
+   * }
+   * ```
+   */
+  'backdrop': WithDynamicClassName<BackdropAtomStyle>;
   /**
    * ```css
    * .p\:\:\[<value>\] {
@@ -988,6 +1140,79 @@ export interface SkribbleCss {
   'writingMode': WithDynamicClassName<WritingModeAtomStyle>;
   /**
    * ```css
+   * .scale\:\:\[<value>\] {
+   *   --transform-scale-x: <value>;
+   *   --transform-scale-y: <value>;
+   * }
+   * ```
+   */
+  'scale': WithDynamicClassName<ScaleAtomStyle>;
+  /**
+   * ```css
+   * .scaleX\:\:\[<value>\] {
+   *   --transform-scale-x: <value>;
+   * }
+   * ```
+   */
+  'scaleX': WithDynamicClassName<ScaleXAtomStyle>;
+  /**
+   * ```css
+   * .scaleY\:\:\[<value>\] {
+   *   --transform-scale-y: <value>;
+   * }
+   * ```
+   */
+  'scaleY': WithDynamicClassName<ScaleYAtomStyle>;
+  /**
+   * ```css
+   * .rotate\:\:\[<value>\] {
+   *   --transform-rotate: <value>;
+   * }
+   * ```
+   */
+  'rotate': WithDynamicClassName<RotateAtomStyle>;
+  /**
+   * ```css
+   * .skewX\:\:\[<value>\] {
+   *   --transform-skew-x: <value>;
+   * }
+   * ```
+   */
+  'skewX': WithDynamicClassName<SkewXAtomStyle>;
+  /**
+   * ```css
+   * .skewY\:\:\[<value>\] {
+   *   --transform-skew-y: <value>;
+   * }
+   * ```
+   */
+  'skewY': WithDynamicClassName<SkewYAtomStyle>;
+  /**
+   * ```css
+   * .origin\:\:\[<value>\] {
+   *   transform-origin: <value>;
+   * }
+   * ```
+   */
+  'origin': WithDynamicClassName<OriginAtomStyle>;
+  /**
+   * ```css
+   * .translateX\:\:\[<value>\] {
+   *   --transform-translate-x: <value>;
+   * }
+   * ```
+   */
+  'translateX': WithDynamicClassName<TranslateXAtomStyle>;
+  /**
+   * ```css
+   * .translateY\:\:\[<value>\] {
+   *   --transform-translate-y: <value>;
+   * }
+   * ```
+   */
+  'translateY': WithDynamicClassName<TranslateYAtomStyle>;
+  /**
+   * ```css
    * .animation\:\:\[<value>\] {
    *   animation: <value>;
    * }
@@ -1074,33 +1299,6 @@ type ModifierKeys34 = 'link';
 type SkribbleModifierCssGroup34 = Omit<SkribbleCss, BreakpointKeys | MediaQueryKeys | ParentModifierKeys | ModifierKeys0 | ModifierKeys1 | ModifierKeys2 | ModifierKeys3 | ModifierKeys4 | ModifierKeys5 | ModifierKeys6 | ModifierKeys7 | ModifierKeys8 | ModifierKeys9 | ModifierKeys10 | ModifierKeys11 | ModifierKeys12 | ModifierKeys13 | ModifierKeys14 | ModifierKeys15 | ModifierKeys16 | ModifierKeys17 | ModifierKeys18 | ModifierKeys19 | ModifierKeys20 | ModifierKeys21 | ModifierKeys22 | ModifierKeys23 | ModifierKeys24 | ModifierKeys25 | ModifierKeys26 | ModifierKeys27 | ModifierKeys28 | ModifierKeys29 | ModifierKeys30 | ModifierKeys31 | ModifierKeys32 | ModifierKeys33 | ModifierKeys34>;
 type ModifierKeys35 = 'placeholder' | 'selection' | 'firstLetter' | 'firstLine' | 'before' | 'after';
 type SkribbleModifierCssGroup35 = Omit<SkribbleCss, BreakpointKeys | MediaQueryKeys | ParentModifierKeys | ModifierKeys0 | ModifierKeys1 | ModifierKeys2 | ModifierKeys3 | ModifierKeys4 | ModifierKeys5 | ModifierKeys6 | ModifierKeys7 | ModifierKeys8 | ModifierKeys9 | ModifierKeys10 | ModifierKeys11 | ModifierKeys12 | ModifierKeys13 | ModifierKeys14 | ModifierKeys15 | ModifierKeys16 | ModifierKeys17 | ModifierKeys18 | ModifierKeys19 | ModifierKeys20 | ModifierKeys21 | ModifierKeys22 | ModifierKeys23 | ModifierKeys24 | ModifierKeys25 | ModifierKeys26 | ModifierKeys27 | ModifierKeys28 | ModifierKeys29 | ModifierKeys30 | ModifierKeys31 | ModifierKeys32 | ModifierKeys33 | ModifierKeys34 | ModifierKeys35>;
-
-interface FontAtomStyle {
-  /**
-   * ```css
-   * .font\:\:\$sans {
-   *   font-family: ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
-   * }
-   * ```
-   */
-  '$sans': ClassName;
-  /**
-   * ```css
-   * .font\:\:\$serif {
-   *   font-family: ui-serif,Georgia,Cambria,"Times New Roman",Times,serif;
-   * }
-   * ```
-   */
-  '$serif': ClassName;
-  /**
-   * ```css
-   * .font\:\:\$mono {
-   *   font-family: ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
-   * }
-   * ```
-   */
-  '$mono': ClassName;
-}
 
 interface TextAtomStyle {
   /**
@@ -6653,6 +6851,981 @@ interface BorderAtomStyle {
    * ```
    */
   '$media': ClassName;
+}
+
+interface FontAtomStyle {
+  /**
+   * ```css
+   * .font\:\:\$sans {
+   *   font-family: ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+   * }
+   * ```
+   */
+  '$sans': ClassName;
+  /**
+   * ```css
+   * .font\:\:\$serif {
+   *   font-family: ui-serif,Georgia,Cambria,"Times New Roman",Times,serif;
+   * }
+   * ```
+   */
+  '$serif': ClassName;
+  /**
+   * ```css
+   * .font\:\:\$mono {
+   *   font-family: ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+   * }
+   * ```
+   */
+  '$mono': ClassName;
+}
+
+interface BlurAtomStyle {
+  /**
+   * ```css
+   * .blur\:\:\$none {
+   *   --filter-blur: blur(0);
+   * }
+   * ```
+   */
+  '$none': ClassName;
+  /**
+   * ```css
+   * .blur\:\:\$sm {
+   *   --filter-blur: blur(4px);
+   * }
+   * ```
+   */
+  '$sm': ClassName;
+  /**
+   * ```css
+   * .blur\:\:\$ {
+   *   --filter-blur: blur(8px);
+   * }
+   * ```
+   */
+  '$': ClassName;
+  /**
+   * ```css
+   * .blur\:\:\$md {
+   *   --filter-blur: blur(12px);
+   * }
+   * ```
+   */
+  '$md': ClassName;
+  /**
+   * ```css
+   * .blur\:\:\$lg {
+   *   --filter-blur: blur(16px);
+   * }
+   * ```
+   */
+  '$lg': ClassName;
+  /**
+   * ```css
+   * .blur\:\:\$xl {
+   *   --filter-blur: blur(24px);
+   * }
+   * ```
+   */
+  '$xl': ClassName;
+  /**
+   * ```css
+   * .blur\:\:\$2xl {
+   *   --filter-blur: blur(40px);
+   * }
+   * ```
+   */
+  '$2xl': ClassName;
+  /**
+   * ```css
+   * .blur\:\:\$3xl {
+   *   --filter-blur: blur(64px);
+   * }
+   * ```
+   */
+  '$3xl': ClassName;
+}
+
+interface BackdropBlurAtomStyle {
+  /**
+   * ```css
+   * .backdropBlur\:\:\$none {
+   *   --backdrop-blur: blur(0);
+   * }
+   * ```
+   */
+  '$none': ClassName;
+  /**
+   * ```css
+   * .backdropBlur\:\:\$sm {
+   *   --backdrop-blur: blur(4px);
+   * }
+   * ```
+   */
+  '$sm': ClassName;
+  /**
+   * ```css
+   * .backdropBlur\:\:\$ {
+   *   --backdrop-blur: blur(8px);
+   * }
+   * ```
+   */
+  '$': ClassName;
+  /**
+   * ```css
+   * .backdropBlur\:\:\$md {
+   *   --backdrop-blur: blur(12px);
+   * }
+   * ```
+   */
+  '$md': ClassName;
+  /**
+   * ```css
+   * .backdropBlur\:\:\$lg {
+   *   --backdrop-blur: blur(16px);
+   * }
+   * ```
+   */
+  '$lg': ClassName;
+  /**
+   * ```css
+   * .backdropBlur\:\:\$xl {
+   *   --backdrop-blur: blur(24px);
+   * }
+   * ```
+   */
+  '$xl': ClassName;
+  /**
+   * ```css
+   * .backdropBlur\:\:\$2xl {
+   *   --backdrop-blur: blur(40px);
+   * }
+   * ```
+   */
+  '$2xl': ClassName;
+  /**
+   * ```css
+   * .backdropBlur\:\:\$3xl {
+   *   --backdrop-blur: blur(64px);
+   * }
+   * ```
+   */
+  '$3xl': ClassName;
+}
+
+interface BrightnessAtomStyle {
+  /**
+   * ```css
+   * .brightness\:\:\$0 {
+   *   --filter-brightness: brightness(0);
+   * }
+   * ```
+   */
+  '$0': ClassName;
+  /**
+   * ```css
+   * .brightness\:\:\$50 {
+   *   --filter-brightness: brightness(.5);
+   * }
+   * ```
+   */
+  '$50': ClassName;
+  /**
+   * ```css
+   * .brightness\:\:\$75 {
+   *   --filter-brightness: brightness(.75);
+   * }
+   * ```
+   */
+  '$75': ClassName;
+  /**
+   * ```css
+   * .brightness\:\:\$90 {
+   *   --filter-brightness: brightness(.9);
+   * }
+   * ```
+   */
+  '$90': ClassName;
+  /**
+   * ```css
+   * .brightness\:\:\$95 {
+   *   --filter-brightness: brightness(.95);
+   * }
+   * ```
+   */
+  '$95': ClassName;
+  /**
+   * ```css
+   * .brightness\:\:\$100 {
+   *   --filter-brightness: brightness(1);
+   * }
+   * ```
+   */
+  '$100': ClassName;
+  /**
+   * ```css
+   * .brightness\:\:\$105 {
+   *   --filter-brightness: brightness(1.05);
+   * }
+   * ```
+   */
+  '$105': ClassName;
+  /**
+   * ```css
+   * .brightness\:\:\$110 {
+   *   --filter-brightness: brightness(1.1);
+   * }
+   * ```
+   */
+  '$110': ClassName;
+  /**
+   * ```css
+   * .brightness\:\:\$125 {
+   *   --filter-brightness: brightness(1.25);
+   * }
+   * ```
+   */
+  '$125': ClassName;
+  /**
+   * ```css
+   * .brightness\:\:\$150 {
+   *   --filter-brightness: brightness(1.5);
+   * }
+   * ```
+   */
+  '$150': ClassName;
+  /**
+   * ```css
+   * .brightness\:\:\$200 {
+   *   --filter-brightness: brightness(2);
+   * }
+   * ```
+   */
+  '$200': ClassName;
+}
+
+interface BackdropBrightnessAtomStyle {
+  /**
+   * ```css
+   * .backdropBrightness\:\:\$0 {
+   *   --backdrop-brightness: brightness(0);
+   * }
+   * ```
+   */
+  '$0': ClassName;
+  /**
+   * ```css
+   * .backdropBrightness\:\:\$50 {
+   *   --backdrop-brightness: brightness(.5);
+   * }
+   * ```
+   */
+  '$50': ClassName;
+  /**
+   * ```css
+   * .backdropBrightness\:\:\$75 {
+   *   --backdrop-brightness: brightness(.75);
+   * }
+   * ```
+   */
+  '$75': ClassName;
+  /**
+   * ```css
+   * .backdropBrightness\:\:\$90 {
+   *   --backdrop-brightness: brightness(.9);
+   * }
+   * ```
+   */
+  '$90': ClassName;
+  /**
+   * ```css
+   * .backdropBrightness\:\:\$95 {
+   *   --backdrop-brightness: brightness(.95);
+   * }
+   * ```
+   */
+  '$95': ClassName;
+  /**
+   * ```css
+   * .backdropBrightness\:\:\$100 {
+   *   --backdrop-brightness: brightness(1);
+   * }
+   * ```
+   */
+  '$100': ClassName;
+  /**
+   * ```css
+   * .backdropBrightness\:\:\$105 {
+   *   --backdrop-brightness: brightness(1.05);
+   * }
+   * ```
+   */
+  '$105': ClassName;
+  /**
+   * ```css
+   * .backdropBrightness\:\:\$110 {
+   *   --backdrop-brightness: brightness(1.1);
+   * }
+   * ```
+   */
+  '$110': ClassName;
+  /**
+   * ```css
+   * .backdropBrightness\:\:\$125 {
+   *   --backdrop-brightness: brightness(1.25);
+   * }
+   * ```
+   */
+  '$125': ClassName;
+  /**
+   * ```css
+   * .backdropBrightness\:\:\$150 {
+   *   --backdrop-brightness: brightness(1.5);
+   * }
+   * ```
+   */
+  '$150': ClassName;
+  /**
+   * ```css
+   * .backdropBrightness\:\:\$200 {
+   *   --backdrop-brightness: brightness(2);
+   * }
+   * ```
+   */
+  '$200': ClassName;
+}
+
+interface ContrastAtomStyle {
+  /**
+   * ```css
+   * .contrast\:\:\$0 {
+   *   --filter-contrast: contrast(0);
+   * }
+   * ```
+   */
+  '$0': ClassName;
+  /**
+   * ```css
+   * .contrast\:\:\$50 {
+   *   --filter-contrast: contrast(.5);
+   * }
+   * ```
+   */
+  '$50': ClassName;
+  /**
+   * ```css
+   * .contrast\:\:\$75 {
+   *   --filter-contrast: contrast(.75);
+   * }
+   * ```
+   */
+  '$75': ClassName;
+  /**
+   * ```css
+   * .contrast\:\:\$100 {
+   *   --filter-contrast: contrast(1);
+   * }
+   * ```
+   */
+  '$100': ClassName;
+  /**
+   * ```css
+   * .contrast\:\:\$125 {
+   *   --filter-contrast: contrast(1.25);
+   * }
+   * ```
+   */
+  '$125': ClassName;
+  /**
+   * ```css
+   * .contrast\:\:\$150 {
+   *   --filter-contrast: contrast(1.5);
+   * }
+   * ```
+   */
+  '$150': ClassName;
+  /**
+   * ```css
+   * .contrast\:\:\$200 {
+   *   --filter-contrast: contrast(2);
+   * }
+   * ```
+   */
+  '$200': ClassName;
+}
+
+interface BackdropContrastAtomStyle {
+  /**
+   * ```css
+   * .backdropContrast\:\:\$0 {
+   *   --backdrop-contrast: contrast(0);
+   * }
+   * ```
+   */
+  '$0': ClassName;
+  /**
+   * ```css
+   * .backdropContrast\:\:\$50 {
+   *   --backdrop-contrast: contrast(.5);
+   * }
+   * ```
+   */
+  '$50': ClassName;
+  /**
+   * ```css
+   * .backdropContrast\:\:\$75 {
+   *   --backdrop-contrast: contrast(.75);
+   * }
+   * ```
+   */
+  '$75': ClassName;
+  /**
+   * ```css
+   * .backdropContrast\:\:\$100 {
+   *   --backdrop-contrast: contrast(1);
+   * }
+   * ```
+   */
+  '$100': ClassName;
+  /**
+   * ```css
+   * .backdropContrast\:\:\$125 {
+   *   --backdrop-contrast: contrast(1.25);
+   * }
+   * ```
+   */
+  '$125': ClassName;
+  /**
+   * ```css
+   * .backdropContrast\:\:\$150 {
+   *   --backdrop-contrast: contrast(1.5);
+   * }
+   * ```
+   */
+  '$150': ClassName;
+  /**
+   * ```css
+   * .backdropContrast\:\:\$200 {
+   *   --backdrop-contrast: contrast(2);
+   * }
+   * ```
+   */
+  '$200': ClassName;
+}
+
+interface DropShadowAtomStyle {
+  /**
+   * ```css
+   * .dropShadow\:\:\$ {
+   *   --filter-drop-shadow: drop-shadow(0 1px 2px rgb(0 0 0 / 0.1)) drop-shadow(0 1px 1px rgb(0 0 0 / 0.06));
+   * }
+   * ```
+   */
+  '$': ClassName;
+  /**
+   * ```css
+   * .dropShadow\:\:\$sm {
+   *   --filter-drop-shadow: drop-shadow(0 1px 1px rgb(0 0 0 / 0.05));
+   * }
+   * ```
+   */
+  '$sm': ClassName;
+  /**
+   * ```css
+   * .dropShadow\:\:\$md {
+   *   --filter-drop-shadow: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
+   * }
+   * ```
+   */
+  '$md': ClassName;
+  /**
+   * ```css
+   * .dropShadow\:\:\$lg {
+   *   --filter-drop-shadow: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
+   * }
+   * ```
+   */
+  '$lg': ClassName;
+  /**
+   * ```css
+   * .dropShadow\:\:\$xl {
+   *   --filter-drop-shadow: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
+   * }
+   * ```
+   */
+  '$xl': ClassName;
+  /**
+   * ```css
+   * .dropShadow\:\:\$2xl {
+   *   --filter-drop-shadow: drop-shadow(0 25px 25px rgb(0 0 0 / 0.15));
+   * }
+   * ```
+   */
+  '$2xl': ClassName;
+  /**
+   * ```css
+   * .dropShadow\:\:\$none {
+   *   --filter-drop-shadow: drop-shadow(0 0 #0000);
+   * }
+   * ```
+   */
+  '$none': ClassName;
+}
+
+interface BackdropDropShadowAtomStyle {
+  /**
+   * ```css
+   * .backdropDropShadow\:\:\$ {
+   *   --backdrop-drop-shadow: drop-shadow(0 1px 2px rgb(0 0 0 / 0.1)) drop-shadow(0 1px 1px rgb(0 0 0 / 0.06));
+   * }
+   * ```
+   */
+  '$': ClassName;
+  /**
+   * ```css
+   * .backdropDropShadow\:\:\$sm {
+   *   --backdrop-drop-shadow: drop-shadow(0 1px 1px rgb(0 0 0 / 0.05));
+   * }
+   * ```
+   */
+  '$sm': ClassName;
+  /**
+   * ```css
+   * .backdropDropShadow\:\:\$md {
+   *   --backdrop-drop-shadow: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
+   * }
+   * ```
+   */
+  '$md': ClassName;
+  /**
+   * ```css
+   * .backdropDropShadow\:\:\$lg {
+   *   --backdrop-drop-shadow: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
+   * }
+   * ```
+   */
+  '$lg': ClassName;
+  /**
+   * ```css
+   * .backdropDropShadow\:\:\$xl {
+   *   --backdrop-drop-shadow: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
+   * }
+   * ```
+   */
+  '$xl': ClassName;
+  /**
+   * ```css
+   * .backdropDropShadow\:\:\$2xl {
+   *   --backdrop-drop-shadow: drop-shadow(0 25px 25px rgb(0 0 0 / 0.15));
+   * }
+   * ```
+   */
+  '$2xl': ClassName;
+  /**
+   * ```css
+   * .backdropDropShadow\:\:\$none {
+   *   --backdrop-drop-shadow: drop-shadow(0 0 #0000);
+   * }
+   * ```
+   */
+  '$none': ClassName;
+}
+
+interface GrayScaleAtomStyle {
+  /**
+   * ```css
+   * .grayScale\:\:\$0 {}
+   * ```
+   */
+  '$0': ClassName;
+  /**
+   * ```css
+   * .grayScale\:\:\$25 {}
+   * ```
+   */
+  '$25': ClassName;
+  /**
+   * ```css
+   * .grayScale\:\:\$50 {}
+   * ```
+   */
+  '$50': ClassName;
+  /**
+   * ```css
+   * .grayScale\:\:\$75 {}
+   * ```
+   */
+  '$75': ClassName;
+  /**
+   * ```css
+   * .grayScale\:\:\$100 {}
+   * ```
+   */
+  '$100': ClassName;
+  /**
+   * ```css
+   * .grayScale\:\:\$ {}
+   * ```
+   */
+  '$': ClassName;
+}
+
+interface BackdropGrayScaleAtomStyle {
+  /**
+   * ```css
+   * .backdropGrayScale\:\:\$0 {}
+   * ```
+   */
+  '$0': ClassName;
+  /**
+   * ```css
+   * .backdropGrayScale\:\:\$25 {}
+   * ```
+   */
+  '$25': ClassName;
+  /**
+   * ```css
+   * .backdropGrayScale\:\:\$50 {}
+   * ```
+   */
+  '$50': ClassName;
+  /**
+   * ```css
+   * .backdropGrayScale\:\:\$75 {}
+   * ```
+   */
+  '$75': ClassName;
+  /**
+   * ```css
+   * .backdropGrayScale\:\:\$100 {}
+   * ```
+   */
+  '$100': ClassName;
+  /**
+   * ```css
+   * .backdropGrayScale\:\:\$ {}
+   * ```
+   */
+  '$': ClassName;
+}
+
+interface HueRotateAtomStyle {
+  /**
+   * ```css
+   * .hueRotate\:\:\$0 {
+   *   --filter-hue-rotate: hue-rotate(0deg);
+   * }
+   * ```
+   */
+  '$0': ClassName;
+  /**
+   * ```css
+   * .hueRotate\:\:\$15 {
+   *   --filter-hue-rotate: hue-rotate(15deg);
+   * }
+   * ```
+   */
+  '$15': ClassName;
+  /**
+   * ```css
+   * .hueRotate\:\:\$30 {
+   *   --filter-hue-rotate: hue-rotate(30deg);
+   * }
+   * ```
+   */
+  '$30': ClassName;
+  /**
+   * ```css
+   * .hueRotate\:\:\$60 {
+   *   --filter-hue-rotate: hue-rotate(60deg);
+   * }
+   * ```
+   */
+  '$60': ClassName;
+  /**
+   * ```css
+   * .hueRotate\:\:\$90 {
+   *   --filter-hue-rotate: hue-rotate(90deg);
+   * }
+   * ```
+   */
+  '$90': ClassName;
+  /**
+   * ```css
+   * .hueRotate\:\:\$180 {
+   *   --filter-hue-rotate: hue-rotate(180deg);
+   * }
+   * ```
+   */
+  '$180': ClassName;
+}
+
+interface BackdropHueRotateAtomStyle {
+  /**
+   * ```css
+   * .backdropHueRotate\:\:\$0 {
+   *   --backdrop-hue-rotate: hue-rotate(0deg);
+   * }
+   * ```
+   */
+  '$0': ClassName;
+  /**
+   * ```css
+   * .backdropHueRotate\:\:\$15 {
+   *   --backdrop-hue-rotate: hue-rotate(15deg);
+   * }
+   * ```
+   */
+  '$15': ClassName;
+  /**
+   * ```css
+   * .backdropHueRotate\:\:\$30 {
+   *   --backdrop-hue-rotate: hue-rotate(30deg);
+   * }
+   * ```
+   */
+  '$30': ClassName;
+  /**
+   * ```css
+   * .backdropHueRotate\:\:\$60 {
+   *   --backdrop-hue-rotate: hue-rotate(60deg);
+   * }
+   * ```
+   */
+  '$60': ClassName;
+  /**
+   * ```css
+   * .backdropHueRotate\:\:\$90 {
+   *   --backdrop-hue-rotate: hue-rotate(90deg);
+   * }
+   * ```
+   */
+  '$90': ClassName;
+  /**
+   * ```css
+   * .backdropHueRotate\:\:\$180 {
+   *   --backdrop-hue-rotate: hue-rotate(180deg);
+   * }
+   * ```
+   */
+  '$180': ClassName;
+}
+
+interface InvertAtomStyle {
+  /**
+   * ```css
+   * .invert\:\:\$0 {
+   *   --filter-invert: invert(0);
+   * }
+   * ```
+   */
+  '$0': ClassName;
+  /**
+   * ```css
+   * .invert\:\:\$100 {
+   *   --filter-invert: invert(100%);
+   * }
+   * ```
+   */
+  '$100': ClassName;
+  /**
+   * ```css
+   * .invert\:\:\$ {
+   *   --filter-invert: invert(100%);
+   * }
+   * ```
+   */
+  '$': ClassName;
+}
+
+interface BackdropInvertAtomStyle {
+  /**
+   * ```css
+   * .backdropInvert\:\:\$0 {
+   *   --backdrop-invert: invert(0);
+   * }
+   * ```
+   */
+  '$0': ClassName;
+  /**
+   * ```css
+   * .backdropInvert\:\:\$100 {
+   *   --backdrop-invert: invert(100%);
+   * }
+   * ```
+   */
+  '$100': ClassName;
+  /**
+   * ```css
+   * .backdropInvert\:\:\$ {
+   *   --backdrop-invert: invert(100%);
+   * }
+   * ```
+   */
+  '$': ClassName;
+}
+
+interface SaturateAtomStyle {
+  /**
+   * ```css
+   * .saturate\:\:\$0 {
+   *   --filter-saturate: saturate(0);
+   * }
+   * ```
+   */
+  '$0': ClassName;
+  /**
+   * ```css
+   * .saturate\:\:\$50 {
+   *   --filter-saturate: saturate(.5);
+   * }
+   * ```
+   */
+  '$50': ClassName;
+  /**
+   * ```css
+   * .saturate\:\:\$100 {
+   *   --filter-saturate: saturate(1);
+   * }
+   * ```
+   */
+  '$100': ClassName;
+  /**
+   * ```css
+   * .saturate\:\:\$150 {
+   *   --filter-saturate: saturate(1.5);
+   * }
+   * ```
+   */
+  '$150': ClassName;
+  /**
+   * ```css
+   * .saturate\:\:\$200 {
+   *   --filter-saturate: saturate(2);
+   * }
+   * ```
+   */
+  '$200': ClassName;
+}
+
+interface BackdropSaturateAtomStyle {
+  /**
+   * ```css
+   * .backdropSaturate\:\:\$0 {
+   *   --backdrop-saturate: saturate(0);
+   * }
+   * ```
+   */
+  '$0': ClassName;
+  /**
+   * ```css
+   * .backdropSaturate\:\:\$50 {
+   *   --backdrop-saturate: saturate(.5);
+   * }
+   * ```
+   */
+  '$50': ClassName;
+  /**
+   * ```css
+   * .backdropSaturate\:\:\$100 {
+   *   --backdrop-saturate: saturate(1);
+   * }
+   * ```
+   */
+  '$100': ClassName;
+  /**
+   * ```css
+   * .backdropSaturate\:\:\$150 {
+   *   --backdrop-saturate: saturate(1.5);
+   * }
+   * ```
+   */
+  '$150': ClassName;
+  /**
+   * ```css
+   * .backdropSaturate\:\:\$200 {
+   *   --backdrop-saturate: saturate(2);
+   * }
+   * ```
+   */
+  '$200': ClassName;
+}
+
+interface SepiaAtomStyle {
+  /**
+   * ```css
+   * .sepia\:\:\$0 {
+   *   --filter-sepia: sepia(0);
+   * }
+   * ```
+   */
+  '$0': ClassName;
+  /**
+   * ```css
+   * .sepia\:\:\$100 {
+   *   --filter-sepia: sepia(100%);
+   * }
+   * ```
+   */
+  '$100': ClassName;
+  /**
+   * ```css
+   * .sepia\:\:\$ {
+   *   --filter-sepia: sepia(100%);
+   * }
+   * ```
+   */
+  '$': ClassName;
+}
+
+interface BackdropSepiaAtomStyle {
+  /**
+   * ```css
+   * .backdropSepia\:\:\$0 {
+   *   --backdrop-sepia: sepia(0);
+   * }
+   * ```
+   */
+  '$0': ClassName;
+  /**
+   * ```css
+   * .backdropSepia\:\:\$100 {
+   *   --backdrop-sepia: sepia(100%);
+   * }
+   * ```
+   */
+  '$100': ClassName;
+  /**
+   * ```css
+   * .backdropSepia\:\:\$ {
+   *   --backdrop-sepia: sepia(100%);
+   * }
+   * ```
+   */
+  '$': ClassName;
+}
+
+interface FilterAtomStyle {
+  /**
+   * ```css
+   * .filter\:\:\$rough {
+   *   --filter-custom: var(--custom-filter-roughen);
+   * }
+   * ```
+   */
+  '$rough': ClassName;
+}
+
+interface BackdropAtomStyle {
+  /**
+   * ```css
+   * .backdrop\:\:\$rough {
+   *   --backdrop-custom: var(--custom-filter-roughen);
+   * }
+   * ```
+   */
+  '$rough': ClassName;
 }
 
 interface PAtomStyle {
@@ -13088,54 +14261,1212 @@ interface WritingModeAtomStyle {
   '$unset': ClassName;
 }
 
+interface ScaleAtomStyle {
+  /**
+   * ```css
+   * .scale\:\:\$0 {
+   *   --transform-scale-x: 0;
+   *   --transform-scale-y: 0;
+   * }
+   * ```
+   */
+  '$0': ClassName;
+  /**
+   * ```css
+   * .scale\:\:\$50 {
+   *   --transform-scale-x: .5;
+   *   --transform-scale-y: .5;
+   * }
+   * ```
+   */
+  '$50': ClassName;
+  /**
+   * ```css
+   * .scale\:\:\$75 {
+   *   --transform-scale-x: .75;
+   *   --transform-scale-y: .75;
+   * }
+   * ```
+   */
+  '$75': ClassName;
+  /**
+   * ```css
+   * .scale\:\:\$90 {
+   *   --transform-scale-x: .9;
+   *   --transform-scale-y: .9;
+   * }
+   * ```
+   */
+  '$90': ClassName;
+  /**
+   * ```css
+   * .scale\:\:\$95 {
+   *   --transform-scale-x: .95;
+   *   --transform-scale-y: .95;
+   * }
+   * ```
+   */
+  '$95': ClassName;
+  /**
+   * ```css
+   * .scale\:\:\$100 {
+   *   --transform-scale-x: 1;
+   *   --transform-scale-y: 1;
+   * }
+   * ```
+   */
+  '$100': ClassName;
+  /**
+   * ```css
+   * .scale\:\:\$105 {
+   *   --transform-scale-x: 1.05;
+   *   --transform-scale-y: 1.05;
+   * }
+   * ```
+   */
+  '$105': ClassName;
+  /**
+   * ```css
+   * .scale\:\:\$110 {
+   *   --transform-scale-x: 1.1;
+   *   --transform-scale-y: 1.1;
+   * }
+   * ```
+   */
+  '$110': ClassName;
+  /**
+   * ```css
+   * .scale\:\:\$125 {
+   *   --transform-scale-x: 1.25;
+   *   --transform-scale-y: 1.25;
+   * }
+   * ```
+   */
+  '$125': ClassName;
+  /**
+   * ```css
+   * .scale\:\:\$150 {
+   *   --transform-scale-x: 1.5;
+   *   --transform-scale-y: 1.5;
+   * }
+   * ```
+   */
+  '$150': ClassName;
+}
+
+interface ScaleXAtomStyle {
+  /**
+   * ```css
+   * .scaleX\:\:\$0 {
+   *   --transform-scale-x: 0;
+   * }
+   * ```
+   */
+  '$0': ClassName;
+  /**
+   * ```css
+   * .scaleX\:\:\$50 {
+   *   --transform-scale-x: .5;
+   * }
+   * ```
+   */
+  '$50': ClassName;
+  /**
+   * ```css
+   * .scaleX\:\:\$75 {
+   *   --transform-scale-x: .75;
+   * }
+   * ```
+   */
+  '$75': ClassName;
+  /**
+   * ```css
+   * .scaleX\:\:\$90 {
+   *   --transform-scale-x: .9;
+   * }
+   * ```
+   */
+  '$90': ClassName;
+  /**
+   * ```css
+   * .scaleX\:\:\$95 {
+   *   --transform-scale-x: .95;
+   * }
+   * ```
+   */
+  '$95': ClassName;
+  /**
+   * ```css
+   * .scaleX\:\:\$100 {
+   *   --transform-scale-x: 1;
+   * }
+   * ```
+   */
+  '$100': ClassName;
+  /**
+   * ```css
+   * .scaleX\:\:\$105 {
+   *   --transform-scale-x: 1.05;
+   * }
+   * ```
+   */
+  '$105': ClassName;
+  /**
+   * ```css
+   * .scaleX\:\:\$110 {
+   *   --transform-scale-x: 1.1;
+   * }
+   * ```
+   */
+  '$110': ClassName;
+  /**
+   * ```css
+   * .scaleX\:\:\$125 {
+   *   --transform-scale-x: 1.25;
+   * }
+   * ```
+   */
+  '$125': ClassName;
+  /**
+   * ```css
+   * .scaleX\:\:\$150 {
+   *   --transform-scale-x: 1.5;
+   * }
+   * ```
+   */
+  '$150': ClassName;
+}
+
+interface ScaleYAtomStyle {
+  /**
+   * ```css
+   * .scaleY\:\:\$0 {
+   *   --transform-scale-y: 0;
+   * }
+   * ```
+   */
+  '$0': ClassName;
+  /**
+   * ```css
+   * .scaleY\:\:\$50 {
+   *   --transform-scale-y: .5;
+   * }
+   * ```
+   */
+  '$50': ClassName;
+  /**
+   * ```css
+   * .scaleY\:\:\$75 {
+   *   --transform-scale-y: .75;
+   * }
+   * ```
+   */
+  '$75': ClassName;
+  /**
+   * ```css
+   * .scaleY\:\:\$90 {
+   *   --transform-scale-y: .9;
+   * }
+   * ```
+   */
+  '$90': ClassName;
+  /**
+   * ```css
+   * .scaleY\:\:\$95 {
+   *   --transform-scale-y: .95;
+   * }
+   * ```
+   */
+  '$95': ClassName;
+  /**
+   * ```css
+   * .scaleY\:\:\$100 {
+   *   --transform-scale-y: 1;
+   * }
+   * ```
+   */
+  '$100': ClassName;
+  /**
+   * ```css
+   * .scaleY\:\:\$105 {
+   *   --transform-scale-y: 1.05;
+   * }
+   * ```
+   */
+  '$105': ClassName;
+  /**
+   * ```css
+   * .scaleY\:\:\$110 {
+   *   --transform-scale-y: 1.1;
+   * }
+   * ```
+   */
+  '$110': ClassName;
+  /**
+   * ```css
+   * .scaleY\:\:\$125 {
+   *   --transform-scale-y: 1.25;
+   * }
+   * ```
+   */
+  '$125': ClassName;
+  /**
+   * ```css
+   * .scaleY\:\:\$150 {
+   *   --transform-scale-y: 1.5;
+   * }
+   * ```
+   */
+  '$150': ClassName;
+}
+
+interface RotateAtomStyle {
+  /**
+   * ```css
+   * .rotate\:\:\$0 {
+   *   --transform-rotate: 0deg;
+   * }
+   * ```
+   */
+  '$0': ClassName;
+  /**
+   * ```css
+   * .rotate\:\:\$1 {
+   *   --transform-rotate: 1deg;
+   * }
+   * ```
+   */
+  '$1': ClassName;
+  /**
+   * ```css
+   * .rotate\:\:\$2 {
+   *   --transform-rotate: 2deg;
+   * }
+   * ```
+   */
+  '$2': ClassName;
+  /**
+   * ```css
+   * .rotate\:\:\$3 {
+   *   --transform-rotate: 3deg;
+   * }
+   * ```
+   */
+  '$3': ClassName;
+  /**
+   * ```css
+   * .rotate\:\:\$6 {
+   *   --transform-rotate: 6deg;
+   * }
+   * ```
+   */
+  '$6': ClassName;
+  /**
+   * ```css
+   * .rotate\:\:\$12 {
+   *   --transform-rotate: 12deg;
+   * }
+   * ```
+   */
+  '$12': ClassName;
+  /**
+   * ```css
+   * .rotate\:\:\$45 {
+   *   --transform-rotate: 45deg;
+   * }
+   * ```
+   */
+  '$45': ClassName;
+  /**
+   * ```css
+   * .rotate\:\:\$90 {
+   *   --transform-rotate: 90deg;
+   * }
+   * ```
+   */
+  '$90': ClassName;
+  /**
+   * ```css
+   * .rotate\:\:\$180 {
+   *   --transform-rotate: 180deg;
+   * }
+   * ```
+   */
+  '$180': ClassName;
+  /**
+   * ```css
+   * .rotate\:\:\$270 {
+   *   --transform-rotate: 270deg;
+   * }
+   * ```
+   */
+  '$270': ClassName;
+  /**
+   * ```css
+   * .rotate\:\:\$315 {
+   *   --transform-rotate: 315deg;
+   * }
+   * ```
+   */
+  '$315': ClassName;
+}
+
+interface SkewXAtomStyle {
+  /**
+   * ```css
+   * .skewX\:\:\$0 {
+   *   --transform-skew-x: 0deg;
+   * }
+   * ```
+   */
+  '$0': ClassName;
+  /**
+   * ```css
+   * .skewX\:\:\$1 {
+   *   --transform-skew-x: 1deg;
+   * }
+   * ```
+   */
+  '$1': ClassName;
+  /**
+   * ```css
+   * .skewX\:\:\$2 {
+   *   --transform-skew-x: 2deg;
+   * }
+   * ```
+   */
+  '$2': ClassName;
+  /**
+   * ```css
+   * .skewX\:\:\$3 {
+   *   --transform-skew-x: 3deg;
+   * }
+   * ```
+   */
+  '$3': ClassName;
+  /**
+   * ```css
+   * .skewX\:\:\$6 {
+   *   --transform-skew-x: 6deg;
+   * }
+   * ```
+   */
+  '$6': ClassName;
+  /**
+   * ```css
+   * .skewX\:\:\$12 {
+   *   --transform-skew-x: 12deg;
+   * }
+   * ```
+   */
+  '$12': ClassName;
+}
+
+interface SkewYAtomStyle {
+  /**
+   * ```css
+   * .skewY\:\:\$0 {
+   *   --transform-skew-y: 0deg;
+   * }
+   * ```
+   */
+  '$0': ClassName;
+  /**
+   * ```css
+   * .skewY\:\:\$1 {
+   *   --transform-skew-y: 1deg;
+   * }
+   * ```
+   */
+  '$1': ClassName;
+  /**
+   * ```css
+   * .skewY\:\:\$2 {
+   *   --transform-skew-y: 2deg;
+   * }
+   * ```
+   */
+  '$2': ClassName;
+  /**
+   * ```css
+   * .skewY\:\:\$3 {
+   *   --transform-skew-y: 3deg;
+   * }
+   * ```
+   */
+  '$3': ClassName;
+  /**
+   * ```css
+   * .skewY\:\:\$6 {
+   *   --transform-skew-y: 6deg;
+   * }
+   * ```
+   */
+  '$6': ClassName;
+  /**
+   * ```css
+   * .skewY\:\:\$12 {
+   *   --transform-skew-y: 12deg;
+   * }
+   * ```
+   */
+  '$12': ClassName;
+}
+
+interface OriginAtomStyle {
+  /**
+   * ```css
+   * .origin\:\:\$center {
+   *   transform-origin: center;
+   * }
+   * ```
+   */
+  '$center': ClassName;
+  /**
+   * ```css
+   * .origin\:\:\$top {
+   *   transform-origin: top;
+   * }
+   * ```
+   */
+  '$top': ClassName;
+  /**
+   * ```css
+   * .origin\:\:\$topRight {
+   *   transform-origin: top right;
+   * }
+   * ```
+   */
+  '$topRight': ClassName;
+  /**
+   * ```css
+   * .origin\:\:\$right {
+   *   transform-origin: right;
+   * }
+   * ```
+   */
+  '$right': ClassName;
+  /**
+   * ```css
+   * .origin\:\:\$bottomRight {
+   *   transform-origin: bottom right;
+   * }
+   * ```
+   */
+  '$bottomRight': ClassName;
+  /**
+   * ```css
+   * .origin\:\:\$bottom {
+   *   transform-origin: bottom;
+   * }
+   * ```
+   */
+  '$bottom': ClassName;
+  /**
+   * ```css
+   * .origin\:\:\$bottomLeft {
+   *   transform-origin: bottom left;
+   * }
+   * ```
+   */
+  '$bottomLeft': ClassName;
+  /**
+   * ```css
+   * .origin\:\:\$left {
+   *   transform-origin: left;
+   * }
+   * ```
+   */
+  '$left': ClassName;
+  /**
+   * ```css
+   * .origin\:\:\$topLeft {
+   *   transform-origin: top left;
+   * }
+   * ```
+   */
+  '$topLeft': ClassName;
+}
+
+interface TranslateXAtomStyle {
+  /**
+   * ```css
+   * .translateX\:\:\$0 {
+   *   --transform-translate-x: 0px;
+   * }
+   * ```
+   */
+  '$0': ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$1 {
+   *   --transform-translate-x: 0.25rem;
+   * }
+   * ```
+   */
+  '$1': ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$2 {
+   *   --transform-translate-x: 0.5rem;
+   * }
+   * ```
+   */
+  '$2': ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$3 {
+   *   --transform-translate-x: 0.75rem;
+   * }
+   * ```
+   */
+  '$3': ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$4 {
+   *   --transform-translate-x: 1rem;
+   * }
+   * ```
+   */
+  '$4': ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$5 {
+   *   --transform-translate-x: 1.25rem;
+   * }
+   * ```
+   */
+  '$5': ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$6 {
+   *   --transform-translate-x: 1.5rem;
+   * }
+   * ```
+   */
+  '$6': ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$7 {
+   *   --transform-translate-x: 1.75rem;
+   * }
+   * ```
+   */
+  '$7': ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$8 {
+   *   --transform-translate-x: 2rem;
+   * }
+   * ```
+   */
+  '$8': ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$9 {
+   *   --transform-translate-x: 2.25rem;
+   * }
+   * ```
+   */
+  '$9': ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$10 {
+   *   --transform-translate-x: 2.5rem;
+   * }
+   * ```
+   */
+  '$10': ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$11 {
+   *   --transform-translate-x: 2.75rem;
+   * }
+   * ```
+   */
+  '$11': ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$12 {
+   *   --transform-translate-x: 3rem;
+   * }
+   * ```
+   */
+  '$12': ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$14 {
+   *   --transform-translate-x: 3.5rem;
+   * }
+   * ```
+   */
+  '$14': ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$16 {
+   *   --transform-translate-x: 4rem;
+   * }
+   * ```
+   */
+  '$16': ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$20 {
+   *   --transform-translate-x: 5rem;
+   * }
+   * ```
+   */
+  '$20': ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$24 {
+   *   --transform-translate-x: 6rem;
+   * }
+   * ```
+   */
+  '$24': ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$28 {
+   *   --transform-translate-x: 7rem;
+   * }
+   * ```
+   */
+  '$28': ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$32 {
+   *   --transform-translate-x: 8rem;
+   * }
+   * ```
+   */
+  '$32': ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$36 {
+   *   --transform-translate-x: 9rem;
+   * }
+   * ```
+   */
+  '$36': ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$40 {
+   *   --transform-translate-x: 10rem;
+   * }
+   * ```
+   */
+  '$40': ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$44 {
+   *   --transform-translate-x: 11rem;
+   * }
+   * ```
+   */
+  '$44': ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$48 {
+   *   --transform-translate-x: 12rem;
+   * }
+   * ```
+   */
+  '$48': ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$52 {
+   *   --transform-translate-x: 13rem;
+   * }
+   * ```
+   */
+  '$52': ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$56 {
+   *   --transform-translate-x: 14rem;
+   * }
+   * ```
+   */
+  '$56': ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$60 {
+   *   --transform-translate-x: 15rem;
+   * }
+   * ```
+   */
+  '$60': ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$64 {
+   *   --transform-translate-x: 16rem;
+   * }
+   * ```
+   */
+  '$64': ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$72 {
+   *   --transform-translate-x: 18rem;
+   * }
+   * ```
+   */
+  '$72': ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$80 {
+   *   --transform-translate-x: 20rem;
+   * }
+   * ```
+   */
+  '$80': ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$96 {
+   *   --transform-translate-x: 24rem;
+   * }
+   * ```
+   */
+  '$96': ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$px {
+   *   --transform-translate-x: 1px;
+   * }
+   * ```
+   */
+  '$px': ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$0_5 {
+   *   --transform-translate-x: 0.125rem;
+   * }
+   * ```
+   */
+  '$0_5': ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$1_5 {
+   *   --transform-translate-x: 0.375rem;
+   * }
+   * ```
+   */
+  '$1_5': ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$2_5 {
+   *   --transform-translate-x: 0.625rem;
+   * }
+   * ```
+   */
+  '$2_5': ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$3_5 {
+   *   --transform-translate-x: 0.875rem;
+   * }
+   * ```
+   */
+  '$3_5': ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$1of2 {
+   *   --transform-translate-x: 50%;
+   * }
+   * ```
+   */
+  '$1of2': ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$1of3 {
+   *   --transform-translate-x: 33.333333%;
+   * }
+   * ```
+   */
+  '$1of3': ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$2of3 {
+   *   --transform-translate-x: 66.666667%;
+   * }
+   * ```
+   */
+  '$2of3': ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$1of4 {
+   *   --transform-translate-x: 25%;
+   * }
+   * ```
+   */
+  '$1of4': ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$2of4 {
+   *   --transform-translate-x: 50%;
+   * }
+   * ```
+   */
+  '$2of4': ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$3of4 {
+   *   --transform-translate-x: 75%;
+   * }
+   * ```
+   */
+  '$3of4': ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$full {
+   *   --transform-translate-x: 100%;
+   * }
+   * ```
+   */
+  '$full': ClassName;
+}
+
+interface TranslateYAtomStyle {
+  /**
+   * ```css
+   * .translateY\:\:\$0 {
+   *   --transform-translate-y: 0px;
+   * }
+   * ```
+   */
+  '$0': ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$1 {
+   *   --transform-translate-y: 0.25rem;
+   * }
+   * ```
+   */
+  '$1': ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$2 {
+   *   --transform-translate-y: 0.5rem;
+   * }
+   * ```
+   */
+  '$2': ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$3 {
+   *   --transform-translate-y: 0.75rem;
+   * }
+   * ```
+   */
+  '$3': ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$4 {
+   *   --transform-translate-y: 1rem;
+   * }
+   * ```
+   */
+  '$4': ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$5 {
+   *   --transform-translate-y: 1.25rem;
+   * }
+   * ```
+   */
+  '$5': ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$6 {
+   *   --transform-translate-y: 1.5rem;
+   * }
+   * ```
+   */
+  '$6': ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$7 {
+   *   --transform-translate-y: 1.75rem;
+   * }
+   * ```
+   */
+  '$7': ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$8 {
+   *   --transform-translate-y: 2rem;
+   * }
+   * ```
+   */
+  '$8': ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$9 {
+   *   --transform-translate-y: 2.25rem;
+   * }
+   * ```
+   */
+  '$9': ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$10 {
+   *   --transform-translate-y: 2.5rem;
+   * }
+   * ```
+   */
+  '$10': ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$11 {
+   *   --transform-translate-y: 2.75rem;
+   * }
+   * ```
+   */
+  '$11': ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$12 {
+   *   --transform-translate-y: 3rem;
+   * }
+   * ```
+   */
+  '$12': ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$14 {
+   *   --transform-translate-y: 3.5rem;
+   * }
+   * ```
+   */
+  '$14': ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$16 {
+   *   --transform-translate-y: 4rem;
+   * }
+   * ```
+   */
+  '$16': ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$20 {
+   *   --transform-translate-y: 5rem;
+   * }
+   * ```
+   */
+  '$20': ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$24 {
+   *   --transform-translate-y: 6rem;
+   * }
+   * ```
+   */
+  '$24': ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$28 {
+   *   --transform-translate-y: 7rem;
+   * }
+   * ```
+   */
+  '$28': ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$32 {
+   *   --transform-translate-y: 8rem;
+   * }
+   * ```
+   */
+  '$32': ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$36 {
+   *   --transform-translate-y: 9rem;
+   * }
+   * ```
+   */
+  '$36': ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$40 {
+   *   --transform-translate-y: 10rem;
+   * }
+   * ```
+   */
+  '$40': ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$44 {
+   *   --transform-translate-y: 11rem;
+   * }
+   * ```
+   */
+  '$44': ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$48 {
+   *   --transform-translate-y: 12rem;
+   * }
+   * ```
+   */
+  '$48': ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$52 {
+   *   --transform-translate-y: 13rem;
+   * }
+   * ```
+   */
+  '$52': ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$56 {
+   *   --transform-translate-y: 14rem;
+   * }
+   * ```
+   */
+  '$56': ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$60 {
+   *   --transform-translate-y: 15rem;
+   * }
+   * ```
+   */
+  '$60': ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$64 {
+   *   --transform-translate-y: 16rem;
+   * }
+   * ```
+   */
+  '$64': ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$72 {
+   *   --transform-translate-y: 18rem;
+   * }
+   * ```
+   */
+  '$72': ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$80 {
+   *   --transform-translate-y: 20rem;
+   * }
+   * ```
+   */
+  '$80': ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$96 {
+   *   --transform-translate-y: 24rem;
+   * }
+   * ```
+   */
+  '$96': ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$px {
+   *   --transform-translate-y: 1px;
+   * }
+   * ```
+   */
+  '$px': ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$0_5 {
+   *   --transform-translate-y: 0.125rem;
+   * }
+   * ```
+   */
+  '$0_5': ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$1_5 {
+   *   --transform-translate-y: 0.375rem;
+   * }
+   * ```
+   */
+  '$1_5': ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$2_5 {
+   *   --transform-translate-y: 0.625rem;
+   * }
+   * ```
+   */
+  '$2_5': ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$3_5 {
+   *   --transform-translate-y: 0.875rem;
+   * }
+   * ```
+   */
+  '$3_5': ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$1of2 {
+   *   --transform-translate-y: 50%;
+   * }
+   * ```
+   */
+  '$1of2': ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$1of3 {
+   *   --transform-translate-y: 33.333333%;
+   * }
+   * ```
+   */
+  '$1of3': ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$2of3 {
+   *   --transform-translate-y: 66.666667%;
+   * }
+   * ```
+   */
+  '$2of3': ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$1of4 {
+   *   --transform-translate-y: 25%;
+   * }
+   * ```
+   */
+  '$1of4': ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$2of4 {
+   *   --transform-translate-y: 50%;
+   * }
+   * ```
+   */
+  '$2of4': ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$3of4 {
+   *   --transform-translate-y: 75%;
+   * }
+   * ```
+   */
+  '$3of4': ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$full {
+   *   --transform-translate-y: 100%;
+   * }
+   * ```
+   */
+  '$full': ClassName;
+}
+
 interface AnimationAtomStyle {
-  /**
-   * ```css
-   * .animation\:\:\$none {
-   *   animation: none;
-   * }
-   * ```
-   */
-  '$none': ClassName;
-  /**
-   * ```css
-   * .animation\:\:\$vrl {
-   *   animation: vertical-rl;
-   * }
-   * ```
-   */
-  '$vrl': ClassName;
-  /**
-   * ```css
-   * .animation\:\:\$vlr {
-   *   animation: vertical-lr;
-   * }
-   * ```
-   */
-  '$vlr': ClassName;
-  /**
-   * ```css
-   * .animation\:\:\$srl {
-   *   animation: sideways-rl;
-   * }
-   * ```
-   */
-  '$srl': ClassName;
-  /**
-   * ```css
-   * .animation\:\:\$slr {
-   *   animation: sideways-lr;
-   * }
-   * ```
-   */
-  '$slr': ClassName;
-  /**
-   * ```css
-   * .animation\:\:\$unset {
-   *   animation: unset;
-   * }
-   * ```
-   */
-  '$unset': ClassName;
+
 }
 

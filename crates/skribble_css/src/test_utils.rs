@@ -37,8 +37,13 @@ pub(crate) fn collect_classes<'config>(
     .parse_typescript_module()
     .expect("Failed to parse module.");
 
-  let mut collector: ClassNameCollector<'config> =
-    ClassNameCollector::new(&[ValidImport::new("skribble-css", "c")], config);
+  let mut collector: ClassNameCollector<'config> = ClassNameCollector::new(
+    &[
+      ValidImport::new("skribble-css/client", "c"),
+      ValidImport::new("@skribble-css/client", "c"),
+    ],
+    config,
+  );
   module.visit_with(&mut collector);
 
   collector

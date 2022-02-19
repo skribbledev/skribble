@@ -142,7 +142,7 @@ pub struct ClassName<'config> {
   /// style atom attached.
   ///
   /// ```ts
-  /// import { c } from 'skribble-css'
+  /// import { c } from 'skribble-css/client'
   /// c.$block // $block is the shorthand style name.
   /// c.display.$block // The same as above.
   /// ```
@@ -585,7 +585,7 @@ impl<'config> ClassName<'config> {
         );
       }
       None => {
-        if let Some((position, name, meta)) = self.config.atoms.get_full(token) {
+        if let Some((position, _, meta)) = self.config.atoms.get_full(token) {
           self.score += calculate_score_increment(ScoreMultiple::Atom, position);
           self.keyframes = meta.keyframes.clone();
           self.groups = meta.groups.clone();

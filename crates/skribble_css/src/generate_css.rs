@@ -27,7 +27,7 @@ pub fn generate_css(config: &Config, class_names: &[&ClassName]) -> String {
   // Group class_names by breakpoints.
   for class_name in class_names {
     let breakpoint = &class_name.breakpoint;
-    keyframe_names.extend(class_name.keyframes);
+    keyframe_names.extend(class_name.keyframes.clone());
 
     for group_name in class_name.groups.iter() {
       group_names
@@ -62,7 +62,7 @@ fn get_groups_and_keyframes_css(
   keyframe_names: &IndexSet<String>,
   group_names: &IndexMap<String, Vec<String>>,
 ) -> String {
-  let styles: Vec<String> = vec![];
+  let mut styles: Vec<String> = vec![];
 
   for name in keyframe_names {
     if let Some(keyframe) = config.user.keyframes.get(name) {
@@ -127,7 +127,11 @@ fn create_css_output(
   let (css_variable_selectors, css_variable_breakpoints, css_variable_queries) =
     create_css_variable_containers(config, css_variable_names);
 
-  let mut styles: Vec<String> = vec![initial_css.to_owned()];
+  let mut styles: Vec<String> = vec![];
+
+  if !initial_css.is_empty() {
+    styles.push(initial_css.to_owned());
+  }
 
   for (breakpoint_name, css_value) in breakpoints.iter() {
     let mut css_list: Vec<String> = vec![];
@@ -181,7 +185,13 @@ fn create_css_output(
     }
   }
 
-  format!("{}\n", styles.join("\n\n"))
+  let all_styles = styles.join("\n\n");
+
+  if all_styles.trim().is_empty() {
+    "".to_string()
+  } else {
+    format!("{}\n", all_styles)
+  }
 }
 
 fn create_media_query_string(
@@ -370,28 +380,28 @@ mod tests {
   use crate::test_utils::test_css;
 
   test_css!(generate_css_from_simplest_atoms: r#"
-      import { c } from 'skribble-css';
+      import { c } from 'skribble-css/client';
       c.px.$px;
       c.py.$1;
       c.p('10px');"#
   );
 
   test_css!(media_queries: r#"
-      import { c } from 'skribble-css';
+      import { c } from 'skribble-css/client';
       c.print.px.$px;"#
   );
 
   test_css!(media_queries_with_breakpoint: r#"
-  import { c } from 'skribble-css';
+  import { c } from 'skribble-css/client';
   c.md.print.px.$px;"#
   );
 
   test_css!(media_queries_css_variables: r#"
-  import { c } from 'skribble-css';
+  import { c } from 'skribble-css/client';
   c.print.text.$media;"# );
 
   test_css!(media_queries_with_breakpoint_mixed: r#"
-  import { c } from 'skribble-css';
+  import { c } from 'skribble-css/client';
   c.md.print.px.$px;
   c.px.$px;
   c.print.px.$px;

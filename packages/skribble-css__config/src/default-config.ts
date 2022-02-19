@@ -146,15 +146,6 @@ export const DEFAULT_CONFIG: SkribbleConfig = {
   variables: {
     '--container-max-width': 'container',
     '--custom-filter-roughen': `url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"><filter id="waves" x="-20%" y="-20%" width="140%" height="140%" filterUnits="objectBoundingBox" primitiveUnits="userSpaceOnUse" color-interpolation-filters="linearRGB"><feTurbulence type="turbulence" baseFrequency="0.01 0.01" numOctaves="1" seed="1" stitchTiles="noStitch" result="turbulence"/><feDisplacementMap in="SourceGraphic" in2="turbulence" scale="20" xChannelSelector="G" yChannelSelector="A"result="displacementMap"/></filter></svg>#waves')`,
-    '--group-nested-filter':
-      'var(--filter-blur) var(--filter-brightness) var(--filter-contrast) var(--filter-grayscale) var(--filter-hue-rotate) var(--filter-invert) var(--filter-saturate) var(--filter-sepia) var(--filter-drop-shadow) var(--filter-custom)',
-    '--group-nested-backdrop':
-      'var(--backdrop-blur) var(--backdrop-brightness) var(--backdrop-contrast) var(--backdrop-grayscale) var(--backdrop-hue-rotate) var(--backdrop-invert) var(--backdrop-saturate) var(--backdrop-sepia) var(--backdrop-drop-shadow) var(--backdrop-custom)',
-    '--group-nested-transform-gpu':
-      'translate3d(var(--transform-translate-x),var(--transform-translate-y),0) rotate(var(--transform-rotate)) skewX(var(--transform-skew-x)) skewY(var(--transform-skew-y)) scaleX(var(--transform-scale-x)) scaleY(var(--transform-scale-y))',
-    '--group-nested-transform-cpu':
-      'translate(var(--transform-translate-x),var(--transform-translate-y),0) rotate(var(--transform-rotate)) skewX(var(--transform-skew-x)) skewY(var(--transform-skew-y)) scaleX(var(--transform-scale-x)) scaleY(var(--transform-scale-y))',
-    '--group-nested-transform': 'var(--group-nested-transform-cpu)',
     '--filter-blur': ' ',
     '--filter-brightness': ' ',
     '--filter-contrast': ' ',
@@ -165,6 +156,8 @@ export const DEFAULT_CONFIG: SkribbleConfig = {
     '--filter-saturate': ' ',
     '--filter-sepia': ' ',
     '--filter-drop-shadow': ' ',
+    '--group-nested-filter':
+      'var(--filter-blur) var(--filter-brightness) var(--filter-contrast) var(--filter-grayscale) var(--filter-hue-rotate) var(--filter-invert) var(--filter-saturate) var(--filter-sepia) var(--filter-drop-shadow) var(--filter-custom)',
     '--backdrop-blur': ' ',
     '--backdrop-brightness': ' ',
     '--backdrop-contrast': ' ',
@@ -175,6 +168,20 @@ export const DEFAULT_CONFIG: SkribbleConfig = {
     '--backdrop-saturate': ' ',
     '--backdrop-sepia': ' ',
     '--backdrop-drop-shadow': ' ',
+    '--group-nested-backdrop':
+      'var(--backdrop-blur) var(--backdrop-brightness) var(--backdrop-contrast) var(--backdrop-grayscale) var(--backdrop-hue-rotate) var(--backdrop-invert) var(--backdrop-saturate) var(--backdrop-sepia) var(--backdrop-drop-shadow) var(--backdrop-custom)',
+    '--transform-translate-x': ' ',
+    '--transform-translate-y': ' ',
+    '--transform-rotate': ' ',
+    '--transform-skew-x': ' ',
+    '--transform-skew-y': ' ',
+    '--transform-scale-x': ' ',
+    '--transform-scale-y': ' ',
+    '--group-nested-transform-gpu':
+      'translate3d(var(--transform-translate-x),var(--transform-translate-y),0) rotate(var(--transform-rotate)) skewX(var(--transform-skew-x)) skewY(var(--transform-skew-y)) scaleX(var(--transform-scale-x)) scaleY(var(--transform-scale-y))',
+    '--group-nested-transform-cpu':
+      'translate(var(--transform-translate-x),var(--transform-translate-y),0) rotate(var(--transform-rotate)) skewX(var(--transform-skew-x)) skewY(var(--transform-skew-y)) scaleX(var(--transform-scale-x)) scaleY(var(--transform-scale-y))',
+    '--group-nested-transform': 'var(--group-nested-transform-cpu)',
   },
   atoms: [
     { styleRules: ['text'], colors: { opacity: '--text-opacity', palette: true } },
@@ -608,7 +615,7 @@ export const DEFAULT_CONFIG: SkribbleConfig = {
     },
   ],
   styleRules: {
-    animation: ['animation'],
+    animate: ['animation'],
     font: ['font-family'],
     p: ['padding'],
     py: ['padding-top', 'padding-bottom'],

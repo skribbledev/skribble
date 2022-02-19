@@ -23,7 +23,7 @@ use super::class_name::{ClassArguments, ClassName};
 /// For example:
 ///
 /// ```ts
-/// import { c, cx } from 'skribble-css'; // c is the target
+/// import { c, cx } from 'skribble-css/client'; // c is the target
 ///
 /// const Component = (props) => {
 ///   const { isDisabled } = props;
@@ -203,7 +203,7 @@ impl<'config> ClassNameCollector<'config> {
           let mut valid = true;
 
           // True when the imported name is different.
-          // `import { c as d } from 'skribble-css'`
+          // `import { c as d } from 'skribble-css/client'`
           let mut is_import_as = false;
 
           if let Some(imported) = &specifier.imported {
@@ -312,7 +312,7 @@ impl<'config> Visit for ClassNameCollector<'config> {
 /// For the following code snippet:
 ///
 /// ```ts
-/// import { c } from 'skribble-css';
+/// import { c } from 'skribble-css/client';
 /// ```
 ///
 /// This would be the shape of the ValidImport

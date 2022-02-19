@@ -2,7 +2,7 @@ use indexmap::{IndexMap, IndexSet};
 use serde::{Deserialize, Serialize};
 
 use crate::{
-  constants::{INDENTATION, PALETTE_OPEN_COLOR, PALETTE_TAILWIND, ROOT_SELECTOR},
+  constants::{INDENTATION, ROOT_SELECTOR},
   utils::{get_css_variables_from_string, indent},
 };
 
@@ -27,9 +27,8 @@ pub struct UserConfig {
   /// Group properties.
   pub groups: IndexMap<String, Group>,
 
-  /// Color palette taken from tailwind colors or openColor.
-  #[serde(default = "ColorPalette::default")]
-  pub palette: ColorPalette,
+  /// Color palette taken from tailwind colors / openColor or something custom.
+  pub palette: IndexMap<String, String>,
 
   pub keyframes: IndexMap<String, Keyframes>,
 
@@ -160,8 +159,8 @@ impl Atom {
   pub fn to_atom_value(&self) -> AtomValue {
     match self {
       Atom::Color(color) => AtomValue {
-        keyframes: color.keyframes,
-        groups: color.groups,
+        keyframes: color.keyframes.clone(),
+        groups: color.groups.clone(),
         style_rules: Vec::new(),
         values: IndexMap::new(),
       },
@@ -291,35 +290,6 @@ impl CssValue {
     match self {
       CssValue::Number(value) => value.to_string(),
       CssValue::String(value) => value.clone(),
-    }
-  }
-}
-
-/// An enum which describes the colors to be used in the configuration.
-#[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
-#[serde(untagged)]
-pub enum ColorPalette {
-  #[serde(rename = "tailwind")]
-  Tailwind,
-  #[serde(rename = "openColor")]
-  OpenColor,
-  Object(IndexMap<String, String>),
-}
-
-impl ColorPalette {
-  /// The default value to use for the color palette.
-  pub fn default() -> ColorPalette {
-    ColorPalette::Tailwind
-  }
-
-  /// Convert the color palette to a mapped value.
-  pub fn to_map(&self) -> IndexMap<String, String> {
-    let empty_palette = IndexMap::new();
-
-    match self {
-      ColorPalette::Tailwind => serde_json::from_str(PALETTE_TAILWIND).unwrap_or(empty_palette),
-      ColorPalette::OpenColor => serde_json::from_str(PALETTE_OPEN_COLOR).unwrap_or(empty_palette),
-      ColorPalette::Object(value) => value.clone(),
     }
   }
 }

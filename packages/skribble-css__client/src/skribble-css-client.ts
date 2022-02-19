@@ -4,7 +4,7 @@ import type { SkribbleCss, WithCustomClassName } from '@skribble-css/types';
  * All the classNames which have been defined in the codebase.
  *
  * ```ts
- * import { c } from 'skribble-css';
+ * import { c } from 'skribble-css/client';
  *
  * const Component = () => {
  *   return <div className={c.text.$lg} />;

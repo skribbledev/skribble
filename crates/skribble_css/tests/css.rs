@@ -43,8 +43,13 @@ fn test_css(input: PathBuf) {
     .parse_typescript_module()
     .expect("Failed to parse module.");
 
-  let mut collector: ClassNameCollector =
-    ClassNameCollector::new(&[ValidImport::new("skribble-css", "c")], &config);
+  let mut collector: ClassNameCollector = ClassNameCollector::new(
+    &[
+      ValidImport::new("skribble-css/client", "c"),
+      ValidImport::new("@skribble-css/client", "c"),
+    ],
+    &config,
+  );
   module.visit_with(&mut collector);
 
   collector.sort();

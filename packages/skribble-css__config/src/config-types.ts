@@ -10,7 +10,7 @@ export interface SkribbleConfig {
   /**
    * CSS Variable Groups that atoms can add themselves to when activated.
    */
-  groups: Record<string, [key: string, value: CssValue][]>;
+  groups: Record<string, Array<[key: string, value: CssValue]>>;
 
   breakpoints: Record<string, string>;
   mediaQueries: Record<string, string>;
@@ -92,7 +92,7 @@ interface BaseSkribbleConfigAtom {
 }
 
 interface SkribbleConfigAtomValues extends BaseSkribbleConfigAtom {
-  values: Record<string, string>;
+  values: Record<string, string | Properties>;
   colors?: undefined;
 }
 

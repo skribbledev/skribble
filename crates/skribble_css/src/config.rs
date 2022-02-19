@@ -7,7 +7,8 @@ use crate::constants::JSON_CONFIG;
 use self::{
   color_utils::{get_rgba_color_from_string, wrap_css_variable},
   user::{
-    Atom, AtomColor, AtomColorOptions, AtomValue, CssValue, CssVariable, PopulatedCssVariable,
+    Atom, AtomColor, AtomColorOptions, AtomCssValue, AtomValue, CssValue, CssVariable,
+    PopulatedCssVariable,
   },
 };
 pub use user::UserConfig;
@@ -21,7 +22,7 @@ type AtomMap = IndexMap<String, AtomMeta>;
 pub struct AtomMeta {
   pub keyframes: Vec<String>,
   pub groups: Vec<String>,
-  pub values: IndexMap<String, CssValue>,
+  pub values: IndexMap<String, AtomCssValue>,
 }
 
 /// The built in configuration
@@ -76,7 +77,7 @@ impl Config {
           style_rules,
         }) => {
           for rule in style_rules {
-            let values: IndexMap<String, CssValue> = values_from_color_options(
+            let values: IndexMap<String, AtomCssValue> = values_from_color_options(
               rule,
               colors,
               &user.colors,
@@ -90,6 +91,7 @@ impl Config {
                   atom.values.insert(key.to_owned(), value.to_owned());
                 }
               }
+
               None => {
                 let mut atom = AtomMeta {
                   keyframes: keyframes.clone(),
@@ -156,14 +158,17 @@ fn values_from_color_options(
   colors: &IndexMap<String, CssVariable>,
   palette: &IndexMap<String, String>,
   css_variables: &mut IndexMap<String, PopulatedCssVariable>,
-) -> IndexMap<String, CssValue> {
-  let mut values: IndexMap<String, CssValue> = IndexMap::new();
+) -> IndexMap<String, AtomCssValue> {
+  let mut values: IndexMap<String, AtomCssValue> = IndexMap::new();
 
   if options.palette {
     for (name, value) in palette.iter() {
       values.insert(
         name.to_owned(),
-        CssValue::String(get_rgba_color_from_string(value, &options.opacity)),
+        AtomCssValue::Value(CssValue::String(get_rgba_color_from_string(
+          value,
+          &options.opacity,
+        ))),
       );
     }
   }
@@ -173,7 +178,7 @@ fn values_from_color_options(
     let css_variable_name = format!("--color-{}-{}", rule.to_kebab_case(), name.to_kebab_case());
     values.insert(
       name.clone(),
-      CssValue::String(wrap_css_variable(&css_variable_name)),
+      AtomCssValue::Value(CssValue::String(wrap_css_variable(&css_variable_name))),
     );
     css_variables.insert(css_variable_name, populated_css_variable);
   }

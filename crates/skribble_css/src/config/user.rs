@@ -170,14 +170,22 @@ impl Atom {
 }
 
 #[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
-#[serde(rename_all = "camelCase")]
 pub struct AtomValue {
   #[serde(default = "empty_vector")]
   pub keyframes: Vec<String>,
   #[serde(default = "empty_vector")]
   pub groups: Vec<String>,
+  #[serde(rename = "styleRules")]
   pub style_rules: Vec<String>,
-  pub values: IndexMap<String, CssValue>,
+  pub values: IndexMap<String, AtomCssValue>,
+}
+
+#[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
+#[serde(untagged)]
+pub enum AtomCssValue {
+  Value(CssValue),
+  /// Provide an object with the values.
+  Object(IndexMap<String, CssValue>),
 }
 
 /// Rather than values being used this will make available the values defined

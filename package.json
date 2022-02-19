@@ -101,8 +101,8 @@
     "storybook-builder-vite": "^0.1.16",
     "ts-node": "^10.5.0",
     "typescript": "4.6.1-rc",
-    "vite": "^2.8.3",
-    "vitest": "^0.3.6",
+    "vite": "^2.8.4",
+    "vitest": "^0.4.2",
     "wasm-pack": "^0.10.2"
   },
   "engines": {

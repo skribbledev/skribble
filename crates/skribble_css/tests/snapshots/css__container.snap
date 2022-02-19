@@ -1,0 +1,45 @@
+---
+source: crates/skribble_css/tests/css.rs
+assertion_line: 63
+expression: "generate_css(&config, &collector.get_class_names())"
+
+---
+:root {
+  --container-max-width: none;
+}
+
+.\$container {
+  width: 100%;
+  max-width: var(--container-max-width);
+}
+
+@media (min-width: 640px) {
+  :root {
+    --container-max-width: 640px;
+  }
+}
+
+@media (min-width: 768px) {
+  :root {
+    --container-max-width: 768px;
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --container-max-width: 1024px;
+  }
+}
+
+@media (min-width: 1280px) {
+  :root {
+    --container-max-width: 1280px;
+  }
+}
+
+@media (min-width: 1536px) {
+  :root {
+    --container-max-width: 1536px;
+  }
+}
+

@@ -1,5 +1,5 @@
-import { PALETTE } from './palette';
 import type { SkribbleConfig } from './config-types.js';
+import { PALETTE } from './palette';
 
 export const DEFAULT_CONFIG: SkribbleConfig = {
   options: {
@@ -9,16 +9,16 @@ export const DEFAULT_CONFIG: SkribbleConfig = {
   keyframes: {
     enter: {
       from: {
-        opacity: 'var(--enter-opacity, 1)',
+        opacity: 'var(--animation-enter-opacity, 1)',
         transform:
-          'translate3d(var(--enter-translate-x, 0), var(--enter-translate-y, 0), 0) scale3d(var(--enter-scale, 1), var(--enter-scale, 1), var(--enter-scale, 1))',
+          'translate3d(var(--animation-enter-translate-x, 0), var(--animation-enter-translate-y, 0), 0) scale3d(var(--animation-enter-scale, 1), var(--animation-enter-scale, 1), var(--animation-enter-scale, 1))',
       },
     },
     exit: {
       to: {
-        opacity: 'var(--exit-opacity, 1)',
+        opacity: 'var(--animation-exit-opacity, 1)',
         transform:
-          'translate3d(var(--exit-translate-x, 0), var(--exit-translate-y, 0), 0) scale3d(var(--exit-scale, 1), var(--exit-scale, 1), var(--exit-scale, 1))',
+          'translate3d(var(--animation-exit-translate-x, 0), var(--animation-exit-translate-y, 0), 0) scale3d(var(--animation-exit-scale, 1), var(--animation-exit-scale, 1), var(--animation-exit-scale, 1))',
       },
     },
   },
@@ -182,6 +182,7 @@ export const DEFAULT_CONFIG: SkribbleConfig = {
     '--group-nested-transform-cpu':
       'translate(var(--transform-translate-x),var(--transform-translate-y),0) rotate(var(--transform-rotate)) skewX(var(--transform-skew-x)) skewY(var(--transform-skew-y)) scaleX(var(--transform-scale-x)) scaleY(var(--transform-scale-y))',
     '--group-nested-transform': 'var(--group-nested-transform-cpu)',
+    '--default-transition-duration': '150ms',
   },
   atoms: [
     { styleRules: ['text'], colors: { opacity: '--text-opacity', palette: true } },
@@ -610,11 +611,89 @@ export const DEFAULT_CONFIG: SkribbleConfig = {
       },
     },
     {
+      styleRules: ['transition'],
+      values: {
+        '': {
+          transitionProperty:
+            'color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter',
+          transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)',
+          transitionDuration: 'var(--default-transition-duration)',
+        },
+        none: { transitionProperty: 'none' },
+        all: {
+          transitionProperty: 'all',
+          transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)',
+          transitionDuration: 'var(--default-transition-duration)',
+        },
+        colors: {
+          transitionProperty:
+            'color, background-color, border-color, text-decoration-color, fill, stroke',
+          transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)',
+          transitionDuration: 'var(--default-transition-duration)',
+        },
+        opacity: {
+          transitionProperty: 'opacity',
+          transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)',
+          transitionDuration: 'var(--default-transition-duration)',
+        },
+        shadow: {
+          transitionProperty: 'box-shadow',
+          transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)',
+          transitionDuration: 'var(--default-transition-duration)',
+        },
+        transform: {
+          transitionProperty: 'transform',
+          transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)',
+          transitionDuration: 'var(--default-transition-duration)',
+        },
+      },
+    },
+
+    {
+      styleRules: ['transitionProperty'],
+      values: {
+        '': 'color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter',
+        none: 'none',
+        all: 'all',
+        colors: 'color, background-color, border-color, text-decoration-color, fill, stroke',
+        opacity: 'opacity',
+        shadow: 'box-shadow',
+        transform: 'transform',
+      },
+    },
+    {
+      styleRules: ['duration', 'delay'],
+      values: {
+        75: '75ms',
+        100: '100ms',
+        150: '150ms',
+        200: '200ms',
+        300: '300ms',
+        500: '500ms',
+        700: '700ms',
+        1000: '1000ms',
+      },
+    },
+    {
+      styleRules: ['ease'],
+      values: {
+        linear: 'linear',
+        in: 'cubic-bezier(0.4, 0, 1, 1)',
+        out: 'cubic-bezier(0, 0, 0.2, 1)',
+        inOut: 'cubic-bezier(0.4, 0, 0.2, 1)',
+      },
+    },
+    {
       styleRules: ['animation'],
       values: {},
     },
   ],
   styleRules: {
+    transition: ['transition'],
+    transitionProperty: ['transition-property'],
+    duration: ['transition-duration'],
+    ease: ['transition-timing-function'],
+    delay: ['transition-delay'],
     animate: ['animation'],
     font: ['font-family'],
     p: ['padding'],

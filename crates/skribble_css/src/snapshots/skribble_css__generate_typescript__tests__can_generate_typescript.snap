@@ -1213,9 +1213,47 @@ export interface SkribbleCss {
   'translateY': WithDynamicClassName<TranslateYAtomStyle>;
   /**
    * ```css
-   * .animation\:\:\[<value>\] {
-   *   animation: <value>;
+   * .transition\:\:\[<value>\] {
+   *   transition: <value>;
    * }
+   * ```
+   */
+  'transition': WithDynamicClassName<TransitionAtomStyle>;
+  /**
+   * ```css
+   * .transitionProperty\:\:\[<value>\] {
+   *   transition-property: <value>;
+   * }
+   * ```
+   */
+  'transitionProperty': WithDynamicClassName<TransitionPropertyAtomStyle>;
+  /**
+   * ```css
+   * .duration\:\:\[<value>\] {
+   *   transition-duration: <value>;
+   * }
+   * ```
+   */
+  'duration': WithDynamicClassName<DurationAtomStyle>;
+  /**
+   * ```css
+   * .delay\:\:\[<value>\] {
+   *   transition-delay: <value>;
+   * }
+   * ```
+   */
+  'delay': WithDynamicClassName<DelayAtomStyle>;
+  /**
+   * ```css
+   * .ease\:\:\[<value>\] {
+   *   transition-timing-function: <value>;
+   * }
+   * ```
+   */
+  'ease': WithDynamicClassName<EaseAtomStyle>;
+  /**
+   * ```css
+   * .animation\:\:\[<value>\] {}
    * ```
    */
   'animation': WithDynamicClassName<AnimationAtomStyle>;
@@ -15464,6 +15502,305 @@ interface TranslateYAtomStyle {
    * ```
    */
   '$full': ClassName;
+}
+
+interface TransitionAtomStyle {
+  /**
+   * ```css
+   * .transition\:\:\$ {
+   *   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+   *   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+   *   transition-duration: var(--default-transition-duration);
+   * }
+   * ```
+   */
+  '$': ClassName;
+  /**
+   * ```css
+   * .transition\:\:\$none {
+   *   transition-property: none;
+   * }
+   * ```
+   */
+  '$none': ClassName;
+  /**
+   * ```css
+   * .transition\:\:\$all {
+   *   transition-property: all;
+   *   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+   *   transition-duration: var(--default-transition-duration);
+   * }
+   * ```
+   */
+  '$all': ClassName;
+  /**
+   * ```css
+   * .transition\:\:\$colors {
+   *   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+   *   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+   *   transition-duration: var(--default-transition-duration);
+   * }
+   * ```
+   */
+  '$colors': ClassName;
+  /**
+   * ```css
+   * .transition\:\:\$opacity {
+   *   transition-property: opacity;
+   *   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+   *   transition-duration: var(--default-transition-duration);
+   * }
+   * ```
+   */
+  '$opacity': ClassName;
+  /**
+   * ```css
+   * .transition\:\:\$shadow {
+   *   transition-property: box-shadow;
+   *   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+   *   transition-duration: var(--default-transition-duration);
+   * }
+   * ```
+   */
+  '$shadow': ClassName;
+  /**
+   * ```css
+   * .transition\:\:\$transform {
+   *   transition-property: transform;
+   *   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+   *   transition-duration: var(--default-transition-duration);
+   * }
+   * ```
+   */
+  '$transform': ClassName;
+}
+
+interface TransitionPropertyAtomStyle {
+  /**
+   * ```css
+   * .transitionProperty\:\:\$ {
+   *   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+   * }
+   * ```
+   */
+  '$': ClassName;
+  /**
+   * ```css
+   * .transitionProperty\:\:\$none {
+   *   transition-property: none;
+   * }
+   * ```
+   */
+  '$none': ClassName;
+  /**
+   * ```css
+   * .transitionProperty\:\:\$all {
+   *   transition-property: all;
+   * }
+   * ```
+   */
+  '$all': ClassName;
+  /**
+   * ```css
+   * .transitionProperty\:\:\$colors {
+   *   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+   * }
+   * ```
+   */
+  '$colors': ClassName;
+  /**
+   * ```css
+   * .transitionProperty\:\:\$opacity {
+   *   transition-property: opacity;
+   * }
+   * ```
+   */
+  '$opacity': ClassName;
+  /**
+   * ```css
+   * .transitionProperty\:\:\$shadow {
+   *   transition-property: box-shadow;
+   * }
+   * ```
+   */
+  '$shadow': ClassName;
+  /**
+   * ```css
+   * .transitionProperty\:\:\$transform {
+   *   transition-property: transform;
+   * }
+   * ```
+   */
+  '$transform': ClassName;
+}
+
+interface DurationAtomStyle {
+  /**
+   * ```css
+   * .duration\:\:\$75 {
+   *   transition-duration: 75ms;
+   * }
+   * ```
+   */
+  '$75': ClassName;
+  /**
+   * ```css
+   * .duration\:\:\$100 {
+   *   transition-duration: 100ms;
+   * }
+   * ```
+   */
+  '$100': ClassName;
+  /**
+   * ```css
+   * .duration\:\:\$150 {
+   *   transition-duration: 150ms;
+   * }
+   * ```
+   */
+  '$150': ClassName;
+  /**
+   * ```css
+   * .duration\:\:\$200 {
+   *   transition-duration: 200ms;
+   * }
+   * ```
+   */
+  '$200': ClassName;
+  /**
+   * ```css
+   * .duration\:\:\$300 {
+   *   transition-duration: 300ms;
+   * }
+   * ```
+   */
+  '$300': ClassName;
+  /**
+   * ```css
+   * .duration\:\:\$500 {
+   *   transition-duration: 500ms;
+   * }
+   * ```
+   */
+  '$500': ClassName;
+  /**
+   * ```css
+   * .duration\:\:\$700 {
+   *   transition-duration: 700ms;
+   * }
+   * ```
+   */
+  '$700': ClassName;
+  /**
+   * ```css
+   * .duration\:\:\$1000 {
+   *   transition-duration: 1000ms;
+   * }
+   * ```
+   */
+  '$1000': ClassName;
+}
+
+interface DelayAtomStyle {
+  /**
+   * ```css
+   * .delay\:\:\$75 {
+   *   transition-delay: 75ms;
+   * }
+   * ```
+   */
+  '$75': ClassName;
+  /**
+   * ```css
+   * .delay\:\:\$100 {
+   *   transition-delay: 100ms;
+   * }
+   * ```
+   */
+  '$100': ClassName;
+  /**
+   * ```css
+   * .delay\:\:\$150 {
+   *   transition-delay: 150ms;
+   * }
+   * ```
+   */
+  '$150': ClassName;
+  /**
+   * ```css
+   * .delay\:\:\$200 {
+   *   transition-delay: 200ms;
+   * }
+   * ```
+   */
+  '$200': ClassName;
+  /**
+   * ```css
+   * .delay\:\:\$300 {
+   *   transition-delay: 300ms;
+   * }
+   * ```
+   */
+  '$300': ClassName;
+  /**
+   * ```css
+   * .delay\:\:\$500 {
+   *   transition-delay: 500ms;
+   * }
+   * ```
+   */
+  '$500': ClassName;
+  /**
+   * ```css
+   * .delay\:\:\$700 {
+   *   transition-delay: 700ms;
+   * }
+   * ```
+   */
+  '$700': ClassName;
+  /**
+   * ```css
+   * .delay\:\:\$1000 {
+   *   transition-delay: 1000ms;
+   * }
+   * ```
+   */
+  '$1000': ClassName;
+}
+
+interface EaseAtomStyle {
+  /**
+   * ```css
+   * .ease\:\:\$linear {
+   *   transition-timing-function: linear;
+   * }
+   * ```
+   */
+  '$linear': ClassName;
+  /**
+   * ```css
+   * .ease\:\:\$in {
+   *   transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
+   * }
+   * ```
+   */
+  '$in': ClassName;
+  /**
+   * ```css
+   * .ease\:\:\$out {
+   *   transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+   * }
+   * ```
+   */
+  '$out': ClassName;
+  /**
+   * ```css
+   * .ease\:\:\$inOut {
+   *   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+   * }
+   * ```
+   */
+  '$inOut': ClassName;
 }
 
 interface AnimationAtomStyle {

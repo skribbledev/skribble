@@ -1,4 +1,5 @@
-use indexmap::IndexSet;
+use heck::ToKebabCase;
+use indexmap::{IndexMap, IndexSet};
 use std::{
   cmp::Ordering,
   hash::{Hash, Hasher},
@@ -10,7 +11,10 @@ use swc_ecmascript::{
 };
 
 use crate::{
-  config::{user::CssValue, Config},
+  config::{
+    user::{AtomCssValue, CssValue},
+    Config,
+  },
   constants::INDENTATION,
   utils::{escape_css_string, get_css_variables_from_string, get_identifiers, indent},
 };
@@ -158,6 +162,9 @@ pub struct ClassName<'config> {
   /// This is captured when the style_name, or shorthand, or argument is added.
   pub value: Option<CssValue>,
 
+  /// This is captured when the style_name, or shorthand, or argument is added.
+  pub value_object: IndexMap<String, CssValue>,
+
   /// This is used to order the class names.
   pub score: isize,
 
@@ -182,6 +189,7 @@ impl<'config> ClassName<'config> {
       argument: None,
       validity: Validity::Undefined,
       value: None,
+      value_object: IndexMap::new(),
       score: 0,
       config,
     }
@@ -341,15 +349,42 @@ impl<'config> ClassName<'config> {
     matches!(&self.validity, Validity::Invalid)
   }
 
+  /// Create the style string
+  ///
+  /// ```ts
+  /// import { c } from 'skribble-css/client';
+  /// c.px('10px');
+  /// ```
+  ///
+  /// The above code would produce a style declaration as shown below.
+  ///
+  /// ```css
+  /// padding-left: 10px;
+  /// padding-right: 10px;
+  /// ```
   fn get_style_declaration(&self) -> String {
     let mut style_declarations: Vec<String> = vec![];
 
     if let Some(atom) = &self.atom {
       if let Some(style_rules) = &self.config.user.style_rules.get(atom) {
         for rule in *style_rules {
-          style_declarations.push(rule.get_style_declaration_as_ref(self.value.as_ref()));
+          let derived_style = rule.get_style_declaration_as_ref(self.value.as_ref());
+
+          if !derived_style.is_empty() {
+            style_declarations.push(derived_style);
+          }
         }
       };
+
+      for (property, css_value) in self.value_object.iter() {
+        let property_name = if property.starts_with("--") {
+          property.to_owned()
+        } else {
+          property.to_kebab_case()
+        };
+
+        style_declarations.push(format!("{}: {}", property_name, css_value.get_string()));
+      }
     }
 
     if let Some(shorthand) = &self.shorthand {
@@ -549,7 +584,16 @@ impl<'config> ClassName<'config> {
             {
               self.score += calculate_score_increment(ScoreMultiple::Value, position);
               self.style_name = Some(cleaned_token.to_string());
-              self.value = Some(value.clone());
+
+              match value {
+                AtomCssValue::Value(css_value) => {
+                  self.value = Some(css_value.clone());
+                }
+                AtomCssValue::Object(object) => {
+                  self.value_object = object.clone();
+                }
+              }
+
               self.validity = Validity::Valid; // Set to be valid.
             };
           }

@@ -7,7 +7,7 @@ use swc_ecmascript::{
 };
 
 const ESCAPE_CSS_STRING_REGEX: &str = r#"(#|&|~|=|>|'|:|"|!|;|,|\.|\*|\+|\||\[|\]|\(|\)|/|\^|\$)"#;
-const CSS_VARIABLE_REGEX: &str = r#"var\((--[a-zA-Z0-9_\-]+)\)"#;
+const CSS_VARIABLE_REGEX: &str = r#"var\((--[a-zA-Z0-9_\-]+)(?:,.*)?\)"#;
 
 /// Retrieve the css variables from the provided css value.
 pub(crate) fn get_css_variables_from_string(value: &str) -> IndexSet<String> {

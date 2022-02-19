@@ -1,3 +1,6 @@
 import {c} from 'skribble-css/client';
 
-c.filter.$rough
+[c.animate.$in, c.slideBottom.$];
+[c.animate.$out, c.slideBottom.$];
+[c.animate.$bounce];
+[c.animate.$bounce];// Don't double!

@@ -269,7 +269,6 @@ fn create_css_variable_containers(
   let mut css_variable_selectors: CssVariableSelectors = IndexMap::new();
   let mut css_variable_breakpoints: IndexMap<String, CssVariableSelectors> = IndexMap::new();
   let mut css_variable_media_queries: IndexMap<String, CssVariableSelectors> = IndexMap::new();
-  println!("css_variable_names: {:?}", config.css_variables);
 
   for (name, populated_variable) in config.css_variables.iter() {
     if !css_variable_names.contains(name) {

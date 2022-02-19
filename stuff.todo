@@ -26,17 +26,23 @@ filter: var(--custom-filter);
   ✔ add to rust user configuration @done(22-02-17 21:03)
   ✔ add to typescript @done(22-02-17 21:03)
   ✔ add to generated css @done(22-02-19 05:04)
-  ☐ add tests that shows it works
+  ✔ add tests that shows it works @done(22-02-19 20:01)
+
+✔ add some animation configurations @done(22-02-19 20:01)
+✔ add keyframes section of config @done(22-02-19 20:01)
+
+☐ add similar to support for icons to `unocss`
+  ☐ see how feasible this is
 
 ☐ create napi.rs node structure with
+  ☐ use `@parcel/css` as example for rust based cli api
   ☐ generate from a string
   ☐ generate css and typescript from a single file (filename)
   ☐ bundle from entrypoint (automatically gathers entrypoints)
   ☐ generate from glob
   ☐ watch files and generate
 
+
+**Future Work**
+
 ☐ Add support for global styles e.g. `prose.$` and `prose.$2x` where a css block is inserted.
-☐ add some animation configurations
-☐ add keyframes section of config
-☐ add similar to support for icons to `unocss`
-☐ use `@parcel/css` as example for rust based cli api

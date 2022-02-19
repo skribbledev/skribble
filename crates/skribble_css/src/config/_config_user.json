@@ -12,6 +12,19 @@
         "opacity": "var(--animation-exit-opacity, 1)",
         "transform": "translate3d(var(--animation-exit-translate-x, 0), var(--animation-exit-translate-y, 0), 0) scale3d(var(--animation-exit-scale, 1), var(--animation-exit-scale, 1), var(--animation-exit-scale, 1))"
       }
+    },
+    "spin": { "from": { "transform": "rotate(0deg)" }, "to": { "transform": "rotate(360deg)" } },
+    "ping": { "75%, 100%": { "transform": "scale(2)", "opacity": "0" } },
+    "pulse": { "0%, 100%": { "opacity": "1" }, "50%": { "opacity": "0.5" } },
+    "bounce": {
+      "0%, 100%": {
+        "transform": "translateY(-25%)",
+        "animationTimingFunction": "cubic-bezier(0.8, 0, 1, 1)"
+      },
+      "50%": {
+        "transform": "translateY(0)",
+        "animationTimingFunction": "cubic-bezier(0, 0, 0.2, 1)"
+      }
     }
   },
   "breakpoints": { "sm": "640px", "md": "768px", "lg": "1024px", "xl": "1280px", "xxl": "1536px" },
@@ -158,9 +171,41 @@
     "--group-nested-transform-gpu": "translate3d(var(--transform-translate-x),var(--transform-translate-y),0) rotate(var(--transform-rotate)) skewX(var(--transform-skew-x)) skewY(var(--transform-skew-y)) scaleX(var(--transform-scale-x)) scaleY(var(--transform-scale-y))",
     "--group-nested-transform-cpu": "translate(var(--transform-translate-x),var(--transform-translate-y),0) rotate(var(--transform-rotate)) skewX(var(--transform-skew-x)) skewY(var(--transform-skew-y)) scaleX(var(--transform-scale-x)) scaleY(var(--transform-scale-y))",
     "--group-nested-transform": "var(--group-nested-transform-cpu)",
-    "--default-transition-duration": "150ms"
+    "--default-transition-duration": "150ms",
+    "--default-animation-duration": "1s",
+    "--animation-enter-opacity": "initial",
+    "--animation-enter-scale": "initial",
+    "--animation-enter-rotate": "initial",
+    "--animation-enter-translate-x": "initial",
+    "--animation-enter-translate-y": "initial"
   },
   "atoms": [
+    {
+      "styleRules": ["sr"],
+      "values": {
+        "only": {
+          "position": "absolute",
+          "width": "1px",
+          "height": "1px",
+          "padding": "0",
+          "margin": "-1px",
+          "overflow": "hidden",
+          "clip": "rect(0, 0, 0, 0)",
+          "whiteSpace": "nowrap",
+          "borderWidth": "0"
+        },
+        "exclude": {
+          "position": "static",
+          "width": "auto",
+          "height": "auto",
+          "padding": "0",
+          "margin": "0",
+          "overflow": "visible",
+          "clip": "auto",
+          "whiteSpace": "normal"
+        }
+      }
+    },
     { "styleRules": ["text"], "colors": { "opacity": "--text-opacity", "palette": true } },
     { "styleRules": ["bg"], "colors": { "opacity": "--bg-opacity", "palette": true } },
     { "styleRules": ["border"], "colors": { "opacity": "--border-opacity", "palette": true } },
@@ -390,7 +435,7 @@
     { "styleRules": ["visibility"], "values": { "hide": "hidden", "show": "visible" } },
     { "styleRules": ["visibility"], "values": { "hide": "hidden", "show": "visible" } },
     {
-      "styleRules": ["opacity"],
+      "styleRules": ["opacity", "fade"],
       "values": {
         "0": "0",
         "5": "5",
@@ -453,7 +498,7 @@
       }
     },
     {
-      "styleRules": ["scale", "scaleX", "scaleY"],
+      "styleRules": ["scale", "scaleX", "scaleY", "zoom"],
       "groups": ["transform"],
       "values": {
         "0": "0",
@@ -469,7 +514,7 @@
       }
     },
     {
-      "styleRules": ["rotate"],
+      "styleRules": ["rotate", "spin"],
       "groups": ["transform"],
       "values": {
         "0": "0deg",
@@ -505,7 +550,7 @@
       }
     },
     {
-      "styleRules": ["translateX", "translateY"],
+      "styleRules": ["translateX", "translateY", "slideBottom", "slideRight"],
       "values": {
         "0": "0px",
         "1": "0.25rem",
@@ -549,6 +594,52 @@
         "2of4": "50%",
         "3of4": "75%",
         "full": "100%"
+      }
+    },
+    {
+      "styleRules": ["translateX", "translateY", "slideTop", "slideLeft"],
+      "values": {
+        "_px": "-1px",
+        "_0_5": "-0.125rem",
+        "_1": "-0.25rem",
+        "_1_5": "-0.375rem",
+        "_2": "-0.5rem",
+        "_2_5": "-0.625rem",
+        "_3": "-0.75rem",
+        "_3_5": "-0.875rem",
+        "_4": "-1rem",
+        "_5": "-1.25rem",
+        "_6": "-1.5rem",
+        "_7": "-1.75rem",
+        "_8": "-2rem",
+        "_9": "-2.25rem",
+        "_10": "-2.5rem",
+        "_11": "-2.75rem",
+        "_12": "-3rem",
+        "_14": "-3.5rem",
+        "_16": "-4rem",
+        "_20": "-5rem",
+        "_24": "-6rem",
+        "_28": "-7rem",
+        "_32": "-8rem",
+        "_36": "-9rem",
+        "_40": "-10rem",
+        "_44": "-11rem",
+        "_48": "-12rem",
+        "_52": "-13rem",
+        "_56": "-14rem",
+        "_60": "-15rem",
+        "_64": "-16rem",
+        "_72": "-18rem",
+        "_80": "-20rem",
+        "_96": "-24rem",
+        "_1of2": "-50%",
+        "_1of3": "-33.333333%",
+        "_2of3": "-66.666667%",
+        "_1of4": "-25%",
+        "_2of4": "-50%",
+        "_3of4": "-75%",
+        "_full": "-100%"
       }
     },
     {
@@ -600,8 +691,9 @@
       }
     },
     {
-      "styleRules": ["duration", "delay"],
+      "styleRules": ["duration", "delay", "animationDelay", "animationDuration"],
       "values": {
+        "0": "0ms",
         "75": "75ms",
         "100": "100ms",
         "150": "150ms",
@@ -609,11 +701,13 @@
         "300": "300ms",
         "500": "500ms",
         "700": "700ms",
-        "1000": "1000ms"
+        "1000": "1000ms",
+        "1500": "1500ms",
+        "2000": "2000ms"
       }
     },
     {
-      "styleRules": ["ease"],
+      "styleRules": ["ease", "animationTiming"],
       "values": {
         "linear": "linear",
         "in": "cubic-bezier(0.4, 0, 1, 1)",
@@ -621,15 +715,81 @@
         "inOut": "cubic-bezier(0.4, 0, 0.2, 1)"
       }
     },
-    { "styleRules": ["animation"], "values": {} }
+    { "styleRules": ["animate"], "values": { "none": "none" } },
+    {
+      "styleRules": ["animate"],
+      "keyframes": ["spin"],
+      "values": { "spin": "spin var(--default-animation-duration) linear infinite" }
+    },
+    {
+      "styleRules": ["animate"],
+      "keyframes": ["ping"],
+      "values": {
+        "ping": "ping var(--default-animation-duration) cubic-bezier(0, 0, 0.2, 1) infinite"
+      }
+    },
+    {
+      "styleRules": ["animate"],
+      "keyframes": ["pulse"],
+      "values": {
+        "pulse": "pulse calc(2 * var(--default-animation-duration)) cubic-bezier(0.4, 0, 0.6, 1) infinite"
+      }
+    },
+    {
+      "styleRules": ["animate"],
+      "keyframes": ["bounce"],
+      "values": { "bounce": "bounce var(--default-animation-duration) infinite" }
+    },
+    {
+      "styleRules": ["animate"],
+      "keyframes": ["enter"],
+      "values": { "in": "enter var(--default-animation-duration)" }
+    },
+    {
+      "styleRules": ["animate"],
+      "keyframes": ["exit"],
+      "values": { "out": "exit var(--default-animation-duration)" }
+    },
+    { "styleRules": ["animationState"], "values": { "running": "running", "paused": "paused" } },
+    {
+      "styleRules": ["animationFillMode"],
+      "values": { "none": "none", "forwards": "forwards", "backwards": "backwards", "both": "both" }
+    },
+    {
+      "styleRules": ["animationDirection"],
+      "values": {
+        "normal": "normal",
+        "reverse": "reverse",
+        "alt": "alternate",
+        "altReverse": "alternate-reverse"
+      }
+    },
+    { "styleRules": ["slideTop", "slideLeft"], "values": { "": "-100%" } },
+    { "styleRules": ["slideBottom", "slideRight"], "values": { "": "100%" } }
   ],
   "styleRules": {
+    "sr": [],
     "transition": ["transition"],
     "transitionProperty": ["transition-property"],
     "duration": ["transition-duration"],
     "ease": ["transition-timing-function"],
     "delay": ["transition-delay"],
     "animate": ["animation"],
+    "animationDuration": ["animation-duration"],
+    "animationTiming": ["animation-timing-function"],
+    "animationDelay": ["animation-delay"],
+    "animationRepeat": ["animation-iteration-count"],
+    "animationDirection": ["animation-direction"],
+    "animationFillMode": ["animation-fill-mode"],
+    "animationState": ["animation-play-state"],
+    "fade": ["--tw-enter-opacity"],
+    "animationTranslate": ["--animation-enter-translate"],
+    "spin": ["--animation-enter-rotate"],
+    "slideTop": ["--animation-enter-translate-y"],
+    "slideBottom": ["--animation-enter-translate-y"],
+    "slideLeft": ["--animation-enter-translate-x"],
+    "slideRight": ["--animation-enter-translate-x"],
+    "zoom": ["--animation-enter-scale"],
     "font": ["font-family"],
     "p": ["padding"],
     "py": ["padding-top", "padding-bottom"],

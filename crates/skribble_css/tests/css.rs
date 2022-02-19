@@ -1,4 +1,3 @@
-use heck::ToKebabCase;
 use skribble_css::{
   config::Config,
   generate_css,

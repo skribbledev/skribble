@@ -714,6 +714,12 @@ export interface SkribbleCss {
   $transformCpu: ClassName;
   /**
    * ```css
+   * .sr\:\:\[<value>\] {}
+   * ```
+   */
+  sr: WithDynamicClassName<SrAtomStyle>;
+  /**
+   * ```css
    * .text\:\:\[<value>\] {
    *   --text-opacity: 1;
    *   color: <value>;
@@ -1110,6 +1116,14 @@ export interface SkribbleCss {
   opacity: WithDynamicClassName<OpacityAtomStyle>;
   /**
    * ```css
+   * .fade\:\:\[<value>\] {
+   *   --tw-enter-opacity: <value>;
+   * }
+   * ```
+   */
+  fade: WithDynamicClassName<FadeAtomStyle>;
+  /**
+   * ```css
    * .z\:\:\[<value>\] {
    *   z-index: <value>;
    * }
@@ -1159,12 +1173,28 @@ export interface SkribbleCss {
   scaleY: WithDynamicClassName<ScaleYAtomStyle>;
   /**
    * ```css
+   * .zoom\:\:\[<value>\] {
+   *   --animation-enter-scale: <value>;
+   * }
+   * ```
+   */
+  zoom: WithDynamicClassName<ZoomAtomStyle>;
+  /**
+   * ```css
    * .rotate\:\:\[<value>\] {
    *   --transform-rotate: <value>;
    * }
    * ```
    */
   rotate: WithDynamicClassName<RotateAtomStyle>;
+  /**
+   * ```css
+   * .spin\:\:\[<value>\] {
+   *   --animation-enter-rotate: <value>;
+   * }
+   * ```
+   */
+  spin: WithDynamicClassName<SpinAtomStyle>;
   /**
    * ```css
    * .skewX\:\:\[<value>\] {
@@ -1207,12 +1237,132 @@ export interface SkribbleCss {
   translateY: WithDynamicClassName<TranslateYAtomStyle>;
   /**
    * ```css
-   * .animation\:\:\[<value>\] {
+   * .slideBottom\:\:\[<value>\] {
+   *   --animation-enter-translate-y: <value>;
+   * }
+   * ```
+   */
+  slideBottom: WithDynamicClassName<SlideBottomAtomStyle>;
+  /**
+   * ```css
+   * .slideRight\:\:\[<value>\] {
+   *   --animation-enter-translate-x: <value>;
+   * }
+   * ```
+   */
+  slideRight: WithDynamicClassName<SlideRightAtomStyle>;
+  /**
+   * ```css
+   * .slideTop\:\:\[<value>\] {
+   *   --animation-enter-translate-y: <value>;
+   * }
+   * ```
+   */
+  slideTop: WithDynamicClassName<SlideTopAtomStyle>;
+  /**
+   * ```css
+   * .slideLeft\:\:\[<value>\] {
+   *   --animation-enter-translate-x: <value>;
+   * }
+   * ```
+   */
+  slideLeft: WithDynamicClassName<SlideLeftAtomStyle>;
+  /**
+   * ```css
+   * .transition\:\:\[<value>\] {
+   *   transition: <value>;
+   * }
+   * ```
+   */
+  transition: WithDynamicClassName<TransitionAtomStyle>;
+  /**
+   * ```css
+   * .transitionProperty\:\:\[<value>\] {
+   *   transition-property: <value>;
+   * }
+   * ```
+   */
+  transitionProperty: WithDynamicClassName<TransitionPropertyAtomStyle>;
+  /**
+   * ```css
+   * .duration\:\:\[<value>\] {
+   *   transition-duration: <value>;
+   * }
+   * ```
+   */
+  duration: WithDynamicClassName<DurationAtomStyle>;
+  /**
+   * ```css
+   * .delay\:\:\[<value>\] {
+   *   transition-delay: <value>;
+   * }
+   * ```
+   */
+  delay: WithDynamicClassName<DelayAtomStyle>;
+  /**
+   * ```css
+   * .animationDelay\:\:\[<value>\] {
+   *   animation-delay: <value>;
+   * }
+   * ```
+   */
+  animationDelay: WithDynamicClassName<AnimationDelayAtomStyle>;
+  /**
+   * ```css
+   * .animationDuration\:\:\[<value>\] {
+   *   animation-duration: <value>;
+   * }
+   * ```
+   */
+  animationDuration: WithDynamicClassName<AnimationDurationAtomStyle>;
+  /**
+   * ```css
+   * .ease\:\:\[<value>\] {
+   *   transition-timing-function: <value>;
+   * }
+   * ```
+   */
+  ease: WithDynamicClassName<EaseAtomStyle>;
+  /**
+   * ```css
+   * .animationTiming\:\:\[<value>\] {
+   *   animation-timing-function: <value>;
+   * }
+   * ```
+   */
+  animationTiming: WithDynamicClassName<AnimationTimingAtomStyle>;
+  /**
+   * ```css
+   * .animate\:\:\[<value>\] {
    *   animation: <value>;
    * }
    * ```
    */
-  animation: WithDynamicClassName<AnimationAtomStyle>;
+  animate: WithDynamicClassName<AnimateAtomStyle>;
+  /**
+   * ```css
+   * .animationState\:\:\[<value>\] {
+   *   animation-play-state: <value>;
+   * }
+   * ```
+   */
+  animationState: WithDynamicClassName<AnimationStateAtomStyle>;
+  /**
+   * ```css
+   * .animationFillMode\:\:\[<value>\] {
+   *   animation-fill-mode: <value>;
+   * }
+   * ```
+   */
+  animationFillMode: WithDynamicClassName<AnimationFillModeAtomStyle>;
+  /**
+   * ```css
+   * .animationDirection\:\:\[<value>\] {
+   *   animation-direction: <value>;
+   * }
+   * ```
+   */
+  animationDirection: WithDynamicClassName<AnimationDirectionAtomStyle>;
 }
 
 type BreakpointKeys = 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
@@ -2155,6 +2305,40 @@ type SkribbleModifierCssGroup35 = Omit<
   | ModifierKeys34
   | ModifierKeys35
 >;
+
+interface SrAtomStyle {
+  /**
+   * ```css
+   * .sr\:\:\$only {
+   *   position: absolute;
+   *   width: 1px;
+   *   height: 1px;
+   *   padding: 0;
+   *   margin: -1px;
+   *   overflow: hidden;
+   *   clip: rect(0, 0, 0, 0);
+   *   white-space: nowrap;
+   *   border-width: 0;
+   * }
+   * ```
+   */
+  $only: ClassName;
+  /**
+   * ```css
+   * .sr\:\:\$exclude {
+   *   position: static;
+   *   width: auto;
+   *   height: auto;
+   *   padding: 0;
+   *   margin: 0;
+   *   overflow: visible;
+   *   clip: auto;
+   *   white-space: normal;
+   * }
+   * ```
+   */
+  $exclude: ClassName;
+}
 
 interface TextAtomStyle {
   /**
@@ -14876,6 +15060,121 @@ interface OpacityAtomStyle {
   $100: ClassName;
 }
 
+interface FadeAtomStyle {
+  /**
+   * ```css
+   * .fade\:\:\$0 {
+   *   --tw-enter-opacity: 0;
+   * }
+   * ```
+   */
+  $0: ClassName;
+  /**
+   * ```css
+   * .fade\:\:\$5 {
+   *   --tw-enter-opacity: 5;
+   * }
+   * ```
+   */
+  $5: ClassName;
+  /**
+   * ```css
+   * .fade\:\:\$10 {
+   *   --tw-enter-opacity: 10;
+   * }
+   * ```
+   */
+  $10: ClassName;
+  /**
+   * ```css
+   * .fade\:\:\$20 {
+   *   --tw-enter-opacity: 20;
+   * }
+   * ```
+   */
+  $20: ClassName;
+  /**
+   * ```css
+   * .fade\:\:\$30 {
+   *   --tw-enter-opacity: 30;
+   * }
+   * ```
+   */
+  $30: ClassName;
+  /**
+   * ```css
+   * .fade\:\:\$40 {
+   *   --tw-enter-opacity: 40;
+   * }
+   * ```
+   */
+  $40: ClassName;
+  /**
+   * ```css
+   * .fade\:\:\$50 {
+   *   --tw-enter-opacity: 50;
+   * }
+   * ```
+   */
+  $50: ClassName;
+  /**
+   * ```css
+   * .fade\:\:\$60 {
+   *   --tw-enter-opacity: 60;
+   * }
+   * ```
+   */
+  $60: ClassName;
+  /**
+   * ```css
+   * .fade\:\:\$70 {
+   *   --tw-enter-opacity: 70;
+   * }
+   * ```
+   */
+  $70: ClassName;
+  /**
+   * ```css
+   * .fade\:\:\$75 {
+   *   --tw-enter-opacity: 75;
+   * }
+   * ```
+   */
+  $75: ClassName;
+  /**
+   * ```css
+   * .fade\:\:\$80 {
+   *   --tw-enter-opacity: 80;
+   * }
+   * ```
+   */
+  $80: ClassName;
+  /**
+   * ```css
+   * .fade\:\:\$90 {
+   *   --tw-enter-opacity: 90;
+   * }
+   * ```
+   */
+  $90: ClassName;
+  /**
+   * ```css
+   * .fade\:\:\$95 {
+   *   --tw-enter-opacity: 95;
+   * }
+   * ```
+   */
+  $95: ClassName;
+  /**
+   * ```css
+   * .fade\:\:\$100 {
+   *   --tw-enter-opacity: 100;
+   * }
+   * ```
+   */
+  $100: ClassName;
+}
+
 interface ZAtomStyle {
   /**
    * ```css
@@ -15376,6 +15675,89 @@ interface ScaleYAtomStyle {
   $150: ClassName;
 }
 
+interface ZoomAtomStyle {
+  /**
+   * ```css
+   * .zoom\:\:\$0 {
+   *   --animation-enter-scale: 0;
+   * }
+   * ```
+   */
+  $0: ClassName;
+  /**
+   * ```css
+   * .zoom\:\:\$50 {
+   *   --animation-enter-scale: .5;
+   * }
+   * ```
+   */
+  $50: ClassName;
+  /**
+   * ```css
+   * .zoom\:\:\$75 {
+   *   --animation-enter-scale: .75;
+   * }
+   * ```
+   */
+  $75: ClassName;
+  /**
+   * ```css
+   * .zoom\:\:\$90 {
+   *   --animation-enter-scale: .9;
+   * }
+   * ```
+   */
+  $90: ClassName;
+  /**
+   * ```css
+   * .zoom\:\:\$95 {
+   *   --animation-enter-scale: .95;
+   * }
+   * ```
+   */
+  $95: ClassName;
+  /**
+   * ```css
+   * .zoom\:\:\$100 {
+   *   --animation-enter-scale: 1;
+   * }
+   * ```
+   */
+  $100: ClassName;
+  /**
+   * ```css
+   * .zoom\:\:\$105 {
+   *   --animation-enter-scale: 1.05;
+   * }
+   * ```
+   */
+  $105: ClassName;
+  /**
+   * ```css
+   * .zoom\:\:\$110 {
+   *   --animation-enter-scale: 1.1;
+   * }
+   * ```
+   */
+  $110: ClassName;
+  /**
+   * ```css
+   * .zoom\:\:\$125 {
+   *   --animation-enter-scale: 1.25;
+   * }
+   * ```
+   */
+  $125: ClassName;
+  /**
+   * ```css
+   * .zoom\:\:\$150 {
+   *   --animation-enter-scale: 1.5;
+   * }
+   * ```
+   */
+  $150: ClassName;
+}
+
 interface RotateAtomStyle {
   /**
    * ```css
@@ -15461,6 +15843,97 @@ interface RotateAtomStyle {
    * ```css
    * .rotate\:\:\$315 {
    *   --transform-rotate: 315deg;
+   * }
+   * ```
+   */
+  $315: ClassName;
+}
+
+interface SpinAtomStyle {
+  /**
+   * ```css
+   * .spin\:\:\$0 {
+   *   --animation-enter-rotate: 0deg;
+   * }
+   * ```
+   */
+  $0: ClassName;
+  /**
+   * ```css
+   * .spin\:\:\$1 {
+   *   --animation-enter-rotate: 1deg;
+   * }
+   * ```
+   */
+  $1: ClassName;
+  /**
+   * ```css
+   * .spin\:\:\$2 {
+   *   --animation-enter-rotate: 2deg;
+   * }
+   * ```
+   */
+  $2: ClassName;
+  /**
+   * ```css
+   * .spin\:\:\$3 {
+   *   --animation-enter-rotate: 3deg;
+   * }
+   * ```
+   */
+  $3: ClassName;
+  /**
+   * ```css
+   * .spin\:\:\$6 {
+   *   --animation-enter-rotate: 6deg;
+   * }
+   * ```
+   */
+  $6: ClassName;
+  /**
+   * ```css
+   * .spin\:\:\$12 {
+   *   --animation-enter-rotate: 12deg;
+   * }
+   * ```
+   */
+  $12: ClassName;
+  /**
+   * ```css
+   * .spin\:\:\$45 {
+   *   --animation-enter-rotate: 45deg;
+   * }
+   * ```
+   */
+  $45: ClassName;
+  /**
+   * ```css
+   * .spin\:\:\$90 {
+   *   --animation-enter-rotate: 90deg;
+   * }
+   * ```
+   */
+  $90: ClassName;
+  /**
+   * ```css
+   * .spin\:\:\$180 {
+   *   --animation-enter-rotate: 180deg;
+   * }
+   * ```
+   */
+  $180: ClassName;
+  /**
+   * ```css
+   * .spin\:\:\$270 {
+   *   --animation-enter-rotate: 270deg;
+   * }
+   * ```
+   */
+  $270: ClassName;
+  /**
+   * ```css
+   * .spin\:\:\$315 {
+   *   --animation-enter-rotate: 315deg;
    * }
    * ```
    */
@@ -15981,6 +16454,334 @@ interface TranslateXAtomStyle {
    * ```
    */
   $full: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$_px {
+   *   --transform-translate-x: -1px;
+   * }
+   * ```
+   */
+  $_px: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$_0_5 {
+   *   --transform-translate-x: -0.125rem;
+   * }
+   * ```
+   */
+  $_0_5: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$_1 {
+   *   --transform-translate-x: -0.25rem;
+   * }
+   * ```
+   */
+  $_1: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$_1_5 {
+   *   --transform-translate-x: -0.375rem;
+   * }
+   * ```
+   */
+  $_1_5: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$_2 {
+   *   --transform-translate-x: -0.5rem;
+   * }
+   * ```
+   */
+  $_2: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$_2_5 {
+   *   --transform-translate-x: -0.625rem;
+   * }
+   * ```
+   */
+  $_2_5: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$_3 {
+   *   --transform-translate-x: -0.75rem;
+   * }
+   * ```
+   */
+  $_3: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$_3_5 {
+   *   --transform-translate-x: -0.875rem;
+   * }
+   * ```
+   */
+  $_3_5: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$_4 {
+   *   --transform-translate-x: -1rem;
+   * }
+   * ```
+   */
+  $_4: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$_5 {
+   *   --transform-translate-x: -1.25rem;
+   * }
+   * ```
+   */
+  $_5: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$_6 {
+   *   --transform-translate-x: -1.5rem;
+   * }
+   * ```
+   */
+  $_6: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$_7 {
+   *   --transform-translate-x: -1.75rem;
+   * }
+   * ```
+   */
+  $_7: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$_8 {
+   *   --transform-translate-x: -2rem;
+   * }
+   * ```
+   */
+  $_8: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$_9 {
+   *   --transform-translate-x: -2.25rem;
+   * }
+   * ```
+   */
+  $_9: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$_10 {
+   *   --transform-translate-x: -2.5rem;
+   * }
+   * ```
+   */
+  $_10: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$_11 {
+   *   --transform-translate-x: -2.75rem;
+   * }
+   * ```
+   */
+  $_11: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$_12 {
+   *   --transform-translate-x: -3rem;
+   * }
+   * ```
+   */
+  $_12: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$_14 {
+   *   --transform-translate-x: -3.5rem;
+   * }
+   * ```
+   */
+  $_14: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$_16 {
+   *   --transform-translate-x: -4rem;
+   * }
+   * ```
+   */
+  $_16: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$_20 {
+   *   --transform-translate-x: -5rem;
+   * }
+   * ```
+   */
+  $_20: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$_24 {
+   *   --transform-translate-x: -6rem;
+   * }
+   * ```
+   */
+  $_24: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$_28 {
+   *   --transform-translate-x: -7rem;
+   * }
+   * ```
+   */
+  $_28: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$_32 {
+   *   --transform-translate-x: -8rem;
+   * }
+   * ```
+   */
+  $_32: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$_36 {
+   *   --transform-translate-x: -9rem;
+   * }
+   * ```
+   */
+  $_36: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$_40 {
+   *   --transform-translate-x: -10rem;
+   * }
+   * ```
+   */
+  $_40: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$_44 {
+   *   --transform-translate-x: -11rem;
+   * }
+   * ```
+   */
+  $_44: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$_48 {
+   *   --transform-translate-x: -12rem;
+   * }
+   * ```
+   */
+  $_48: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$_52 {
+   *   --transform-translate-x: -13rem;
+   * }
+   * ```
+   */
+  $_52: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$_56 {
+   *   --transform-translate-x: -14rem;
+   * }
+   * ```
+   */
+  $_56: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$_60 {
+   *   --transform-translate-x: -15rem;
+   * }
+   * ```
+   */
+  $_60: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$_64 {
+   *   --transform-translate-x: -16rem;
+   * }
+   * ```
+   */
+  $_64: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$_72 {
+   *   --transform-translate-x: -18rem;
+   * }
+   * ```
+   */
+  $_72: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$_80 {
+   *   --transform-translate-x: -20rem;
+   * }
+   * ```
+   */
+  $_80: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$_96 {
+   *   --transform-translate-x: -24rem;
+   * }
+   * ```
+   */
+  $_96: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$_1of2 {
+   *   --transform-translate-x: -50%;
+   * }
+   * ```
+   */
+  $_1of2: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$_1of3 {
+   *   --transform-translate-x: -33.333333%;
+   * }
+   * ```
+   */
+  $_1of3: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$_2of3 {
+   *   --transform-translate-x: -66.666667%;
+   * }
+   * ```
+   */
+  $_2of3: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$_1of4 {
+   *   --transform-translate-x: -25%;
+   * }
+   * ```
+   */
+  $_1of4: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$_2of4 {
+   *   --transform-translate-x: -50%;
+   * }
+   * ```
+   */
+  $_2of4: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$_3of4 {
+   *   --transform-translate-x: -75%;
+   * }
+   * ```
+   */
+  $_3of4: ClassName;
+  /**
+   * ```css
+   * .translateX\:\:\$_full {
+   *   --transform-translate-x: -100%;
+   * }
+   * ```
+   */
+  $_full: ClassName;
 }
 
 interface TranslateYAtomStyle {
@@ -16320,6 +17121,2428 @@ interface TranslateYAtomStyle {
    * ```
    */
   $full: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$_px {
+   *   --transform-translate-y: -1px;
+   * }
+   * ```
+   */
+  $_px: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$_0_5 {
+   *   --transform-translate-y: -0.125rem;
+   * }
+   * ```
+   */
+  $_0_5: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$_1 {
+   *   --transform-translate-y: -0.25rem;
+   * }
+   * ```
+   */
+  $_1: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$_1_5 {
+   *   --transform-translate-y: -0.375rem;
+   * }
+   * ```
+   */
+  $_1_5: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$_2 {
+   *   --transform-translate-y: -0.5rem;
+   * }
+   * ```
+   */
+  $_2: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$_2_5 {
+   *   --transform-translate-y: -0.625rem;
+   * }
+   * ```
+   */
+  $_2_5: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$_3 {
+   *   --transform-translate-y: -0.75rem;
+   * }
+   * ```
+   */
+  $_3: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$_3_5 {
+   *   --transform-translate-y: -0.875rem;
+   * }
+   * ```
+   */
+  $_3_5: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$_4 {
+   *   --transform-translate-y: -1rem;
+   * }
+   * ```
+   */
+  $_4: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$_5 {
+   *   --transform-translate-y: -1.25rem;
+   * }
+   * ```
+   */
+  $_5: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$_6 {
+   *   --transform-translate-y: -1.5rem;
+   * }
+   * ```
+   */
+  $_6: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$_7 {
+   *   --transform-translate-y: -1.75rem;
+   * }
+   * ```
+   */
+  $_7: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$_8 {
+   *   --transform-translate-y: -2rem;
+   * }
+   * ```
+   */
+  $_8: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$_9 {
+   *   --transform-translate-y: -2.25rem;
+   * }
+   * ```
+   */
+  $_9: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$_10 {
+   *   --transform-translate-y: -2.5rem;
+   * }
+   * ```
+   */
+  $_10: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$_11 {
+   *   --transform-translate-y: -2.75rem;
+   * }
+   * ```
+   */
+  $_11: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$_12 {
+   *   --transform-translate-y: -3rem;
+   * }
+   * ```
+   */
+  $_12: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$_14 {
+   *   --transform-translate-y: -3.5rem;
+   * }
+   * ```
+   */
+  $_14: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$_16 {
+   *   --transform-translate-y: -4rem;
+   * }
+   * ```
+   */
+  $_16: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$_20 {
+   *   --transform-translate-y: -5rem;
+   * }
+   * ```
+   */
+  $_20: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$_24 {
+   *   --transform-translate-y: -6rem;
+   * }
+   * ```
+   */
+  $_24: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$_28 {
+   *   --transform-translate-y: -7rem;
+   * }
+   * ```
+   */
+  $_28: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$_32 {
+   *   --transform-translate-y: -8rem;
+   * }
+   * ```
+   */
+  $_32: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$_36 {
+   *   --transform-translate-y: -9rem;
+   * }
+   * ```
+   */
+  $_36: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$_40 {
+   *   --transform-translate-y: -10rem;
+   * }
+   * ```
+   */
+  $_40: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$_44 {
+   *   --transform-translate-y: -11rem;
+   * }
+   * ```
+   */
+  $_44: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$_48 {
+   *   --transform-translate-y: -12rem;
+   * }
+   * ```
+   */
+  $_48: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$_52 {
+   *   --transform-translate-y: -13rem;
+   * }
+   * ```
+   */
+  $_52: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$_56 {
+   *   --transform-translate-y: -14rem;
+   * }
+   * ```
+   */
+  $_56: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$_60 {
+   *   --transform-translate-y: -15rem;
+   * }
+   * ```
+   */
+  $_60: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$_64 {
+   *   --transform-translate-y: -16rem;
+   * }
+   * ```
+   */
+  $_64: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$_72 {
+   *   --transform-translate-y: -18rem;
+   * }
+   * ```
+   */
+  $_72: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$_80 {
+   *   --transform-translate-y: -20rem;
+   * }
+   * ```
+   */
+  $_80: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$_96 {
+   *   --transform-translate-y: -24rem;
+   * }
+   * ```
+   */
+  $_96: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$_1of2 {
+   *   --transform-translate-y: -50%;
+   * }
+   * ```
+   */
+  $_1of2: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$_1of3 {
+   *   --transform-translate-y: -33.333333%;
+   * }
+   * ```
+   */
+  $_1of3: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$_2of3 {
+   *   --transform-translate-y: -66.666667%;
+   * }
+   * ```
+   */
+  $_2of3: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$_1of4 {
+   *   --transform-translate-y: -25%;
+   * }
+   * ```
+   */
+  $_1of4: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$_2of4 {
+   *   --transform-translate-y: -50%;
+   * }
+   * ```
+   */
+  $_2of4: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$_3of4 {
+   *   --transform-translate-y: -75%;
+   * }
+   * ```
+   */
+  $_3of4: ClassName;
+  /**
+   * ```css
+   * .translateY\:\:\$_full {
+   *   --transform-translate-y: -100%;
+   * }
+   * ```
+   */
+  $_full: ClassName;
 }
 
-interface AnimationAtomStyle {}
+interface SlideBottomAtomStyle {
+  /**
+   * ```css
+   * .slideBottom\:\:\$0 {
+   *   --animation-enter-translate-y: 0px;
+   * }
+   * ```
+   */
+  $0: ClassName;
+  /**
+   * ```css
+   * .slideBottom\:\:\$1 {
+   *   --animation-enter-translate-y: 0.25rem;
+   * }
+   * ```
+   */
+  $1: ClassName;
+  /**
+   * ```css
+   * .slideBottom\:\:\$2 {
+   *   --animation-enter-translate-y: 0.5rem;
+   * }
+   * ```
+   */
+  $2: ClassName;
+  /**
+   * ```css
+   * .slideBottom\:\:\$3 {
+   *   --animation-enter-translate-y: 0.75rem;
+   * }
+   * ```
+   */
+  $3: ClassName;
+  /**
+   * ```css
+   * .slideBottom\:\:\$4 {
+   *   --animation-enter-translate-y: 1rem;
+   * }
+   * ```
+   */
+  $4: ClassName;
+  /**
+   * ```css
+   * .slideBottom\:\:\$5 {
+   *   --animation-enter-translate-y: 1.25rem;
+   * }
+   * ```
+   */
+  $5: ClassName;
+  /**
+   * ```css
+   * .slideBottom\:\:\$6 {
+   *   --animation-enter-translate-y: 1.5rem;
+   * }
+   * ```
+   */
+  $6: ClassName;
+  /**
+   * ```css
+   * .slideBottom\:\:\$7 {
+   *   --animation-enter-translate-y: 1.75rem;
+   * }
+   * ```
+   */
+  $7: ClassName;
+  /**
+   * ```css
+   * .slideBottom\:\:\$8 {
+   *   --animation-enter-translate-y: 2rem;
+   * }
+   * ```
+   */
+  $8: ClassName;
+  /**
+   * ```css
+   * .slideBottom\:\:\$9 {
+   *   --animation-enter-translate-y: 2.25rem;
+   * }
+   * ```
+   */
+  $9: ClassName;
+  /**
+   * ```css
+   * .slideBottom\:\:\$10 {
+   *   --animation-enter-translate-y: 2.5rem;
+   * }
+   * ```
+   */
+  $10: ClassName;
+  /**
+   * ```css
+   * .slideBottom\:\:\$11 {
+   *   --animation-enter-translate-y: 2.75rem;
+   * }
+   * ```
+   */
+  $11: ClassName;
+  /**
+   * ```css
+   * .slideBottom\:\:\$12 {
+   *   --animation-enter-translate-y: 3rem;
+   * }
+   * ```
+   */
+  $12: ClassName;
+  /**
+   * ```css
+   * .slideBottom\:\:\$14 {
+   *   --animation-enter-translate-y: 3.5rem;
+   * }
+   * ```
+   */
+  $14: ClassName;
+  /**
+   * ```css
+   * .slideBottom\:\:\$16 {
+   *   --animation-enter-translate-y: 4rem;
+   * }
+   * ```
+   */
+  $16: ClassName;
+  /**
+   * ```css
+   * .slideBottom\:\:\$20 {
+   *   --animation-enter-translate-y: 5rem;
+   * }
+   * ```
+   */
+  $20: ClassName;
+  /**
+   * ```css
+   * .slideBottom\:\:\$24 {
+   *   --animation-enter-translate-y: 6rem;
+   * }
+   * ```
+   */
+  $24: ClassName;
+  /**
+   * ```css
+   * .slideBottom\:\:\$28 {
+   *   --animation-enter-translate-y: 7rem;
+   * }
+   * ```
+   */
+  $28: ClassName;
+  /**
+   * ```css
+   * .slideBottom\:\:\$32 {
+   *   --animation-enter-translate-y: 8rem;
+   * }
+   * ```
+   */
+  $32: ClassName;
+  /**
+   * ```css
+   * .slideBottom\:\:\$36 {
+   *   --animation-enter-translate-y: 9rem;
+   * }
+   * ```
+   */
+  $36: ClassName;
+  /**
+   * ```css
+   * .slideBottom\:\:\$40 {
+   *   --animation-enter-translate-y: 10rem;
+   * }
+   * ```
+   */
+  $40: ClassName;
+  /**
+   * ```css
+   * .slideBottom\:\:\$44 {
+   *   --animation-enter-translate-y: 11rem;
+   * }
+   * ```
+   */
+  $44: ClassName;
+  /**
+   * ```css
+   * .slideBottom\:\:\$48 {
+   *   --animation-enter-translate-y: 12rem;
+   * }
+   * ```
+   */
+  $48: ClassName;
+  /**
+   * ```css
+   * .slideBottom\:\:\$52 {
+   *   --animation-enter-translate-y: 13rem;
+   * }
+   * ```
+   */
+  $52: ClassName;
+  /**
+   * ```css
+   * .slideBottom\:\:\$56 {
+   *   --animation-enter-translate-y: 14rem;
+   * }
+   * ```
+   */
+  $56: ClassName;
+  /**
+   * ```css
+   * .slideBottom\:\:\$60 {
+   *   --animation-enter-translate-y: 15rem;
+   * }
+   * ```
+   */
+  $60: ClassName;
+  /**
+   * ```css
+   * .slideBottom\:\:\$64 {
+   *   --animation-enter-translate-y: 16rem;
+   * }
+   * ```
+   */
+  $64: ClassName;
+  /**
+   * ```css
+   * .slideBottom\:\:\$72 {
+   *   --animation-enter-translate-y: 18rem;
+   * }
+   * ```
+   */
+  $72: ClassName;
+  /**
+   * ```css
+   * .slideBottom\:\:\$80 {
+   *   --animation-enter-translate-y: 20rem;
+   * }
+   * ```
+   */
+  $80: ClassName;
+  /**
+   * ```css
+   * .slideBottom\:\:\$96 {
+   *   --animation-enter-translate-y: 24rem;
+   * }
+   * ```
+   */
+  $96: ClassName;
+  /**
+   * ```css
+   * .slideBottom\:\:\$px {
+   *   --animation-enter-translate-y: 1px;
+   * }
+   * ```
+   */
+  $px: ClassName;
+  /**
+   * ```css
+   * .slideBottom\:\:\$0_5 {
+   *   --animation-enter-translate-y: 0.125rem;
+   * }
+   * ```
+   */
+  $0_5: ClassName;
+  /**
+   * ```css
+   * .slideBottom\:\:\$1_5 {
+   *   --animation-enter-translate-y: 0.375rem;
+   * }
+   * ```
+   */
+  $1_5: ClassName;
+  /**
+   * ```css
+   * .slideBottom\:\:\$2_5 {
+   *   --animation-enter-translate-y: 0.625rem;
+   * }
+   * ```
+   */
+  $2_5: ClassName;
+  /**
+   * ```css
+   * .slideBottom\:\:\$3_5 {
+   *   --animation-enter-translate-y: 0.875rem;
+   * }
+   * ```
+   */
+  $3_5: ClassName;
+  /**
+   * ```css
+   * .slideBottom\:\:\$1of2 {
+   *   --animation-enter-translate-y: 50%;
+   * }
+   * ```
+   */
+  $1of2: ClassName;
+  /**
+   * ```css
+   * .slideBottom\:\:\$1of3 {
+   *   --animation-enter-translate-y: 33.333333%;
+   * }
+   * ```
+   */
+  $1of3: ClassName;
+  /**
+   * ```css
+   * .slideBottom\:\:\$2of3 {
+   *   --animation-enter-translate-y: 66.666667%;
+   * }
+   * ```
+   */
+  $2of3: ClassName;
+  /**
+   * ```css
+   * .slideBottom\:\:\$1of4 {
+   *   --animation-enter-translate-y: 25%;
+   * }
+   * ```
+   */
+  $1of4: ClassName;
+  /**
+   * ```css
+   * .slideBottom\:\:\$2of4 {
+   *   --animation-enter-translate-y: 50%;
+   * }
+   * ```
+   */
+  $2of4: ClassName;
+  /**
+   * ```css
+   * .slideBottom\:\:\$3of4 {
+   *   --animation-enter-translate-y: 75%;
+   * }
+   * ```
+   */
+  $3of4: ClassName;
+  /**
+   * ```css
+   * .slideBottom\:\:\$full {
+   *   --animation-enter-translate-y: 100%;
+   * }
+   * ```
+   */
+  $full: ClassName;
+  /**
+   * ```css
+   * .slideBottom\:\:\$ {
+   *   --animation-enter-translate-y: 100%;
+   * }
+   * ```
+   */
+  $: ClassName;
+}
+
+interface SlideRightAtomStyle {
+  /**
+   * ```css
+   * .slideRight\:\:\$0 {
+   *   --animation-enter-translate-x: 0px;
+   * }
+   * ```
+   */
+  $0: ClassName;
+  /**
+   * ```css
+   * .slideRight\:\:\$1 {
+   *   --animation-enter-translate-x: 0.25rem;
+   * }
+   * ```
+   */
+  $1: ClassName;
+  /**
+   * ```css
+   * .slideRight\:\:\$2 {
+   *   --animation-enter-translate-x: 0.5rem;
+   * }
+   * ```
+   */
+  $2: ClassName;
+  /**
+   * ```css
+   * .slideRight\:\:\$3 {
+   *   --animation-enter-translate-x: 0.75rem;
+   * }
+   * ```
+   */
+  $3: ClassName;
+  /**
+   * ```css
+   * .slideRight\:\:\$4 {
+   *   --animation-enter-translate-x: 1rem;
+   * }
+   * ```
+   */
+  $4: ClassName;
+  /**
+   * ```css
+   * .slideRight\:\:\$5 {
+   *   --animation-enter-translate-x: 1.25rem;
+   * }
+   * ```
+   */
+  $5: ClassName;
+  /**
+   * ```css
+   * .slideRight\:\:\$6 {
+   *   --animation-enter-translate-x: 1.5rem;
+   * }
+   * ```
+   */
+  $6: ClassName;
+  /**
+   * ```css
+   * .slideRight\:\:\$7 {
+   *   --animation-enter-translate-x: 1.75rem;
+   * }
+   * ```
+   */
+  $7: ClassName;
+  /**
+   * ```css
+   * .slideRight\:\:\$8 {
+   *   --animation-enter-translate-x: 2rem;
+   * }
+   * ```
+   */
+  $8: ClassName;
+  /**
+   * ```css
+   * .slideRight\:\:\$9 {
+   *   --animation-enter-translate-x: 2.25rem;
+   * }
+   * ```
+   */
+  $9: ClassName;
+  /**
+   * ```css
+   * .slideRight\:\:\$10 {
+   *   --animation-enter-translate-x: 2.5rem;
+   * }
+   * ```
+   */
+  $10: ClassName;
+  /**
+   * ```css
+   * .slideRight\:\:\$11 {
+   *   --animation-enter-translate-x: 2.75rem;
+   * }
+   * ```
+   */
+  $11: ClassName;
+  /**
+   * ```css
+   * .slideRight\:\:\$12 {
+   *   --animation-enter-translate-x: 3rem;
+   * }
+   * ```
+   */
+  $12: ClassName;
+  /**
+   * ```css
+   * .slideRight\:\:\$14 {
+   *   --animation-enter-translate-x: 3.5rem;
+   * }
+   * ```
+   */
+  $14: ClassName;
+  /**
+   * ```css
+   * .slideRight\:\:\$16 {
+   *   --animation-enter-translate-x: 4rem;
+   * }
+   * ```
+   */
+  $16: ClassName;
+  /**
+   * ```css
+   * .slideRight\:\:\$20 {
+   *   --animation-enter-translate-x: 5rem;
+   * }
+   * ```
+   */
+  $20: ClassName;
+  /**
+   * ```css
+   * .slideRight\:\:\$24 {
+   *   --animation-enter-translate-x: 6rem;
+   * }
+   * ```
+   */
+  $24: ClassName;
+  /**
+   * ```css
+   * .slideRight\:\:\$28 {
+   *   --animation-enter-translate-x: 7rem;
+   * }
+   * ```
+   */
+  $28: ClassName;
+  /**
+   * ```css
+   * .slideRight\:\:\$32 {
+   *   --animation-enter-translate-x: 8rem;
+   * }
+   * ```
+   */
+  $32: ClassName;
+  /**
+   * ```css
+   * .slideRight\:\:\$36 {
+   *   --animation-enter-translate-x: 9rem;
+   * }
+   * ```
+   */
+  $36: ClassName;
+  /**
+   * ```css
+   * .slideRight\:\:\$40 {
+   *   --animation-enter-translate-x: 10rem;
+   * }
+   * ```
+   */
+  $40: ClassName;
+  /**
+   * ```css
+   * .slideRight\:\:\$44 {
+   *   --animation-enter-translate-x: 11rem;
+   * }
+   * ```
+   */
+  $44: ClassName;
+  /**
+   * ```css
+   * .slideRight\:\:\$48 {
+   *   --animation-enter-translate-x: 12rem;
+   * }
+   * ```
+   */
+  $48: ClassName;
+  /**
+   * ```css
+   * .slideRight\:\:\$52 {
+   *   --animation-enter-translate-x: 13rem;
+   * }
+   * ```
+   */
+  $52: ClassName;
+  /**
+   * ```css
+   * .slideRight\:\:\$56 {
+   *   --animation-enter-translate-x: 14rem;
+   * }
+   * ```
+   */
+  $56: ClassName;
+  /**
+   * ```css
+   * .slideRight\:\:\$60 {
+   *   --animation-enter-translate-x: 15rem;
+   * }
+   * ```
+   */
+  $60: ClassName;
+  /**
+   * ```css
+   * .slideRight\:\:\$64 {
+   *   --animation-enter-translate-x: 16rem;
+   * }
+   * ```
+   */
+  $64: ClassName;
+  /**
+   * ```css
+   * .slideRight\:\:\$72 {
+   *   --animation-enter-translate-x: 18rem;
+   * }
+   * ```
+   */
+  $72: ClassName;
+  /**
+   * ```css
+   * .slideRight\:\:\$80 {
+   *   --animation-enter-translate-x: 20rem;
+   * }
+   * ```
+   */
+  $80: ClassName;
+  /**
+   * ```css
+   * .slideRight\:\:\$96 {
+   *   --animation-enter-translate-x: 24rem;
+   * }
+   * ```
+   */
+  $96: ClassName;
+  /**
+   * ```css
+   * .slideRight\:\:\$px {
+   *   --animation-enter-translate-x: 1px;
+   * }
+   * ```
+   */
+  $px: ClassName;
+  /**
+   * ```css
+   * .slideRight\:\:\$0_5 {
+   *   --animation-enter-translate-x: 0.125rem;
+   * }
+   * ```
+   */
+  $0_5: ClassName;
+  /**
+   * ```css
+   * .slideRight\:\:\$1_5 {
+   *   --animation-enter-translate-x: 0.375rem;
+   * }
+   * ```
+   */
+  $1_5: ClassName;
+  /**
+   * ```css
+   * .slideRight\:\:\$2_5 {
+   *   --animation-enter-translate-x: 0.625rem;
+   * }
+   * ```
+   */
+  $2_5: ClassName;
+  /**
+   * ```css
+   * .slideRight\:\:\$3_5 {
+   *   --animation-enter-translate-x: 0.875rem;
+   * }
+   * ```
+   */
+  $3_5: ClassName;
+  /**
+   * ```css
+   * .slideRight\:\:\$1of2 {
+   *   --animation-enter-translate-x: 50%;
+   * }
+   * ```
+   */
+  $1of2: ClassName;
+  /**
+   * ```css
+   * .slideRight\:\:\$1of3 {
+   *   --animation-enter-translate-x: 33.333333%;
+   * }
+   * ```
+   */
+  $1of3: ClassName;
+  /**
+   * ```css
+   * .slideRight\:\:\$2of3 {
+   *   --animation-enter-translate-x: 66.666667%;
+   * }
+   * ```
+   */
+  $2of3: ClassName;
+  /**
+   * ```css
+   * .slideRight\:\:\$1of4 {
+   *   --animation-enter-translate-x: 25%;
+   * }
+   * ```
+   */
+  $1of4: ClassName;
+  /**
+   * ```css
+   * .slideRight\:\:\$2of4 {
+   *   --animation-enter-translate-x: 50%;
+   * }
+   * ```
+   */
+  $2of4: ClassName;
+  /**
+   * ```css
+   * .slideRight\:\:\$3of4 {
+   *   --animation-enter-translate-x: 75%;
+   * }
+   * ```
+   */
+  $3of4: ClassName;
+  /**
+   * ```css
+   * .slideRight\:\:\$full {
+   *   --animation-enter-translate-x: 100%;
+   * }
+   * ```
+   */
+  $full: ClassName;
+  /**
+   * ```css
+   * .slideRight\:\:\$ {
+   *   --animation-enter-translate-x: 100%;
+   * }
+   * ```
+   */
+  $: ClassName;
+}
+
+interface SlideTopAtomStyle {
+  /**
+   * ```css
+   * .slideTop\:\:\$_px {
+   *   --animation-enter-translate-y: -1px;
+   * }
+   * ```
+   */
+  $_px: ClassName;
+  /**
+   * ```css
+   * .slideTop\:\:\$_0_5 {
+   *   --animation-enter-translate-y: -0.125rem;
+   * }
+   * ```
+   */
+  $_0_5: ClassName;
+  /**
+   * ```css
+   * .slideTop\:\:\$_1 {
+   *   --animation-enter-translate-y: -0.25rem;
+   * }
+   * ```
+   */
+  $_1: ClassName;
+  /**
+   * ```css
+   * .slideTop\:\:\$_1_5 {
+   *   --animation-enter-translate-y: -0.375rem;
+   * }
+   * ```
+   */
+  $_1_5: ClassName;
+  /**
+   * ```css
+   * .slideTop\:\:\$_2 {
+   *   --animation-enter-translate-y: -0.5rem;
+   * }
+   * ```
+   */
+  $_2: ClassName;
+  /**
+   * ```css
+   * .slideTop\:\:\$_2_5 {
+   *   --animation-enter-translate-y: -0.625rem;
+   * }
+   * ```
+   */
+  $_2_5: ClassName;
+  /**
+   * ```css
+   * .slideTop\:\:\$_3 {
+   *   --animation-enter-translate-y: -0.75rem;
+   * }
+   * ```
+   */
+  $_3: ClassName;
+  /**
+   * ```css
+   * .slideTop\:\:\$_3_5 {
+   *   --animation-enter-translate-y: -0.875rem;
+   * }
+   * ```
+   */
+  $_3_5: ClassName;
+  /**
+   * ```css
+   * .slideTop\:\:\$_4 {
+   *   --animation-enter-translate-y: -1rem;
+   * }
+   * ```
+   */
+  $_4: ClassName;
+  /**
+   * ```css
+   * .slideTop\:\:\$_5 {
+   *   --animation-enter-translate-y: -1.25rem;
+   * }
+   * ```
+   */
+  $_5: ClassName;
+  /**
+   * ```css
+   * .slideTop\:\:\$_6 {
+   *   --animation-enter-translate-y: -1.5rem;
+   * }
+   * ```
+   */
+  $_6: ClassName;
+  /**
+   * ```css
+   * .slideTop\:\:\$_7 {
+   *   --animation-enter-translate-y: -1.75rem;
+   * }
+   * ```
+   */
+  $_7: ClassName;
+  /**
+   * ```css
+   * .slideTop\:\:\$_8 {
+   *   --animation-enter-translate-y: -2rem;
+   * }
+   * ```
+   */
+  $_8: ClassName;
+  /**
+   * ```css
+   * .slideTop\:\:\$_9 {
+   *   --animation-enter-translate-y: -2.25rem;
+   * }
+   * ```
+   */
+  $_9: ClassName;
+  /**
+   * ```css
+   * .slideTop\:\:\$_10 {
+   *   --animation-enter-translate-y: -2.5rem;
+   * }
+   * ```
+   */
+  $_10: ClassName;
+  /**
+   * ```css
+   * .slideTop\:\:\$_11 {
+   *   --animation-enter-translate-y: -2.75rem;
+   * }
+   * ```
+   */
+  $_11: ClassName;
+  /**
+   * ```css
+   * .slideTop\:\:\$_12 {
+   *   --animation-enter-translate-y: -3rem;
+   * }
+   * ```
+   */
+  $_12: ClassName;
+  /**
+   * ```css
+   * .slideTop\:\:\$_14 {
+   *   --animation-enter-translate-y: -3.5rem;
+   * }
+   * ```
+   */
+  $_14: ClassName;
+  /**
+   * ```css
+   * .slideTop\:\:\$_16 {
+   *   --animation-enter-translate-y: -4rem;
+   * }
+   * ```
+   */
+  $_16: ClassName;
+  /**
+   * ```css
+   * .slideTop\:\:\$_20 {
+   *   --animation-enter-translate-y: -5rem;
+   * }
+   * ```
+   */
+  $_20: ClassName;
+  /**
+   * ```css
+   * .slideTop\:\:\$_24 {
+   *   --animation-enter-translate-y: -6rem;
+   * }
+   * ```
+   */
+  $_24: ClassName;
+  /**
+   * ```css
+   * .slideTop\:\:\$_28 {
+   *   --animation-enter-translate-y: -7rem;
+   * }
+   * ```
+   */
+  $_28: ClassName;
+  /**
+   * ```css
+   * .slideTop\:\:\$_32 {
+   *   --animation-enter-translate-y: -8rem;
+   * }
+   * ```
+   */
+  $_32: ClassName;
+  /**
+   * ```css
+   * .slideTop\:\:\$_36 {
+   *   --animation-enter-translate-y: -9rem;
+   * }
+   * ```
+   */
+  $_36: ClassName;
+  /**
+   * ```css
+   * .slideTop\:\:\$_40 {
+   *   --animation-enter-translate-y: -10rem;
+   * }
+   * ```
+   */
+  $_40: ClassName;
+  /**
+   * ```css
+   * .slideTop\:\:\$_44 {
+   *   --animation-enter-translate-y: -11rem;
+   * }
+   * ```
+   */
+  $_44: ClassName;
+  /**
+   * ```css
+   * .slideTop\:\:\$_48 {
+   *   --animation-enter-translate-y: -12rem;
+   * }
+   * ```
+   */
+  $_48: ClassName;
+  /**
+   * ```css
+   * .slideTop\:\:\$_52 {
+   *   --animation-enter-translate-y: -13rem;
+   * }
+   * ```
+   */
+  $_52: ClassName;
+  /**
+   * ```css
+   * .slideTop\:\:\$_56 {
+   *   --animation-enter-translate-y: -14rem;
+   * }
+   * ```
+   */
+  $_56: ClassName;
+  /**
+   * ```css
+   * .slideTop\:\:\$_60 {
+   *   --animation-enter-translate-y: -15rem;
+   * }
+   * ```
+   */
+  $_60: ClassName;
+  /**
+   * ```css
+   * .slideTop\:\:\$_64 {
+   *   --animation-enter-translate-y: -16rem;
+   * }
+   * ```
+   */
+  $_64: ClassName;
+  /**
+   * ```css
+   * .slideTop\:\:\$_72 {
+   *   --animation-enter-translate-y: -18rem;
+   * }
+   * ```
+   */
+  $_72: ClassName;
+  /**
+   * ```css
+   * .slideTop\:\:\$_80 {
+   *   --animation-enter-translate-y: -20rem;
+   * }
+   * ```
+   */
+  $_80: ClassName;
+  /**
+   * ```css
+   * .slideTop\:\:\$_96 {
+   *   --animation-enter-translate-y: -24rem;
+   * }
+   * ```
+   */
+  $_96: ClassName;
+  /**
+   * ```css
+   * .slideTop\:\:\$_1of2 {
+   *   --animation-enter-translate-y: -50%;
+   * }
+   * ```
+   */
+  $_1of2: ClassName;
+  /**
+   * ```css
+   * .slideTop\:\:\$_1of3 {
+   *   --animation-enter-translate-y: -33.333333%;
+   * }
+   * ```
+   */
+  $_1of3: ClassName;
+  /**
+   * ```css
+   * .slideTop\:\:\$_2of3 {
+   *   --animation-enter-translate-y: -66.666667%;
+   * }
+   * ```
+   */
+  $_2of3: ClassName;
+  /**
+   * ```css
+   * .slideTop\:\:\$_1of4 {
+   *   --animation-enter-translate-y: -25%;
+   * }
+   * ```
+   */
+  $_1of4: ClassName;
+  /**
+   * ```css
+   * .slideTop\:\:\$_2of4 {
+   *   --animation-enter-translate-y: -50%;
+   * }
+   * ```
+   */
+  $_2of4: ClassName;
+  /**
+   * ```css
+   * .slideTop\:\:\$_3of4 {
+   *   --animation-enter-translate-y: -75%;
+   * }
+   * ```
+   */
+  $_3of4: ClassName;
+  /**
+   * ```css
+   * .slideTop\:\:\$_full {
+   *   --animation-enter-translate-y: -100%;
+   * }
+   * ```
+   */
+  $_full: ClassName;
+  /**
+   * ```css
+   * .slideTop\:\:\$ {
+   *   --animation-enter-translate-y: -100%;
+   * }
+   * ```
+   */
+  $: ClassName;
+}
+
+interface SlideLeftAtomStyle {
+  /**
+   * ```css
+   * .slideLeft\:\:\$_px {
+   *   --animation-enter-translate-x: -1px;
+   * }
+   * ```
+   */
+  $_px: ClassName;
+  /**
+   * ```css
+   * .slideLeft\:\:\$_0_5 {
+   *   --animation-enter-translate-x: -0.125rem;
+   * }
+   * ```
+   */
+  $_0_5: ClassName;
+  /**
+   * ```css
+   * .slideLeft\:\:\$_1 {
+   *   --animation-enter-translate-x: -0.25rem;
+   * }
+   * ```
+   */
+  $_1: ClassName;
+  /**
+   * ```css
+   * .slideLeft\:\:\$_1_5 {
+   *   --animation-enter-translate-x: -0.375rem;
+   * }
+   * ```
+   */
+  $_1_5: ClassName;
+  /**
+   * ```css
+   * .slideLeft\:\:\$_2 {
+   *   --animation-enter-translate-x: -0.5rem;
+   * }
+   * ```
+   */
+  $_2: ClassName;
+  /**
+   * ```css
+   * .slideLeft\:\:\$_2_5 {
+   *   --animation-enter-translate-x: -0.625rem;
+   * }
+   * ```
+   */
+  $_2_5: ClassName;
+  /**
+   * ```css
+   * .slideLeft\:\:\$_3 {
+   *   --animation-enter-translate-x: -0.75rem;
+   * }
+   * ```
+   */
+  $_3: ClassName;
+  /**
+   * ```css
+   * .slideLeft\:\:\$_3_5 {
+   *   --animation-enter-translate-x: -0.875rem;
+   * }
+   * ```
+   */
+  $_3_5: ClassName;
+  /**
+   * ```css
+   * .slideLeft\:\:\$_4 {
+   *   --animation-enter-translate-x: -1rem;
+   * }
+   * ```
+   */
+  $_4: ClassName;
+  /**
+   * ```css
+   * .slideLeft\:\:\$_5 {
+   *   --animation-enter-translate-x: -1.25rem;
+   * }
+   * ```
+   */
+  $_5: ClassName;
+  /**
+   * ```css
+   * .slideLeft\:\:\$_6 {
+   *   --animation-enter-translate-x: -1.5rem;
+   * }
+   * ```
+   */
+  $_6: ClassName;
+  /**
+   * ```css
+   * .slideLeft\:\:\$_7 {
+   *   --animation-enter-translate-x: -1.75rem;
+   * }
+   * ```
+   */
+  $_7: ClassName;
+  /**
+   * ```css
+   * .slideLeft\:\:\$_8 {
+   *   --animation-enter-translate-x: -2rem;
+   * }
+   * ```
+   */
+  $_8: ClassName;
+  /**
+   * ```css
+   * .slideLeft\:\:\$_9 {
+   *   --animation-enter-translate-x: -2.25rem;
+   * }
+   * ```
+   */
+  $_9: ClassName;
+  /**
+   * ```css
+   * .slideLeft\:\:\$_10 {
+   *   --animation-enter-translate-x: -2.5rem;
+   * }
+   * ```
+   */
+  $_10: ClassName;
+  /**
+   * ```css
+   * .slideLeft\:\:\$_11 {
+   *   --animation-enter-translate-x: -2.75rem;
+   * }
+   * ```
+   */
+  $_11: ClassName;
+  /**
+   * ```css
+   * .slideLeft\:\:\$_12 {
+   *   --animation-enter-translate-x: -3rem;
+   * }
+   * ```
+   */
+  $_12: ClassName;
+  /**
+   * ```css
+   * .slideLeft\:\:\$_14 {
+   *   --animation-enter-translate-x: -3.5rem;
+   * }
+   * ```
+   */
+  $_14: ClassName;
+  /**
+   * ```css
+   * .slideLeft\:\:\$_16 {
+   *   --animation-enter-translate-x: -4rem;
+   * }
+   * ```
+   */
+  $_16: ClassName;
+  /**
+   * ```css
+   * .slideLeft\:\:\$_20 {
+   *   --animation-enter-translate-x: -5rem;
+   * }
+   * ```
+   */
+  $_20: ClassName;
+  /**
+   * ```css
+   * .slideLeft\:\:\$_24 {
+   *   --animation-enter-translate-x: -6rem;
+   * }
+   * ```
+   */
+  $_24: ClassName;
+  /**
+   * ```css
+   * .slideLeft\:\:\$_28 {
+   *   --animation-enter-translate-x: -7rem;
+   * }
+   * ```
+   */
+  $_28: ClassName;
+  /**
+   * ```css
+   * .slideLeft\:\:\$_32 {
+   *   --animation-enter-translate-x: -8rem;
+   * }
+   * ```
+   */
+  $_32: ClassName;
+  /**
+   * ```css
+   * .slideLeft\:\:\$_36 {
+   *   --animation-enter-translate-x: -9rem;
+   * }
+   * ```
+   */
+  $_36: ClassName;
+  /**
+   * ```css
+   * .slideLeft\:\:\$_40 {
+   *   --animation-enter-translate-x: -10rem;
+   * }
+   * ```
+   */
+  $_40: ClassName;
+  /**
+   * ```css
+   * .slideLeft\:\:\$_44 {
+   *   --animation-enter-translate-x: -11rem;
+   * }
+   * ```
+   */
+  $_44: ClassName;
+  /**
+   * ```css
+   * .slideLeft\:\:\$_48 {
+   *   --animation-enter-translate-x: -12rem;
+   * }
+   * ```
+   */
+  $_48: ClassName;
+  /**
+   * ```css
+   * .slideLeft\:\:\$_52 {
+   *   --animation-enter-translate-x: -13rem;
+   * }
+   * ```
+   */
+  $_52: ClassName;
+  /**
+   * ```css
+   * .slideLeft\:\:\$_56 {
+   *   --animation-enter-translate-x: -14rem;
+   * }
+   * ```
+   */
+  $_56: ClassName;
+  /**
+   * ```css
+   * .slideLeft\:\:\$_60 {
+   *   --animation-enter-translate-x: -15rem;
+   * }
+   * ```
+   */
+  $_60: ClassName;
+  /**
+   * ```css
+   * .slideLeft\:\:\$_64 {
+   *   --animation-enter-translate-x: -16rem;
+   * }
+   * ```
+   */
+  $_64: ClassName;
+  /**
+   * ```css
+   * .slideLeft\:\:\$_72 {
+   *   --animation-enter-translate-x: -18rem;
+   * }
+   * ```
+   */
+  $_72: ClassName;
+  /**
+   * ```css
+   * .slideLeft\:\:\$_80 {
+   *   --animation-enter-translate-x: -20rem;
+   * }
+   * ```
+   */
+  $_80: ClassName;
+  /**
+   * ```css
+   * .slideLeft\:\:\$_96 {
+   *   --animation-enter-translate-x: -24rem;
+   * }
+   * ```
+   */
+  $_96: ClassName;
+  /**
+   * ```css
+   * .slideLeft\:\:\$_1of2 {
+   *   --animation-enter-translate-x: -50%;
+   * }
+   * ```
+   */
+  $_1of2: ClassName;
+  /**
+   * ```css
+   * .slideLeft\:\:\$_1of3 {
+   *   --animation-enter-translate-x: -33.333333%;
+   * }
+   * ```
+   */
+  $_1of3: ClassName;
+  /**
+   * ```css
+   * .slideLeft\:\:\$_2of3 {
+   *   --animation-enter-translate-x: -66.666667%;
+   * }
+   * ```
+   */
+  $_2of3: ClassName;
+  /**
+   * ```css
+   * .slideLeft\:\:\$_1of4 {
+   *   --animation-enter-translate-x: -25%;
+   * }
+   * ```
+   */
+  $_1of4: ClassName;
+  /**
+   * ```css
+   * .slideLeft\:\:\$_2of4 {
+   *   --animation-enter-translate-x: -50%;
+   * }
+   * ```
+   */
+  $_2of4: ClassName;
+  /**
+   * ```css
+   * .slideLeft\:\:\$_3of4 {
+   *   --animation-enter-translate-x: -75%;
+   * }
+   * ```
+   */
+  $_3of4: ClassName;
+  /**
+   * ```css
+   * .slideLeft\:\:\$_full {
+   *   --animation-enter-translate-x: -100%;
+   * }
+   * ```
+   */
+  $_full: ClassName;
+  /**
+   * ```css
+   * .slideLeft\:\:\$ {
+   *   --animation-enter-translate-x: -100%;
+   * }
+   * ```
+   */
+  $: ClassName;
+}
+
+interface TransitionAtomStyle {
+  /**
+   * ```css
+   * .transition\:\:\$ {
+   *   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+   *   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+   *   transition-duration: var(--default-transition-duration);
+   * }
+   * ```
+   */
+  $: ClassName;
+  /**
+   * ```css
+   * .transition\:\:\$none {
+   *   transition-property: none;
+   * }
+   * ```
+   */
+  $none: ClassName;
+  /**
+   * ```css
+   * .transition\:\:\$all {
+   *   transition-property: all;
+   *   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+   *   transition-duration: var(--default-transition-duration);
+   * }
+   * ```
+   */
+  $all: ClassName;
+  /**
+   * ```css
+   * .transition\:\:\$colors {
+   *   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+   *   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+   *   transition-duration: var(--default-transition-duration);
+   * }
+   * ```
+   */
+  $colors: ClassName;
+  /**
+   * ```css
+   * .transition\:\:\$opacity {
+   *   transition-property: opacity;
+   *   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+   *   transition-duration: var(--default-transition-duration);
+   * }
+   * ```
+   */
+  $opacity: ClassName;
+  /**
+   * ```css
+   * .transition\:\:\$shadow {
+   *   transition-property: box-shadow;
+   *   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+   *   transition-duration: var(--default-transition-duration);
+   * }
+   * ```
+   */
+  $shadow: ClassName;
+  /**
+   * ```css
+   * .transition\:\:\$transform {
+   *   transition-property: transform;
+   *   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+   *   transition-duration: var(--default-transition-duration);
+   * }
+   * ```
+   */
+  $transform: ClassName;
+}
+
+interface TransitionPropertyAtomStyle {
+  /**
+   * ```css
+   * .transitionProperty\:\:\$ {
+   *   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+   * }
+   * ```
+   */
+  $: ClassName;
+  /**
+   * ```css
+   * .transitionProperty\:\:\$none {
+   *   transition-property: none;
+   * }
+   * ```
+   */
+  $none: ClassName;
+  /**
+   * ```css
+   * .transitionProperty\:\:\$all {
+   *   transition-property: all;
+   * }
+   * ```
+   */
+  $all: ClassName;
+  /**
+   * ```css
+   * .transitionProperty\:\:\$colors {
+   *   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+   * }
+   * ```
+   */
+  $colors: ClassName;
+  /**
+   * ```css
+   * .transitionProperty\:\:\$opacity {
+   *   transition-property: opacity;
+   * }
+   * ```
+   */
+  $opacity: ClassName;
+  /**
+   * ```css
+   * .transitionProperty\:\:\$shadow {
+   *   transition-property: box-shadow;
+   * }
+   * ```
+   */
+  $shadow: ClassName;
+  /**
+   * ```css
+   * .transitionProperty\:\:\$transform {
+   *   transition-property: transform;
+   * }
+   * ```
+   */
+  $transform: ClassName;
+}
+
+interface DurationAtomStyle {
+  /**
+   * ```css
+   * .duration\:\:\$0 {
+   *   transition-duration: 0ms;
+   * }
+   * ```
+   */
+  $0: ClassName;
+  /**
+   * ```css
+   * .duration\:\:\$75 {
+   *   transition-duration: 75ms;
+   * }
+   * ```
+   */
+  $75: ClassName;
+  /**
+   * ```css
+   * .duration\:\:\$100 {
+   *   transition-duration: 100ms;
+   * }
+   * ```
+   */
+  $100: ClassName;
+  /**
+   * ```css
+   * .duration\:\:\$150 {
+   *   transition-duration: 150ms;
+   * }
+   * ```
+   */
+  $150: ClassName;
+  /**
+   * ```css
+   * .duration\:\:\$200 {
+   *   transition-duration: 200ms;
+   * }
+   * ```
+   */
+  $200: ClassName;
+  /**
+   * ```css
+   * .duration\:\:\$300 {
+   *   transition-duration: 300ms;
+   * }
+   * ```
+   */
+  $300: ClassName;
+  /**
+   * ```css
+   * .duration\:\:\$500 {
+   *   transition-duration: 500ms;
+   * }
+   * ```
+   */
+  $500: ClassName;
+  /**
+   * ```css
+   * .duration\:\:\$700 {
+   *   transition-duration: 700ms;
+   * }
+   * ```
+   */
+  $700: ClassName;
+  /**
+   * ```css
+   * .duration\:\:\$1000 {
+   *   transition-duration: 1000ms;
+   * }
+   * ```
+   */
+  $1000: ClassName;
+  /**
+   * ```css
+   * .duration\:\:\$1500 {
+   *   transition-duration: 1500ms;
+   * }
+   * ```
+   */
+  $1500: ClassName;
+  /**
+   * ```css
+   * .duration\:\:\$2000 {
+   *   transition-duration: 2000ms;
+   * }
+   * ```
+   */
+  $2000: ClassName;
+}
+
+interface DelayAtomStyle {
+  /**
+   * ```css
+   * .delay\:\:\$0 {
+   *   transition-delay: 0ms;
+   * }
+   * ```
+   */
+  $0: ClassName;
+  /**
+   * ```css
+   * .delay\:\:\$75 {
+   *   transition-delay: 75ms;
+   * }
+   * ```
+   */
+  $75: ClassName;
+  /**
+   * ```css
+   * .delay\:\:\$100 {
+   *   transition-delay: 100ms;
+   * }
+   * ```
+   */
+  $100: ClassName;
+  /**
+   * ```css
+   * .delay\:\:\$150 {
+   *   transition-delay: 150ms;
+   * }
+   * ```
+   */
+  $150: ClassName;
+  /**
+   * ```css
+   * .delay\:\:\$200 {
+   *   transition-delay: 200ms;
+   * }
+   * ```
+   */
+  $200: ClassName;
+  /**
+   * ```css
+   * .delay\:\:\$300 {
+   *   transition-delay: 300ms;
+   * }
+   * ```
+   */
+  $300: ClassName;
+  /**
+   * ```css
+   * .delay\:\:\$500 {
+   *   transition-delay: 500ms;
+   * }
+   * ```
+   */
+  $500: ClassName;
+  /**
+   * ```css
+   * .delay\:\:\$700 {
+   *   transition-delay: 700ms;
+   * }
+   * ```
+   */
+  $700: ClassName;
+  /**
+   * ```css
+   * .delay\:\:\$1000 {
+   *   transition-delay: 1000ms;
+   * }
+   * ```
+   */
+  $1000: ClassName;
+  /**
+   * ```css
+   * .delay\:\:\$1500 {
+   *   transition-delay: 1500ms;
+   * }
+   * ```
+   */
+  $1500: ClassName;
+  /**
+   * ```css
+   * .delay\:\:\$2000 {
+   *   transition-delay: 2000ms;
+   * }
+   * ```
+   */
+  $2000: ClassName;
+}
+
+interface AnimationDelayAtomStyle {
+  /**
+   * ```css
+   * .animationDelay\:\:\$0 {
+   *   animation-delay: 0ms;
+   * }
+   * ```
+   */
+  $0: ClassName;
+  /**
+   * ```css
+   * .animationDelay\:\:\$75 {
+   *   animation-delay: 75ms;
+   * }
+   * ```
+   */
+  $75: ClassName;
+  /**
+   * ```css
+   * .animationDelay\:\:\$100 {
+   *   animation-delay: 100ms;
+   * }
+   * ```
+   */
+  $100: ClassName;
+  /**
+   * ```css
+   * .animationDelay\:\:\$150 {
+   *   animation-delay: 150ms;
+   * }
+   * ```
+   */
+  $150: ClassName;
+  /**
+   * ```css
+   * .animationDelay\:\:\$200 {
+   *   animation-delay: 200ms;
+   * }
+   * ```
+   */
+  $200: ClassName;
+  /**
+   * ```css
+   * .animationDelay\:\:\$300 {
+   *   animation-delay: 300ms;
+   * }
+   * ```
+   */
+  $300: ClassName;
+  /**
+   * ```css
+   * .animationDelay\:\:\$500 {
+   *   animation-delay: 500ms;
+   * }
+   * ```
+   */
+  $500: ClassName;
+  /**
+   * ```css
+   * .animationDelay\:\:\$700 {
+   *   animation-delay: 700ms;
+   * }
+   * ```
+   */
+  $700: ClassName;
+  /**
+   * ```css
+   * .animationDelay\:\:\$1000 {
+   *   animation-delay: 1000ms;
+   * }
+   * ```
+   */
+  $1000: ClassName;
+  /**
+   * ```css
+   * .animationDelay\:\:\$1500 {
+   *   animation-delay: 1500ms;
+   * }
+   * ```
+   */
+  $1500: ClassName;
+  /**
+   * ```css
+   * .animationDelay\:\:\$2000 {
+   *   animation-delay: 2000ms;
+   * }
+   * ```
+   */
+  $2000: ClassName;
+}
+
+interface AnimationDurationAtomStyle {
+  /**
+   * ```css
+   * .animationDuration\:\:\$0 {
+   *   animation-duration: 0ms;
+   * }
+   * ```
+   */
+  $0: ClassName;
+  /**
+   * ```css
+   * .animationDuration\:\:\$75 {
+   *   animation-duration: 75ms;
+   * }
+   * ```
+   */
+  $75: ClassName;
+  /**
+   * ```css
+   * .animationDuration\:\:\$100 {
+   *   animation-duration: 100ms;
+   * }
+   * ```
+   */
+  $100: ClassName;
+  /**
+   * ```css
+   * .animationDuration\:\:\$150 {
+   *   animation-duration: 150ms;
+   * }
+   * ```
+   */
+  $150: ClassName;
+  /**
+   * ```css
+   * .animationDuration\:\:\$200 {
+   *   animation-duration: 200ms;
+   * }
+   * ```
+   */
+  $200: ClassName;
+  /**
+   * ```css
+   * .animationDuration\:\:\$300 {
+   *   animation-duration: 300ms;
+   * }
+   * ```
+   */
+  $300: ClassName;
+  /**
+   * ```css
+   * .animationDuration\:\:\$500 {
+   *   animation-duration: 500ms;
+   * }
+   * ```
+   */
+  $500: ClassName;
+  /**
+   * ```css
+   * .animationDuration\:\:\$700 {
+   *   animation-duration: 700ms;
+   * }
+   * ```
+   */
+  $700: ClassName;
+  /**
+   * ```css
+   * .animationDuration\:\:\$1000 {
+   *   animation-duration: 1000ms;
+   * }
+   * ```
+   */
+  $1000: ClassName;
+  /**
+   * ```css
+   * .animationDuration\:\:\$1500 {
+   *   animation-duration: 1500ms;
+   * }
+   * ```
+   */
+  $1500: ClassName;
+  /**
+   * ```css
+   * .animationDuration\:\:\$2000 {
+   *   animation-duration: 2000ms;
+   * }
+   * ```
+   */
+  $2000: ClassName;
+}
+
+interface EaseAtomStyle {
+  /**
+   * ```css
+   * .ease\:\:\$linear {
+   *   transition-timing-function: linear;
+   * }
+   * ```
+   */
+  $linear: ClassName;
+  /**
+   * ```css
+   * .ease\:\:\$in {
+   *   transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
+   * }
+   * ```
+   */
+  $in: ClassName;
+  /**
+   * ```css
+   * .ease\:\:\$out {
+   *   transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+   * }
+   * ```
+   */
+  $out: ClassName;
+  /**
+   * ```css
+   * .ease\:\:\$inOut {
+   *   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+   * }
+   * ```
+   */
+  $inOut: ClassName;
+}
+
+interface AnimationTimingAtomStyle {
+  /**
+   * ```css
+   * .animationTiming\:\:\$linear {
+   *   animation-timing-function: linear;
+   * }
+   * ```
+   */
+  $linear: ClassName;
+  /**
+   * ```css
+   * .animationTiming\:\:\$in {
+   *   animation-timing-function: cubic-bezier(0.4, 0, 1, 1);
+   * }
+   * ```
+   */
+  $in: ClassName;
+  /**
+   * ```css
+   * .animationTiming\:\:\$out {
+   *   animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+   * }
+   * ```
+   */
+  $out: ClassName;
+  /**
+   * ```css
+   * .animationTiming\:\:\$inOut {
+   *   animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+   * }
+   * ```
+   */
+  $inOut: ClassName;
+}
+
+interface AnimateAtomStyle {
+  /**
+   * ```css
+   * .animate\:\:\$none {
+   *   animation: none;
+   * }
+   * ```
+   */
+  $none: ClassName;
+  /**
+   * ```css
+   * .animate\:\:\$spin {
+   *   animation: spin var(--default-animation-duration) linear infinite;
+   * }
+   * ```
+   */
+  $spin: ClassName;
+  /**
+   * ```css
+   * .animate\:\:\$ping {
+   *   animation: ping var(--default-animation-duration) cubic-bezier(0, 0, 0.2, 1) infinite;
+   * }
+   * ```
+   */
+  $ping: ClassName;
+  /**
+   * ```css
+   * .animate\:\:\$pulse {
+   *   animation: pulse calc(2 * var(--default-animation-duration)) cubic-bezier(0.4, 0, 0.6, 1) infinite;
+   * }
+   * ```
+   */
+  $pulse: ClassName;
+  /**
+   * ```css
+   * .animate\:\:\$bounce {
+   *   animation: bounce var(--default-animation-duration) infinite;
+   * }
+   * ```
+   */
+  $bounce: ClassName;
+  /**
+   * ```css
+   * .animate\:\:\$in {
+   *   animation-name: enter;
+   *   animation-duration: var(--default-animation-duration);
+   *   --animation-enter-opacity: initial;
+   *   --animation-enter-scale: initial;
+   *   --animation-enter-rotate: initial;
+   *   --animation-enter-translate-x: initial;
+   *   --animation-enter-translate-y: initial;
+   * }
+   * ```
+   */
+  $in: ClassName;
+  /**
+   * ```css
+   * .animate\:\:\$out {
+   *   animation-name: exit;
+   *   animation-duration: var(--default-animation-duration);
+   *   --animation-enter-opacity: initial;
+   *   --animation-enter-scale: initial;
+   *   --animation-enter-rotate: initial;
+   *   --animation-enter-translate-x: initial;
+   *   --animation-enter-translate-y: initial;
+   * }
+   * ```
+   */
+  $out: ClassName;
+}
+
+interface AnimationStateAtomStyle {
+  /**
+   * ```css
+   * .animationState\:\:\$running {
+   *   animation-play-state: running;
+   * }
+   * ```
+   */
+  $running: ClassName;
+  /**
+   * ```css
+   * .animationState\:\:\$paused {
+   *   animation-play-state: paused;
+   * }
+   * ```
+   */
+  $paused: ClassName;
+}
+
+interface AnimationFillModeAtomStyle {
+  /**
+   * ```css
+   * .animationFillMode\:\:\$none {
+   *   animation-fill-mode: none;
+   * }
+   * ```
+   */
+  $none: ClassName;
+  /**
+   * ```css
+   * .animationFillMode\:\:\$forwards {
+   *   animation-fill-mode: forwards;
+   * }
+   * ```
+   */
+  $forwards: ClassName;
+  /**
+   * ```css
+   * .animationFillMode\:\:\$backwards {
+   *   animation-fill-mode: backwards;
+   * }
+   * ```
+   */
+  $backwards: ClassName;
+  /**
+   * ```css
+   * .animationFillMode\:\:\$both {
+   *   animation-fill-mode: both;
+   * }
+   * ```
+   */
+  $both: ClassName;
+}
+
+interface AnimationDirectionAtomStyle {
+  /**
+   * ```css
+   * .animationDirection\:\:\$normal {
+   *   animation-direction: normal;
+   * }
+   * ```
+   */
+  $normal: ClassName;
+  /**
+   * ```css
+   * .animationDirection\:\:\$reverse {
+   *   animation-direction: reverse;
+   * }
+   * ```
+   */
+  $reverse: ClassName;
+  /**
+   * ```css
+   * .animationDirection\:\:\$alt {
+   *   animation-direction: alternate;
+   * }
+   * ```
+   */
+  $alt: ClassName;
+  /**
+   * ```css
+   * .animationDirection\:\:\$altReverse {
+   *   animation-direction: alternate-reverse;
+   * }
+   * ```
+   */
+  $altReverse: ClassName;
+}

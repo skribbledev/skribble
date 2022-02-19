@@ -594,6 +594,16 @@ impl<'config> ClassName<'config> {
                 }
               }
 
+              if let Some(meta) = self.config.atoms.get(atom) {
+                if let Some(keyframes) = meta.keyframes.get(cleaned_token) {
+                  self.keyframes = keyframes.clone();
+                }
+
+                if let Some(groups) = meta.groups.get(cleaned_token) {
+                  self.groups = groups.clone();
+                }
+              }
+
               self.validity = Validity::Valid; // Set to be valid.
             };
           }
@@ -629,10 +639,9 @@ impl<'config> ClassName<'config> {
         );
       }
       None => {
-        if let Some((position, _, meta)) = self.config.atoms.get_full(token) {
+        if let Some((position, _, _)) = self.config.atoms.get_full(token) {
           self.score += calculate_score_increment(ScoreMultiple::Atom, position);
-          self.keyframes = meta.keyframes.clone();
-          self.groups = meta.groups.clone();
+
           self.atom = Some(token_string);
         }
       }

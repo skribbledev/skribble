@@ -1,3 +1,4 @@
+use heck::ToKebabCase;
 use indexmap::{IndexMap, IndexSet};
 use serde::{Deserialize, Serialize};
 
@@ -91,7 +92,13 @@ impl Keyframes {
           let mut declarations: Vec<String> = vec![];
 
           for (property, value) in styles.iter() {
-            declarations.push(format!("{}: {};", property, value));
+            let property_name = if property.starts_with("--") {
+              property.to_owned()
+            } else {
+              property.to_kebab_case()
+            };
+
+            declarations.push(format!("{}: {};", property_name, value));
           }
 
           sections.push(format!(

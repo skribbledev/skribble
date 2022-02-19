@@ -92,7 +92,7 @@ interface BaseSkribbleConfigAtom {
 }
 
 interface SkribbleConfigAtomValues extends BaseSkribbleConfigAtom {
-  values: Record<string, string | Properties>;
+  values: Record<string, string | (Properties & Record<string, string>)>;
   colors?: undefined;
 }
 

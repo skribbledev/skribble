@@ -20,8 +20,12 @@ type AtomMap = IndexMap<String, AtomMeta>;
 /// Metadata for the atom which includes the groups and keyframes.
 #[derive(Serialize, Deserialize, Debug, PartialEq)]
 pub struct AtomMeta {
-  pub keyframes: Vec<String>,
-  pub groups: Vec<String>,
+  /// Map the value names to the list of keyframes which should be added when
+  /// present.
+  pub keyframes: IndexMap<String, Vec<String>>,
+  /// Map the value names to the list of groups which should be added when
+  /// present.
+  pub groups: IndexMap<String, Vec<String>>,
   pub values: IndexMap<String, AtomCssValue>,
 }
 
@@ -88,18 +92,38 @@ impl Config {
             match atoms.get_mut(rule) {
               Some(atom) => {
                 for (key, value) in &values {
+                  atom
+                    .keyframes
+                    .entry(key.to_owned())
+                    .or_insert(vec![])
+                    .extend_from_slice(keyframes);
+                  atom
+                    .groups
+                    .entry(key.to_owned())
+                    .or_insert(vec![])
+                    .extend_from_slice(groups);
                   atom.values.insert(key.to_owned(), value.to_owned());
                 }
               }
 
               None => {
                 let mut atom = AtomMeta {
-                  keyframes: keyframes.clone(),
-                  groups: groups.clone(),
+                  keyframes: IndexMap::new(),
+                  groups: IndexMap::new(),
                   values: IndexMap::new(),
                 };
 
                 for (key, value) in &values {
+                  atom
+                    .keyframes
+                    .entry(key.to_owned())
+                    .or_insert(vec![])
+                    .extend_from_slice(keyframes);
+                  atom
+                    .groups
+                    .entry(key.to_owned())
+                    .or_insert(vec![])
+                    .extend_from_slice(groups);
                   atom.values.insert(key.to_owned(), value.to_owned());
                 }
 
@@ -118,17 +142,37 @@ impl Config {
             match atoms.get_mut(rule) {
               Some(atom) => {
                 for (key, value) in values {
+                  atom
+                    .keyframes
+                    .entry(key.to_owned())
+                    .or_insert(vec![])
+                    .extend_from_slice(keyframes);
+                  atom
+                    .groups
+                    .entry(key.to_owned())
+                    .or_insert(vec![])
+                    .extend_from_slice(groups);
                   atom.values.insert(key.to_owned(), value.to_owned());
                 }
               }
               None => {
                 let mut atom = AtomMeta {
-                  keyframes: keyframes.clone(),
-                  groups: groups.clone(),
+                  keyframes: IndexMap::new(),
+                  groups: IndexMap::new(),
                   values: IndexMap::new(),
                 };
 
                 for (key, value) in values {
+                  atom
+                    .keyframes
+                    .entry(key.to_owned())
+                    .or_insert(vec![])
+                    .extend_from_slice(keyframes);
+                  atom
+                    .groups
+                    .entry(key.to_owned())
+                    .or_insert(vec![])
+                    .extend_from_slice(groups);
                   atom.values.insert(key.to_owned(), value.to_owned());
                 }
 

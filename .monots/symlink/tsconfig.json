@@ -20,6 +20,9 @@
       "path": "packages/skribble-css__config/src"
     },
     {
+      "path": "packages/skribble-css__preset-icons/src"
+    },
+    {
       "path": "packages/skribble-css__types/src"
     },
     {

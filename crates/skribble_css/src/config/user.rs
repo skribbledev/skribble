@@ -230,13 +230,6 @@ pub struct AtomColorOptions {
 struct Options {
   #[serde(default = "ColorFormat::default")]
   pub color_format: ColorFormat,
-
-  #[serde(default = "default_variables_prefix")]
-  pub variables_prefix: String,
-}
-
-fn default_variables_prefix() -> String {
-  "sk".to_string()
 }
 
 pub trait BreakpointHelper {

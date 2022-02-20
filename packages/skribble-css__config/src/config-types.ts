@@ -5,6 +5,9 @@ import { type PALETTE } from './palette';
 export interface SkribbleConfig {
   options: SkribbleConfigOptions;
 
+  /**
+   * Create the keyframes for the css.
+   */
   keyframes: SkribbleConfigKeyframes;
 
   /**
@@ -67,13 +70,6 @@ export interface SkribbleConfigOptions {
    * @default 'rgb'
    */
   colorFormat: 'rgb' | 'hsl';
-
-  /**
-   * The value to prefix the css-variables with.
-   *
-   * @default ''
-   */
-  variablesPrefix: string;
 }
 
 export type SkribbleConfigAtom = SkribbleConfigAtomValues | SkribbleConfigAtomColors;

@@ -241,6 +241,12 @@ importers:
       '@swc/helpers': 0.3.3
       csstype: 3.0.10
 
+  packages/skribble-css__preset-icons:
+    specifiers:
+      '@swc/helpers': ^0.3.3
+    dependencies:
+      '@swc/helpers': 0.3.3
+
   packages/skribble-css__types:
     specifiers:
       '@swc/helpers': ^0.3.3

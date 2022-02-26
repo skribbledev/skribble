@@ -23,6 +23,9 @@
       "path": "packages/skribble-css__preset-icons/src"
     },
     {
+      "path": "packages/skribble-css__preset/src"
+    },
+    {
       "path": "packages/skribble-css__types/src"
     },
     {

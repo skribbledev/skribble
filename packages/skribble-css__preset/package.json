@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "description": "The default preset used to configure the skribble atoms",
   "keywords": [],
+  "repository": "https://github.com/skribbledev/skribble/tree/master/packages/skribble-css__preset",
   "license": "MIT",
   "contributors": [],
   "sideEffects": false,

@@ -85,6 +85,14 @@ interface BaseSkribbleConfigAtom {
    * The keyframes that should be included when this atom is used.
    */
   keyframes?: string[];
+
+  /**
+   * A higher priority will cause an atom to be added later in the css
+   * stylesheet and hence have priority over other atoms.
+   *
+   * @default 100
+   */
+  priority?: number;
 }
 
 interface SkribbleConfigAtomValues extends BaseSkribbleConfigAtom {

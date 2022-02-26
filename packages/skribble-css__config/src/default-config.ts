@@ -224,9 +224,14 @@ export const DEFAULT_CONFIG: SkribbleConfig = {
         },
       },
     },
-    { styleRules: ['text'], colors: { opacity: '--sk-text-opacity', palette: true } },
-    { styleRules: ['bg'], colors: { opacity: '--sk-bg-opacity', palette: true } },
-    { styleRules: ['border'], colors: { opacity: '--sk-border-opacity', palette: true } },
+    {
+      styleRules: ['text'],
+      colors: { opacity: '--sk-text-opacity', palette: true },
+    },
+    {
+      styleRules: ['border'],
+      colors: { opacity: '--sk-border-opacity', palette: true },
+    },
     {
       styleRules: ['font'],
       values: {

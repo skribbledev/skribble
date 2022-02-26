@@ -13,7 +13,7 @@
   "type": "module",
   "scripts": {
     "build": "run-p build:packages typecheck",
-    "build:napi": "napi build --platform --cargo-cwd='./crates/skribble_css_node' --release",
+    "build:napi": "napi build --platform --cargo-cwd='./crates/skribble_css_node' --release js=false",
     "build:packages": "monots build",
     "build:storybook": "build-storybook -c .monots/storybook",
     "build:wasm": "run-s build:wasm:clean build:wasm:esm build:wasm:node build:wasm:copy",
@@ -26,7 +26,7 @@
     "clean": "git clean -fdX --exclude='.config.json'",
     "dev:demos": "vite",
     "dev:monots": "monots prepare",
-    "dev:napi": "napi build --platform --cargo-cwd='./crates/skribble_css_node' --config='./packages/skribble-css/package.json' && make-dir artifacts && mv *.node artifacts && pnpm ts .monots/scripts/move-artifacts",
+    "dev:napi": "napi build --platform --cargo-cwd='./crates/skribble_css_node' --config='./packages/skribble-css/package.json' --js='./packages/skribble-css/src/native.js' --dts='./packages/skribble-css/src/native.d.ts' && make-dir artifacts && mv *.node artifacts && pnpm ts .monots/scripts/move-artifacts",
     "dev:wasm": "run-s build:wasm:clean dev:wasm:esm dev:wasm:node build:wasm:copy",
     "dev:wasm:esm": "wasm-pack build --target bundler --out-name index --out-dir pkg/esm --dev crates/skribble_css_wasm",
     "dev:wasm:node": "wasm-pack build --target nodejs --out-name index --out-dir pkg/node --dev crates/skribble_css_wasm",

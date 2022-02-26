@@ -31,11 +31,6 @@ filter: var(--custom-filter);
 ✔ add some animation configurations @done(22-02-19 20:01)
 ✔ add keyframes section of config @done(22-02-19 20:01)
 
-☐ add id to each atom group
-☐ add priority to each atom group
-
-☐ add similar to support for icons to `unocss`
-  ✔ see how feasible this is @done(22-02-19 21:41)
 
 ☐ create napi.rs node structure with
   ☐ use `@parcel/css` as example for rust based cli api
@@ -45,6 +40,14 @@ filter: var(--custom-filter);
   ☐ generate from glob
   ☐ watch files and generate
 
+
+☐ add id to each atom group
+☐ add priority to each atom group
+☐ separate each group
+☐ add support for all built in tailwind properties
+
+☐ add similar to support for icons to `unocss`
+  ✔ see how feasible this is @done(22-02-19 21:41)
 
 **Future Work**
 

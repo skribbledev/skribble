@@ -5,12 +5,10 @@ import { readPackageUp } from 'read-pkg-up';
 import { promisify } from 'node:util';
 import { exec as execCallback } from 'child_process';
 import { Logger } from 'tslog';
+
 export const DEFAULT_VERDACCIO_PORT = 5000;
-
 export const exec = promisify(execCallback);
-
 export const DIRNAME = path.dirname(new URL(import.meta.url).pathname);
-
 export const log = new Logger({ name: 'scripts' });
 
 /**
@@ -161,8 +159,8 @@ export async function getNapiConfig() {
     cwd: getBase('packages', 'skribble-css', 'package.json'),
   });
 
-  console.log({ result });
   assert(result, 'Could not find package.json');
+
   const { packageJson, path } = result;
   const { version: packageVersion, napi, name } = packageJson;
   const additionPlatforms: PlatformDetail[] = (napi?.triples?.additional ?? []).map(

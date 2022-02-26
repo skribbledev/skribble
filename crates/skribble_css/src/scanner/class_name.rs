@@ -377,7 +377,7 @@ impl<'config> ClassName<'config> {
       };
 
       for (property, css_value) in self.value_object.iter() {
-        let property_name = if property.starts_with("--") {
+        let property_name = if property.starts_with('-') {
           property.to_owned()
         } else {
           property.to_kebab_case()

@@ -163,11 +163,11 @@ importers:
       ts-extras: ^0.9.1
     dependencies:
       '@node-rs/helper': 1.3.3
+      '@skribble-css/client': link:../skribble-css__client
       '@types/node': 17.0.21
       tiny-invariant: 1.2.0
       ts-extras: 0.9.1
     optionalDependencies:
-      '@skribble-css/client': link:../skribble-css__client
       skribble-css-android-arm64: link:packages/android-arm64
       skribble-css-darwin-arm64: link:packages/darwin-arm64
       skribble-css-darwin-x64: link:packages/darwin-x64
@@ -181,6 +181,9 @@ importers:
       skribble-css-win32-arm64-msvc: link:packages/win32-arm64-msvc
       skribble-css-win32-ia32-msvc: link:packages/win32-ia32-msvc
       skribble-css-win32-x64-msvc: link:packages/win32-x64-msvc
+
+  packages/skribble-css/packages/android-arm-eabi:
+    specifiers: {}
 
   packages/skribble-css/packages/android-arm64:
     specifiers: {}

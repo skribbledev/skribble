@@ -1,1 +1,1 @@
-export * from './native.js';
+export * from './_native.js';

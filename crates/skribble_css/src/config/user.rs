@@ -92,7 +92,7 @@ impl Keyframes {
           let mut declarations: Vec<String> = vec![];
 
           for (property, value) in styles.iter() {
-            let property_name = if property.starts_with("--") {
+            let property_name = if property.starts_with('-') {
               property.to_owned()
             } else {
               property.to_kebab_case()

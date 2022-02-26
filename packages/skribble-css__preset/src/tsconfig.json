@@ -7,16 +7,12 @@
   ],
   "extends": "../../../.monots/tsconfig.base.json",
   "compilerOptions": {
-    "types": ["node"],
+    "types": [],
     "noEmit": false,
     "declaration": true,
     "composite": true,
     "emitDeclarationOnly": true,
     "outDir": "../dist"
   },
-  "references": [
-    {
-      "path": "../../skribble-css__client/src"
-    }
-  ]
+  "references": []
 }

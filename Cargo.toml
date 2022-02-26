@@ -3,7 +3,11 @@
 # https://doc.rust-lang.org/cargo/reference/resolver.html#resolver-versions
 resolver = "2"
 members = ["crates/*"]
-default-members = ["crates/skribble_css", "crates/skribble_css_node", "crates/skribble_css_wasm"]
+default-members = [
+  "crates/skribble_css",
+  "crates/skribble_css_node",
+  "crates/skribble_css_wasm",
+]
 
 [profile.release]
 lto = true

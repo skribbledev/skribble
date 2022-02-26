@@ -1,0 +1,38 @@
+{
+  "name": "skribble-css-android-arm-eabi",
+  "version": "0.0.0",
+  "description": "A native module for the `skribble-css` package.",
+  "keywords": [
+    "skribble",
+    "napi",
+    "rust",
+    "skribble css",
+    "css"
+  ],
+  "repository": "https://github.com/skribbledev/skribble/tree/master/packages/skribble-css/packages/android-arm-eabi",
+  "license": "MIT",
+  "type": "commonjs",
+  "exports": {
+    ".": {
+      "require": "./skribble_css.android-arm-eabi.node"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "skribble_css.android-arm-eabi.node",
+  "files": [
+    "skribble_css.android-arm-eabi.node"
+  ],
+  "engines": {
+    "node": ">= 12.7.0"
+  },
+  "os": [
+    "android"
+  ],
+  "cpu": [
+    "arm"
+  ],
+  "monots": {
+    "mode": "app",
+    "tsconfigs": false
+  }
+}

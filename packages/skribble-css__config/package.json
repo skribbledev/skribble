@@ -29,7 +29,7 @@
     "dist"
   ],
   "dependencies": {
-    "@swc/helpers": "^0.3.3",
+    "@swc/helpers": "^0.3.5",
     "csstype": "^3.0.10"
   },
   "publishConfig": {

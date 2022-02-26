@@ -1,9 +1,8 @@
 {
-  "name": "@skribble-css/client",
+  "name": "@skribble-css/preset",
   "version": "0.0.0",
-  "description": "The skribble-css client",
+  "description": "The default preset used to configure the skribble atoms",
   "keywords": [],
-  "repository": "https://github.com/skribbledev/skribble/tree/master/packages/skribble-css__client",
   "license": "MIT",
   "contributors": [],
   "sideEffects": false,
@@ -29,7 +28,6 @@
     "dist"
   ],
   "dependencies": {
-    "@skribble-css/types": "^0.0.0",
     "@swc/helpers": "^0.3.5"
   },
   "publishConfig": {

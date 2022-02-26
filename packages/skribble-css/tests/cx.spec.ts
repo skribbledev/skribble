@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { c, cx } from '../src/client';
+import { c, cx } from '../client';
 
 describe('cx', () => {
   it('matches shorthands', () => {

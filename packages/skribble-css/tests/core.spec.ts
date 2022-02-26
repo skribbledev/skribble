@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest';
 
-import { c } from '../src/client';
+import { c } from '../client';
 
 test('generate classnames', () => {
   expect(c.md.p.$2_5).toMatchInlineSnapshot('"md:p::$2_5"');

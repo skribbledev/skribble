@@ -1,4 +1,11 @@
 {
+  "exports": {
+    ".": {
+      "import": "./../dist/client.esm.js",
+      "require": "./../dist/client.cjs.js",
+      "types": "./../dist/client.d.ts"
+    }
+  },
   "main": "../dist/client.cjs.js",
   "module": "../dist/client.esm.js",
   "types": "../dist/client.d.ts"

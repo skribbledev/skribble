@@ -1,1 +1,1 @@
-export * from './_native.js';
+export * from './utils/load.js';

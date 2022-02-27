@@ -1,6 +1,6 @@
 ---
 source: crates/skribble_css/src/generate_typescript.rs
-assertion_line: 274
+assertion_line: 295
 expression: generate_typescript(&config)
 
 ---
@@ -565,6 +565,10 @@ export interface SkribbleCss {
    * ```
    */
   'after': WithCustomClassName<SkribbleModifierCssGroup35>;
+  /**
+   * Add `!important` to the class name.
+   */
+  important: WithCustomClassName<SkribbleImportantCss>;
   /**
    * ```css
    * .\$group {}
@@ -1449,6 +1453,8 @@ type ModifierKeys34 = 'link';
 type SkribbleModifierCssGroup34 = Omit<SkribbleCss, BreakpointKeys | MediaQueryKeys | ParentModifierKeys | ModifierKeys0 | ModifierKeys1 | ModifierKeys2 | ModifierKeys3 | ModifierKeys4 | ModifierKeys5 | ModifierKeys6 | ModifierKeys7 | ModifierKeys8 | ModifierKeys9 | ModifierKeys10 | ModifierKeys11 | ModifierKeys12 | ModifierKeys13 | ModifierKeys14 | ModifierKeys15 | ModifierKeys16 | ModifierKeys17 | ModifierKeys18 | ModifierKeys19 | ModifierKeys20 | ModifierKeys21 | ModifierKeys22 | ModifierKeys23 | ModifierKeys24 | ModifierKeys25 | ModifierKeys26 | ModifierKeys27 | ModifierKeys28 | ModifierKeys29 | ModifierKeys30 | ModifierKeys31 | ModifierKeys32 | ModifierKeys33 | ModifierKeys34>;
 type ModifierKeys35 = 'placeholder' | 'selection' | 'firstLetter' | 'firstLine' | 'before' | 'after';
 type SkribbleModifierCssGroup35 = Omit<SkribbleCss, BreakpointKeys | MediaQueryKeys | ParentModifierKeys | ModifierKeys0 | ModifierKeys1 | ModifierKeys2 | ModifierKeys3 | ModifierKeys4 | ModifierKeys5 | ModifierKeys6 | ModifierKeys7 | ModifierKeys8 | ModifierKeys9 | ModifierKeys10 | ModifierKeys11 | ModifierKeys12 | ModifierKeys13 | ModifierKeys14 | ModifierKeys15 | ModifierKeys16 | ModifierKeys17 | ModifierKeys18 | ModifierKeys19 | ModifierKeys20 | ModifierKeys21 | ModifierKeys22 | ModifierKeys23 | ModifierKeys24 | ModifierKeys25 | ModifierKeys26 | ModifierKeys27 | ModifierKeys28 | ModifierKeys29 | ModifierKeys30 | ModifierKeys31 | ModifierKeys32 | ModifierKeys33 | ModifierKeys34 | ModifierKeys35>;
+type ImportantModifierKey = 'important';
+type SkribbleImportantCss = Omit<SkribbleCss, BreakpointKeys | MediaQueryKeys | ParentModifierKeys | ModifierKeys0 | ModifierKeys1 | ModifierKeys2 | ModifierKeys3 | ModifierKeys4 | ModifierKeys5 | ModifierKeys6 | ModifierKeys7 | ModifierKeys8 | ModifierKeys9 | ModifierKeys10 | ModifierKeys11 | ModifierKeys12 | ModifierKeys13 | ModifierKeys14 | ModifierKeys15 | ModifierKeys16 | ModifierKeys17 | ModifierKeys18 | ModifierKeys19 | ModifierKeys20 | ModifierKeys21 | ModifierKeys22 | ModifierKeys23 | ModifierKeys24 | ModifierKeys25 | ModifierKeys26 | ModifierKeys27 | ModifierKeys28 | ModifierKeys29 | ModifierKeys30 | ModifierKeys31 | ModifierKeys32 | ModifierKeys33 | ModifierKeys34 | ModifierKeys35 | ImportantModifierKey>;
 
 interface SrAtomStyle {
   /**

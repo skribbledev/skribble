@@ -284,6 +284,10 @@ impl<'config> ClassName<'config> {
       tokens.push(modifier.to_string())
     }
 
+    if self.important {
+      tokens.push("important".to_string());
+    }
+
     if let Some(atom) = &self.atom {
       tokens.push(atom.to_string());
     }
@@ -363,7 +367,9 @@ impl<'config> ClassName<'config> {
   /// padding-right: 10px;
   /// ```
   fn get_style_declaration(&self) -> String {
-    let mut style_declarations: Vec<String> = vec![];
+    let mut lines: Vec<String> = vec![];
+    let important = (if self.important { " !important" } else { "" }).to_string();
+    let separator = format!("{};", important);
 
     if let Some(atom) = &self.atom {
       if let Some(style_rules) = &self.config.user.style_rules.get(atom) {
@@ -371,7 +377,7 @@ impl<'config> ClassName<'config> {
           let derived_style = rule.get_style_declaration_as_ref(self.value.as_ref());
 
           if !derived_style.is_empty() {
-            style_declarations.push(derived_style);
+            lines.push(derived_style);
           }
         }
       };
@@ -383,19 +389,23 @@ impl<'config> ClassName<'config> {
           property.to_kebab_case()
         };
 
-        style_declarations.push(format!("{}: {}", property_name, css_value.get_string()));
+        lines.push(format!("{}: {}", property_name, css_value.get_string()));
       }
     }
 
     if let Some(shorthand) = &self.shorthand {
       if let Some(style_rules) = &self.config.user.shorthand.get(shorthand) {
         for rule in *style_rules {
-          style_declarations.push(rule.get_style_declaration(None));
+          lines.push(rule.get_style_declaration(None));
         }
       };
     }
 
-    style_declarations.join(";\n")
+    lines
+      .iter()
+      .map(|line| format!("{}{}", line, separator))
+      .collect::<Vec<String>>()
+      .join("\n")
   }
 
   pub fn variables(&self) -> IndexSet<String> {
@@ -419,8 +429,9 @@ impl<'config> ClassName<'config> {
   pub fn get_css(&self) -> String {
     let selector = self.get_selector();
     let mut style_declaration = self.get_style_declaration();
+
     if !style_declaration.is_empty() {
-      style_declaration = format!("\n{};\n", indent(&style_declaration, INDENTATION));
+      style_declaration = format!("\n{}\n", indent(&style_declaration, INDENTATION));
     }
 
     format!("{} {{{}}}", selector, style_declaration)
@@ -435,6 +446,16 @@ impl<'config> ClassName<'config> {
     }
 
     let token_string = token.to_string();
+
+    if token_string == "important" {
+      if self.important {
+        self.validity = Validity::Invalid;
+        println!("Warning: 'ClassName' already has 'important'.");
+        return;
+      } else {
+        self.important = true;
+      }
+    }
 
     // Handle the breakpoint case.
     if self.config.user.breakpoints.keys().any(|v| v == token) {
@@ -701,13 +722,20 @@ impl<'config> Hash for ClassName<'_> {
 
 impl<'config> Ord for ClassName<'_> {
   fn cmp(&self, other: &Self) -> Ordering {
-    let comparison = self.order.cmp(&other.order);
+    let comparators: &[&dyn Fn() -> Ordering; 3] = &[
+      &(|| self.order.cmp(&other.order)),
+      &(|| self.important.cmp(&other.important)),
+      &(|| self.get_selector().cmp(&other.get_selector())),
+    ];
 
-    if comparison != Ordering::Equal {
-      comparison
-    } else {
-      self.important.cmp(&other.important)
+    for comparator in comparators {
+      let comparison = comparator();
+      if comparison != Ordering::Equal {
+        return comparison;
+      }
     }
+
+    Ordering::Equal
   }
 }
 
@@ -804,6 +832,21 @@ mod tests {
     insta::assert_snapshot!(class_name.get_css(), @r###"
     .\$block {
       display: block;
+    }
+    "###);
+  }
+
+  #[test]
+  fn important() {
+    let config = create_config(None).unwrap();
+    let mut class_name = ClassName::new(&config);
+
+    class_name.add_tokens(&["important", "transition", "$"]);
+    insta::assert_snapshot!(class_name.get_css(), @r###"
+    .important\:transition\:\:\$ {
+      transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter !important;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
+      transition-duration: var(--sk-default-transition-duration) !important;
     }
     "###);
   }

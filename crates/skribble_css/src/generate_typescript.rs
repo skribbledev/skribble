@@ -203,6 +203,27 @@ pub fn generate_typescript(config: &Config) -> String {
   }
   // => END MODIFIERS
 
+  // => START IMPORTANT
+  {
+    let comments = indoc::formatdoc! {"
+      /**
+       * Add `!important` to the class name.
+       */"};
+
+    skribble_css_interface.push(format!(
+      "{}\nimportant: WithCustomClassName<SkribbleImportantCss>;",
+      comments,
+    ));
+
+    types.push("type ImportantModifierKey = 'important';".to_string());
+    omitted_keys.push("ImportantModifierKey".to_owned());
+    types.push(format!(
+      "type SkribbleImportantCss = Omit<SkribbleCss, {}>;",
+      omitted_keys.join(" | "),
+    ));
+  }
+  // => END IMPORTANT
+
   // => START SHORTHAND
   for shorthand in config.user.shorthand.keys() {
     let mut class_name = ClassName::new(config);

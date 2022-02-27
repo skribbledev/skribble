@@ -245,3 +245,5 @@ function deduplicateClassNames(classNames: readonly string[]) {
 function isArgument(value: string, length: 1 | 2): boolean {
   return value.startsWith('[') && value.endsWith(']') && value.split(':').length === length;
 }
+
+c.transition.$;

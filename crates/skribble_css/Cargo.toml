@@ -27,7 +27,8 @@ swc_ecmascript = { features = [
   "utils",
   "visit",
   "parser",
-], version = "0.121.0" }
+], version = "0.122.0" }
+thiserror = "1.0.30"
 
 [dev-dependencies]
 testing = "0.18.1"

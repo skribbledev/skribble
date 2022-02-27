@@ -8,6 +8,7 @@ use crate::{
   config::Config,
   constants::JSON_CONFIG,
   scanner::class_name_collector::{ClassNameCollector, ValidImport},
+  Result,
 };
 
 pub(crate) fn collect_classes<'config>(
@@ -59,7 +60,7 @@ pub(crate) fn get_selector(config: &Config, source: &str) -> String {
   class_names.first().unwrap().to_string()
 }
 
-pub(crate) fn create_config(json: Option<String>) -> Result<Config, serde_json::Error> {
+pub(crate) fn create_config(json: Option<String>) -> Result<Config> {
   let json_config = match json {
     Some(json) => json,
     None => JSON_CONFIG.to_string(),
@@ -108,7 +109,7 @@ macro_rules! test_css {
   ($test_name:ident : $source:expr $(, $macros:ident) *) => {
     #[test]
     $(#[$macros])*
-    fn $test_name() -> Result<(), serde_json::Error> {
+    fn $test_name() -> Result<()> {
       let config = crate::test_utils::create_config(None)?;
       let mut class_name_collector = crate::test_utils::collect_classes(&config, indoc::indoc!{$source});
       class_name_collector.sort();

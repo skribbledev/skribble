@@ -944,6 +944,7 @@ dependencies = [
  "swc_common",
  "swc_ecmascript",
  "testing",
+ "thiserror",
  "walkdir",
 ]
 
@@ -1102,9 +1103,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.68.0"
+version = "0.69.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b07c304cc98f721e25d510ae048284c559cb2c34e6b478c90428cd4fba6f258a"
+checksum = "3b289ad92ab2c2b5c55c7b2a8e3395b68b42a8145186549191786af5d44998d3"
 dependencies = [
  "indexmap",
  "once_cell",
@@ -1131,9 +1132,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.121.0"
+version = "0.122.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1f449f19f1aee7072459e1f719e475694a9014c0e66fe292015bd39fc681a470"
+checksum = "f0c1a0ddea338e85f733ecc40f6ffb7a0c161e788f77fdf269cbdf56ea52fb07"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_parser",
@@ -1250,6 +1251,26 @@ dependencies = [
  "quote",
  "regex",
  "relative-path",
+ "syn",
+]
+
+[[package]]
+name = "thiserror"
+version = "1.0.30"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "854babe52e4df1653706b98fcfc05843010039b406875930a70e4d9644e5c417"
+dependencies = [
+ "thiserror-impl",
+]
+
+[[package]]
+name = "thiserror-impl"
+version = "1.0.30"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "aa32fd3f627f367fe16f893e2597ae3c05020f8bba2666a4e6ea73d377e5714b"
+dependencies = [
+ "proc-macro2",
+ "quote",
  "syn",
 ]
 

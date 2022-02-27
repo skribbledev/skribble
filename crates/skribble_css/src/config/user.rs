@@ -5,6 +5,7 @@ use serde::{Deserialize, Serialize};
 use crate::{
   constants::{INDENTATION, ROOT_SELECTOR},
   utils::{get_css_variables_from_string, indent},
+  Error, Result,
 };
 
 use super::color_utils::convert_css_value_to_color;
@@ -68,8 +69,8 @@ pub struct UserConfig {
 }
 
 impl UserConfig {
-  pub fn new(json: &str) -> serde_json::Result<Self> {
-    let config: Self = serde_json::from_str(json)?;
+  pub fn new(json: &str) -> Result<Self> {
+    let config: Self = serde_json::from_str(json).map_err(Error::InvalidConfig)?;
     Ok(config)
   }
 }

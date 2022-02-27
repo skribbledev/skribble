@@ -2,7 +2,7 @@ use heck::ToKebabCase;
 use indexmap::IndexMap;
 use serde::{Deserialize, Serialize};
 
-use crate::constants::JSON_CONFIG;
+use crate::{constants::JSON_CONFIG, Result};
 
 use self::{
   color_utils::{get_rgba_color_from_string, wrap_css_variable},
@@ -49,7 +49,7 @@ pub struct Config {
 }
 
 impl Config {
-  pub fn new(source: &str) -> serde_json::Result<Self> {
+  pub fn new(source: &str) -> Result<Self> {
     let user = UserConfig::new(source)?;
     let mut modifiers_map: IndexMap<String, Vec<String>> = IndexMap::new();
     let mut css_variables: IndexMap<String, PopulatedCssVariable> = IndexMap::new();

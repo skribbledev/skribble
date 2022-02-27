@@ -1,1 +1,1 @@
-export * from './utils/load.js';
+export * from './load.js';

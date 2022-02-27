@@ -54,11 +54,6 @@ fn test_css(input: PathBuf) {
 
   collector.sort();
 
-  // pretty_assertions::assert_str_eq!(
-  //   generate_css(&config, &collector.get_class_names(),),
-  //   expected
-  // );
-
   insta::assert_snapshot!(
     input
       .parent()

@@ -51,7 +51,7 @@ jobs:
           workflow_conclusion: success
 
       - name: move artifacts
-        run: pnpm move:artifacts
+        run: pnpm napi:artifacts
 
       - name: build project
         run: pnpm build

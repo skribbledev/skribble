@@ -1,5 +1,6 @@
 pub mod class_name;
 pub mod class_name_collector;
+mod class_name_order;
 
 #[cfg(test)]
 mod tests {

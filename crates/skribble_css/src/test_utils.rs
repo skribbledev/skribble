@@ -109,7 +109,7 @@ macro_rules! test_css {
   ($test_name:ident : $source:expr $(, $macros:ident) *) => {
     #[test]
     $(#[$macros])*
-    fn $test_name() -> Result<()> {
+    fn $test_name() -> crate::error::Result<()> {
       let config = crate::test_utils::create_config(None)?;
       let mut class_name_collector = crate::test_utils::collect_classes(&config, indoc::indoc!{$source});
       class_name_collector.sort();

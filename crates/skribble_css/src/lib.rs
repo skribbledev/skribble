@@ -1,11 +1,11 @@
 #![deny(clippy::all)]
 
-pub use crate::errors::{Error, Result};
+pub use crate::error::{Error, Result};
 pub use crate::generate_css::generate_css;
 
 pub mod config;
 pub mod constants;
-pub mod errors;
+pub mod error;
 mod generate_css;
 pub mod generate_typescript;
 pub mod scanner;

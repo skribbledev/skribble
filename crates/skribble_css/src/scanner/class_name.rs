@@ -19,20 +19,13 @@ use crate::{
   utils::{escape_css_string, get_css_variables_from_string, get_identifiers, indent},
 };
 
+use super::class_name_order::ClassNameOrder;
+
 #[derive(Debug, Clone)]
 pub enum Validity {
   Valid,
   Invalid,
   Undefined,
-}
-
-enum ScoreMultiple {
-  Value = 1,
-  Atom = 100,
-  Modifier = 10_000,
-  ParentModifier = 100_000,
-  MediaQuery = 1_000_000,
-  Breakpoint = 10_000_000,
 }
 
 #[derive(Debug, Clone)]
@@ -128,12 +121,6 @@ pub struct ClassName<'config> {
   /// The ordered list of modifiers.
   pub modifiers: Vec<String>,
 
-  /// The group for this atom.
-  pub groups: Vec<String>,
-
-  /// The keyframes for this atom.
-  pub keyframes: Vec<String>,
-
   /// The name of the style provided. This must be provided for the `class_name`
   /// to be valid.
   pub atom: Option<String>,
@@ -156,6 +143,18 @@ pub struct ClassName<'config> {
   /// expression.
   pub argument: Option<ClassArguments>,
 
+  /// When this is set to true the class name will register all properties as
+  /// important.
+  ///
+  /// Defaults to `false`
+  pub important: bool,
+
+  /// The keyframes for this atom.
+  pub keyframes: Vec<String>,
+
+  /// The group for this atom.
+  pub groups: Vec<String>,
+
   /// Whether this class name is valid. Starts off as `false`.
   pub validity: Validity,
 
@@ -165,8 +164,8 @@ pub struct ClassName<'config> {
   /// This is captured when the style_name, or shorthand, or argument is added.
   pub value_object: IndexMap<String, CssValue>,
 
-  /// This is used to order the class names.
-  pub score: isize,
+  /// Used to determine the order of the class names.
+  order: ClassNameOrder,
 
   /// The configuration provided.
   #[readonly]
@@ -177,7 +176,6 @@ impl<'config> ClassName<'config> {
   /// Create a new class name builder.
   pub fn new(config: &'config Config) -> Self {
     Self {
-      groups: vec![],
       keyframes: vec![],
       breakpoint: None,
       media_query: None,
@@ -190,7 +188,9 @@ impl<'config> ClassName<'config> {
       validity: Validity::Undefined,
       value: None,
       value_object: IndexMap::new(),
-      score: 0,
+      important: false,
+      groups: vec![],
+      order: ClassNameOrder::new(),
       config,
     }
   }
@@ -447,7 +447,6 @@ impl<'config> ClassName<'config> {
           );
         }
         None => {
-          let mut increment = 0;
           if let Some(position) = self
             .config
             .user
@@ -455,9 +454,8 @@ impl<'config> ClassName<'config> {
             .keys()
             .position(|name| name == token)
           {
-            increment = calculate_score_increment(ScoreMultiple::Breakpoint, position);
+            self.order.set_breakpoint(position);
           }
-          self.score += increment;
           self.breakpoint = Some(token_string);
         }
       }
@@ -476,7 +474,6 @@ impl<'config> ClassName<'config> {
         }
 
         None => {
-          let mut increment = 0;
           if let Some(position) = self
             .config
             .user
@@ -484,9 +481,8 @@ impl<'config> ClassName<'config> {
             .keys()
             .position(|name| name == token)
           {
-            increment = calculate_score_increment(ScoreMultiple::MediaQuery, position);
+            self.order.set_media_query(position);
           }
-          self.score += increment;
           self.media_query = Some(token_string);
         }
       }
@@ -503,7 +499,6 @@ impl<'config> ClassName<'config> {
           return;
         }
         None => {
-          let mut increment = 0;
           if let Some(position) = self
             .config
             .user
@@ -511,10 +506,9 @@ impl<'config> ClassName<'config> {
             .keys()
             .position(|name| name == token)
           {
-            increment = calculate_score_increment(ScoreMultiple::ParentModifier, position);
+            self.order.set_parent_modifier(position);
           }
 
-          self.score += increment;
           self.parent_modifier = Some(token_string);
         }
       }
@@ -530,12 +524,10 @@ impl<'config> ClassName<'config> {
         return;
       }
 
-      let mut increment = 0;
       if let Some(position) = self.config.modifiers.iter().position(|name| name == token) {
-        increment = calculate_score_increment(ScoreMultiple::Modifier, position);
+        self.order.set_modifier(position);
       }
 
-      self.score += increment;
       self.modifiers.push(token_string);
 
       if self.modifiers.len() > 1 {
@@ -582,7 +574,7 @@ impl<'config> ClassName<'config> {
               .get(atom)
               .and_then(|meta| meta.values.get_full(cleaned_token))
             {
-              self.score += calculate_score_increment(ScoreMultiple::Value, position);
+              self.order.set_value(position);
               self.style_name = Some(cleaned_token.to_string());
 
               match value {
@@ -640,8 +632,7 @@ impl<'config> ClassName<'config> {
       }
       None => {
         if let Some((position, _, _)) = self.config.atoms.get_full(token) {
-          self.score += calculate_score_increment(ScoreMultiple::Atom, position);
-
+          self.order.set_atom(position);
           self.atom = Some(token_string);
         }
       }
@@ -669,14 +660,15 @@ impl<'config> ClassName<'config> {
       return;
     }
 
-    let mut increment = 0;
     if let Some(atom) = &self.atom {
       self.config.atoms.get(atom).iter().for_each(|meta| {
-        increment = calculate_score_increment(ScoreMultiple::Value, meta.values.len());
+        // set to the full length of values for this atom.
+        self.order.set_value(meta.values.len());
       });
+    } else {
+      self.order.set_atom(self.config.atoms.len());
     }
 
-    self.score += increment;
     self.value = Some(CssValue::String(arguments.get_value()));
     self.argument = Some(arguments);
     self.validity = Validity::Valid;
@@ -709,7 +701,13 @@ impl<'config> Hash for ClassName<'_> {
 
 impl<'config> Ord for ClassName<'_> {
   fn cmp(&self, other: &Self) -> Ordering {
-    self.score.cmp(&other.score)
+    let comparison = self.order.cmp(&other.order);
+
+    if comparison != Ordering::Equal {
+      comparison
+    } else {
+      self.important.cmp(&other.important)
+    }
   }
 }
 
@@ -717,11 +715,6 @@ impl<'config> PartialOrd for ClassName<'_> {
   fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
     Some(self.cmp(other))
   }
-}
-
-fn calculate_score_increment(multiple: ScoreMultiple, position: usize) -> isize {
-  let _multiple = multiple as isize;
-  _multiple * (position as isize)
 }
 
 #[cfg(test)]

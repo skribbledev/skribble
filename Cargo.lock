@@ -231,6 +231,19 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a357d28ed41a50f9c765dbfe56cbc04a64e53e5fc58ba79fbc34c10ef3df831f"
 
 [[package]]
+name = "enum-ordinalize"
+version = "3.1.10"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0b166c9e378360dd5a6666a9604bb4f54ae0cac39023ffbac425e917a2a04fef"
+dependencies = [
+ "num-bigint 0.4.3",
+ "num-traits",
+ "proc-macro2",
+ "quote",
+ "syn",
+]
+
+[[package]]
 name = "enum_kind"
 version = "0.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -560,6 +573,17 @@ dependencies = [
  "num-integer",
  "num-traits",
  "serde",
+]
+
+[[package]]
+name = "num-bigint"
+version = "0.4.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f93ab6289c7b344a8a9f60f88d80aa20032336fe78da341afc91c8a2341fc75f"
+dependencies = [
+ "autocfg",
+ "num-integer",
+ "num-traits",
 ]
 
 [[package]]
@@ -931,6 +955,7 @@ name = "skribble_css"
 version = "0.0.0"
 dependencies = [
  "colorsys",
+ "enum-ordinalize",
  "heck",
  "indexmap",
  "indoc",
@@ -1052,7 +1077,7 @@ dependencies = [
  "debug_unreachable",
  "either",
  "from_variant",
- "num-bigint",
+ "num-bigint 0.2.6",
  "once_cell",
  "rustc-hash",
  "serde",
@@ -1073,7 +1098,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d465460177dcdf076f7c32b75cc0adede3c70506b4c7a859440001310e78e71f"
 dependencies = [
  "is-macro",
- "num-bigint",
+ "num-bigint 0.2.6",
  "serde",
  "string_enum",
  "swc_atoms",
@@ -1090,7 +1115,7 @@ dependencies = [
  "either",
  "enum_kind",
  "lexical",
- "num-bigint",
+ "num-bigint 0.2.6",
  "serde",
  "smallvec",
  "swc_atoms",
@@ -1122,7 +1147,7 @@ version = "0.54.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "768c7cb86162cb2538a188586909b5499740da73b2eb80b258210cf147652c84"
 dependencies = [
- "num-bigint",
+ "num-bigint 0.2.6",
  "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
@@ -1132,9 +1157,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.122.0"
+version = "0.123.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f0c1a0ddea338e85f733ecc40f6ffb7a0c161e788f77fdf269cbdf56ea52fb07"
+checksum = "643e8b16370a73258bfb162a1b1bf27888b4ed65d05c3962083fed7cae26bf6d"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_parser",

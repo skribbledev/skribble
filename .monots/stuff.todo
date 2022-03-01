@@ -31,11 +31,19 @@ filter: var(--custom-filter);
 ✔ add some animation configurations @done(22-02-19 20:01)
 ✔ add keyframes section of config @done(22-02-19 20:01)
 
-☐ add `important` flag
-  ☐ should it convert the text important to `\\!` in the selector or just leave it as the word
-  ☐ initially leave it as the word
+✔ add `important` flag @done(22-03-01 04:35)
+  ✔ should it convert the text important to `\\!` in the selector or just leave it as the word @done(22-03-01 04:35)
+  ✔ initially leave it as the word @done(22-03-01 04:35)
 
-☐ use a fixed size array for comparing the position of two classes
+✔ use a fixed size array for comparing the position of two classes @done(22-03-01 04:35)
+
+☐ cache the output of the client proxy for better performance
+  ☐ allow caching to be switched off
+
+☐ classname parity with [tailwind](https://tailwindcss.com/docs/installation)
+☐ port desirable features from parity with [unocss](https://github.com/unocss/unocss)
+
+☐ explore a vscode extension as implemented in unocss
 
 ☐ create napi.rs node structure with
   ☐ use `@parcel/css` as example for rust based cli api

@@ -53,136 +53,7 @@ impl Config {
     let user = UserConfig::new(source)?;
     let mut modifiers_map: IndexMap<String, Vec<String>> = IndexMap::new();
     let mut css_variables: IndexMap<String, PopulatedCssVariable> = IndexMap::new();
-
-    let modifiers: Vec<String> = user
-      .modifiers
-      .iter()
-      .flat_map(|value| value.keys().map(|key| key.to_owned()))
-      .collect();
-
-    for modifier in user.modifiers.iter() {
-      modifier.iter().for_each(|(key, values)| {
-        modifiers_map.insert(key.clone(), values.clone());
-      })
-    }
-
-    for (css_variable_name, css_variable) in user.variables.iter() {
-      css_variables.insert(css_variable_name.to_owned(), css_variable.populate(&user));
-    }
-
-    let mut atoms: AtomMap = IndexMap::new();
-
-    for atom in user.atoms.iter() {
-      match atom {
-        Atom::Color(AtomColor {
-          keyframes,
-          groups,
-          colors,
-          style_rules,
-        }) => {
-          for rule in style_rules {
-            let values: IndexMap<String, AtomCssValue> = values_from_color_options(
-              rule,
-              colors,
-              &user.colors,
-              &user.palette,
-              &mut css_variables,
-            );
-
-            match atoms.get_mut(rule) {
-              Some(atom) => {
-                for (key, value) in &values {
-                  atom
-                    .keyframes
-                    .entry(key.to_owned())
-                    .or_insert(vec![])
-                    .extend_from_slice(keyframes);
-                  atom
-                    .groups
-                    .entry(key.to_owned())
-                    .or_insert(vec![])
-                    .extend_from_slice(groups);
-                  atom.values.insert(key.to_owned(), value.to_owned());
-                }
-              }
-
-              None => {
-                let mut atom = AtomMeta {
-                  keyframes: IndexMap::new(),
-                  groups: IndexMap::new(),
-                  values: IndexMap::new(),
-                };
-
-                for (key, value) in &values {
-                  atom
-                    .keyframes
-                    .entry(key.to_owned())
-                    .or_insert(vec![])
-                    .extend_from_slice(keyframes);
-                  atom
-                    .groups
-                    .entry(key.to_owned())
-                    .or_insert(vec![])
-                    .extend_from_slice(groups);
-                  atom.values.insert(key.to_owned(), value.to_owned());
-                }
-
-                atoms.insert(rule.to_owned(), atom);
-              }
-            };
-          }
-        }
-        Atom::Value(AtomValue {
-          keyframes,
-          groups,
-          style_rules,
-          values,
-        }) => {
-          for rule in style_rules {
-            match atoms.get_mut(rule) {
-              Some(atom) => {
-                for (key, value) in values {
-                  atom
-                    .keyframes
-                    .entry(key.to_owned())
-                    .or_insert(vec![])
-                    .extend_from_slice(keyframes);
-                  atom
-                    .groups
-                    .entry(key.to_owned())
-                    .or_insert(vec![])
-                    .extend_from_slice(groups);
-                  atom.values.insert(key.to_owned(), value.to_owned());
-                }
-              }
-              None => {
-                let mut atom = AtomMeta {
-                  keyframes: IndexMap::new(),
-                  groups: IndexMap::new(),
-                  values: IndexMap::new(),
-                };
-
-                for (key, value) in values {
-                  atom
-                    .keyframes
-                    .entry(key.to_owned())
-                    .or_insert(vec![])
-                    .extend_from_slice(keyframes);
-                  atom
-                    .groups
-                    .entry(key.to_owned())
-                    .or_insert(vec![])
-                    .extend_from_slice(groups);
-                  atom.values.insert(key.to_owned(), value.to_owned());
-                }
-
-                atoms.insert(rule.to_owned(), atom);
-              }
-            };
-          }
-        }
-      }
-    }
+    let (modifiers, atoms) = create_config_tuple(&user, &mut modifiers_map, &mut css_variables);
 
     let config = Self {
       user,
@@ -194,6 +65,146 @@ impl Config {
 
     Ok(config)
   }
+}
+
+fn create_config_tuple(
+  user: &UserConfig,
+  modifiers_map: &mut IndexMap<String, Vec<String>>,
+  css_variables: &mut IndexMap<String, PopulatedCssVariable>,
+) -> (Vec<String>, AtomMap) {
+  let modifiers: Vec<String> = user
+    .modifiers
+    .iter()
+    .flat_map(|value| value.keys().map(|key| key.to_owned()))
+    .collect();
+
+  for modifier in user.modifiers.iter() {
+    modifier.iter().for_each(|(key, values)| {
+      modifiers_map.insert(key.clone(), values.clone());
+    })
+  }
+
+  for (css_variable_name, css_variable) in user.variables.iter() {
+    css_variables.insert(css_variable_name.to_owned(), css_variable.populate(user));
+  }
+
+  let atoms = transform_atoms(user, css_variables);
+
+  (modifiers, atoms)
+}
+
+fn transform_atoms(
+  user: &UserConfig,
+  css_variables: &mut IndexMap<String, PopulatedCssVariable>,
+) -> IndexMap<String, AtomMeta> {
+  let mut atoms: AtomMap = IndexMap::new();
+  for atom in user.atoms.iter() {
+    match atom {
+      Atom::Color(AtomColor {
+        keyframes,
+        groups,
+        colors,
+        style_rules,
+      }) => {
+        for rule in style_rules {
+          let values: IndexMap<String, AtomCssValue> =
+            values_from_color_options(rule, colors, &user.colors, &user.palette, css_variables);
+
+          match atoms.get_mut(rule) {
+            Some(atom) => {
+              for (key, value) in &values {
+                atom
+                  .keyframes
+                  .entry(key.to_owned())
+                  .or_insert(vec![])
+                  .extend_from_slice(keyframes);
+                atom
+                  .groups
+                  .entry(key.to_owned())
+                  .or_insert(vec![])
+                  .extend_from_slice(groups);
+                atom.values.insert(key.to_owned(), value.to_owned());
+              }
+            }
+
+            None => {
+              let mut atom = AtomMeta {
+                keyframes: IndexMap::new(),
+                groups: IndexMap::new(),
+                values: IndexMap::new(),
+              };
+
+              for (key, value) in &values {
+                atom
+                  .keyframes
+                  .entry(key.to_owned())
+                  .or_insert(vec![])
+                  .extend_from_slice(keyframes);
+                atom
+                  .groups
+                  .entry(key.to_owned())
+                  .or_insert(vec![])
+                  .extend_from_slice(groups);
+                atom.values.insert(key.to_owned(), value.to_owned());
+              }
+
+              atoms.insert(rule.to_owned(), atom);
+            }
+          };
+        }
+      }
+      Atom::Value(AtomValue {
+        keyframes,
+        groups,
+        style_rules,
+        values,
+      }) => {
+        for rule in style_rules {
+          match atoms.get_mut(rule) {
+            Some(atom) => {
+              for (key, value) in values {
+                atom
+                  .keyframes
+                  .entry(key.to_owned())
+                  .or_insert(vec![])
+                  .extend_from_slice(keyframes);
+                atom
+                  .groups
+                  .entry(key.to_owned())
+                  .or_insert(vec![])
+                  .extend_from_slice(groups);
+                atom.values.insert(key.to_owned(), value.to_owned());
+              }
+            }
+            None => {
+              let mut atom = AtomMeta {
+                keyframes: IndexMap::new(),
+                groups: IndexMap::new(),
+                values: IndexMap::new(),
+              };
+
+              for (key, value) in values {
+                atom
+                  .keyframes
+                  .entry(key.to_owned())
+                  .or_insert(vec![])
+                  .extend_from_slice(keyframes);
+                atom
+                  .groups
+                  .entry(key.to_owned())
+                  .or_insert(vec![])
+                  .extend_from_slice(groups);
+                atom.values.insert(key.to_owned(), value.to_owned());
+              }
+
+              atoms.insert(rule.to_owned(), atom);
+            }
+          };
+        }
+      }
+    }
+  }
+  atoms
 }
 
 fn values_from_color_options(

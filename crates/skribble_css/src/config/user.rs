@@ -17,7 +17,7 @@ pub type Modifiers = IndexMap<String, Vec<String>>;
 #[serde(rename_all = "camelCase")]
 pub struct UserConfig {
   /// General options.
-  options: Options,
+  pub options: Options,
 
   /// Set up the style rules which determine the styles that each atom name will
   /// correspond to.
@@ -228,7 +228,7 @@ pub struct AtomColorOptions {
 /// Options to use in the configuration.
 #[derive(Serialize, Deserialize, Debug, PartialEq)]
 #[serde(rename_all = "camelCase")]
-struct Options {
+pub struct Options {
   #[serde(default = "ColorFormat::default")]
   pub color_format: ColorFormat,
 }
@@ -273,7 +273,7 @@ pub enum Css {
 }
 
 #[derive(Serialize, Deserialize, Debug, PartialEq)]
-enum ColorFormat {
+pub enum ColorFormat {
   #[serde(rename = "rgb")]
   Rgb,
   #[serde(rename = "hsl")]

@@ -8,6 +8,7 @@ version = "0.0.0"
 homepage = "https://skribble.dev/"
 documentation = "https://docs.rs/skribble_css"
 repository = "https://github.com/skribbledev/skribble/tree/main/crates/skribble_css"
+include = ["src/**/*.rs", "Cargo.toml", "readme.md"]
 
 [lib]
 crate-type = ["lib"]
@@ -29,7 +30,7 @@ swc_ecmascript = { features = [
   "parser",
 ], version = "0.123.0" }
 thiserror = "1.0.30"
-enum-ordinalize = "3.1"
+enum-ordinalize = "3.1.10"
 
 [dev-dependencies]
 testing = "0.18.1"

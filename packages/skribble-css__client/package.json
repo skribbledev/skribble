@@ -6,7 +6,7 @@
   "repository": "https://github.com/skribbledev/skribble/tree/master/packages/skribble-css__client",
   "license": "MIT",
   "contributors": [],
-  "sideEffects": false,
+  "sideEffects": true,
   "type": "module",
   "exports": {
     ".": {
@@ -19,6 +19,16 @@
       "import": "./dist/index.esm.js",
       "types": "./dist/index.d.ts"
     },
+    "./overrides": {
+      "browser": "./dist/overrides.browser.esm.js",
+      "import": "./dist/overrides.esm.js",
+      "types": "./dist/overrides.d.ts"
+    },
+    "./overrides.js": {
+      "browser": "./dist/overrides.browser.esm.js",
+      "import": "./dist/overrides.esm.js",
+      "types": "./dist/overrides.d.ts"
+    },
     "./package.json": "./package.json",
     "./types/*": "./dist/*.d.ts"
   },
@@ -26,7 +36,8 @@
   "browser": "./dist/index.browser.esm.js",
   "types": "./dist/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "overrides"
   ],
   "dependencies": {
     "@skribble-css/types": "^0.0.0",
@@ -37,7 +48,8 @@
   },
   "monots": {
     "entrypoints": [
-      "index.ts"
+      "index.ts",
+      "overrides.ts"
     ],
     "tsconfigs": {},
     "mode": "library",

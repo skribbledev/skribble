@@ -1,4 +1,5 @@
 import type { SkribbleCss, WithCustomClassName } from '@skribble-css/types';
+import { overrides } from './overrides';
 
 let shouldCache = true;
 
@@ -59,20 +60,6 @@ export function cx(...values: ClassValue[]): string {
   return deduplicateClassNames(strings).join(' ');
 }
 
-/**
- * Use this to set the rules of specificity for your configuration file.
- */
-export const specificity = new Map([
-  ['p', new Set(['px', 'py', 'pt', 'pr', 'pl', 'pb'])],
-  ['px', new Set(['pl', 'pr'])],
-  ['py', new Set(['pt', 'pb'])],
-  ['m', new Set(['mx', 'my', 'mt', 'mr', 'ml', 'mb'])],
-  ['mx', new Set(['mr', 'ml'])],
-  ['mb', new Set(['mt', 'mb'])],
-  ['pbl', new Set(['pbls', 'pble'])],
-  ['pin', new Set(['pins', 'pine'])],
-]);
-
 export type ClassValue =
   | ClassArray
   | ClassDictionary
@@ -111,7 +98,7 @@ function createProxyClassNames(v?: Set<string>): WithCustomClassName<SkribbleCss
       const props = [...values];
       const last = props[values.size - 1];
 
-      let id = `${props.join('.')}--${args.join('.')}`;
+      const id = `${props.join('.')}--${args.join('.')}`;
 
       if (shouldCache) {
         const cachedValue = cache.get(id);
@@ -146,6 +133,7 @@ function createProxyClassNames(v?: Set<string>): WithCustomClassName<SkribbleCss
 
     get: (_, prop) => {
       const values: Set<string> = v ? v : new Set();
+
       if (typeof prop !== 'string') {
         return String.prototype[prop as keyof string];
       }
@@ -154,7 +142,7 @@ function createProxyClassNames(v?: Set<string>): WithCustomClassName<SkribbleCss
         return (String.prototype[prop as keyof string] as any).bind('');
       }
 
-      let id = [...values, prop].join('.');
+      const id = [...values, prop].join('.');
 
       if (shouldCache) {
         const cachedValue = cache.get(id);
@@ -254,7 +242,7 @@ function deduplicateClassNames(classNames: readonly string[]) {
       const split = prefix.split(':');
       const modifiers = split.slice(0, -2);
       const alias = prefix && split.slice(-1)[0];
-      const children = alias ? [...(specificity.get(alias) ?? [])] : [];
+      const children = alias ? [...(overrides.get(alias) ?? [])] : [];
 
       for (const child of children) {
         const key = [...modifiers, child].join(':');

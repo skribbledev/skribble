@@ -248,7 +248,15 @@ importers:
       '@swc/helpers': 0.3.6
       csstype: 3.0.10
 
-  packages/skribble-css__preset:
+  packages/skribble-css__preset-core:
+    specifiers:
+      '@skribble-css/types': ^0.0.0
+      '@swc/helpers': ^0.3.6
+    dependencies:
+      '@skribble-css/types': link:../skribble-css__types
+      '@swc/helpers': 0.3.6
+
+  packages/skribble-css__preset-default:
     specifiers:
       '@swc/helpers': ^0.3.6
     dependencies:
@@ -262,9 +270,9 @@ importers:
 
   packages/skribble-css__types:
     specifiers:
-      '@swc/helpers': ^0.3.6
+      csstype: ^3.0.10
     dependencies:
-      '@swc/helpers': 0.3.6
+      csstype: 3.0.10
 
   packages/skribble-react:
     specifiers:

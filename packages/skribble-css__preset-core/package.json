@@ -1,9 +1,9 @@
 {
-  "name": "@skribble-css/preset",
+  "name": "@skribble-css/preset-core",
   "version": "0.0.0",
-  "description": "The default preset used to configure the skribble atoms",
+  "description": "Core preset utilities",
   "keywords": [],
-  "repository": "https://github.com/skribbledev/skribble/tree/master/packages/skribble-css__preset",
+  "repository": "https://github.com/skribbledev/skribble/tree/master/packages/skribble-css__preset-core",
   "license": "MIT",
   "contributors": [],
   "sideEffects": false,
@@ -29,6 +29,7 @@
     "dist"
   ],
   "dependencies": {
+    "@skribble-css/types": "^0.0.0",
     "@swc/helpers": "^0.3.6"
   },
   "publishConfig": {

@@ -1,1 +1,1 @@
-export * from './skribble-css-client.js';
+export * from './client.js';

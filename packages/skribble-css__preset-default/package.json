@@ -1,12 +1,12 @@
 {
-  "name": "@skribble-css/config",
+  "name": "@skribble-css/preset-default",
   "version": "0.0.0",
-  "description": "Configuration options for skribble css",
+  "description": "The default preset for configuring skribble-css",
   "keywords": [],
-  "repository": "https://github.com/skribbledev/skribble/tree/master/packages/skribble-css__config",
+  "repository": "https://github.com/skribbledev/skribble/tree/master/packages/skribble-css__preset-default",
   "license": "MIT",
   "contributors": [],
-  "sideEffects": true,
+  "sideEffects": false,
   "type": "module",
   "exports": {
     ".": {
@@ -29,8 +29,7 @@
     "dist"
   ],
   "dependencies": {
-    "@swc/helpers": "^0.3.6",
-    "csstype": "^3.0.10"
+    "@swc/helpers": "^0.3.6"
   },
   "publishConfig": {
     "access": "public"

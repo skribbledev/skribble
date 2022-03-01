@@ -43,24 +43,23 @@ filter: var(--custom-filter);
 ☐ classname parity with [tailwind](https://tailwindcss.com/docs/installation)
 ☐ port desirable features from parity with [unocss](https://github.com/unocss/unocss)
 
+☐ add id to each atom group
+☐ add priority to each atom group
+☐ separate each group
+
+☐ add similar to support for icons to `unocss`
+  ✔ see how feasible this is @done(22-02-19 21:41)
+
 ☐ explore a vscode extension as implemented in unocss
 
-☐ create napi.rs node structure with
+☐ create napi.rs node entrypoint
   ☐ use `@parcel/css` as example for rust based cli api
   ☐ generate from a string
+  ☐ auto generate the overrides to replace the `@skribble-css/client/dist/overrides.*.js` with a map of endings that take precedence over other endings.
   ☐ generate css and typescript from a single file (filename)
   ☐ bundle from entrypoint (automatically gathers entrypoints)
   ☐ generate from glob
   ☐ watch files and generate
-
-
-☐ add id to each atom group
-☐ add priority to each atom group
-☐ separate each group
-☐ add support for all built in tailwind properties
-
-☐ add similar to support for icons to `unocss`
-  ✔ see how feasible this is @done(22-02-19 21:41)
 
 **Future Work**
 

@@ -12,7 +12,7 @@ function isMusl() {
   if (!process.report || typeof process.report.getReport !== 'function') {
     try {
       return readFileSync('/usr/bin/ldd', 'utf8').includes('musl');
-    } catch (e) {
+    } catch {
       return true;
     }
   } else {
@@ -27,116 +27,104 @@ switch (platform) {
       case 'arm64':
         localFileExisted = existsSync(join(__dirname, 'skribble_css.android-arm64.node'));
         try {
-          if (localFileExisted) {
-            nativeBinding = require('./skribble_css.android-arm64.node');
-          } else {
-            nativeBinding = require('skribble-css-android-arm64');
-          }
-        } catch (e) {
-          loadError = e;
+          nativeBinding = localFileExisted
+            ? require('./skribble_css.android-arm64.node')
+            : require('skribble-css-android-arm64');
+        } catch (error) {
+          loadError = error;
         }
         break;
       case 'arm':
         localFileExisted = existsSync(join(__dirname, 'skribble_css.android-arm-eabi.node'));
         try {
-          if (localFileExisted) {
-            nativeBinding = require('./skribble_css.android-arm-eabi.node');
-          } else {
-            nativeBinding = require('skribble-css-android-arm-eabi');
-          }
-        } catch (e) {
-          loadError = e;
+          nativeBinding = localFileExisted
+            ? require('./skribble_css.android-arm-eabi.node')
+            : require('skribble-css-android-arm-eabi');
+        } catch (error) {
+          loadError = error;
         }
         break;
       default:
         throw new Error(`Unsupported architecture on Android ${arch}`);
     }
+
     break;
   case 'win32':
     switch (arch) {
       case 'x64':
         localFileExisted = existsSync(join(__dirname, 'skribble_css.win32-x64-msvc.node'));
         try {
-          if (localFileExisted) {
-            nativeBinding = require('./skribble_css.win32-x64-msvc.node');
-          } else {
-            nativeBinding = require('skribble-css-win32-x64-msvc');
-          }
-        } catch (e) {
-          loadError = e;
+          nativeBinding = localFileExisted
+            ? require('./skribble_css.win32-x64-msvc.node')
+            : require('skribble-css-win32-x64-msvc');
+        } catch (error) {
+          loadError = error;
         }
         break;
       case 'ia32':
         localFileExisted = existsSync(join(__dirname, 'skribble_css.win32-ia32-msvc.node'));
         try {
-          if (localFileExisted) {
-            nativeBinding = require('./skribble_css.win32-ia32-msvc.node');
-          } else {
-            nativeBinding = require('skribble-css-win32-ia32-msvc');
-          }
-        } catch (e) {
-          loadError = e;
+          nativeBinding = localFileExisted
+            ? require('./skribble_css.win32-ia32-msvc.node')
+            : require('skribble-css-win32-ia32-msvc');
+        } catch (error) {
+          loadError = error;
         }
         break;
       case 'arm64':
         localFileExisted = existsSync(join(__dirname, 'skribble_css.win32-arm64-msvc.node'));
         try {
-          if (localFileExisted) {
-            nativeBinding = require('./skribble_css.win32-arm64-msvc.node');
-          } else {
-            nativeBinding = require('skribble-css-win32-arm64-msvc');
-          }
-        } catch (e) {
-          loadError = e;
+          nativeBinding = localFileExisted
+            ? require('./skribble_css.win32-arm64-msvc.node')
+            : require('skribble-css-win32-arm64-msvc');
+        } catch (error) {
+          loadError = error;
         }
         break;
       default:
         throw new Error(`Unsupported architecture on Windows: ${arch}`);
     }
+
     break;
   case 'darwin':
     switch (arch) {
       case 'x64':
         localFileExisted = existsSync(join(__dirname, 'skribble_css.darwin-x64.node'));
         try {
-          if (localFileExisted) {
-            nativeBinding = require('./skribble_css.darwin-x64.node');
-          } else {
-            nativeBinding = require('skribble-css-darwin-x64');
-          }
-        } catch (e) {
-          loadError = e;
+          nativeBinding = localFileExisted
+            ? require('./skribble_css.darwin-x64.node')
+            : require('skribble-css-darwin-x64');
+        } catch (error) {
+          loadError = error;
         }
         break;
       case 'arm64':
         localFileExisted = existsSync(join(__dirname, 'skribble_css.darwin-arm64.node'));
         try {
-          if (localFileExisted) {
-            nativeBinding = require('./skribble_css.darwin-arm64.node');
-          } else {
-            nativeBinding = require('skribble-css-darwin-arm64');
-          }
-        } catch (e) {
-          loadError = e;
+          nativeBinding = localFileExisted
+            ? require('./skribble_css.darwin-arm64.node')
+            : require('skribble-css-darwin-arm64');
+        } catch (error) {
+          loadError = error;
         }
         break;
       default:
         throw new Error(`Unsupported architecture on macOS: ${arch}`);
     }
+
     break;
   case 'freebsd':
     if (arch !== 'x64') {
       throw new Error(`Unsupported architecture on FreeBSD: ${arch}`);
     }
+
     localFileExisted = existsSync(join(__dirname, 'skribble_css.freebsd-x64.node'));
     try {
-      if (localFileExisted) {
-        nativeBinding = require('./skribble_css.freebsd-x64.node');
-      } else {
-        nativeBinding = require('skribble-css-freebsd-x64');
-      }
-    } catch (e) {
-      loadError = e;
+      nativeBinding = localFileExisted
+        ? require('./skribble_css.freebsd-x64.node')
+        : require('skribble-css-freebsd-x64');
+    } catch (error) {
+      loadError = error;
     }
     break;
   case 'linux':
@@ -145,67 +133,60 @@ switch (platform) {
         if (isMusl()) {
           localFileExisted = existsSync(join(__dirname, 'skribble_css.linux-x64-musl.node'));
           try {
-            if (localFileExisted) {
-              nativeBinding = require('./skribble_css.linux-x64-musl.node');
-            } else {
-              nativeBinding = require('skribble-css-linux-x64-musl');
-            }
-          } catch (e) {
-            loadError = e;
+            nativeBinding = localFileExisted
+              ? require('./skribble_css.linux-x64-musl.node')
+              : require('skribble-css-linux-x64-musl');
+          } catch (error) {
+            loadError = error;
           }
         } else {
           localFileExisted = existsSync(join(__dirname, 'skribble_css.linux-x64-gnu.node'));
           try {
-            if (localFileExisted) {
-              nativeBinding = require('./skribble_css.linux-x64-gnu.node');
-            } else {
-              nativeBinding = require('skribble-css-linux-x64-gnu');
-            }
-          } catch (e) {
-            loadError = e;
+            nativeBinding = localFileExisted
+              ? require('./skribble_css.linux-x64-gnu.node')
+              : require('skribble-css-linux-x64-gnu');
+          } catch (error) {
+            loadError = error;
           }
         }
+
         break;
       case 'arm64':
         if (isMusl()) {
           localFileExisted = existsSync(join(__dirname, 'skribble_css.linux-arm64-musl.node'));
           try {
-            if (localFileExisted) {
-              nativeBinding = require('./skribble_css.linux-arm64-musl.node');
-            } else {
-              nativeBinding = require('skribble-css-linux-arm64-musl');
-            }
-          } catch (e) {
-            loadError = e;
+            nativeBinding = localFileExisted
+              ? require('./skribble_css.linux-arm64-musl.node')
+              : require('skribble-css-linux-arm64-musl');
+          } catch (error) {
+            loadError = error;
           }
         } else {
           localFileExisted = existsSync(join(__dirname, 'skribble_css.linux-arm64-gnu.node'));
           try {
-            if (localFileExisted) {
-              nativeBinding = require('./skribble_css.linux-arm64-gnu.node');
-            } else {
-              nativeBinding = require('skribble-css-linux-arm64-gnu');
-            }
-          } catch (e) {
-            loadError = e;
+            nativeBinding = localFileExisted
+              ? require('./skribble_css.linux-arm64-gnu.node')
+              : require('skribble-css-linux-arm64-gnu');
+          } catch (error) {
+            loadError = error;
           }
         }
+
         break;
       case 'arm':
         localFileExisted = existsSync(join(__dirname, 'skribble_css.linux-arm-gnueabihf.node'));
         try {
-          if (localFileExisted) {
-            nativeBinding = require('./skribble_css.linux-arm-gnueabihf.node');
-          } else {
-            nativeBinding = require('skribble-css-linux-arm-gnueabihf');
-          }
-        } catch (e) {
-          loadError = e;
+          nativeBinding = localFileExisted
+            ? require('./skribble_css.linux-arm-gnueabihf.node')
+            : require('skribble-css-linux-arm-gnueabihf');
+        } catch (error) {
+          loadError = error;
         }
         break;
       default:
         throw new Error(`Unsupported architecture on Linux: ${arch}`);
     }
+
     break;
   default:
     throw new Error(`Unsupported OS: ${platform}, architecture: ${arch}`);
@@ -215,6 +196,7 @@ if (!nativeBinding) {
   if (loadError) {
     throw loadError;
   }
+
   throw new Error(`Failed to load native binding`);
 }
 

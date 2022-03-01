@@ -4,6 +4,11 @@
       "import": "./../dist/client.esm.js",
       "require": "./../dist/client.cjs.js",
       "types": "./../dist/client.d.ts"
+    },
+    "./index.js": {
+      "import": "./../dist/client.esm.js",
+      "require": "./../dist/client.cjs.js",
+      "types": "./../dist/client.d.ts"
     }
   },
   "main": "../dist/client.cjs.js",

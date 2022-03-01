@@ -1,6 +1,6 @@
 /**
  * Add your inline documentation
  */
-export function skribbleCssPreset() {
+export function skribbleCssPresetDefault() {
   return '';
 }

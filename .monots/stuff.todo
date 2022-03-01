@@ -37,8 +37,8 @@ filter: var(--custom-filter);
 
 ✔ use a fixed size array for comparing the position of two classes @done(22-03-01 04:35)
 
-☐ cache the output of the client proxy for better performance
-  ☐ allow caching to be switched off
+✔ cache the output of the client proxy for better performance @done(22-03-01 05:38)
+  ✔ allow caching to be switched off @done(22-03-01 05:38)
 
 ☐ classname parity with [tailwind](https://tailwindcss.com/docs/installation)
 ☐ port desirable features from parity with [unocss](https://github.com/unocss/unocss)

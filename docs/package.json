@@ -1,0 +1,23 @@
+{
+  "name": "@skribble/docs",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "build": "astro build",
+    "dev": "astro dev",
+    "preview": "astro preview",
+    "start": "astro dev"
+  },
+  "dependencies": {
+    "@docsearch/css": "^3.0.0",
+    "@docsearch/react": "^1.0.0-alpha.28",
+    "preact": "^10.6.6",
+    "preact-render-to-string": "^5.1.20"
+  },
+  "devDependencies": {
+    "@astrojs/renderer-preact": "^0.5.0",
+    "@astrojs/renderer-react": "^0.5.0",
+    "astro": "^0.23.3",
+    "micromorph": "^0.1.2"
+  }
+}

@@ -179,9 +179,9 @@ impl Atom {
 
 #[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
 pub struct AtomValue {
-  #[serde(default = "empty_vector")]
+  #[serde(default)]
   pub keyframes: Vec<String>,
-  #[serde(default = "empty_vector")]
+  #[serde(default)]
   pub groups: Vec<String>,
   #[serde(rename = "styleRules")]
   pub style_rules: Vec<String>,
@@ -201,16 +201,12 @@ pub enum AtomCssValue {
 #[derive(Serialize, Deserialize, Debug, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct AtomColor {
-  #[serde(default = "empty_vector")]
+  #[serde(default)]
   pub keyframes: Vec<String>,
-  #[serde(default = "empty_vector")]
+  #[serde(default)]
   pub groups: Vec<String>,
   pub style_rules: Vec<String>,
   pub colors: AtomColorOptions,
-}
-
-fn empty_vector() -> Vec<String> {
-  vec![]
 }
 
 /// The options provided to an `AtomColor` configuration object.
@@ -229,7 +225,7 @@ pub struct AtomColorOptions {
 #[derive(Serialize, Deserialize, Debug, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct Options {
-  #[serde(default = "ColorFormat::default")]
+  #[serde(default)]
   pub color_format: ColorFormat,
 }
 
@@ -279,7 +275,7 @@ pub enum ColorFormat {
   #[serde(rename = "hsl")]
   Hsl,
 }
-impl ColorFormat {
+impl Default for ColorFormat {
   fn default() -> ColorFormat {
     ColorFormat::Hsl
   }
@@ -512,6 +508,19 @@ impl StyleRule {
       }
     }
   }
+
+  // pub(crate) fn get_property_value(&self, css_value: Option<&CssValue>) ->
+  // Option<(String, String)> {   match self {
+  //     StyleRule::WithValue(name, value) => format!("{}: {}", name,
+  // value.get_string()),     StyleRule::Name(name) => {
+  //       if let Some(value) = css_value {
+  //         format!("{}: {}", name, value.get_string())
+  //       } else {
+  //         "".to_string()
+  //       }
+  //     }
+  //   }
+  // }
 }
 #[cfg(test)]
 mod tests {

@@ -1,1 +1,1 @@
-export * from './skribble-css-preset-default.js';
+export * from './default.js';

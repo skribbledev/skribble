@@ -1,1 +1,1 @@
-export * from './skribble-css-preset-core.js';
+export * from './core.js';

@@ -3,7 +3,7 @@ use skribble_css::{
   generate_css,
   scanner::class_name_collector::{ClassNameCollector, ValidImport},
 };
-use std::path::PathBuf;
+use std::{path::PathBuf, sync::Arc};
 use swc_common::{input::StringInput, sync::Lrc, SourceMap};
 use swc_ecmascript::{
   parser::{lexer::Lexer, Capturing, Parser, Syntax, TsConfig},
@@ -15,7 +15,7 @@ use testing::fixture;
 fn test_css(input: PathBuf) {
   let config = Config::default();
   // let output = input.parent().unwrap().join("output.css");
-  let source_map: Lrc<SourceMap> = Lrc::default();
+  let source_map: Arc<SourceMap> = Arc::default();
   let source_file = source_map
     .load_file(&input)
     .unwrap_or_else(|_| panic!("Could not load source file {:?}", input));

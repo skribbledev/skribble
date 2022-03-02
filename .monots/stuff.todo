@@ -40,6 +40,14 @@ filter: var(--custom-filter);
 ✔ cache the output of the client proxy for better performance @done(22-03-01 05:38)
   ✔ allow caching to be switched off @done(22-03-01 05:38)
 
+☐ read each file from the glob of ts files to read
+☐ capture all the class names per file
+☐ scan `node_modules` for all packages which implement a json file with a `skribble` property
+  ☐ the property contains `classnames` which points to `classnames.json` as well as `css` which points to `skribble.css`
+☐ store each class name in a shared class name container
+☐ once all files have been processed (in parallel) read the class name container and build the css / typescript and javascript
+☐ there should be a static JS file (based on config) and dynamic overrides file which looks at the the overrides javascript should be dynamically generated
+
 ☐ classname parity with [tailwind](https://tailwindcss.com/docs/installation)
 ☐ port desirable features from parity with [unocss](https://github.com/unocss/unocss)
 

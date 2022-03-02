@@ -960,6 +960,8 @@ dependencies = [
  "indexmap",
  "indoc",
  "insta",
+ "napi",
+ "napi-derive",
  "pretty_assertions 1.1.0",
  "readonly",
  "regex",

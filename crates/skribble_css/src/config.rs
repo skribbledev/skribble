@@ -30,7 +30,28 @@ pub struct AtomMeta {
 }
 
 /// The built in configuration
-#[derive(Serialize, Deserialize, Debug, PartialEq)]
+#[cfg(feature = "node")]
+#[napi_derive::napi(object)]
+#[derive(Serialize, Debug, PartialEq)]
+#[serde(rename_all = "camelCase")]
+pub struct Config {
+  /// The user configuration.
+  pub user: UserConfig,
+
+  pub modifiers_map: IndexMap<String, Vec<String>>,
+
+  /// All the modifier names.
+  pub modifiers: Vec<String>,
+
+  /// All the atoms defined in the configuration.
+  pub atoms: AtomMap,
+
+  /// All the css variables defined in the configuration.
+  pub css_variables: IndexMap<String, PopulatedCssVariable>,
+}
+
+#[cfg(not(feature = "node"))]
+#[derive(Serialize, Debug, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct Config {
   /// The user configuration.

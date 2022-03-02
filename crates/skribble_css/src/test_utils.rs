@@ -113,7 +113,7 @@ macro_rules! test_css {
       let config = crate::test_utils::create_config(None)?;
       let mut class_name_collector = crate::test_utils::collect_classes(&config, indoc::indoc!{$source});
       class_name_collector.sort();
-      let output = crate::generate_css::generate_css(&config, &class_name_collector.get_class_names());
+      let output = crate::generate::generate_css(&config, &class_name_collector.get_class_names());
       insta::assert_snapshot!(output);
       Ok(())
     }

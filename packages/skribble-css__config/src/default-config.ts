@@ -1,4 +1,4 @@
-import type { SkribbleConfig } from './config-types.js';
+import type { SkribbleConfig } from '@skribble-css/types';
 import { PALETTE } from './palette';
 
 export const DEFAULT_CONFIG: SkribbleConfig = {

@@ -8,10 +8,13 @@ version = "0.0.0"
 homepage = "https://skribble.dev/"
 documentation = "https://docs.rs/skribble_css"
 repository = "https://github.com/skribbledev/skribble/tree/main/crates/skribble_css"
-include = ["src/**/*.rs", "Cargo.toml", "readme.md"]
+include = ["src/**/*.rs", "src/**/*.json", "Cargo.toml", "readme.md"]
 
 [lib]
 crate-type = ["lib"]
+
+[features]
+node = ["napi", "napi-derive"]
 
 [dependencies]
 colorsys = "0.6.5"
@@ -31,6 +34,18 @@ swc_ecmascript = { features = [
 ], version = "0.123.0" }
 thiserror = "1.0.30"
 enum-ordinalize = "3.1.10"
+
+[dependencies.napi-derive]
+default-features = false
+features = ["type-def"]
+optional = true
+version = "2.1.0"
+
+[dependencies.napi]
+default-features = false
+features = ["napi4"]
+optional = true
+version = "2.1.0"
 
 [dev-dependencies]
 testing = "0.18.1"

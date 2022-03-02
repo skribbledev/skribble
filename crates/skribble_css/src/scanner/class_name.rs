@@ -2,6 +2,7 @@ use heck::ToKebabCase;
 use indexmap::{IndexMap, IndexSet};
 use std::{
   cmp::Ordering,
+  fmt::Write,
   hash::{Hash, Hasher},
 };
 
@@ -12,7 +13,7 @@ use swc_ecmascript::{
 
 use crate::{
   config::{
-    user::{AtomCssValue, CssValue},
+    user::{AtomCssValue, CssValue, StyleRule},
     Config,
   },
   constants::INDENTATION,
@@ -366,7 +367,7 @@ impl<'config> ClassName<'config> {
   /// padding-left: 10px;
   /// padding-right: 10px;
   /// ```
-  fn get_style_declaration(&self) -> String {
+  fn get_style_declaration_string(&self) -> String {
     let mut lines: Vec<String> = vec![];
     let important = (if self.important { " !important" } else { "" }).to_string();
     let separator = format!("{};", important);
@@ -408,8 +409,57 @@ impl<'config> ClassName<'config> {
       .join("\n")
   }
 
+  fn get_style_declaration_map(&self) -> IndexMap<String, String> {
+    let mut map = IndexMap::new();
+    let mut lines: Vec<String> = vec![];
+    let important = (if self.important { " !important" } else { "" }).to_string();
+    let separator = format!("{};", important);
+
+    if let Some(atom) = &self.atom {
+      if let Some(style_rules) = &self.config.user.style_rules.get(atom) {
+        for rule in *style_rules {
+          // match rule {
+          //   StyleRule::WithValue(rule) => map.insert(rule, self.value.as_ref()),
+          //   &StyleRule::Name(ref name) => map.insert(key, value),
+          // }
+          let derived_style = rule.get_style_declaration_as_ref(self.value.as_ref());
+
+          if !derived_style.is_empty() {
+            lines.push(derived_style);
+          }
+        }
+      };
+
+      for (property, css_value) in self.value_object.iter() {
+        let property_name = if property.starts_with('-') {
+          property.to_owned()
+        } else {
+          property.to_kebab_case()
+        };
+
+        lines.push(format!("{}: {}", property_name, css_value.get_string()));
+      }
+    }
+
+    if let Some(shorthand) = &self.shorthand {
+      if let Some(style_rules) = &self.config.user.shorthand.get(shorthand) {
+        for rule in *style_rules {
+          lines.push(rule.get_style_declaration(None));
+        }
+      };
+    }
+
+    // lines
+    //   .iter()
+    //   .map(|line| format!("{}{}", line, separator))
+    //   .collect::<Vec<String>>()
+    //   .join("\n")
+
+    map
+  }
+
   pub fn variables(&self) -> IndexSet<String> {
-    let mut variables = get_css_variables_from_string(&self.get_style_declaration());
+    let mut variables = get_css_variables_from_string(&self.get_style_declaration_string());
 
     for name in self.keyframes.iter() {
       if let Some(keyframe) = self.config.user.keyframes.get(name) {
@@ -428,7 +478,7 @@ impl<'config> ClassName<'config> {
 
   pub fn get_css(&self) -> String {
     let selector = self.get_selector();
-    let mut style_declaration = self.get_style_declaration();
+    let mut style_declaration = self.get_style_declaration_string();
 
     if !style_declaration.is_empty() {
       style_declaration = format!("\n{}\n", indent(&style_declaration, INDENTATION));

@@ -1,6 +1,9 @@
-use find_up;
+use find_up::FindUp;
+use std::fs::read_to_string;
 
 #[test]
-fn it_finds_the_files() {
-  assert_eq!(4, adder::add_two(2));
+fn it_finds_the_package_json() {
+  let find_up = FindUp::builder().build();
+  let path = find_up.find("package.json", None::<&str>).unwrap();
+  println!("{:?}", path);
 }

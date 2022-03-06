@@ -4,6 +4,7 @@
 resolver = "2"
 members = ["crates/*"]
 default-members = [
+  "crates/find_up",
   "crates/skribble_css",
   "crates/skribble_css_node",
   "crates/skribble_css_wasm",

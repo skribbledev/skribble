@@ -31,9 +31,11 @@ swc_ecmascript = { features = [
   "utils",
   "visit",
   "parser",
-], version = "0.123.0" }
+], version = "0.125.0" }
 thiserror = "1.0.30"
 enum-ordinalize = "3.1.10"
+parcel_css = "1.0.0-alpha.18"
+parcel_sourcemap = "2.0.2"
 
 [dependencies.napi-derive]
 default-features = false
@@ -49,6 +51,5 @@ version = "2.1.0"
 
 [dev-dependencies]
 testing = "0.18.1"
-walkdir = "2.3.2"
 pretty_assertions = "1.1.0"
-insta = "1.12.0"
+insta = "1.13.0"

@@ -159,7 +159,7 @@ impl FindUp {
   }
 
   /// Find a file or directory by walking up parent directories
-  pub fn find<P: AsRef<Path>>(&mut self, name: &str, cwd_ref: Option<P>) -> Result<PathBuf> {
+  pub fn find<P: AsRef<Path>>(&self, name: &str, cwd_ref: Option<P>) -> Result<PathBuf> {
     let names = &[name];
     let cwd = &get_path_buf(cwd_ref)?;
     // Find the first result and return it.

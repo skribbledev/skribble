@@ -1,3 +1,4 @@
+pub mod package_json;
 pub mod tsconfig;
 mod utils;
 

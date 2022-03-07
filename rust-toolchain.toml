@@ -5,13 +5,20 @@
 # channel = "stable"
 
 # Find versions: https://rust-lang.github.io/rustup-components-history/
-channel = "nightly-2022-03-01"
+channel = "nightly-2022-02-23"
 components = [
   "cargo",
   "clippy",
+  "llvm-tools-preview",
+  "miri",
+  "reproducible-artifacts",
+  "rls",
+  "rust-analysis",
+  "rust-analyzer-preview",
   "rust-docs",
   "rust-std",
   "rustc",
-  "rustfmt",
   "rustc-dev",
+  "rustc-docs",
+  "rustfmt",
 ]

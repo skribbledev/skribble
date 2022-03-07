@@ -531,6 +531,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "if_chain"
+version = "1.0.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "cb56e1aa765b4b4f3aadfab769793b7087bb03a4ea4920644a6d238e2df5b9ed"
+
+[[package]]
 name = "indexmap"
 version = "1.8.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -641,10 +647,15 @@ dependencies = [
 name = "json_schemas"
 version = "0.0.0"
 dependencies = [
+ "indexmap",
+ "lazy_static",
+ "regex",
  "schemars",
+ "semver 1.0.6",
  "serde",
  "serde_json",
  "typify",
+ "validator",
 ]
 
 [[package]]
@@ -1094,6 +1105,30 @@ dependencies = [
 ]
 
 [[package]]
+name = "proc-macro-error"
+version = "1.0.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "da25490ff9892aab3fcf7c36f08cfb902dd3e71ca0f9f9517bea02a73a5ce38c"
+dependencies = [
+ "proc-macro-error-attr",
+ "proc-macro2",
+ "quote",
+ "syn",
+ "version_check",
+]
+
+[[package]]
+name = "proc-macro-error-attr"
+version = "1.0.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a1be40180e52ecc98ad80b184934baf3d0d29f979574e439af5a55274b35f869"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "version_check",
+]
+
+[[package]]
 name = "proc-macro-hack"
 version = "0.5.19"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1447,6 +1482,7 @@ version = "1.0.79"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8e8d9fa5c3b304765ce1fd9c4c8a3de2c8db365a5b91be52f186efc675681d95"
 dependencies = [
+ "indexmap",
  "itoa 1.0.1",
  "ryu",
  "serde",
@@ -1495,6 +1531,7 @@ dependencies = [
  "indexmap",
  "indoc",
  "insta",
+ "lazy_static",
  "napi",
  "napi-derive",
  "parcel_css",
@@ -1631,9 +1668,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "0.68.3"
+version = "0.69.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d465460177dcdf076f7c32b75cc0adede3c70506b4c7a859440001310e78e71f"
+checksum = "d4b2e9a1a9e3f71557971dd096aa3fff7487f2c419d2f93c0d71445352a36dc8"
 dependencies = [
  "is-macro",
  "num-bigint 0.2.6",
@@ -1641,14 +1678,14 @@ dependencies = [
  "string_enum",
  "swc_atoms",
  "swc_common",
- "unicode-xid",
+ "unicode-id",
 ]
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.91.10"
+version = "0.92.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4dacb5ca47d0453ffb3eb2f53643cbe684b38bd7d7d3b9f5853329d2eba262d4"
+checksum = "1bf08101f18dd3270703b351af5af7fc8eae33da994d2ff71a1a12d730196eb9"
 dependencies = [
  "either",
  "enum_kind",
@@ -1661,14 +1698,14 @@ dependencies = [
  "swc_ecma_ast",
  "tracing",
  "typed-arena",
- "unicode-xid",
+ "unicode-id",
 ]
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.69.0"
+version = "0.71.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3b289ad92ab2c2b5c55c7b2a8e3395b68b42a8145186549191786af5d44998d3"
+checksum = "ee41829a14f59d6f93a5f5721f08797b214caa4d037913b51ab61a9d31e10576"
 dependencies = [
  "indexmap",
  "once_cell",
@@ -1681,9 +1718,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_visit"
-version = "0.54.0"
+version = "0.55.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "768c7cb86162cb2538a188586909b5499740da73b2eb80b258210cf147652c84"
+checksum = "b359c0ddd3f474dcc379d3c011670be3b855229bcb523e6571897c5beae42957"
 dependencies = [
  "num-bigint 0.2.6",
  "swc_atoms",
@@ -1695,9 +1732,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.125.0"
+version = "0.129.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "400089206f8e2679da91a9cc44f72b414a003532e0d7340d50d5e30ed429a332"
+checksum = "471e05cfdcafc429376d7d2fd8b8e043e4a007945b87d445fbdb2d6f742df194"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_parser",
@@ -2020,6 +2057,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1a01404663e3db436ed2746d9fefef640d868edae3cceb81c3b8d5732fda678f"
 
 [[package]]
+name = "unicode-id"
+version = "0.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4285d92be83dfbc8950a2601178b89ed36f979ebf51bfcf7b272b17001184e6c"
+
+[[package]]
 name = "unicode-normalization"
 version = "0.1.19"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2065,6 +2108,49 @@ dependencies = [
  "idna",
  "matches",
  "percent-encoding",
+]
+
+[[package]]
+name = "validator"
+version = "0.14.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "6d0f08911ab0fee2c5009580f04615fa868898ee57de10692a45da0c3bcc3e5e"
+dependencies = [
+ "idna",
+ "lazy_static",
+ "regex",
+ "serde",
+ "serde_derive",
+ "serde_json",
+ "url",
+ "validator_derive",
+ "validator_types",
+]
+
+[[package]]
+name = "validator_derive"
+version = "0.14.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d85135714dba11a1bd0b3eb1744169266f1a38977bf4e3ff5e2e1acb8c2b7eee"
+dependencies = [
+ "if_chain",
+ "lazy_static",
+ "proc-macro-error",
+ "proc-macro2",
+ "quote",
+ "regex",
+ "syn",
+ "validator_types",
+]
+
+[[package]]
+name = "validator_types"
+version = "0.14.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ded9d97e1d42327632f5f3bae6403c04886e2de3036261ef42deebd931a6a291"
+dependencies = [
+ "proc-macro2",
+ "syn",
 ]
 
 [[package]]

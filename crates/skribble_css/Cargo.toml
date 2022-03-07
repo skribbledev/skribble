@@ -19,7 +19,7 @@ node = ["napi", "napi-derive"]
 [dependencies]
 colorsys = "0.6.5"
 heck = "0.4.0"
-indexmap = { features = ["serde"], version = "1.8.0" }
+indexmap = { features = ["serde-1"], version = "1.8.0" }
 indoc = "1.0.4"
 readonly = "0.2.0"
 regex = "1.5.4"
@@ -31,11 +31,12 @@ swc_ecmascript = { features = [
   "utils",
   "visit",
   "parser",
-], version = "0.125.0" }
+], version = "0.129.0" }
 thiserror = "1.0.30"
 enum-ordinalize = "3.1.10"
 parcel_css = "1.0.0-alpha.18"
 parcel_sourcemap = "2.0.2"
+lazy_static = "1.4.0"
 
 [dependencies.napi-derive]
 default-features = false

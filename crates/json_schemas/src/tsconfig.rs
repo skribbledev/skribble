@@ -1,7 +1,5 @@
-use core::unicode::conversions::to_lower;
-
 use crate::utils::AdditionalFields;
-use serde::{Deserialize, Deserializer, Serialize};
+use serde::{de::IntoDeserializer, Deserialize, Deserializer, Serialize};
 use serde_json::Map;
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -239,241 +237,125 @@ impl<'de> Deserialize<'de> for Lib {
 
     if s == Lib::Es5.to_string().to_lowercase() {
       Ok(Lib::Es5)
-    }
-
-    if s == Lib::Es6.to_string().to_lowercase() {
+    } else if s == Lib::Es6.to_string().to_lowercase() {
       Ok(Lib::Es6)
-    }
-
-    if s == Lib::Es2015.to_string().to_lowercase() {
+    } else if s == Lib::Es2015.to_string().to_lowercase() {
       Ok(Lib::Es2015)
-    }
-
-    if s == Lib::Es2015Collection.to_string().to_lowercase() {
+    } else if s == Lib::Es2015Collection.to_string().to_lowercase() {
       Ok(Lib::Es2015Collection)
-    }
-
-    if s == Lib::Es2015Core.to_string().to_lowercase() {
+    } else if s == Lib::Es2015Core.to_string().to_lowercase() {
       Ok(Lib::Es2015Core)
-    }
-
-    if s == Lib::Es2015Generator.to_string().to_lowercase() {
+    } else if s == Lib::Es2015Generator.to_string().to_lowercase() {
       Ok(Lib::Es2015Generator)
-    }
-
-    if s == Lib::Es2015Iterable.to_string().to_lowercase() {
+    } else if s == Lib::Es2015Iterable.to_string().to_lowercase() {
       Ok(Lib::Es2015Iterable)
-    }
-
-    if s == Lib::Es2015Promise.to_string().to_lowercase() {
+    } else if s == Lib::Es2015Promise.to_string().to_lowercase() {
       Ok(Lib::Es2015Promise)
-    }
-
-    if s == Lib::Es2015Proxy.to_string().to_lowercase() {
+    } else if s == Lib::Es2015Proxy.to_string().to_lowercase() {
       Ok(Lib::Es2015Proxy)
-    }
-
-    if s == Lib::Es2015Reflect.to_string().to_lowercase() {
+    } else if s == Lib::Es2015Reflect.to_string().to_lowercase() {
       Ok(Lib::Es2015Reflect)
-    }
-
-    if s == Lib::Es2015SymbolWellKnown.to_string().to_lowercase() {
+    } else if s == Lib::Es2015SymbolWellKnown.to_string().to_lowercase() {
       Ok(Lib::Es2015SymbolWellKnown)
-    }
-
-    if s == Lib::Es2015Symbol.to_string().to_lowercase() {
+    } else if s == Lib::Es2015Symbol.to_string().to_lowercase() {
       Ok(Lib::Es2015Symbol)
-    }
-
-    if s == Lib::Es2016.to_string().to_lowercase() {
+    } else if s == Lib::Es2016.to_string().to_lowercase() {
       Ok(Lib::Es2016)
-    }
-
-    if s == Lib::Es2016ArrayInclude.to_string().to_lowercase() {
+    } else if s == Lib::Es2016ArrayInclude.to_string().to_lowercase() {
       Ok(Lib::Es2016ArrayInclude)
-    }
-
-    if s == Lib::Es2017.to_string().to_lowercase() {
+    } else if s == Lib::Es2017.to_string().to_lowercase() {
       Ok(Lib::Es2017)
-    }
-
-    if s == Lib::Es2017Intl.to_string().to_lowercase() {
+    } else if s == Lib::Es2017Intl.to_string().to_lowercase() {
       Ok(Lib::Es2017Intl)
-    }
-
-    if s == Lib::Es2017Object.to_string().to_lowercase() {
+    } else if s == Lib::Es2017Object.to_string().to_lowercase() {
       Ok(Lib::Es2017Object)
-    }
-
-    if s == Lib::Es2017SharedMemory.to_string().to_lowercase() {
+    } else if s == Lib::Es2017SharedMemory.to_string().to_lowercase() {
       Ok(Lib::Es2017SharedMemory)
-    }
-
-    if s == Lib::Es2017String.to_string().to_lowercase() {
+    } else if s == Lib::Es2017String.to_string().to_lowercase() {
       Ok(Lib::Es2017String)
-    }
-
-    if s == Lib::Es2017TypedArrays.to_string().to_lowercase() {
+    } else if s == Lib::Es2017TypedArrays.to_string().to_lowercase() {
       Ok(Lib::Es2017TypedArrays)
-    }
-
-    if s == Lib::Es2018.to_string().to_lowercase() {
+    } else if s == Lib::Es2018.to_string().to_lowercase() {
       Ok(Lib::Es2018)
-    }
-
-    if s == Lib::Es2018AsyncGenerator.to_string().to_lowercase() {
+    } else if s == Lib::Es2018AsyncGenerator.to_string().to_lowercase() {
       Ok(Lib::Es2018AsyncGenerator)
-    }
-
-    if s == Lib::Es2018AsyncIterable.to_string().to_lowercase() {
+    } else if s == Lib::Es2018AsyncIterable.to_string().to_lowercase() {
       Ok(Lib::Es2018AsyncIterable)
-    }
-
-    if s == Lib::Es2018Intl.to_string().to_lowercase() {
+    } else if s == Lib::Es2018Intl.to_string().to_lowercase() {
       Ok(Lib::Es2018Intl)
-    }
-
-    if s == Lib::Es2018Promise.to_string().to_lowercase() {
+    } else if s == Lib::Es2018Promise.to_string().to_lowercase() {
       Ok(Lib::Es2018Promise)
-    }
-
-    if s == Lib::Es2018Regexp.to_string().to_lowercase() {
+    } else if s == Lib::Es2018Regexp.to_string().to_lowercase() {
       Ok(Lib::Es2018Regexp)
-    }
-
-    if s == Lib::Es2019.to_string().to_lowercase() {
+    } else if s == Lib::Es2019.to_string().to_lowercase() {
       Ok(Lib::Es2019)
-    }
-
-    if s == Lib::Es2019Array.to_string().to_lowercase() {
+    } else if s == Lib::Es2019Array.to_string().to_lowercase() {
       Ok(Lib::Es2019Array)
-    }
-
-    if s == Lib::Es2019Object.to_string().to_lowercase() {
+    } else if s == Lib::Es2019Object.to_string().to_lowercase() {
       Ok(Lib::Es2019Object)
-    }
-
-    if s == Lib::Es2019String.to_string().to_lowercase() {
+    } else if s == Lib::Es2019String.to_string().to_lowercase() {
       Ok(Lib::Es2019String)
-    }
-
-    if s == Lib::Es2019Symbol.to_string().to_lowercase() {
+    } else if s == Lib::Es2019Symbol.to_string().to_lowercase() {
       Ok(Lib::Es2019Symbol)
-    }
-
-    if s == Lib::Es2020.to_string().to_lowercase() {
+    } else if s == Lib::Es2020.to_string().to_lowercase() {
       Ok(Lib::Es2020)
-    }
-
-    if s == Lib::Es2020BigInt.to_string().to_lowercase() {
+    } else if s == Lib::Es2020BigInt.to_string().to_lowercase() {
       Ok(Lib::Es2020BigInt)
-    }
-
-    if s == Lib::Es2020Promise.to_string().to_lowercase() {
+    } else if s == Lib::Es2020Promise.to_string().to_lowercase() {
       Ok(Lib::Es2020Promise)
-    }
-
-    if s == Lib::Es2020String.to_string().to_lowercase() {
+    } else if s == Lib::Es2020String.to_string().to_lowercase() {
       Ok(Lib::Es2020String)
-    }
-
-    if s == Lib::Es2020SymbolWellKnown.to_string().to_lowercase() {
+    } else if s == Lib::Es2020SymbolWellKnown.to_string().to_lowercase() {
       Ok(Lib::Es2020SymbolWellKnown)
-    }
-
-    if s == Lib::EsNext.to_string().to_lowercase() {
+    } else if s == Lib::EsNext.to_string().to_lowercase() {
       Ok(Lib::EsNext)
-    }
-
-    if s == Lib::EsNextArray.to_string().to_lowercase() {
+    } else if s == Lib::EsNextArray.to_string().to_lowercase() {
       Ok(Lib::EsNextArray)
-    }
-
-    if s == Lib::EsNextAsyncIterable.to_string().to_lowercase() {
+    } else if s == Lib::EsNextAsyncIterable.to_string().to_lowercase() {
       Ok(Lib::EsNextAsyncIterable)
-    }
-
-    if s == Lib::EsNextBigInt.to_string().to_lowercase() {
+    } else if s == Lib::EsNextBigInt.to_string().to_lowercase() {
       Ok(Lib::EsNextBigInt)
-    }
-
-    if s == Lib::EsNextIntl.to_string().to_lowercase() {
+    } else if s == Lib::EsNextIntl.to_string().to_lowercase() {
       Ok(Lib::EsNextIntl)
-    }
-
-    if s == Lib::EsNextPromise.to_string().to_lowercase() {
+    } else if s == Lib::EsNextPromise.to_string().to_lowercase() {
       Ok(Lib::EsNextPromise)
-    }
-
-    if s == Lib::EsNextString.to_string().to_lowercase() {
+    } else if s == Lib::EsNextString.to_string().to_lowercase() {
       Ok(Lib::EsNextString)
-    }
-
-    if s == Lib::EsNextSymbol.to_string().to_lowercase() {
+    } else if s == Lib::EsNextSymbol.to_string().to_lowercase() {
       Ok(Lib::EsNextSymbol)
-    }
-
-    if s == Lib::Dom.to_string().to_lowercase() {
+    } else if s == Lib::Dom.to_string().to_lowercase() {
       Ok(Lib::Dom)
-    }
-
-    if s == Lib::DomIterable.to_string().to_lowercase() {
+    } else if s == Lib::DomIterable.to_string().to_lowercase() {
       Ok(Lib::DomIterable)
-    }
-
-    if s == Lib::ScriptHost.to_string().to_lowercase() {
+    } else if s == Lib::ScriptHost.to_string().to_lowercase() {
       Ok(Lib::ScriptHost)
-    }
-
-    if s == Lib::WebWorker.to_string().to_lowercase() {
+    } else if s == Lib::WebWorker.to_string().to_lowercase() {
       Ok(Lib::WebWorker)
-    }
-
-    if s == Lib::WebWorkerImportScripts.to_string().to_lowercase() {
+    } else if s == Lib::WebWorkerImportScripts.to_string().to_lowercase() {
       Ok(Lib::WebWorkerImportScripts)
-    }
-
-    if s == Lib::WebWorkerIterable.to_string().to_lowercase() {
+    } else if s == Lib::WebWorkerIterable.to_string().to_lowercase() {
       Ok(Lib::WebWorkerIterable)
-    }
-
-    if s == Lib::Es7.to_string().to_lowercase() {
+    } else if s == Lib::Es7.to_string().to_lowercase() {
       Ok(Lib::Es7)
-    }
-
-    if s == Lib::Es2021.to_string().to_lowercase() {
+    } else if s == Lib::Es2021.to_string().to_lowercase() {
       Ok(Lib::Es2021)
-    }
-
-    if s == Lib::Es2020SharedMemory.to_string().to_lowercase() {
+    } else if s == Lib::Es2020SharedMemory.to_string().to_lowercase() {
       Ok(Lib::Es2020SharedMemory)
-    }
-
-    if s == Lib::Es2020Intl.to_string().to_lowercase() {
+    } else if s == Lib::Es2020Intl.to_string().to_lowercase() {
       Ok(Lib::Es2020Intl)
-    }
-
-    if s == Lib::Es2021Promise.to_string().to_lowercase() {
+    } else if s == Lib::Es2021Promise.to_string().to_lowercase() {
       Ok(Lib::Es2021Promise)
-    }
-
-    if s == Lib::Es2021String.to_string().to_lowercase() {
+    } else if s == Lib::Es2021String.to_string().to_lowercase() {
       Ok(Lib::Es2021String)
-    }
-
-    if s == Lib::Es2021WeakRef.to_string().to_lowercase() {
+    } else if s == Lib::Es2021WeakRef.to_string().to_lowercase() {
       Ok(Lib::Es2021WeakRef)
-    }
-
-    if s == Lib::EsNextWeakRef.to_string().to_lowercase() {
+    } else if s == Lib::EsNextWeakRef.to_string().to_lowercase() {
       Ok(Lib::EsNextWeakRef)
-    }
-
-    if s == Lib::Es2021Intl.to_string().to_lowercase() {
+    } else if s == Lib::Es2021Intl.to_string().to_lowercase() {
       Ok(Lib::Es2021Intl)
+    } else {
+      Lib::deserialize(s.into_deserializer())
     }
-
-    Lib::deserialize(s.into_deserializer())
   }
 }
 
@@ -571,53 +453,31 @@ impl<'de> Deserialize<'de> for Module {
 
     if s == Module::CommonJs.to_string().to_lowercase() {
       Ok(Module::CommonJs)
-    }
-
-    if s == Module::Amd.to_string().to_lowercase() {
+    } else if s == Module::Amd.to_string().to_lowercase() {
       Ok(Module::Amd)
-    }
-
-    if s == Module::System.to_string().to_lowercase() {
+    } else if s == Module::System.to_string().to_lowercase() {
       Ok(Module::System)
-    }
-
-    if s == Module::Umd.to_string().to_lowercase() {
+    } else if s == Module::Umd.to_string().to_lowercase() {
       Ok(Module::Umd)
-    }
-
-    if s == Module::Es6.to_string().to_lowercase() {
+    } else if s == Module::Es6.to_string().to_lowercase() {
       Ok(Module::Es6)
-    }
-
-    if s == Module::Es2015.to_string().to_lowercase() {
+    } else if s == Module::Es2015.to_string().to_lowercase() {
       Ok(Module::Es2015)
-    }
-
-    if s == Module::Es2020.to_string().to_lowercase() {
+    } else if s == Module::Es2020.to_string().to_lowercase() {
       Ok(Module::Es2020)
-    }
-
-    if s == Module::EsNext.to_string().to_lowercase() {
+    } else if s == Module::EsNext.to_string().to_lowercase() {
       Ok(Module::EsNext)
-    }
-
-    if s == Module::None.to_string().to_lowercase() {
+    } else if s == Module::None.to_string().to_lowercase() {
       Ok(Module::None)
-    }
-
-    if s == Module::Es2022.to_string().to_lowercase() {
+    } else if s == Module::Es2022.to_string().to_lowercase() {
       Ok(Module::Es2022)
-    }
-
-    if s == Module::Node12.to_string().to_lowercase() {
+    } else if s == Module::Node12.to_string().to_lowercase() {
       Ok(Module::Node12)
-    }
-
-    if s == Module::NodeNext.to_string().to_lowercase() {
+    } else if s == Module::NodeNext.to_string().to_lowercase() {
       Ok(Module::NodeNext)
+    } else {
+      Module::deserialize(s.into_deserializer())
     }
-
-    Module::deserialize(s.into_deserializer())
   }
 }
 
@@ -660,21 +520,15 @@ impl<'de> Deserialize<'de> for ModuleResolution {
 
     if s == ModuleResolution::Classic.to_string().to_lowercase() {
       Ok(ModuleResolution::Classic)
-    }
-
-    if s == ModuleResolution::Node.to_string().to_lowercase() {
+    } else if s == ModuleResolution::Node.to_string().to_lowercase() {
       Ok(ModuleResolution::Node)
-    }
-
-    if s == ModuleResolution::Node12.to_string().to_lowercase() {
+    } else if s == ModuleResolution::Node12.to_string().to_lowercase() {
       Ok(ModuleResolution::Node12)
-    }
-
-    if s == ModuleResolution::NodeNext.to_string().to_lowercase() {
+    } else if s == ModuleResolution::NodeNext.to_string().to_lowercase() {
       Ok(ModuleResolution::NodeNext)
+    } else {
+      ModuleResolution::deserialize(s.into_deserializer())
     }
-
-    ModuleResolution::deserialize(s.into_deserializer())
   }
 }
 
@@ -707,13 +561,11 @@ impl<'de> Deserialize<'de> for NewLine {
 
     if s == NewLine::Crlf.to_string().to_lowercase() {
       Ok(NewLine::Crlf)
-    }
-
-    if s == NewLine::Lf.to_string().to_lowercase() {
+    } else if s == NewLine::Lf.to_string().to_lowercase() {
       Ok(NewLine::Lf)
+    } else {
+      NewLine::deserialize(s.into_deserializer())
     }
-
-    NewLine::deserialize(s.into_deserializer())
   }
 }
 
@@ -777,53 +629,31 @@ impl<'de> Deserialize<'de> for Target {
 
     if s == Target::Es3.to_string().to_lowercase() {
       Ok(Target::Es3)
-    }
-
-    if s == Target::Es5.to_string().to_lowercase() {
+    } else if s == Target::Es5.to_string().to_lowercase() {
       Ok(Target::Es5)
-    }
-
-    if s == Target::Es6.to_string().to_lowercase() {
+    } else if s == Target::Es6.to_string().to_lowercase() {
       Ok(Target::Es6)
-    }
-
-    if s == Target::Es2015.to_string().to_lowercase() {
+    } else if s == Target::Es2015.to_string().to_lowercase() {
       Ok(Target::Es2015)
-    }
-
-    if s == Target::Es2016.to_string().to_lowercase() {
+    } else if s == Target::Es2016.to_string().to_lowercase() {
       Ok(Target::Es2016)
-    }
-
-    if s == Target::Es2017.to_string().to_lowercase() {
+    } else if s == Target::Es2017.to_string().to_lowercase() {
       Ok(Target::Es2017)
-    }
-
-    if s == Target::Es2018.to_string().to_lowercase() {
+    } else if s == Target::Es2018.to_string().to_lowercase() {
       Ok(Target::Es2018)
-    }
-
-    if s == Target::Es2019.to_string().to_lowercase() {
+    } else if s == Target::Es2019.to_string().to_lowercase() {
       Ok(Target::Es2019)
-    }
-
-    if s == Target::Es2020.to_string().to_lowercase() {
+    } else if s == Target::Es2020.to_string().to_lowercase() {
       Ok(Target::Es2020)
-    }
-
-    if s == Target::Es2021.to_string().to_lowercase() {
+    } else if s == Target::Es2021.to_string().to_lowercase() {
       Ok(Target::Es2021)
-    }
-
-    if s == Target::Es2022.to_string().to_lowercase() {
+    } else if s == Target::Es2022.to_string().to_lowercase() {
       Ok(Target::Es2022)
-    }
-
-    if s == Target::EsNext.to_string().to_lowercase() {
+    } else if s == Target::EsNext.to_string().to_lowercase() {
       Ok(Target::EsNext)
+    } else {
+      Target::deserialize(s.into_deserializer())
     }
-
-    Target::deserialize(s.into_deserializer())
   }
 }
 
@@ -870,21 +700,15 @@ impl<'de> Deserialize<'de> for WatchDirectory {
 
     if s == UseFsEvents.to_string().to_lowercase() {
       Ok(UseFsEvents)
-    }
-
-    if s == FixedPollingInterval.to_string().to_lowercase() {
+    } else if s == FixedPollingInterval.to_string().to_lowercase() {
       Ok(FixedPollingInterval)
-    }
-
-    if s == DynamicPriorityPolling.to_string().to_lowercase() {
+    } else if s == DynamicPriorityPolling.to_string().to_lowercase() {
       Ok(DynamicPriorityPolling)
-    }
-
-    if s == FixedChunkSizePolling.to_string().to_lowercase() {
+    } else if s == FixedChunkSizePolling.to_string().to_lowercase() {
       Ok(FixedChunkSizePolling)
+    } else {
+      WatchDirectory::deserialize(s.into_deserializer())
     }
-
-    WatchDirectory::deserialize(s.into_deserializer())
   }
 }
 
@@ -923,29 +747,19 @@ impl<'de> Deserialize<'de> for WatchFile {
 
     if s == FixedPollingInterval.to_string().to_lowercase() {
       Ok(FixedPollingInterval)
-    }
-
-    if s == PriorityPollingInterval.to_string().to_lowercase() {
+    } else if s == PriorityPollingInterval.to_string().to_lowercase() {
       Ok(PriorityPollingInterval)
-    }
-
-    if s == DynamicPriorityPolling.to_string().to_lowercase() {
+    } else if s == DynamicPriorityPolling.to_string().to_lowercase() {
       Ok(DynamicPriorityPolling)
-    }
-
-    if s == UseFsEvents.to_string().to_lowercase() {
+    } else if s == UseFsEvents.to_string().to_lowercase() {
       Ok(UseFsEvents)
-    }
-
-    if s == UseFsEventsOnParentDirectory.to_string().to_lowercase() {
+    } else if s == UseFsEventsOnParentDirectory.to_string().to_lowercase() {
       Ok(UseFsEventsOnParentDirectory)
-    }
-
-    if s == FixedChunkSizePolling.to_string().to_lowercase() {
+    } else if s == FixedChunkSizePolling.to_string().to_lowercase() {
       Ok(FixedChunkSizePolling)
+    } else {
+      WatchFile::deserialize(s.into_deserializer())
     }
-
-    WatchFile::deserialize(s.into_deserializer())
   }
 }
 
@@ -1564,6 +1378,7 @@ pub struct TsConfig<A = AdditionalFields> {
   #[serde(default, skip_serializing_if = "Option::is_none")]
   pub references: Option<Vec<Reference>>,
 
+  /// Additional fields.
   #[serde(flatten)]
   pub _additional_fields_: A,
 }

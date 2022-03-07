@@ -2,6 +2,11 @@
 name = "json_schemas"
 version = "0.0.0"
 edition = "2021"
+authors = ["Ifiok Jr. <ifiokotung@gmail.com>"]
+description = "Parse widely used JSON file formats to their equivalent rust structs."
+documentation = "https://docs.rs/json_schemas"
+repository = "https://github.com/skribbledev/skribble/tree/main/crates/json_schemas"
+include = ["src/**/*.rs", "Cargo.toml", "readme.md"]
 
 
 [dependencies]
@@ -12,6 +17,8 @@ semver = "1.0.6"
 serde = "1.0.136"
 serde_json = { version = "1.0.79", features = ["preserve_order", "std"] }
 validator = { version = "0.14.0", features = ["derive"] }
+thiserror = "1.0.30"
+typed-builder = "^0.10.0"
 
 [dev-dependencies]
 insta = "1.13.0"

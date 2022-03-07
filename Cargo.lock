@@ -630,6 +630,8 @@ dependencies = [
  "semver",
  "serde",
  "serde_json",
+ "thiserror",
+ "typed-builder",
  "validator",
 ]
 

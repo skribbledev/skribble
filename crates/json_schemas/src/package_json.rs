@@ -1,39 +1,46 @@
-use indexmap::IndexMap;
-use serde::{Deserialize, Serialize};
-use serde_json::Value;
-use validator::{Validate, ValidationError, ValidationErrors};
+use std::fmt::Display;
 
 use crate::utils::{
   validate_email_or_url, validate_exports_path, validate_version, AdditionalFields,
   PACKAGE_MANAGER_REGEX, PACKAGE_NAME_REGEX,
 };
+use indexmap::IndexMap;
+use serde::{Deserialize, Serialize};
+use serde_json::Value;
+use typed_builder::TypedBuilder;
+use validator::{Validate, ValidationError, ValidationErrors};
 
 /// Rust schema for NPM `package.json` files.
-#[derive(Serialize, Validate, Deserialize, Debug, Clone)]
-pub struct PackageJson<A = AdditionalFields> {
+#[derive(TypedBuilder, Serialize, Validate, Deserialize, Debug, Clone)]
+pub struct PackageJson {
   /// The name of the package.
   #[serde(default, skip_serializing_if = "Option::is_none")]
   #[validate(length(min = 1, max = 214), regex = "PACKAGE_NAME_REGEX")]
+  #[builder(default, setter(into, strip_option))]
   pub name: Option<String>,
 
   /// Version must be parseable by node-semver, which is bundled with npm as a
   /// dependency.
   #[serde(default, skip_serializing_if = "Option::is_none")]
   #[validate(custom = "validate_version")]
+  #[builder(default, setter(into, strip_option))]
   pub version: Option<String>,
 
   /// Version must be parseable by node-semver, which is bundled with npm as a
   /// dependency.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub description: Option<String>,
 
   /// This helps people discover your package as it's listed in 'npm search'.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub keywords: Option<Vec<String>>,
 
   /// The url to the project homepage.
   #[serde(default, skip_serializing_if = "Option::is_none")]
   #[validate(url)]
+  #[builder(default, setter(into, strip_option))]
   pub homepage: Option<String>,
 
   /// The url to your project's issue tracker and / or the email address to
@@ -41,61 +48,73 @@ pub struct PackageJson<A = AdditionalFields> {
   /// encounter issues with your package.
   #[serde(default, skip_serializing_if = "Option::is_none")]
   #[validate]
+  #[builder(default, setter(into, strip_option))]
   pub bugs: Option<Bug>,
 
   /// You should specify a license for your package so that people know how they
   /// are permitted to use it, and any restrictions you're placing on it.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub license: Option<String>,
 
   /// A person who has been involved in creating or maintaining this package.
   #[serde(default, skip_serializing_if = "Option::is_none")]
   #[validate]
+  #[builder(default, setter(into, strip_option))]
   pub author: Option<Person>,
 
   /// A list of people who contributed to this package.
   #[serde(default, skip_serializing_if = "Option::is_none")]
   #[validate]
+  #[builder(default, setter(into, strip_option))]
   pub contributors: Option<Vec<Person>>,
 
   /// A list of people who maintain this package.
   #[serde(default, skip_serializing_if = "Option::is_none")]
   #[validate]
+  #[builder(default, setter(into, strip_option))]
   pub maintainers: Option<Vec<Person>>,
 
   /// The 'files' field is an array of files to include in your project. If you
   /// name a folder in the array, then it will also include the files inside
   /// that folder.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub files: Option<Vec<String>>,
 
   /// The main field is a module ID that is the primary entry point to your
   /// program.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub main: Option<String>,
 
   /// Version must be parseable by node-semver, which is bundled with npm as a
   #[serde(default, skip_serializing_if = "Option::is_none")]
   #[validate]
+  #[builder(default, setter(into, strip_option))]
   pub exports: Option<Exports>,
 
   /// Paths to binary files.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub bin: Option<Binary>,
 
   /// When set to "module", the type field allows a package to specify all .js
   /// files within are ES modules. If the "type" field is omitted or set to
   /// "commonjs", all .js files are treated as CommonJS.
   #[serde(default, rename = "type", skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub type_: Option<Type>,
 
   /// Set the types property to point to your bundled declaration file.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub types: Option<String>,
 
   /// Note that the "typings" field is synonymous with "types", and could be
   /// used as well.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub typings: Option<String>,
 
   /// Contains overrides for the TypeScript version that matches the version
@@ -105,31 +124,37 @@ pub struct PackageJson<A = AdditionalFields> {
     rename = "typesVersions",
     skip_serializing_if = "Option::is_none"
   )]
+  #[builder(default, setter(into, strip_option))]
   pub types_versions: Option<IndexMap<String, String>>,
 
   /// Specify either a single file or an array of filenames to put in place for
   /// the man program to find.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub man: Option<Man>,
 
   /// Custom directories
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub directories: Option<Directories>,
 
   /// Specify the place where your code lives. This is helpful for people who
   /// want to contribute.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub repository: Option<String>,
 
   /// The 'scripts' member is an object hash of script commands that are run at
   /// various times in the lifecycle of your package. The key is the lifecycle
   /// event, and the value is the command to run at that point.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub scripts: Option<IndexMap<String, Option<String>>>,
 
   /// A 'config' hash can be used to set configuration parameters used in
   /// package scripts that persist across upgrades.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub config: Option<IndexMap<String, Value>>,
 
   /// Dependencies are specified with a simple hash of package name to version
@@ -137,6 +162,7 @@ pub struct PackageJson<A = AdditionalFields> {
   /// descriptors. Dependencies can also be identified with a tarball or git
   /// URL.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub dependencies: Option<IndexMap<String, String>>,
 
   /// Dependencies are specified with a simple hash of package name to version
@@ -148,6 +174,7 @@ pub struct PackageJson<A = AdditionalFields> {
     rename = "devDependencies",
     skip_serializing_if = "Option::is_none"
   )]
+  #[builder(default, setter(into, strip_option))]
   pub dev_dependencies: Option<IndexMap<String, String>>,
 
   /// Dependencies are specified with a simple hash of package name to version
@@ -159,6 +186,7 @@ pub struct PackageJson<A = AdditionalFields> {
     rename = "optionalDependencies",
     skip_serializing_if = "Option::is_none"
   )]
+  #[builder(default, setter(into, strip_option))]
   pub optional_dependencies: Option<IndexMap<String, String>>,
 
   /// Dependencies are specified with a simple hash of package name to version
@@ -170,6 +198,7 @@ pub struct PackageJson<A = AdditionalFields> {
     rename = "peerDependencies",
     skip_serializing_if = "Option::is_none"
   )]
+  #[builder(default, setter(into, strip_option))]
   pub peer_dependencies: Option<IndexMap<String, String>>,
 
   /// Array of package names that will be bundled when publishing the package.
@@ -178,10 +207,12 @@ pub struct PackageJson<A = AdditionalFields> {
     rename = "bundledDependencies",
     skip_serializing_if = "Option::is_none"
   )]
+  #[builder(default, setter(into, strip_option))]
   pub bundled_dependencies: Option<BundledDependencies>,
 
   /// Resolutions is used to support selective version resolutions, which lets you define custom package versions or ranges inside your dependencies. See: https://classic.yarnpkg.com/en/docs/selective-version-resolutions
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub resolutions: Option<IndexMap<String, String>>,
 
   /// Defines which package manager is expected to be used when working on the current project. This field is currently experimental and needs to be opted-in; see https://nodejs.org/api/corepack.html
@@ -190,11 +221,13 @@ pub struct PackageJson<A = AdditionalFields> {
     rename = "packageManager",
     skip_serializing_if = "Option::is_none"
   )]
+  #[builder(default, setter(into, strip_option))]
   #[validate(regex = "PACKAGE_MANAGER_REGEX")]
   pub package_manager: Option<String>,
 
   /// The engines.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub engines: Option<IndexMap<String, String>>,
 
   /// Whether to strictly enforce the engines specified in the "engines" field.
@@ -203,18 +236,22 @@ pub struct PackageJson<A = AdditionalFields> {
     rename = "engineStrict",
     skip_serializing_if = "Option::is_none"
   )]
+  #[builder(default, setter(into, strip_option))]
   pub engine_strict: Option<bool>,
 
   /// Specify which operating systems your module will run on.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub os: Option<Vec<String>>,
 
   /// Specify that your code only runs on certain cpu architectures.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub cpu: Option<Vec<String>>,
 
   /// If set to true, then npm will refuse to publish it.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub private: Option<Private>,
 
   /// Example
@@ -223,21 +260,26 @@ pub struct PackageJson<A = AdditionalFields> {
     rename = "publishConfig",
     skip_serializing_if = "Option::is_none"
   )]
+  #[builder(default, setter(into, strip_option))]
   pub publish_config: Option<PublishConfig>,
 
   /// Example
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub dist: Option<Dist>,
 
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub readme: Option<String>,
 
   /// An ECMAScript module ID that is the primary entry point to your program.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub module: Option<EsNext>,
 
   /// An custom entrypoint for browsers.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub browser: Option<EsNext>,
 
   /// Allows packages within a directory to depend on one another using direct
@@ -245,11 +287,56 @@ pub struct PackageJson<A = AdditionalFields> {
   /// hoisted to the workspace root when possible to reduce duplication. Note:
   /// It's also a good idea to set \"private\" to true when using this feature.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub workspaces: Option<Workspaces>,
 
   /// All addition field.
-  #[serde(flatten)]
-  pub _additional_fields_: A,
+  #[serde(flatten, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
+  pub other: Option<AdditionalFields>,
+}
+
+impl PackageJson {}
+
+impl TryFrom<&str> for PackageJson {
+  type Error = crate::error::Error;
+
+  fn try_from(value: &str) -> Result<Self, Self::Error> {
+    let package_json: Self = serde_json::from_str(value).map_err(crate::Error::ParsePackageJson)?;
+    Ok(package_json)
+  }
+}
+
+impl TryFrom<String> for PackageJson {
+  type Error = crate::error::Error;
+
+  fn try_from(value: String) -> Result<Self, Self::Error> {
+    let package_json: Self =
+      serde_json::from_str(value.as_str()).map_err(crate::Error::ParsePackageJson)?;
+    Ok(package_json)
+  }
+}
+
+impl PackageJson {
+  /// Convert the [`PackageJson`] to a [Result] containing [`String`].
+  pub fn try_to_string(&self) -> Result<String, crate::error::Error> {
+    let content = serde_json::to_string(self).map_err(crate::Error::SerializePackageJson)?;
+    Ok(content)
+  }
+}
+
+impl TryFrom<PackageJson> for String {
+  type Error = crate::error::Error;
+
+  fn try_from(value: PackageJson) -> Result<Self, Self::Error> {
+    value.try_to_string()
+  }
+}
+
+impl Display for PackageJson {
+  fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    write!(f, "{}", self.try_to_string().unwrap())
+  }
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -290,29 +377,35 @@ pub enum PublishConfigAccess {
   Restricted,
 }
 
-#[derive(Serialize, Validate, Deserialize, Debug, Clone)]
+#[derive(TypedBuilder, Serialize, Validate, Deserialize, Debug, Clone)]
 pub struct PublishConfig {
   #[serde(default, skip_serializing_if = "Option::is_none")]
-  pub name: Option<PublishConfigAccess>,
+  #[builder(default, setter(into, strip_option))]
+  pub access: Option<PublishConfigAccess>,
 
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub tag: Option<String>,
 
   #[validate(url)]
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub registry: Option<String>,
 
   /// All additional custom fields.
-  #[serde(flatten)]
-  pub _additional_fields_: IndexMap<String, String>,
+  #[serde(flatten, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
+  pub other: Option<IndexMap<String, String>>,
 }
 
-#[derive(Serialize, Validate, Deserialize, Debug, Clone)]
+#[derive(TypedBuilder, Serialize, Validate, Deserialize, Debug, Clone)]
 pub struct Dist {
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub shasum: Option<String>,
 
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub tarball: Option<String>,
 }
 
@@ -368,17 +461,20 @@ impl Default for Type {
 }
 
 /// A person who has been involved in creating or maintaining this package.
-#[derive(Serialize, Validate, Deserialize, Debug, Clone)]
+#[derive(TypedBuilder, Serialize, Validate, Deserialize, Debug, Clone)]
 pub struct PersonObject {
   #[validate(length(min = 1))]
+  #[builder(setter(into))]
   pub name: String,
 
   #[validate(url)]
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub url: Option<String>,
 
   #[validate(email)]
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub email: Option<String>,
 }
 
@@ -409,16 +505,18 @@ impl Validate for Person {
 /// The url to your project's issue tracker and / or the email address to which
 /// issues should be reported. These are helpful for people who encounter issues
 /// with your package.
-#[derive(Serialize, Validate, Deserialize, Debug, Clone)]
+#[derive(TypedBuilder, Serialize, Validate, Deserialize, Debug, Clone)]
 pub struct BugObject {
   /// The url to your project's issue tracker.
   #[validate(url)]
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub url: Option<String>,
 
   /// The email address to which issues should be reported.
   #[validate(email)]
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub email: Option<String>,
 }
 
@@ -494,13 +592,15 @@ impl Validate for Exports {
       Exports::Object(object) => {
         let mut validation_errors = ValidationErrors::new();
 
-        for (name, path) in object._additional_fields_.iter() {
-          if name.starts_with('.') {
-            validation_errors.add("Exports", ValidationError::new("invalid field name"));
-          }
+        if let Some(additional_fields) = &object.other {
+          for (name, path) in additional_fields.iter() {
+            if name.starts_with('.') {
+              validation_errors.add("Exports", ValidationError::new("invalid field name"));
+            }
 
-          if let Err(validation_error) = validate_exports_path(path) {
-            validation_errors.add("Exports", validation_error);
+            if let Err(validation_error) = validate_exports_path(path) {
+              validation_errors.add("Exports", validation_error);
+            }
           }
         }
 
@@ -539,12 +639,13 @@ impl Validate for Exports {
   }
 }
 
-#[derive(Serialize, Validate, Deserialize, Debug, Clone)]
+#[derive(TypedBuilder, Serialize, Validate, Deserialize, Debug, Clone)]
 pub struct ExportsObject {
   /// The module path that is resolved when this specifier is imported as a
   /// CommonJS module using the `require(...)` function.
   #[validate(custom = "validate_exports_path")]
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub require: Option<String>,
 
   /// The module path that is resolved when this specifier is imported as an
@@ -552,69 +653,66 @@ pub struct ExportsObject {
   /// `import(...)` function.
   #[validate(custom = "validate_exports_path")]
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub import: Option<String>,
 
   /// The module path that is resolved when this environment is Node.js.
   #[validate(custom = "validate_exports_path")]
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub node: Option<String>,
 
   /// The module path that is resolved when no other export type matches.
   #[validate(custom = "validate_exports_path")]
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub default: Option<String>,
 
   /// All additional custom fields.
-  #[serde(flatten)]
-  pub _additional_fields_: IndexMap<String, String>,
+  #[serde(flatten, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
+  pub other: Option<IndexMap<String, String>>,
 }
 
-#[derive(Serialize, Validate, Deserialize, Debug, Clone)]
+#[derive(TypedBuilder, Serialize, Validate, Deserialize, Debug, Clone)]
 pub struct Directories {
   /// If you specify a 'bin' directory, then all the files in that folder will
   /// be used as the 'bin' hash.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub bin: Option<String>,
 
   /// Put markdown files in here. Eventually, these will be displayed nicely,
   /// maybe, someday.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub doc: Option<String>,
 
   /// Put example scripts in here. Someday, it might be exposed in some clever
   /// way.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub example: Option<String>,
 
   /// Tell people where the bulk of your library is. Nothing special is done
   /// with the lib folder in any way, but it's useful meta info.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub lib: Option<String>,
 
   /// A folder that is full of man pages. Sugar to generate a 'man' array by
   /// walking the folder.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub man: Option<String>,
 
   /// Folder full of tests
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub test: Option<String>,
 
   /// All additional custom fields.
-  #[serde(flatten)]
-  pub _additional_fields_: IndexMap<String, String>,
+  #[serde(flatten, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
+  pub other: Option<IndexMap<String, String>>,
 }
-
-// #[derive(Validate, Debug, Clone)]
-// struct Email {
-//   #[validate(email)]
-//   inner: String,
-// }
-
-// impl std::ops::Deref for Email {
-//   type Target = String;
-
-//   fn deref(&self) -> Target {
-//     &self.inner
-//   }
-// }

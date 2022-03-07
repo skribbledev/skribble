@@ -1,11 +1,12 @@
+use indexmap::IndexMap;
 use lazy_static::lazy_static;
 use regex::Regex;
 use semver::VersionReq;
-use serde_json::{Map, Value};
+use serde_json::Value;
 use validator::{validate_email, validate_url, ValidationError};
 
 /// Capture fields that aren't defined in the default implementation.
-pub type AdditionalFields = Map<String, Value>;
+pub type AdditionalFields = IndexMap<String, Value>;
 
 lazy_static! {
   pub(crate) static ref PACKAGE_NAME_REGEX: Regex =

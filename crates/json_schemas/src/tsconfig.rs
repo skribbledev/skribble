@@ -1,34 +1,43 @@
+use std::fmt::Display;
+
 use crate::utils::AdditionalFields;
 use indexmap::IndexMap;
 use serde::{de::IntoDeserializer, Deserialize, Deserializer, Serialize};
+use typed_builder::TypedBuilder;
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(TypedBuilder, Serialize, Deserialize, Debug, Clone)]
 #[serde(rename_all = "camelCase")]
 pub struct BuildOptions {
   /// Have recompiles in projects that use `incremental` and `watch` mode assume
   /// that changes within a file will only affect files directly depending on
   /// it.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub assume_changes_only_affect_direct_dependencies: Option<bool>,
 
   /// ~
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub dry: Option<bool>,
 
   /// Build all projects, including those that appear to be up to date
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub force: Option<bool>,
 
   /// Save .tsbuildinfo files to allow for incremental compilation of projects.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub incremental: Option<bool>,
 
   /// Log paths used during the `moduleResolution` process.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub trace_resolution: Option<bool>,
 
   /// Enable verbose logging
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub verbose: Option<bool>,
 }
 
@@ -574,15 +583,17 @@ impl ToString for NewLine {
   }
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(TypedBuilder, Serialize, Deserialize, Debug, Clone)]
 pub struct Plugin {
   /// Plugin name.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub name: Option<String>,
 
   /// All custom plugin options fields are available here.
   #[serde(flatten)]
-  pub _additional_fields: AdditionalFields,
+  #[builder(default, setter(into, strip_option))]
+  pub _additional_fields: Option<AdditionalFields>,
 }
 
 /// Set the JavaScript language version for emitted JavaScript and include
@@ -770,210 +781,256 @@ impl ToString for WatchFile {
 }
 
 /// Instructs the TypeScript compiler how to compile .ts files.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(TypedBuilder, Serialize, Deserialize, Debug, Clone)]
 #[serde(rename_all = "camelCase")]
 pub struct CompilerOptions {
   /// Allow JavaScript files to be a part of your program. Use the `checkJS`
   /// option to get errors from these files.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub allow_js: Option<bool>,
 
   /// Allow 'import x from y' when a module doesn't have a default export.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub allow_synthetic_default_imports: Option<bool>,
 
   /// Allow accessing UMD globals from modules.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub allow_umd_global_access: Option<bool>,
 
   /// Disable error reporting for unreachable code.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub allow_unreachable_code: Option<bool>,
 
   /// Disable error reporting for unused labels.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub allow_unused_labels: Option<bool>,
 
   /// Ensure 'use strict' is always emitted.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub always_strict: Option<bool>,
 
   /// Have recompiles in '--incremental' and '--watch' assume that changes
   /// within a file will only affect files directly depending on it. Requires
   /// TypeScript version 3.8 or later.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub assume_changes_only_affect_direct_dependencies: Option<bool>,
 
   /// Specify the base directory to resolve non-relative module names.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub base_url: Option<String>,
 
   /// No longer supported. In early versions, manually set the text encoding for
   /// reading files.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub charset: Option<String>,
 
   /// Enable error reporting in type-checked JavaScript files.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub check_js: Option<bool>,
 
   /// Enable constraints that allow a TypeScript project to be used with project
   /// references.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub composite: Option<bool>,
 
   /// Generate .d.ts files from TypeScript and JavaScript files in your project.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub declaration: Option<bool>,
 
   /// Specify the output directory for generated declaration files.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub declaration_dir: Option<String>,
 
   /// Create sourcemaps for d.ts files.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub declaration_map: Option<bool>,
 
   /// Output compiler performance information after building.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub diagnostics: Option<bool>,
 
   /// Reduce the number of projects loaded automatically by TypeScript.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub disable_referenced_project_load: Option<bool>,
 
   /// Remove the 20mb cap on total source code size for JavaScript files in the
   /// TypeScript language server.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub disable_size_limit: Option<bool>,
 
   /// Opt a project out of multi-project reference checking when editing.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub disable_solution_searching: Option<bool>,
 
   /// Disable preferring source files instead of declaration files when
   /// referencing composite projects
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub disable_source_of_project_reference_redirect: Option<bool>,
 
   /// Emit more compliant, but verbose and less performant JavaScript for
   /// iteration.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub downlevel_iteration: Option<bool>,
 
   /// Emit a UTF-8 Byte Order Mark (BOM) in the beginning of output files.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub emit_bom: Option<bool>,
 
   /// Only output d.ts files and not JavaScript files.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub emit_declaration_only: Option<bool>,
 
   /// Emit design-type metadata for decorated declarations in source files.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub emit_decorator_metadata: Option<bool>,
 
   /// Emit additional JavaScript to ease support for importing CommonJS modules.
   /// This enables `allowSyntheticDefaultImports` for type compatibility.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub es_module_interop: Option<bool>,
 
   /// Differentiate between undefined and not present when type checking
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub exact_optional_property_types: Option<bool>,
 
   /// Enable experimental support for TC39 stage 2 draft decorators.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub experimental_decorators: Option<bool>,
 
   /// Output more detailed compiler performance information after building.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub extended_diagnostics: Option<bool>,
 
   /// Specify the polling strategy to use when the system runs out of or doesn't
   /// support native file watchers. Requires TypeScript version 3.8 or later.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub fallback_polling: Option<FallbackPolling>,
 
   /// Ensure that casing is correct in imports.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub force_consistent_casing_in_file_names: Option<bool>,
 
   /// Emit a v8 CPU profile of the compiler run for debugging.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub generate_cpu_profile: Option<String>,
 
   /// Allow importing helper functions from tslib once per project, instead of
   /// including them per-file.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub import_helpers: Option<bool>,
 
   /// Specify emit/checking behavior for imports that are only used for types.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub imports_not_used_as_values: Option<ImportsNotUsedAsValues>,
 
   /// Enable incremental compilation. Requires TypeScript version 3.4 or later.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub incremental: Option<bool>,
 
   /// Include sourcemap files inside the emitted JavaScript.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub inline_source_map: Option<bool>,
 
   /// Include source code in the sourcemaps inside the emitted JavaScript.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub inline_sources: Option<bool>,
 
   /// Ensure that each file can be safely transpiled without relying on other
   /// imports.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub isolated_modules: Option<bool>,
 
   /// Specify what JSX code is generated.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub jsx: Option<Jsx>,
 
   /// Specify the JSX factory function used when targeting React JSX emit, e.g.
   /// 'React.createElement' or 'h'
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub jsx_factory: Option<String>,
 
   /// Specify the JSX Fragment reference used for fragments when targeting React
   /// JSX emit e.g. 'React.Fragment' or 'Fragment'.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub jsx_fragment_factory: Option<String>,
 
   /// Specify module specifier used to import the JSX factory functions when
   /// using `jsx: react-jsx`.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub jsx_import_source: Option<String>,
 
   /// Make keyof only return strings instead of string, numbers or symbols.
   /// Legacy option.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub keyof_strings_only: Option<bool>,
 
   /// Specify a set of bundled library declaration files that describe the
   /// target runtime environment.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub lib: Option<Vec<Lib>>,
 
   /// Print the names of emitted files after a compilation.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub list_emitted_files: Option<bool>,
 
   /// Print all of the files read during the compilation.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub list_files: Option<bool>,
 
   /// Print names of files that are part of the compilation and then stop
   /// processing.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub list_files_only: Option<bool>,
 
   /// Specify the location where debugger should locate map files instead of
   /// generated locations.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub map_root: Option<String>,
 
   /// The maximum dependency depth to search under `node_modules` and load
@@ -988,101 +1045,124 @@ pub struct CompilerOptions {
   /// where you may want to turn this on at the expense of speed and potential
   /// accuracy.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub max_node_module_js_depth: Option<f64>,
 
   /// Specify what module code is generated.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub module: Option<Module>,
 
   /// Specify how TypeScript looks up a file from a given module specifier.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub module_resolution: Option<ModuleResolution>,
 
   /// Set the newline character for emitting files.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub new_line: Option<NewLine>,
 
   /// Disable emitting file from a compilation.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub no_emit: Option<bool>,
 
   /// Disable generating custom helper functions like `__extends` in compiled
   /// output.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub no_emit_helpers: Option<bool>,
 
   /// Disable emitting files if any type checking errors are reported.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub no_emit_on_error: Option<bool>,
 
   /// Disable truncating types in error messages.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub no_error_truncation: Option<bool>,
 
   /// Enable error reporting for fallthrough cases in switch statements.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub no_fallthrough_cases_in_switch: Option<bool>,
 
   /// Enable error reporting for expressions and declarations with an implied
   /// `any` type..
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub no_implicit_any: Option<bool>,
 
   /// Ensure overriding members in derived classes are marked with an override
   /// modifier.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub no_implicit_override: Option<bool>,
 
   /// Enable error reporting for codepaths that do not explicitly return in a
   /// function.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub no_implicit_returns: Option<bool>,
 
   /// Enable error reporting when `this` is given the type `any`.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub no_implicit_this: Option<bool>,
 
   /// Disable adding 'use strict' directives in emitted JavaScript files.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub no_implicit_use_strict: Option<bool>,
 
   /// Disable including any library files, including the default lib.d.ts.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub no_lib: Option<bool>,
 
   /// Enforces using indexed accessors for keys declared using an indexed type
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub no_property_access_from_index_signature: Option<bool>,
 
   /// Disallow `import`s, `require`s or `<reference>`s from expanding the number
   /// of files TypeScript should add to a project.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub no_resolve: Option<bool>,
 
   /// Disable strict checking of generic signatures in function types.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub no_strict_generic_checks: Option<bool>,
 
   /// Add `undefined` to a type when accessed using an index.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub no_unchecked_indexed_access: Option<bool>,
 
   /// Enable error reporting when a local variables aren't read.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub no_unused_locals: Option<bool>,
 
   /// Raise an error when a function parameter isn't read
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub no_unused_parameters: Option<bool>,
 
   /// Specify an output folder for all emitted files.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub out_dir: Option<String>,
 
   /// Specify a file that bundles all outputs into one JavaScript file. If
   /// `declaration` is true, also designates a file that bundles all .d.ts
   /// output.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub out_file: Option<String>,
 
   /// A series of entries which re-map imports to lookup locations relative to
@@ -1092,240 +1172,292 @@ pub struct CompilerOptions {
   /// `paths` lets you declare how TypeScript should resolve an import in your
   /// `require`/`import`s.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub paths: Option<IndexMap<String, Vec<String>>>,
 
   /// Specify a list of language service plugins to include.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub plugins: Option<Vec<Plugin>>,
 
   /// Disable erasing `const enum` declarations in generated code.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub preserve_const_enums: Option<bool>,
 
   /// Disable resolving symlinks to their realpath. This correlates to the same
   /// flag in node.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub preserve_symlinks: Option<bool>,
 
   /// Preserve unused imported values in the JavaScript output that would
   /// otherwise be removed
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub preserve_value_imports: Option<bool>,
 
   /// Disable wiping the console in watch mode
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub preserve_watch_output: Option<bool>,
 
   /// Enable color and formatting in output to make compiler errors easier to
   /// read
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub pretty: Option<bool>,
 
   /// Specify the object invoked for `createElement`. This only applies when
   /// targeting `react` JSX emit.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub react_namespace: Option<String>,
 
   /// Disable emitting comments.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub remove_comments: Option<bool>,
 
   /// Enable importing .json files
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub resolve_json_module: Option<bool>,
 
   /// Specify the root folder within your source files.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub root_dir: Option<String>,
 
   /// Allow multiple folders to be treated as one when resolving modules.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub root_dirs: Option<Vec<String>>,
 
   /// Skip type checking .d.ts files that are included with TypeScript.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub skip_default_lib_check: Option<bool>,
 
   /// Skip type checking all .d.ts files.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub skip_lib_check: Option<bool>,
 
   /// Create source map files for emitted JavaScript files.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub source_map: Option<bool>,
 
   /// Specify the root path for debuggers to find the reference source code.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub source_root: Option<String>,
 
   /// Enable all strict type checking options.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub strict: Option<bool>,
 
   /// Check that the arguments for `bind`, `call`, and `apply` methods match the
   /// original function.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub strict_bind_call_apply: Option<bool>,
 
   /// When assigning functions, check to ensure parameters and the return values
   /// are subtype-compatible.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub strict_function_types: Option<bool>,
 
   /// When type checking, take into account `null` and `undefined`.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub strict_null_checks: Option<bool>,
 
   /// Check for class properties that are declared but not set in the
   /// constructor.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub strict_property_initialization: Option<bool>,
 
   /// Disable emitting declarations that have `@internal` in their JSDoc
   /// comments.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub strip_internal: Option<bool>,
 
   /// Disable reporting of excess property errors during the creation of object
   /// literals.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub suppress_excess_property_errors: Option<bool>,
 
   /// Suppress `noImplicitAny` errors when indexing objects that lack index
   /// signatures.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub suppress_implicit_any_index_errors: Option<bool>,
 
   /// Set the JavaScript language version for emitted JavaScript and include
   /// compatible library declarations.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub target: Option<Target>,
 
   /// Enable tracing of the name resolution process. Requires TypeScript version
   /// 2.0 or later.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub trace_resolution: Option<bool>,
 
   /// Specify the folder for .tsbuildinfo incremental compilation files.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub ts_build_info_file: Option<String>,
 
   /// Specify multiple folders that act like `./node_modules/@types`.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub type_roots: Option<Vec<String>>,
 
   /// Specify type package names to be included without being referenced in a
   /// source file.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub types: Option<Vec<String>>,
 
   /// Emit ECMAScript-standard-compliant class fields.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub use_define_for_class_fields: Option<bool>,
 
   /// Default catch clause variables as `unknown` instead of `any`.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub use_unknown_in_catch_variables: Option<bool>,
 
   /// Watch input files.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub watch: Option<bool>,
 
   /// Specify the strategy for watching directories under systems that lack
   /// recursive file-watching functionality. Requires TypeScript version 3.8
   /// or later.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub watch_directory: Option<WatchDirectory>,
 
   /// Specify the strategy for watching individual files. Requires TypeScript
   /// version 3.8 or later.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub watch_file: Option<WatchFile>,
+
+  #[serde(flatten, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
+  pub other: Option<AdditionalFields>,
 }
 
 /// Project reference.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(TypedBuilder, Serialize, Deserialize, Debug, Clone)]
 pub struct Reference {
   /// Path to referenced tsconfig or to folder containing tsconfig.
-  #[serde(default)]
+  #[builder(setter(into))]
   pub path: String,
 
   /// Enable prepending the output of a dependency using the prepend option
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub prepend: Option<bool>,
 }
 
 /// Auto type (.d.ts) acquisition options for this project. Requires TypeScript
 /// version 2.1 or later.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(TypedBuilder, Serialize, Deserialize, Debug, Clone)]
 pub struct TypeAcquisition {
   /// Enable auto type acquisition
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub enable: Option<bool>,
 
   /// Specifies a list of type declarations to be excluded from auto type
   /// acquisition. Ex. "jquery", "lodash"
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub exclude: Option<Vec<String>>,
 
   /// Specifies a list of type declarations to be included in auto type
   /// acquisition. Ex. "jquery", "lodash"
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub include: Option<Vec<String>>,
 }
 
 /// Settings for the watch mode in TypeScript.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(TypedBuilder, Serialize, Deserialize, Debug, Clone)]
 #[serde(rename_all = "camelCase")]
 pub struct WatchOptions {
   /// Remove a list of directories from the watch process.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub exclude_directories: Option<Vec<String>>,
 
   /// Remove a list of files from the watch mode's processing.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub exclude_files: Option<Vec<String>>,
 
   /// Specify what approach the watcher should use if the system runs out of
   /// native file watchers.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub fallback_polling: Option<String>,
 
   /// ~
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub force: Option<String>,
 
   /// Synchronously call callbacks and update the state of directory watchers on
   /// platforms that don`t support recursive watching natively.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub synchronous_watch_directory: Option<bool>,
 
   ///Specify how directories are watched on systems that lack recursive
   /// file-watching functionality.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub watch_directory: Option<String>,
 
   /// Specify how the TypeScript watch mode works.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub watch_file: Option<String>,
 }
 
 /// JSON schema for the TypeScript compiler's configuration file
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(TypedBuilder, Serialize, Deserialize, Debug, Clone)]
 #[serde(rename_all = "camelCase")]
-pub struct TsConfig<A = AdditionalFields> {
+pub struct TsConfig {
   /// These options make up the bulk of TypeScript’s configuration and it covers
   /// how the language should work.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub compiler_options: Option<CompilerOptions>,
 
   /// Enable Compile-on-Save for this project.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub compile_on_save: Option<bool>,
 
   /// Path to base configuration file to inherit from. Requires TypeScript
   /// version 2.1 or later.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub extends: Option<String>,
 
   /// Type Acquisition is only important for JavaScript projects. In TypeScript
@@ -1334,14 +1466,18 @@ pub struct TsConfig<A = AdditionalFields> {
   /// types for your modules in the background and outside of your node_modules
   /// folder.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub type_acquisition: Option<TypeAcquisition>,
 
+  #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub build_options: Option<BuildOptions>,
 
   /// You can configure the how TypeScript `--watch` works. This section is
   /// mainly for handling case where `fs.watch` and `fs.watchFile` have
   /// additional constraints like on Linux. You can read more at [Configuring Watch](https://www.typescriptlang.org/docs/handbook/configuring-watch.html).
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub watch_options: Option<WatchOptions>,
 
   /// If no 'files' or 'include' property is present in a tsconfig.json, the
@@ -1350,6 +1486,7 @@ pub struct TsConfig<A = AdditionalFields> {
   /// property is specified, only those files and those specified by 'include'
   /// are included.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub files: Option<Vec<String>>,
 
   /// Specifies a list of glob patterns that match files to be included in
@@ -1358,6 +1495,7 @@ pub struct TsConfig<A = AdditionalFields> {
   /// containing directory and subdirectories except those     specified by
   /// 'exclude'. Requires TypeScript version 2.0 or later.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub include: Option<Vec<String>>,
 
   /// Specifies a list of files to be excluded from compilation. The 'exclude'
@@ -1365,13 +1503,58 @@ pub struct TsConfig<A = AdditionalFields> {
   /// and not the 'files' property.   Glob patterns require TypeScript version
   /// 2.0 or later.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub exclude: Option<Vec<String>>,
 
   /// Referenced projects. Requires TypeScript version 3.0 or later.
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[builder(default, setter(into, strip_option))]
   pub references: Option<Vec<Reference>>,
 
   /// Additional fields.
   #[serde(flatten)]
-  pub _additional_fields_: A,
+  #[builder(default, setter(into, strip_option))]
+  pub other: Option<AdditionalFields>,
+}
+
+impl TryFrom<&str> for TsConfig {
+  type Error = crate::error::Error;
+
+  fn try_from(value: &str) -> Result<Self, Self::Error> {
+    let package_json: Self = serde_json::from_str(value).map_err(crate::Error::ParseTsConfig)?;
+    Ok(package_json)
+  }
+}
+
+impl TryFrom<String> for TsConfig {
+  type Error = crate::error::Error;
+
+  fn try_from(value: String) -> Result<Self, Self::Error> {
+    let package_json: Self =
+      serde_json::from_str(value.as_str()).map_err(crate::Error::ParseTsConfig)?;
+    Ok(package_json)
+  }
+}
+
+impl TryFrom<TsConfig> for String {
+  type Error = crate::error::Error;
+
+  fn try_from(value: TsConfig) -> Result<Self, Self::Error> {
+    let content = serde_json::to_string(&value).map_err(crate::Error::SerializeTsConfig)?;
+    Ok(content)
+  }
+}
+
+impl TsConfig {
+  /// Convert the [`TsConfig`] to a [Result] containing [`String`].
+  pub fn try_to_string(&self) -> Result<String, crate::error::Error> {
+    let content = serde_json::to_string(self).map_err(crate::Error::SerializeTsConfig)?;
+    Ok(content)
+  }
+}
+
+impl Display for TsConfig {
+  fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    write!(f, "{}", self.try_to_string().unwrap())
+  }
 }

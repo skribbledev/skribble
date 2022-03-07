@@ -1,11 +1,11 @@
 use indexmap::IndexMap;
 use serde::{Deserialize, Serialize};
-use serde_json::Map;
+use serde_json::Value;
 use validator::{Validate, ValidationError, ValidationErrors};
 
 use crate::utils::{
   validate_email_or_url, validate_exports_path, validate_version, AdditionalFields,
-  PACKAGE_NAME_REGEX,
+  PACKAGE_MANAGER_REGEX, PACKAGE_NAME_REGEX,
 };
 
 /// Rust schema for NPM `package.json` files.
@@ -76,13 +76,220 @@ pub struct PackageJson<A = AdditionalFields> {
 
   /// Version must be parseable by node-semver, which is bundled with npm as a
   #[serde(default, skip_serializing_if = "Option::is_none")]
+  #[validate]
+  pub exports: Option<Exports>,
+
+  /// Paths to binary files.
+  #[serde(default, skip_serializing_if = "Option::is_none")]
+  pub bin: Option<Binary>,
+
+  /// When set to "module", the type field allows a package to specify all .js
+  /// files within are ES modules. If the "type" field is omitted or set to
+  /// "commonjs", all .js files are treated as CommonJS.
+  #[serde(default, rename = "type", skip_serializing_if = "Option::is_none")]
+  pub type_: Option<Type>,
+
+  /// Set the types property to point to your bundled declaration file.
+  #[serde(default, skip_serializing_if = "Option::is_none")]
+  pub types: Option<String>,
+
+  /// Note that the "typings" field is synonymous with "types", and could be
+  /// used as well.
+  #[serde(default, skip_serializing_if = "Option::is_none")]
+  pub typings: Option<String>,
+
+  /// Contains overrides for the TypeScript version that matches the version
+  /// range matching the property key.
+  #[serde(
+    default,
+    rename = "typesVersions",
+    skip_serializing_if = "Option::is_none"
+  )]
+  pub types_versions: Option<IndexMap<String, String>>,
+
+  /// Specify either a single file or an array of filenames to put in place for
+  /// the man program to find.
+  #[serde(default, skip_serializing_if = "Option::is_none")]
+  pub man: Option<Man>,
+
+  /// Custom directories
+  #[serde(default, skip_serializing_if = "Option::is_none")]
+  pub directories: Option<Directories>,
+
+  /// Specify the place where your code lives. This is helpful for people who
+  /// want to contribute.
+  #[serde(default, skip_serializing_if = "Option::is_none")]
+  pub repository: Option<String>,
+
+  /// The 'scripts' member is an object hash of script commands that are run at
+  /// various times in the lifecycle of your package. The key is the lifecycle
+  /// event, and the value is the command to run at that point.
+  #[serde(default, skip_serializing_if = "Option::is_none")]
+  pub scripts: Option<IndexMap<String, Option<String>>>,
+
+  /// A 'config' hash can be used to set configuration parameters used in
+  /// package scripts that persist across upgrades.
+  #[serde(default, skip_serializing_if = "Option::is_none")]
+  pub config: Option<IndexMap<String, Value>>,
+
+  /// Dependencies are specified with a simple hash of package name to version
+  /// range. The version range is a string which has one or more space-separated
+  /// descriptors. Dependencies can also be identified with a tarball or git
+  /// URL.
+  #[serde(default, skip_serializing_if = "Option::is_none")]
+  pub dependencies: Option<IndexMap<String, String>>,
+
+  /// Dependencies are specified with a simple hash of package name to version
+  /// range. The version range is a string which has one or more space-separated
+  /// descriptors. Dependencies can also be identified with a tarball or git
+  /// URL.
+  #[serde(
+    default,
+    rename = "devDependencies",
+    skip_serializing_if = "Option::is_none"
+  )]
+  pub dev_dependencies: Option<IndexMap<String, String>>,
+
+  /// Dependencies are specified with a simple hash of package name to version
+  /// range. The version range is a string which has one or more space-separated
+  /// descriptors. Dependencies can also be identified with a tarball or git
+  /// URL.
+  #[serde(
+    default,
+    rename = "optionalDependencies",
+    skip_serializing_if = "Option::is_none"
+  )]
+  pub optional_dependencies: Option<IndexMap<String, String>>,
+
+  /// Dependencies are specified with a simple hash of package name to version
+  /// range. The version range is a string which has one or more space-separated
+  /// descriptors. Dependencies can also be identified with a tarball or git
+  /// URL.
+  #[serde(
+    default,
+    rename = "peerDependencies",
+    skip_serializing_if = "Option::is_none"
+  )]
+  pub peer_dependencies: Option<IndexMap<String, String>>,
+
+  /// Array of package names that will be bundled when publishing the package.
+  #[serde(
+    default,
+    rename = "bundledDependencies",
+    skip_serializing_if = "Option::is_none"
+  )]
+  pub bundled_dependencies: Option<BundledDependencies>,
+
+  /// Resolutions is used to support selective version resolutions, which lets you define custom package versions or ranges inside your dependencies. See: https://classic.yarnpkg.com/en/docs/selective-version-resolutions
+  #[serde(default, skip_serializing_if = "Option::is_none")]
+  pub resolutions: Option<IndexMap<String, String>>,
+
+  /// Defines which package manager is expected to be used when working on the current project. This field is currently experimental and needs to be opted-in; see https://nodejs.org/api/corepack.html
+  #[serde(
+    default,
+    rename = "packageManager",
+    skip_serializing_if = "Option::is_none"
+  )]
+  #[validate(regex = "PACKAGE_MANAGER_REGEX")]
+  pub package_manager: Option<String>,
+
+  /// The engines.
+  #[serde(default, skip_serializing_if = "Option::is_none")]
+  pub engines: Option<IndexMap<String, String>>,
+
+  /// Whether to strictly enforce the engines specified in the "engines" field.
+  #[serde(
+    default,
+    rename = "engineStrict",
+    skip_serializing_if = "Option::is_none"
+  )]
+  pub engine_strict: Option<bool>,
+
+  /// Specify which operating systems your module will run on.
+  #[serde(default, skip_serializing_if = "Option::is_none")]
+  pub os: Option<Vec<String>>,
+
+  /// Specify that your code only runs on certain cpu architectures.
+  #[serde(default, skip_serializing_if = "Option::is_none")]
+  pub cpu: Option<Vec<String>>,
+
+  /// If set to true, then npm will refuse to publish it.
+  #[serde(default, skip_serializing_if = "Option::is_none")]
+  pub example: Option<Private>,
+
+  /// Example
+  #[serde(default, skip_serializing_if = "Option::is_none")]
   pub example: Option<String>,
-  // // /// Example
-  // // #[serde(default, skip_serializing_if = "Option::is_none")]
-  // // pub example: Option<String>,
+
+  /// Example
+  #[serde(default, skip_serializing_if = "Option::is_none")]
+  pub example: Option<String>,
+
+  /// Example
+  #[serde(default, skip_serializing_if = "Option::is_none")]
+  pub example: Option<String>,
+
   /// All addition field.
   #[serde(flatten)]
   pub _additional_fields_: A,
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+#[serde(untagged)]
+pub enum Repository {
+  Path(String),
+  Object {
+    #[serde(default, rename = "type", skip_serializing_if = "Option::is_none")]
+    type_: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    url: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    directory: Option<String>,
+  },
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+#[serde(untagged)]
+pub enum Man {
+  Path(String),
+  Object(Vec<String>),
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+#[serde(untagged)]
+pub enum BundledDependencies {
+  Bool(bool),
+  List(Vec<String>),
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+#[serde(untagged)]
+pub enum Private {
+  #[serde(rename = "true")]
+  True,
+  #[serde(rename = "false")]
+  False,
+  Bool(bool),
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+#[serde(untagged)]
+pub enum Binary {
+  Path(String),
+  Object(IndexMap<String, String>),
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+#[serde(rename_all = "lowercase")]
+pub enum Type {
+  CommonJS,
+  Module,
+}
+
+impl Default for Type {
+  fn default() -> Self {
+    Type::CommonJS
+  }
 }
 
 /// A person who has been involved in creating or maintaining this package.
@@ -219,23 +426,25 @@ impl Validate for Exports {
 
         result()
       }
-      // Exports::Object(object) => {
-      //   for (name, path) in object._additional_fields_.iter() {
-      //     if name.starts_with(".") {
-      //       errors.add(
-      //         format!("Exports:{}", name).as_str(),
-      //         ValidationError::new("invalid field name"),
-      //       );
-      //     }
+      Exports::Object(object) => {
+        for (name, path) in object._additional_fields_.iter() {
+          if name.starts_with(".") {
+            errors.add(
+              format!("Exports:{}", name).as_str(),
+              ValidationError::new("invalid field name"),
+            );
+          }
 
-      //     match validate_exports_path(path) {
-      //       Ok(_) => (),
-      //       Err(e) => errors.errors(format!("Exports:{}", name).as_str(), e),
-      //     }
-      //   }
+          match validate_exports_path(path) {
+            Ok(_) => {}
+            Err(e) => {
+              errors.add(format!("Exports:{}", name).as_str(), e);
+            }
+          }
+        }
 
-      //   ValidationErrors::merge(result(), "Exports", object.validate())
-      // }
+        ValidationErrors::merge(result(), "Exports", object.validate())
+      }
       Exports::Nested(map) => {
         for (name, object) in map.iter() {
           let error = validate_exports_path(name);
@@ -246,8 +455,17 @@ impl Validate for Exports {
           };
 
           match object.validate() {
-            Ok(_) => (),
-            Err(e) => errors.add(format!("Exports:{}", name).as_str(), e),
+            Ok(_) => {}
+            Err(e) => {
+              for (key, field_errors) in e.field_errors() {
+                for field_error in field_errors {
+                  errors.add(
+                    format!("Exports:{}:{}", name, key).as_str(),
+                    field_error.clone(),
+                  );
+                }
+              }
+            }
           }
         }
 
@@ -282,6 +500,42 @@ pub struct ExportsObject {
   #[validate(custom = "validate_exports_path")]
   #[serde(default, skip_serializing_if = "Option::is_none")]
   pub default: Option<String>,
+
+  /// All additional custom fields.
+  #[serde(flatten)]
+  pub _additional_fields_: IndexMap<String, String>,
+}
+
+#[derive(Serialize, Validate, Deserialize, Debug, Clone)]
+pub struct Directories {
+  /// If you specify a 'bin' directory, then all the files in that folder will
+  /// be used as the 'bin' hash.
+  #[serde(default, skip_serializing_if = "Option::is_none")]
+  pub bin: Option<String>,
+
+  /// Put markdown files in here. Eventually, these will be displayed nicely,
+  /// maybe, someday.
+  #[serde(default, skip_serializing_if = "Option::is_none")]
+  pub doc: Option<String>,
+
+  /// Put example scripts in here. Someday, it might be exposed in some clever
+  /// way.
+  #[serde(default, skip_serializing_if = "Option::is_none")]
+  pub example: Option<String>,
+
+  /// Tell people where the bulk of your library is. Nothing special is done
+  /// with the lib folder in any way, but it's useful meta info.
+  #[serde(default, skip_serializing_if = "Option::is_none")]
+  pub lib: Option<String>,
+
+  /// A folder that is full of man pages. Sugar to generate a 'man' array by
+  /// walking the folder.
+  #[serde(default, skip_serializing_if = "Option::is_none")]
+  pub man: Option<String>,
+
+  /// Folder full of tests
+  #[serde(default, skip_serializing_if = "Option::is_none")]
+  pub test: Option<String>,
 
   /// All additional custom fields.
   #[serde(flatten)]

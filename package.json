@@ -12,7 +12,7 @@
   ],
   "type": "module",
   "scripts": {
-    "bootstrap": "pnpm install && run-s dev:napi dev:wasm",
+    "bootstrap": "corepack enable && pnpm i && run-p setup:rust dev:napi dev:wasm",
     "build": "run-p build:packages check:types",
     "build:docs": "pnpm --dir docs build",
     "build:napi": "pnpm run:napi --release",
@@ -43,7 +43,7 @@
     "fix:repo": "manypkg fix",
     "fix:rust-fmt": "cargo fmt",
     "preinstall": "pnpm symlink:root && pnpm check:pnpm",
-    "postinstall": "run-s dev:monots fix:config",
+    "postinstall": "run-s dev:monots fix:config setup:node",
     "lint": "run-s lint:*",
     "lint:build": "monots check",
     "lint:clippy": "cargo clippy",
@@ -62,6 +62,8 @@
     "run:napi": "napi build --platform --cargo-cwd='./crates/skribble_css_node' --config='./packages/skribble-css/package.json' --js=false --dts='./packages/skribble-css/tmp.d.ts'",
     "run:prettier": "prettier --ignore-path .eslintignore \"**/*.{js,jsx,ts,tsx,md,mdx,json,html,css,yml,yaml,graphql}\"",
     "serve:demos": "vite preview",
+    "setup:node": "node ./node_modules/wasm-pack/install.js",
+    "setup:rust": "cargo insta -h || cargo install cargo-insta",
     "snapshot:crates": "cargo insta review",
     "storybook": "start-storybook -h localhost -p 6006 -c .monots/storybook",
     "symlink:root": "node .monots/symlink-root.js",
@@ -138,5 +140,8 @@
       }
     }
   },
-  "packageManager": "pnpm@7.0.0-alpha.3"
+  "packageManager": "pnpm@7.0.0-alpha.3",
+  "pnpm": {
+    "neverBuiltDependencies": []
+  }
 }

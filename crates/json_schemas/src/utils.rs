@@ -10,6 +10,8 @@ pub type AdditionalFields = Map<String, Value>;
 lazy_static! {
   pub(crate) static ref PACKAGE_NAME_REGEX: Regex =
     Regex::new(r#"^(?:@[a-z0-9-*~][a-z0-9-*._~]*/)?[a-z0-9-~][a-z0-9-._~]*$"#).unwrap();
+  pub(crate) static ref PACKAGE_MANAGER_REGEX: Regex =
+    Regex::new(r#"(npm|pnpm|yarn)@\d+\.\d+\.\d+(-.+)?"#).unwrap();
 }
 
 pub(crate) fn validate_version(version: &str) -> Result<(), ValidationError> {

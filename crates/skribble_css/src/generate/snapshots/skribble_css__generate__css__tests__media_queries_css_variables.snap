@@ -1,8 +1,7 @@
 ---
-source: crates/skribble_css/src/generate_css.rs
+source: crates/skribble_css/src/generate/css.rs
 assertion_line: 398
 expression: output
-
 ---
 :root {
   --color-text-media: rgba(113, 113, 122, var(--sk-text-opacity));

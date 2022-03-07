@@ -1,8 +1,7 @@
 ---
-source: crates/skribble_css/src/generate_css.rs
-assertion_line: 330
+source: crates/skribble_css/src/generate/css.rs
+assertion_line: 402
 expression: output
-
 ---
 .px\:\:\$px {
   padding-right: 1px;
@@ -24,3 +23,4 @@ expression: output
     }
   }
 }
+

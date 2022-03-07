@@ -1,8 +1,7 @@
 ---
-source: crates/skribble_css/src/generate_css.rs
-assertion_line: 316
+source: crates/skribble_css/src/generate/css.rs
+assertion_line: 388
 expression: output
-
 ---
 @media print {
   .print\:px\:\:\$px {
@@ -10,3 +9,4 @@ expression: output
     padding-left: 1px;
   }
 }
+

@@ -1,8 +1,7 @@
 ---
-source: crates/skribble_css/src/generate_typescript.rs
+source: crates/skribble_css/src/generate/types.rs
 assertion_line: 295
 expression: generate_typescript(&config)
-
 ---
 /**
  * The default className signature.

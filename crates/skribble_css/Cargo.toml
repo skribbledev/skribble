@@ -31,7 +31,7 @@ swc_ecmascript = { features = [
   "utils",
   "visit",
   "parser",
-], version = "0.129.0" }
+], version = "0.127.0" } # versions 0.128+ are broken
 thiserror = "1.0.30"
 enum-ordinalize = "3.1.10"
 parcel_css = "1.0.0-alpha.18"

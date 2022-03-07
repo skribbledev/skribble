@@ -1,8 +1,7 @@
 ---
-source: crates/skribble_css/src/generate_css.rs
-assertion_line: 321
+source: crates/skribble_css/src/generate/css.rs
+assertion_line: 393
 expression: output
-
 ---
 @media (min-width: 768px) {
   @media print {
@@ -12,3 +11,4 @@ expression: output
     }
   }
 }
+

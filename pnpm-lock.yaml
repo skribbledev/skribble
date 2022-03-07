@@ -4,14 +4,14 @@ importers:
 
   .:
     specifiers:
-      '@auto-it/all-contributors': ^10.34.0
-      '@auto-it/crates': ^10.34.0
-      '@auto-it/magic-zero': ^10.34.0
-      '@auto-it/npm': ^10.34.0
+      '@auto-it/all-contributors': ^10.34.1
+      '@auto-it/crates': ^10.34.1
+      '@auto-it/magic-zero': ^10.34.1
+      '@auto-it/npm': ^10.34.1
       '@manypkg/cli': ^0.19.1
       '@monots/cli': ^0.12.0
       '@monots/tsconfig': ^0.1.0
-      '@napi-rs/cli': ^2.4.4
+      '@napi-rs/cli': ^2.4.5
       '@rollup/plugin-node-resolve': ^13.1.3
       '@storybook/addon-a11y': ^6.4.19
       '@storybook/addon-actions': ^6.4.19
@@ -23,7 +23,7 @@ importers:
       '@types/react': ^17.0.39
       '@types/react-dom': ^17.0.13
       '@vitejs/plugin-react': ^1.2.0
-      auto: ^10.34.0
+      auto: ^10.34.1
       chokidar-cli: ^3.0.0
       cpy-cli: ^4.0.0
       eslint: ^8.10.0
@@ -41,20 +41,20 @@ importers:
       rimraf: ^3.0.2
       serve: ^13.0.2
       storybook-builder-vite: ^0.1.17
-      ts-node: ^10.6.0
+      ts-node: ^10.7.0
       typescript: 4.6.2
       vite: ^2.8.6
       vitest: ^0.5.9
       wasm-pack: ^0.10.2
     dependencies:
-      '@auto-it/all-contributors': 10.34.0_typescript@4.6.2
-      '@auto-it/crates': 10.34.0_typescript@4.6.2
-      '@auto-it/magic-zero': 10.34.0_typescript@4.6.2
-      '@auto-it/npm': 10.34.0_typescript@4.6.2
+      '@auto-it/all-contributors': 10.34.1_typescript@4.6.2
+      '@auto-it/crates': 10.34.1_typescript@4.6.2
+      '@auto-it/magic-zero': 10.34.1_typescript@4.6.2
+      '@auto-it/npm': 10.34.1_typescript@4.6.2
       '@manypkg/cli': 0.19.1
       '@monots/cli': 0.12.0
       '@monots/tsconfig': 0.1.0
-      '@napi-rs/cli': 2.4.4
+      '@napi-rs/cli': 2.4.5
       '@rollup/plugin-node-resolve': 13.1.3
       '@storybook/addon-a11y': 6.4.19_b8fdba992ce7d797017dc07106486496
       '@storybook/addon-actions': 6.4.19_b8fdba992ce7d797017dc07106486496
@@ -66,7 +66,7 @@ importers:
       '@types/react': 17.0.39
       '@types/react-dom': 17.0.13
       '@vitejs/plugin-react': 1.2.0
-      auto: 10.34.0_typescript@4.6.2
+      auto: 10.34.1_typescript@4.6.2
       chokidar-cli: 3.0.0
       cpy-cli: 4.0.0
       eslint: 8.10.0
@@ -84,7 +84,7 @@ importers:
       rimraf: 3.0.2
       serve: 13.0.2
       storybook-builder-vite: 0.1.17_c8bc8032f8f20001ab7ac3b1b4d4d032
-      ts-node: 10.6.0_e79e62fe450383fd2d418267dc75e645
+      ts-node: 10.7.0_e79e62fe450383fd2d418267dc75e645
       typescript: 4.6.2
       vite: 2.8.6
       vitest: 0.5.9_happy-dom@2.45.0
@@ -573,11 +573,11 @@ packages:
     deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
     dev: true
 
-  /@auto-it/all-contributors/10.34.0_typescript@4.6.2:
-    resolution: {integrity: sha512-jglw8AsegyjvV6wSlf/yIH3+E76FsFFsDmBUbgAv/pypbdb8au0XUcEbMEc55kLHrdgITUzq/LIk91eZubkMXA==}
+  /@auto-it/all-contributors/10.34.1_typescript@4.6.2:
+    resolution: {integrity: sha512-kfvEl8MOlUjRIOIaU9jYh73L9Uy/LKQqpUZPN9vzbgmPF5J8QKc6eIeIfbgoK2Y+y8JEwG9senT7l3wEKUTg+Q==}
     dependencies:
-      '@auto-it/bot-list': 10.34.0
-      '@auto-it/core': 10.34.0_typescript@4.6.2
+      '@auto-it/bot-list': 10.34.1
+      '@auto-it/core': 10.34.1_typescript@4.6.2
       '@octokit/rest': 18.12.0
       all-contributors-cli: 6.19.0
       anymatch: 3.1.2
@@ -595,20 +595,20 @@ packages:
       - typescript
     dev: false
 
-  /@auto-it/bot-list/10.34.0:
-    resolution: {integrity: sha512-qgHBkIMb0FM5aUjeqwfEqlmz78Ge5xZUkIDUPjcIF+dgq+s6w4hXNDXzHKASeKUppJ5p0eiMsmzpY08RPov3Zg==}
+  /@auto-it/bot-list/10.34.1:
+    resolution: {integrity: sha512-wUARnM3Xl24YE3q+39T29azNVPRWzRNVq6qe/Z9ulN/bM4tXBgpcH5proJOH+ed3QKOiUgqvRJU5fGu0mOmIaA==}
     engines: {node: '>=10.x'}
     dev: false
 
-  /@auto-it/core/10.34.0_typescript@4.6.2:
-    resolution: {integrity: sha512-ru+WLcQdcR/GW07JWlDnDtsN4Od/wlISbfVTVgiQLYkizlIhox/Me0VnwLoCqhMYOVsOVM5cpf3VEuarwQvO6w==}
+  /@auto-it/core/10.34.1_typescript@4.6.2:
+    resolution: {integrity: sha512-3+WP+eWTyuMYW/RFnU+g7hlxRjSinEeq7IJKipFjQJcsCukj6bSiP6ZdMVyX+EPL7zr3g+dmGYHPF67atZ2lHw==}
     peerDependencies:
       typescript: '*'
     peerDependenciesMeta:
       typescript:
         optional: true
     dependencies:
-      '@auto-it/bot-list': 10.34.0
+      '@auto-it/bot-list': 10.34.1
       '@endemolshinegroup/cosmiconfig-typescript-loader': 3.0.2_777498c259bdff31f6b9d77a9f1c816f
       '@octokit/plugin-enterprise-compatibility': 1.3.0
       '@octokit/plugin-retry': 3.0.9
@@ -654,10 +654,10 @@ packages:
       - supports-color
     dev: false
 
-  /@auto-it/crates/10.34.0_typescript@4.6.2:
-    resolution: {integrity: sha512-Kj/nu08eXjuVnJMm7piQ0+eFC7on3aZTFvsJEFHUQllvUF4vN/wyzlMxWlgxZFD0Ath0T8oG9fh3kDgOPSTL7w==}
+  /@auto-it/crates/10.34.1_typescript@4.6.2:
+    resolution: {integrity: sha512-eSVSHl3jF1kfuAMZqHn3VGmSbQNq/7EsL6KDN5kOcUt/yMMViTsO/zZRe5fTOVjPJ/uBOmyn4t3T4UwJ3TR7rw==}
     dependencies:
-      '@auto-it/core': 10.34.0_typescript@4.6.2
+      '@auto-it/core': 10.34.1_typescript@4.6.2
       env-ci: 5.5.0
       semver: 7.3.5
       toml: 3.0.0
@@ -670,10 +670,10 @@ packages:
       - typescript
     dev: false
 
-  /@auto-it/magic-zero/10.34.0_typescript@4.6.2:
-    resolution: {integrity: sha512-FO315I/kxcU8qm8VEYN2Ow4ubTD2wMlVAGDiw0GdmSvK8Net1U+adCBawAulj2rA+pPCIz5gGD7t38d6rqzm6Q==}
+  /@auto-it/magic-zero/10.34.1_typescript@4.6.2:
+    resolution: {integrity: sha512-iNFLY7oDJNRV+ibNGjTyn7cqepnozF8PCK8pSjzHn4GnHiPYM3TZCSZnaHTiZ9mvjqNq6bADVEXaBAJLneRS+w==}
     dependencies:
-      '@auto-it/core': 10.34.0_typescript@4.6.2
+      '@auto-it/core': 10.34.1_typescript@4.6.2
       fp-ts: 2.11.8
       io-ts: 2.2.16_fp-ts@2.11.8
       semver: 7.3.5
@@ -685,11 +685,11 @@ packages:
       - typescript
     dev: false
 
-  /@auto-it/npm/10.34.0_typescript@4.6.2:
-    resolution: {integrity: sha512-pLbgjuNPvrjlfAmjnxvF0L3c3BK1PARYqhzr0f2esZNbWHTFNowysud4nX4okc4fvn3rArNua7dfIT+QI04CCw==}
+  /@auto-it/npm/10.34.1_typescript@4.6.2:
+    resolution: {integrity: sha512-b31SNNRUJS0HYkR/GQFSUcbnHHnelQmLs4rdHvlFWbPhAIXVnpBRNns7PeZJOdScUeI0dhUT3k9op+/x7RNX/w==}
     dependencies:
-      '@auto-it/core': 10.34.0_typescript@4.6.2
-      '@auto-it/package-json-utils': 10.34.0
+      '@auto-it/core': 10.34.1_typescript@4.6.2
+      '@auto-it/package-json-utils': 10.34.1
       await-to-js: 3.0.0
       endent: 2.1.0
       env-ci: 5.5.0
@@ -709,19 +709,19 @@ packages:
       - typescript
     dev: false
 
-  /@auto-it/package-json-utils/10.34.0:
-    resolution: {integrity: sha512-OlcGTO+E++WPfZsZwkr3EPzZSWcPVrNJQy6BbFSyfsLeE9sFvIPv3T8wnGkx+3AVQzVhXFwfmIt2NfXPe3FMsQ==}
+  /@auto-it/package-json-utils/10.34.1:
+    resolution: {integrity: sha512-qR+3ys9kfMknc56SMMpI/neW4eDMciRotIS9Onh9eUSgLDU7fdOaAF+d+SXmjkz1ITGbGnHHVPmnyP0db5kryQ==}
     engines: {node: '>=10.x'}
     dependencies:
       parse-author: 2.0.0
       parse-github-url: 1.0.2
     dev: false
 
-  /@auto-it/released/10.34.0_typescript@4.6.2:
-    resolution: {integrity: sha512-1IKQmxf5jMmku2E5xnCRPetLi8L+KPmI+GFMxOCBHD+d+KIzGWYf+N+vwj10UIpEGGKRIbc5wAoiMzCnraQ3rg==}
+  /@auto-it/released/10.34.1_typescript@4.6.2:
+    resolution: {integrity: sha512-d/fM77Kx4CSLMWJZb7ce0rOkbym2L9JRuXagRF8JSM+RwEUPf17JRjQ+3S9Jsfdm5r5fYn91yVsCgolMmzaiVQ==}
     dependencies:
-      '@auto-it/bot-list': 10.34.0
-      '@auto-it/core': 10.34.0_typescript@4.6.2
+      '@auto-it/bot-list': 10.34.1
+      '@auto-it/core': 10.34.1_typescript@4.6.2
       deepmerge: 4.2.2
       fp-ts: 2.11.8
       io-ts: 2.2.16_fp-ts@2.11.8
@@ -3334,8 +3334,8 @@ packages:
       glob-to-regexp: 0.3.0
     dev: false
 
-  /@napi-rs/cli/2.4.4:
-    resolution: {integrity: sha512-f+tvwCv1ka24dBqI2DgBhR7Oxl3DKHOp4onxLXwyBFt6iCADnr3YZIr1/2Iq5r3uqxFgaf01bfPsRQZPkEp0kQ==}
+  /@napi-rs/cli/2.4.5:
+    resolution: {integrity: sha512-CLa3PSHh4Y760OXkHidzfHavVtfbQyfMhj3sWpta3SZjbWMk0tbdPhRez9y8KVApVVWjBxz5agEeFMfxxr+KTg==}
     engines: {node: '>= 10'}
     hasBin: true
     dev: false
@@ -6697,14 +6697,14 @@ packages:
     engines: {node: '>=0.8'}
     dev: false
 
-  /auto/10.34.0_typescript@4.6.2:
-    resolution: {integrity: sha512-Q6kxeQLOWMTRjgQRQVovwn0QZmLMFjqLk/NiWjUR514ouKK3htGQRQFpxyRbWNKPWXWWww14oThYcuhznVYFaA==}
+  /auto/10.34.1_typescript@4.6.2:
+    resolution: {integrity: sha512-VZ7LvjFpW5Rv721NRInWj726PtByC6qQNAkhwTCiVJ8wvdcv++n7DGgNWtJC6EO/48Cta14xfoHBTJrqyHxwnw==}
     engines: {node: '>=10.x'}
     hasBin: true
     dependencies:
-      '@auto-it/core': 10.34.0_typescript@4.6.2
-      '@auto-it/npm': 10.34.0_typescript@4.6.2
-      '@auto-it/released': 10.34.0_typescript@4.6.2
+      '@auto-it/core': 10.34.1_typescript@4.6.2
+      '@auto-it/npm': 10.34.1_typescript@4.6.2
+      '@auto-it/released': 10.34.1_typescript@4.6.2
       await-to-js: 3.0.0
       chalk: 4.1.2
       command-line-application: 0.10.1
@@ -18695,8 +18695,8 @@ packages:
       code-block-writer: 10.1.1
     dev: true
 
-  /ts-node/10.6.0_e79e62fe450383fd2d418267dc75e645:
-    resolution: {integrity: sha512-CJen6+dfOXolxudBQXnVjRVvYTmTWbyz7cn+xq2XTsvnaXbHqr4gXSCNbS2Jj8yTZMuGwUoBESLaOkLascVVvg==}
+  /ts-node/10.7.0_e79e62fe450383fd2d418267dc75e645:
+    resolution: {integrity: sha512-TbIGS4xgJoX2i3do417KSaep1uRAW/Lu+WAL2doDHC0D6ummjirVOXU5/7aiZotbQ5p1Zp9tP7U6cYhA0O7M8A==}
     hasBin: true
     peerDependencies:
       '@swc/core': '>=1.2.50'

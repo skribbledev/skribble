@@ -10,5 +10,9 @@
   ],
   "{packages,support}/**/*.{ts,tsx,js}": [
     "prettier --ignore-path .eslintignore --write"
+  ],
+  "**/*.rs": [
+    "cargo fmt --",
+    "cargo clippy --fix --"
   ]
 }

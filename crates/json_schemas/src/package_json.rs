@@ -215,19 +215,37 @@ pub struct PackageJson<A = AdditionalFields> {
 
   /// If set to true, then npm will refuse to publish it.
   #[serde(default, skip_serializing_if = "Option::is_none")]
-  pub example: Option<Private>,
+  pub private: Option<Private>,
+
+  /// Example
+  #[serde(
+    default,
+    rename = "publishConfig",
+    skip_serializing_if = "Option::is_none"
+  )]
+  pub publish_config: Option<PublishConfig>,
 
   /// Example
   #[serde(default, skip_serializing_if = "Option::is_none")]
-  pub example: Option<String>,
+  pub dist: Option<Dist>,
 
-  /// Example
   #[serde(default, skip_serializing_if = "Option::is_none")]
-  pub example: Option<String>,
+  pub readme: Option<String>,
 
-  /// Example
+  /// An ECMAScript module ID that is the primary entry point to your program.
   #[serde(default, skip_serializing_if = "Option::is_none")]
-  pub example: Option<String>,
+  pub module: Option<EsNext>,
+
+  /// An custom entrypoint for browsers.
+  #[serde(default, skip_serializing_if = "Option::is_none")]
+  pub browser: Option<EsNext>,
+
+  /// Allows packages within a directory to depend on one another using direct
+  /// linking of local files. Additionally, dependencies within a workspace are
+  /// hoisted to the workspace root when possible to reduce duplication. Note:
+  /// It's also a good idea to set \"private\" to true when using this feature.
+  #[serde(default, skip_serializing_if = "Option::is_none")]
+  pub workspaces: Option<Workspaces>,
 
   /// All addition field.
   #[serde(flatten)]
@@ -250,9 +268,66 @@ pub enum Repository {
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(untagged)]
+pub enum Workspaces {
+  /// Workspace package paths. Glob patterns are supported.
+  List(Vec<String>),
+  Object {
+    /// Workspace package paths. Glob patterns are supported.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    packages: Option<Vec<String>>,
+
+    /// Packages to block from hoisting to the workspace root. Currently only
+    /// supported in Yarn only.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    nohoist: Option<Vec<String>>,
+  },
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+#[serde(rename_all = "lowercase")]
+pub enum PublishConfigAccess {
+  Public,
+  Restricted,
+}
+
+#[derive(Serialize, Validate, Deserialize, Debug, Clone)]
+pub struct PublishConfig {
+  #[serde(default, skip_serializing_if = "Option::is_none")]
+  pub name: Option<PublishConfigAccess>,
+
+  #[serde(default, skip_serializing_if = "Option::is_none")]
+  pub tag: Option<String>,
+
+  #[validate(url)]
+  #[serde(default, skip_serializing_if = "Option::is_none")]
+  pub registry: Option<String>,
+
+  /// All additional custom fields.
+  #[serde(flatten)]
+  pub _additional_fields_: IndexMap<String, String>,
+}
+
+#[derive(Serialize, Validate, Deserialize, Debug, Clone)]
+pub struct Dist {
+  #[serde(default, skip_serializing_if = "Option::is_none")]
+  pub shasum: Option<String>,
+
+  #[serde(default, skip_serializing_if = "Option::is_none")]
+  pub tarball: Option<String>,
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+#[serde(untagged)]
 pub enum Man {
   Path(String),
   Object(Vec<String>),
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+#[serde(untagged)]
+pub enum EsNext {
+  Path(String),
+  Object(IndexMap<String, String>),
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]

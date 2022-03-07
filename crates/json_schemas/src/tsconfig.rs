@@ -1,6 +1,6 @@
 use crate::utils::AdditionalFields;
+use indexmap::IndexMap;
 use serde::{de::IntoDeserializer, Deserialize, Deserializer, Serialize};
-use serde_json::Map;
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(rename_all = "camelCase")]
@@ -34,7 +34,7 @@ pub struct BuildOptions {
 
 /// Specify the polling strategy to use when the system runs out of or doesn't
 /// support native   file watchers. Requires TypeScript version 3.8 or later.
-#[derive(Serialize, Deserialize, Debug, Clone, PartialOrd, Ord, PartialEq, Eq, Hash)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(rename_all = "lowercase")]
 pub enum FallbackPolling {
   FixedPollingInterval,
@@ -60,7 +60,7 @@ impl ToString for FallbackPolling {
 }
 
 /// Specify emit/checking behavior for imports that are only used for types.
-#[derive(Serialize, Deserialize, Debug, Clone, PartialOrd, Ord, PartialEq, Eq, Hash)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(rename_all = "lowercase")]
 pub enum ImportsNotUsedAsValues {
   Remove,
@@ -77,7 +77,7 @@ impl ToString for ImportsNotUsedAsValues {
   }
 }
 /// Specify what JSX code is generated.
-#[derive(Serialize, Deserialize, Debug, Clone, PartialOrd, Ord, PartialEq, Eq, Hash)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub enum Jsx {
   #[serde(rename = "preserve")]
   Preserve,
@@ -105,7 +105,7 @@ impl ToString for Jsx {
 
 /// TODO implement case insensitive deserialization for this enum.
 /// https://damad.be/joost/blog/rust-serde-deserialization-of-an-enum-variant.html
-#[derive(Serialize, Deserialize, Debug, Clone, PartialOrd, Ord, PartialEq, Eq, Hash)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(remote = "Lib")]
 pub enum Lib {
   #[serde(rename = "es5")]
@@ -426,7 +426,7 @@ impl ToString for Lib {
 }
 
 /// Specify what module code is generated.
-#[derive(Serialize, Deserialize, Debug, Clone, PartialOrd, Ord, PartialEq, Eq, Hash)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(rename_all = "lowercase")]
 #[serde(remote = "Module")]
 pub enum Module {
@@ -501,7 +501,7 @@ impl ToString for Module {
 }
 
 /// Specify how TypeScript looks up a file from a given module specifier.
-#[derive(Serialize, Deserialize, Debug, Clone, PartialOrd, Ord, PartialEq, Eq, Hash)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(rename_all = "lowercase")]
 #[serde(remote = "ModuleResolution")]
 pub enum ModuleResolution {
@@ -544,7 +544,7 @@ impl ToString for ModuleResolution {
 }
 
 /// Set the newline character for emitting files.
-#[derive(Serialize, Deserialize, Debug, Clone, PartialOrd, Ord, PartialEq, Eq, Hash)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(rename_all = "lowercase")]
 #[serde(remote = "NewLine")]
 pub enum NewLine {
@@ -591,7 +591,7 @@ pub struct Plugin {
 
 /// Set the JavaScript language version for emitted JavaScript and include
 /// compatible library declarations.
-#[derive(Serialize, Deserialize, Debug, Clone, PartialOrd, Ord, PartialEq, Eq, Hash)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(remote = "Target")]
 pub enum Target {
   #[serde(rename = "es3")]
@@ -679,7 +679,7 @@ impl ToString for Target {
 /// Specify the strategy for watching directories under systems that lack
 /// recursive file-watching functionality. Requires TypeScript version 3.8 or
 /// later.
-#[derive(Serialize, Deserialize, Debug, Clone, PartialOrd, Ord, PartialEq, Eq, Hash)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(rename_all = "lowercase")]
 #[serde(remote = "WatchDirectory")]
 pub enum WatchDirectory {
@@ -725,7 +725,7 @@ impl ToString for WatchDirectory {
 
 /// Specify the strategy for watching individual files. Requires TypeScript
 /// version 3.8 or later.
-#[derive(Serialize, Deserialize, Debug, Clone, PartialOrd, Ord, PartialEq, Eq, Hash)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(rename_all = "lowercase")]
 #[serde(remote = "WatchFile")]
 pub enum WatchFile {
@@ -1098,12 +1098,12 @@ pub struct CompilerOptions {
   ///
   /// `paths` lets you declare how TypeScript should resolve an import in your
   /// `require`/`import`s.
-  #[serde(default, skip_serializing_if = "Map::is_empty")]
-  pub paths: Map<String, Vec<String>>,
+  #[serde(default, skip_serializing_if = "Option::is_none")]
+  pub paths: Option<IndexMap<String, Vec<String>>>,
 
   /// Specify a list of language service plugins to include.
-  #[serde(default, skip_serializing_if = "Vec::is_empty")]
-  pub plugins: Vec<Plugin>,
+  #[serde(default, skip_serializing_if = "Option::is_none")]
+  pub plugins: Option<Vec<Plugin>>,
 
   /// Disable erasing `const enum` declarations in generated code.
   #[serde(default, skip_serializing_if = "Option::is_none")]

@@ -16,7 +16,7 @@ lazy_static! {
 
 pub(crate) fn validate_version(version: &str) -> Result<(), ValidationError> {
   VersionReq::parse(version)
-    .map_err(|_| ValidationError::new("version must be a valid semver string"));
+    .map_err(|_| ValidationError::new("version must be a valid semver string"))?;
 
   Ok(())
 }

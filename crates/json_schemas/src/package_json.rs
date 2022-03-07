@@ -436,13 +436,6 @@ impl Validate for Bug {
   #[allow(unused_mut)]
   fn validate(&self) -> Result<(), ValidationErrors> {
     let mut errors = ValidationErrors::new();
-    let mut result = || {
-      if errors.is_empty() {
-        Ok(())
-      } else {
-        Err(errors)
-      }
-    };
 
     match self {
       Bug::EmailOrUrl(email_or_url) => {
@@ -450,13 +443,22 @@ impl Validate for Bug {
 
         match error {
           Ok(_) => (),
-          Err(e) => errors.add("Bug", e),
+          Err(e) => {
+            errors.add("Bug", e);
+          }
         }
-
-        result()
       }
-      Bug::Object(bug) => ValidationErrors::merge(result(), "Bug", bug.validate()),
-      _ => result(),
+      Bug::Object(bug) => {
+        if let Err(validation_errors) = bug.validate() {
+          errors = validation_errors;
+        }
+      }
+    }
+
+    if errors.is_empty() {
+      Ok(())
+    } else {
+      Err(errors)
     }
   }
 }
@@ -482,71 +484,57 @@ impl Validate for Exports {
   #[allow(unused_mut)]
   fn validate(&self) -> Result<(), ValidationErrors> {
     let mut errors = ValidationErrors::new();
-    let mut result = || {
-      if errors.is_empty() {
-        Ok(())
-      } else {
-        Err(errors)
-      }
-    };
 
     match self {
       Exports::Path(path) => {
-        let error = validate_exports_path(path);
-
-        match error {
-          Ok(_) => (),
-          Err(e) => errors.add("Exports", e),
-        };
-
-        result()
+        if let Err(validation_error) = validate_exports_path(path) {
+          errors.add("Exports", validation_error);
+        }
       }
       Exports::Object(object) => {
+        let mut validation_errors = ValidationErrors::new();
+
         for (name, path) in object._additional_fields_.iter() {
-          if name.starts_with(".") {
-            errors.add(
-              format!("Exports:{}", name).as_str(),
-              ValidationError::new("invalid field name"),
-            );
+          if name.starts_with('.') {
+            validation_errors.add("Exports", ValidationError::new("invalid field name"));
           }
 
-          match validate_exports_path(path) {
-            Ok(_) => {}
-            Err(e) => {
-              errors.add(format!("Exports:{}", name).as_str(), e);
-            }
+          if let Err(validation_error) = validate_exports_path(path) {
+            validation_errors.add("Exports", validation_error);
           }
         }
 
-        ValidationErrors::merge(result(), "Exports", object.validate())
+        let result = if validation_errors.is_empty() {
+          Ok(())
+        } else {
+          Err(validation_errors)
+        };
+
+        if let Err(nested_errors) = ValidationErrors::merge(result, "Exports", object.validate()) {
+          errors = nested_errors;
+        }
       }
       Exports::Nested(map) => {
         for (name, object) in map.iter() {
-          let error = validate_exports_path(name);
+          if let Err(error) = validate_exports_path(name) {
+            errors.add("Exports", error);
+          }
 
-          match error {
-            Ok(_) => (),
-            Err(e) => errors.add(format!("Exports:{}", name).as_str(), e),
-          };
-
-          match object.validate() {
-            Ok(_) => {}
-            Err(e) => {
-              for (key, field_errors) in e.field_errors() {
-                for field_error in field_errors {
-                  errors.add(
-                    format!("Exports:{}:{}", name, key).as_str(),
-                    field_error.clone(),
-                  );
-                }
+          if let Err(validation_errors) = object.validate() {
+            for (key, field_errors) in validation_errors.field_errors() {
+              for field_error in field_errors {
+                errors.add(key, field_error.clone());
               }
             }
           }
         }
-
-        result()
       }
-      _ => result(),
+    }
+
+    if errors.is_empty() {
+      Ok(())
+    } else {
+      Err(errors)
     }
   }
 }

@@ -105,8 +105,7 @@ impl ToString for Jsx {
 
 /// TODO implement case insensitive deserialization for this enum.
 /// https://damad.be/joost/blog/rust-serde-deserialization-of-an-enum-variant.html
-#[derive(Serialize, Deserialize, Debug, Clone)]
-#[serde(remote = "Lib")]
+#[derive(Serialize, Debug, Clone)]
 pub enum Lib {
   #[serde(rename = "es5")]
   Es5,
@@ -426,9 +425,8 @@ impl ToString for Lib {
 }
 
 /// Specify what module code is generated.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Debug, Clone)]
 #[serde(rename_all = "lowercase")]
-#[serde(remote = "Module")]
 pub enum Module {
   CommonJs,
   Amd,
@@ -501,9 +499,8 @@ impl ToString for Module {
 }
 
 /// Specify how TypeScript looks up a file from a given module specifier.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Debug, Clone)]
 #[serde(rename_all = "lowercase")]
-#[serde(remote = "ModuleResolution")]
 pub enum ModuleResolution {
   Classic,
   Node,
@@ -544,9 +541,8 @@ impl ToString for ModuleResolution {
 }
 
 /// Set the newline character for emitting files.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Debug, Clone)]
 #[serde(rename_all = "lowercase")]
-#[serde(remote = "NewLine")]
 pub enum NewLine {
   Crlf,
   Lf,
@@ -591,8 +587,7 @@ pub struct Plugin {
 
 /// Set the JavaScript language version for emitted JavaScript and include
 /// compatible library declarations.
-#[derive(Serialize, Deserialize, Debug, Clone)]
-#[serde(remote = "Target")]
+#[derive(Serialize, Debug, Clone)]
 pub enum Target {
   #[serde(rename = "es3")]
   Es3,
@@ -679,9 +674,8 @@ impl ToString for Target {
 /// Specify the strategy for watching directories under systems that lack
 /// recursive file-watching functionality. Requires TypeScript version 3.8 or
 /// later.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Debug, Clone)]
 #[serde(rename_all = "lowercase")]
-#[serde(remote = "WatchDirectory")]
 pub enum WatchDirectory {
   UseFsEvents,
   FixedPollingInterval,
@@ -725,9 +719,8 @@ impl ToString for WatchDirectory {
 
 /// Specify the strategy for watching individual files. Requires TypeScript
 /// version 3.8 or later.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Debug, Clone)]
 #[serde(rename_all = "lowercase")]
-#[serde(remote = "WatchFile")]
 pub enum WatchFile {
   FixedPollingInterval,
   PriorityPollingInterval,

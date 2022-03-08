@@ -1,15 +1,15 @@
 import type { FunctionalComponent } from 'preact';
-import { h, Fragment } from 'preact';
-import { useState, useEffect, useRef } from 'preact/hooks';
+import { Fragment, h } from 'preact';
+import { useEffect, useRef, useState } from 'preact/hooks';
 
 const TableOfContents: FunctionalComponent<{ headers: any[] }> = ({ headers = [] }) => {
   const itemOffsets = useRef([]);
-  const [activeId, setActiveId] = useState<string>(undefined);
+  const [activeId, setActiveId] = useState<string>();
 
   useEffect(() => {
     const getItemOffsets = () => {
       const titles = document.querySelectorAll('article :is(h1, h2, h3, h4)');
-      itemOffsets.current = Array.from(titles).map((title) => ({
+      itemOffsets.current = [...titles].map((title) => ({
         id: title.id,
         topOffset: title.getBoundingClientRect().top + window.scrollY,
       }));

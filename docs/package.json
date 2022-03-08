@@ -2,6 +2,7 @@
   "name": "@skribble/docs",
   "version": "0.0.0",
   "private": true,
+  "repository": "https://github.com/skribbledev/skribble/tree/master/docs",
   "scripts": {
     "build": "astro build",
     "dev": "astro dev",

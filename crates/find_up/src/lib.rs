@@ -110,7 +110,7 @@ impl FindUp {
       }
     }
 
-    let mut results = Vec::from(results);
+    let mut results = results;
     let dir_results = read_dir(dir).map_err(|source| Error::CouldNotReadDirectory {
       source,
       path: dir.clone(),

@@ -1,17 +1,18 @@
-import process from 'node:process';
-import { promisify } from 'node:util';
-import fs from 'node:fs';
-import path from 'node:path';
-import { fileURLToPath, pathToFileURL } from 'node:url';
 import test from 'ava';
 import isPathInside from 'is-path-inside';
+import fs from 'node:fs';
+import path from 'node:path';
+import process from 'node:process';
+import { fileURLToPath, pathToFileURL } from 'node:url';
+import { promisify } from 'node:util';
 import tempy from 'tempy';
+
 import {
   findUp,
-  findUpSync,
   findUpMultiple,
   findUpMultipleSync,
   findUpStop,
+  findUpSync,
   pathExists,
   pathExistsSync,
 } from './index.js';

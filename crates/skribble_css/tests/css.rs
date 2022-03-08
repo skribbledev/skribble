@@ -4,7 +4,7 @@ use skribble_css::{
   scanner::class_name_collector::{ClassNameCollector, ValidImport},
 };
 use std::{path::PathBuf, sync::Arc};
-use swc_common::{input::StringInput, sync::Lrc, SourceMap};
+use swc_common::{input::StringInput, SourceMap};
 use swc_ecmascript::{
   parser::{lexer::Lexer, Capturing, Parser, Syntax, TsConfig},
   visit::VisitWith,

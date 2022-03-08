@@ -49,13 +49,16 @@ pnpm add skribble
 
 To contribute to this project you will need to install the following dependencies.
 
-- [node](https://nodejs.org/en/download/)
+- [node](https://nodejs.org/en/download/) - _version >=16 which also installs corepack which is used extensively in this project_
 - [rust](https://www.rust-lang.org/learn/get-started)
 
-The following are optional:
+Once installed you should be able to run the following command to get running.
 
-- [solana](https://docs.solana.com/cli/install-solana-cli-tools)
-- [anchor](https://project-serum.github.io/anchor/getting-started/installation.html#install-anchor)
+```bash
+npm run bootstrap
+```
+
+This will setup the project and install the dependencies. At this point you will be able to use the prescribed version of `pnpm` as the default package manager thanks to corepack.
 
 ## Getting Started
 

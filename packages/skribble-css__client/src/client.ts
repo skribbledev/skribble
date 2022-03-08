@@ -1,4 +1,5 @@
 import type { SkribbleCss, WithCustomClassName } from '@skribble-css/types';
+
 import { overrides } from './overrides';
 
 let shouldCache = true;

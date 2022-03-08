@@ -1,10 +1,12 @@
 /* jsxImportSource: react */
-import { useState, useCallback, useRef } from 'react';
-import { createPortal } from 'react-dom';
-import * as docSearchReact from '@docsearch/react';
-import * as CONFIG from '../../config';
 import '@docsearch/css/dist/style.css';
 import './search.css';
+
+import * as docSearchReact from '@docsearch/react';
+import { useCallback, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
+
+import * as CONFIG from '../../config';
 
 const { DocSearchModal, useDocSearchKeyboardEvents } = docSearchReact.default;
 

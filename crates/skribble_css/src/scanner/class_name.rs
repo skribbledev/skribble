@@ -13,7 +13,7 @@ use swc_ecmascript::{
 
 use crate::{
   config::{
-    user::{AtomCssValue, CssValue, StyleRule},
+    user::{AtomCssValue, CssValue},
     Config,
   },
   constants::INDENTATION,
@@ -410,10 +410,10 @@ impl<'config> ClassName<'config> {
   }
 
   fn get_style_declaration_map(&self) -> IndexMap<String, String> {
-    let mut map = IndexMap::new();
+    let map = IndexMap::new();
     let mut lines: Vec<String> = vec![];
     let important = (if self.important { " !important" } else { "" }).to_string();
-    let separator = format!("{};", important);
+    let _separator = format!("{};", important);
 
     if let Some(atom) = &self.atom {
       if let Some(style_rules) = &self.config.user.style_rules.get(atom) {

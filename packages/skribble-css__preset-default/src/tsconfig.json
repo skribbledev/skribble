@@ -14,5 +14,12 @@
     "emitDeclarationOnly": true,
     "outDir": "../dist"
   },
-  "references": []
+  "references": [
+    {
+      "path": "../../skribble-css__preset-core/src"
+    },
+    {
+      "path": "../../skribble-css__types/src"
+    }
+  ]
 }

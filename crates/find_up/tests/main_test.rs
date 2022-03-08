@@ -1,5 +1,4 @@
 use find_up::FindUp;
-use std::fs::read_to_string;
 
 #[test]
 fn it_finds_the_package_json() {

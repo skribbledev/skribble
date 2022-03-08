@@ -1,13 +1,12 @@
 import './language-select.css';
 
-import type { FunctionalComponent } from 'preact';
-import { h } from 'preact';
+import { type FC } from 'react';
 
 import { KNOWN_LANGUAGES, langPathRegex } from '../../languages';
 
-const LanguageSelect: FunctionalComponent<{ lang: string }> = ({ lang }) => {
+const LanguageSelect: FC<{ lang: string }> = ({ lang }) => {
   return (
-    <div class='language-select-wrapper'>
+    <div className='language-select-wrapper'>
       <svg
         aria-hidden='true'
         focusable='false'
@@ -27,7 +26,7 @@ const LanguageSelect: FunctionalComponent<{ lang: string }> = ({ lang }) => {
         />
       </svg>
       <select
-        class='language-select'
+        className='language-select'
         value={lang}
         onChange={(e) => {
           const newLang = e.target.value;

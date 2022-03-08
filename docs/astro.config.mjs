@@ -9,8 +9,6 @@
 // @ts-check
 export default /** @type {import('astro').AstroUserConfig} */ ({
   renderers: [
-    // Enable the Preact renderer to support Preact JSX components.
-    '@astrojs/renderer-preact',
     // Enable the React renderer, for the Algolia search component
     '@astrojs/renderer-react',
   ],

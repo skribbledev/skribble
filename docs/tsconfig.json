@@ -1,8 +1,7 @@
 {
+  "extends": "../.monots/tsconfig.base.json",
   "compilerOptions": {
-    "target": "es2020",
-    "module": "esnext",
-    "jsx": "preserve"
-  },
-  "moduleResolution": "node"
+    "jsx": "preserve",
+    "types": ["astro/env", "node"]
+  }
 }

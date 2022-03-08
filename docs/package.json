@@ -12,13 +12,11 @@
   "dependencies": {
     "@docsearch/css": "^3.0.0",
     "@docsearch/react": "^3.0.0",
-    "preact": "^10.6.6",
-    "preact-render-to-string": "^5.1.20",
     "typesense": "^1.2.2"
   },
   "devDependencies": {
-    "@astrojs/renderer-preact": "^0.5.0",
     "@astrojs/renderer-react": "^0.5.0",
+    "@types/node": "^17.0.21",
     "astro": "^0.23.7",
     "micromorph": "^0.1.2"
   }

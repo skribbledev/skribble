@@ -53,7 +53,7 @@ impl Default for Type {
   }
 }
 
-#[derive(PartialEq, Debug, TypedBuilder)]
+#[derive(TypedBuilder, PartialEq, Debug)]
 #[builder(doc)]
 pub struct FindUp {
   /// The type of paths that can be matched.

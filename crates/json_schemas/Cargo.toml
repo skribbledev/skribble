@@ -8,6 +8,8 @@ documentation = "https://docs.rs/json_schemas"
 repository = "https://github.com/skribbledev/skribble/tree/main/crates/json_schemas"
 include = ["src/**/*.rs", "Cargo.toml", "readme.md"]
 
+[lib]
+crate-type = ["lib"]
 
 [dependencies]
 indexmap = { features = ["serde-1"], version = "1.8.0" }

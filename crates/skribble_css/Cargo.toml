@@ -37,6 +37,7 @@ enum-ordinalize = "3.1.10"
 parcel_css = "1.0.0-alpha.18"
 parcel_sourcemap = "2.0.2"
 lazy_static = "1.4.0"
+find_up = { path = "../find_up" }
 
 [dependencies.napi-derive]
 default-features = false
@@ -54,3 +55,8 @@ version = "2.1.0"
 testing = "0.18.1"
 pretty_assertions = "1.1.0"
 insta = "1.13.0"
+
+[profile.release]
+lto = true
+# Tell `rustc` to optimize for small code size.
+opt-level = "s"

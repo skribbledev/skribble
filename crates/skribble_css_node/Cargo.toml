@@ -6,7 +6,7 @@ authors = ["Ifiok Jr. <ifiokotung@gmail.com>"]
 publish = false
 
 [lib]
-crate-type = ["cdylib"]
+crate-type = ["cdylib", "rlib"]
 
 
 [dependencies]

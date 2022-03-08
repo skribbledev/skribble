@@ -393,6 +393,7 @@ dependencies = [
 name = "find_up"
 version = "0.0.0"
 dependencies = [
+ "insta",
  "thiserror",
  "typed-builder",
 ]
@@ -1413,6 +1414,7 @@ version = "0.0.0"
 dependencies = [
  "colorsys",
  "enum-ordinalize",
+ "find_up",
  "heck",
  "indexmap",
  "indoc",

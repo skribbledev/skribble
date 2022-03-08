@@ -1,7 +1,7 @@
 ---
 title: Introduction
 description: Docs intro
-layout: ../../layouts/main-layout.astro
+layout: ../../layouts/dumb-layout.astro
 ---
 
 **Welcome to Astro!**

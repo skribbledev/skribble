@@ -2,18 +2,19 @@
 import '@docsearch/css/dist/style.css';
 import './search.css';
 
-import * as docSearchReact from '@docsearch/react';
+import { DocSearchModal, useDocSearchKeyboardEvents } from '@docsearch/react';
 import { useCallback, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 import * as CONFIG from '../../config';
 
-const { DocSearchModal, useDocSearchKeyboardEvents } = docSearchReact.default;
+// // @ts-expect-error
+// const { DocSearchModal, useDocSearchKeyboardEvents } = docsearch.default as typeof docsearch;
 
 export default function Search() {
   const [isOpen, setIsOpen] = useState(false);
-  const searchButtonRef = useRef();
-  const [initialQuery, setInitialQuery] = useState(null);
+  const searchButtonRef = useRef<HTMLButtonElement>(null);
+  const [initialQuery, setInitialQuery] = useState<string>();
 
   const onOpen = useCallback(() => {
     setIsOpen(true);
@@ -61,6 +62,7 @@ export default function Search() {
       {isOpen &&
         createPortal(
           <DocSearchModal
+            appId='abc'
             initialQuery={initialQuery}
             initialScrollY={window.scrollY}
             onClose={onClose}

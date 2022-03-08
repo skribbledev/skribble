@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "repository": "https://github.com/skribbledev/skribble/tree/master/docs",
+  "type": "module",
   "scripts": {
     "build": "astro build",
     "dev": "astro dev",
@@ -12,6 +13,9 @@
   "dependencies": {
     "@docsearch/css": "^3.0.0",
     "@docsearch/react": "^3.0.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "ts-extras": "^0.10.0",
     "typesense": "^1.2.2"
   },
   "devDependencies": {

@@ -1,4 +1,5 @@
 import './language-select.css';
+import { objectKeys } from 'ts-extras';
 
 import { type FC } from 'react';
 
@@ -39,7 +40,7 @@ const LanguageSelect: FC<{ lang: string }> = ({ lang }) => {
           window.location.pathname = `/${newLang}${actualDest}`;
         }}
       >
-        {Object.keys(KNOWN_LANGUAGES).map((key) => {
+        {objectKeys(KNOWN_LANGUAGES).map((key) => {
           return (
             <option value={KNOWN_LANGUAGES[key]}>
               <span>{key}</span>

@@ -153,10 +153,16 @@ importers:
       '@types/node': ^17.0.21
       astro: ^0.23.7
       micromorph: ^0.1.2
+      react: ^17.0.2
+      react-dom: ^17.0.2
+      ts-extras: ^0.10.0
       typesense: ^1.2.2
     dependencies:
       '@docsearch/css': 3.0.0
       '@docsearch/react': 3.0.0_b8fdba992ce7d797017dc07106486496
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+      ts-extras: 0.10.0
       typesense: 1.2.2
     devDependencies:
       '@astrojs/renderer-react': 0.5.0

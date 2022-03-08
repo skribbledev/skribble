@@ -58,22 +58,22 @@ const ThemeToggle: FC = () => {
 
   return (
     <div className='theme-toggle'>
-      {themes.map((t, i) => {
-        const icon = icons[i];
-        const checked = t === theme;
+      {themes.map((theme, index) => {
+        const icon = icons[index];
+        const checked = theme === theme;
         return (
-          <label className={checked ? ' checked' : ''}>
+          <label className={checked ? ' checked' : ''} key={theme}>
             {icon}
             <input
               type='radio'
               name='theme-toggle'
               checked={checked}
-              value={t}
-              title={`Use ${t} theme`}
-              aria-label={`Use ${t} theme`}
+              value={theme}
+              title={`Use ${theme} theme`}
+              aria-label={`Use ${theme} theme`}
               onChange={() => {
-                localStorage.setItem('theme', t);
-                setTheme(t);
+                localStorage.setItem('theme', theme);
+                setTheme(theme);
               }}
             />
           </label>

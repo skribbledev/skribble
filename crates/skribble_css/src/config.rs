@@ -29,9 +29,6 @@ pub struct AtomMeta {
   pub values: IndexMap<String, AtomCssValue>,
 }
 
-/// The built in configuration
-#[cfg(feature = "node")]
-#[napi_derive::napi(object)]
 #[derive(Serialize, Debug, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct Config {

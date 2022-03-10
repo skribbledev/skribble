@@ -14,5 +14,5 @@ extern "C" {
 }
 
 pub fn greet() {
-  alert("Hello, skribble-css-wasm!");
+  alert("Hello, skribble_css_wasm!");
 }

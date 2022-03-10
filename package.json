@@ -71,11 +71,10 @@
     "symlink:root": "node .monots/symlink-root.js",
     "test": "run-p test:packages test:crates",
     "test:crates": "cargo test --exact --nocapture",
-    "test:crates:watch": "chokidar \"crates\" -c \"cargo test\" --ignore \"**/*.{snap.new,pending-snap}\" --initial",
     "test:packages": "vitest run",
-    "test:packages:coverage": "vitest coverage",
-    "test:packages:watch": "vitest",
     "test:watch": "run-p test:crates:watch test:packages:watch",
+    "test:watch:crates": "chokidar \"crates\" -c \"cargo test\" --ignore \"**/*.{snap.new,pending-snap}\" --initial",
+    "test:watch:packages": "vitest",
     "ts": "node --experimental-specifier-resolution=node --loader ts-node/esm",
     "update:deps": "pnpm update --latest --recursive -i",
     "update:workspace": "pnpm up -r --workspace \"packages/*\""

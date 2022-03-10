@@ -11,11 +11,14 @@ crate-type = ["cdylib", "rlib"]
 
 [dependencies]
 # Default enable napi4 feature, see https://nodejs.org/api/n-api.html#node-api-version-matrix
-napi = { version = "2.1.0", default-features = false, features = ["napi4"] }
-napi-derive = "2.1.0"
+napi = { version = "2.2.0", default-features = false, features = [
+  "napi4",
+  "tokio_rt",
+] }
+napi-derive = "2.2.0"
 serde = "1.0.136"
 serde_json = "1.0.79"
-skribble_css = { path = "../skribble_css" }
+skribble_css = { path = "../skribble_css", features = ["node"] }
 
 [build-dependencies]
 napi-build = "1.2.1"

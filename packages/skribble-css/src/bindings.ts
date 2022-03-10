@@ -5,5 +5,11 @@
  */
 
 export declare namespace Bindings {
-  export function sum(a: number, b: number): number;
+  export type JsQueryEngine = QueryEngine;
+  export class QueryEngine {
+    static withInitialCount(count: number): JsQueryEngine;
+    /** Class method */
+    query(query: string): Promise<string>;
+    status(): number;
+  }
 }

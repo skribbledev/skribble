@@ -5,11 +5,14 @@
  */
 
 export declare namespace Bindings {
-  export type JsQueryEngine = QueryEngine;
-  export class QueryEngine {
-    static withInitialCount(count: number): JsQueryEngine;
-    /** Class method */
-    query(query: string): Promise<string>;
+  export function callThreadsafeFunction(callback: (...args: any[]) => any): void;
+  export type JsSkribbleBridge = SkribbleBridge;
+  export class SkribbleBridge {
+    constructor();
     status(): number;
+    addConfig(object: object): void;
+    stringify(object: object): string;
+    addExtensionHandler(name: string, callback: (...args: any[]) => any): void;
+    callExtensionHandlers(callback: (...args: any[]) => any): object;
   }
 }

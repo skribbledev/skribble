@@ -70,7 +70,8 @@ pub struct UserConfig {
 
 impl UserConfig {
   pub fn new(json: &str) -> Result<Self> {
-    let config: Self = serde_json::from_str(json).map_err(Error::InvalidConfig)?;
+    let config: Self =
+      serde_json::from_str(json).map_err(|source| Error::InvalidConfig { source })?;
     Ok(config)
   }
 }

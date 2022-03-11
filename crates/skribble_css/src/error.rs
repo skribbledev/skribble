@@ -9,5 +9,8 @@ pub enum Error {
 
   /// An invalid configuration object was provided.
   #[error("invalid configuration object provided")]
-  InvalidConfig(#[source] serde_json::Error),
+  InvalidConfig {
+    #[source]
+    source: serde_json::Error,
+  },
 }

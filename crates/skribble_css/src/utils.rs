@@ -1,11 +1,8 @@
 use indexmap::IndexSet;
 use lazy_static::lazy_static;
-
 use regex::Regex;
-use swc_ecmascript::{
-  ast::{Expr, Ident, Lit, MemberProp},
-  utils::{id, Id},
-};
+use swc_ecma_ast::{Expr, Ident, Lit, MemberProp};
+use swc_ecma_utils::{id, Id};
 
 lazy_static! {
   static ref ESCAPE_CSS_STRING_REGEX: Regex =

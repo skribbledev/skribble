@@ -22,19 +22,19 @@ heck = "0.4.0"
 indexmap = { features = ["serde-1"], version = "1.8.0" }
 indoc = "1.0.4"
 readonly = "0.2.0"
-regex = "1.5.4"
+regex = "1.5.5"
 serde = "1.0.136"
 serde_json = "1.0.79"
 swc_atoms = "0.2.9"
-swc_common = "0.17.9"
-swc_ecmascript = { features = [
-  "utils",
-  "visit",
-  "parser",
-], version = "0.127.0" } # versions 0.128+ are broken
+ast_node = "0.7.7"
+swc_common = "0.17.17"
+swc_ecma_parser = "0.94.0"
+swc_ecma_visit = "0.56.0"
+swc_ecma_ast = "0.70.0"
+swc_ecma_utils = "0.73.0"
 thiserror = "1.0.30"
-enum-ordinalize = "3.1.10"
-parcel_css = "1.0.0-alpha.18"
+enum-ordinalize = "3.1.11"
+parcel_css = "1.0.0-alpha.19"
 parcel_sourcemap = "2.0.2"
 lazy_static = "1.4.0"
 find_up = { path = "../find_up" }
@@ -49,10 +49,10 @@ version = "2.1.0"
 default-features = false
 features = ["napi4"]
 optional = true
-version = "2.1.0"
+version = "2.2.0"
 
 [dev-dependencies]
-testing = "0.18.1"
+testing = "0.19.1"
 pretty_assertions = "1.1.0"
 insta = "1.13.0"
 

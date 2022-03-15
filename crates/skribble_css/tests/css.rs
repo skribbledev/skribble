@@ -5,10 +5,9 @@ use skribble_css::{
 };
 use std::{path::PathBuf, sync::Arc};
 use swc_common::{input::StringInput, SourceMap};
-use swc_ecmascript::{
-  parser::{lexer::Lexer, Capturing, Parser, Syntax, TsConfig},
-  visit::VisitWith,
-};
+use swc_ecma_parser::{lexer::Lexer, Capturing, Parser, Syntax, TsConfig};
+use swc_ecma_visit::VisitWith;
+
 use testing::fixture;
 
 #[fixture("tests/fixtures/css/*/input.ts")]

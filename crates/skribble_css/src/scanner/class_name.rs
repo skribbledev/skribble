@@ -2,14 +2,10 @@ use heck::ToKebabCase;
 use indexmap::{IndexMap, IndexSet};
 use std::{
   cmp::Ordering,
-  fmt::Write,
   hash::{Hash, Hasher},
 };
-
-use swc_ecmascript::{
-  ast::{Ident, MemberExpr, MemberProp},
-  utils::Id,
-};
+use swc_ecma_ast::{Ident, MemberExpr, MemberProp};
+use swc_ecma_utils::Id;
 
 use crate::{
   config::{

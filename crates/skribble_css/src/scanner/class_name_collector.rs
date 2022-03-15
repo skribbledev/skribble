@@ -1,17 +1,12 @@
-use indexmap::IndexSet;
-use swc_ecmascript::{
-  ast::{
-    ArrayLit, CallExpr, Callee, Expr, Ident, ImportDecl, ImportSpecifier, JSXExpr,
-    JSXExprContainer, Lit, MemberExpr, ModuleExportName, ObjectLit, Pat, Prop, PropName,
-    PropOrSpread, Stmt,
-  },
-  utils::{id, Id},
-  visit::{noop_visit_type, Visit, VisitWith},
-};
-
-use crate::{config::Config, utils::is_root_identifier};
-
 use super::class_name::{ClassArguments, ClassName};
+use crate::{config::Config, utils::is_root_identifier};
+use indexmap::IndexSet;
+use swc_ecma_ast::{
+  ArrayLit, CallExpr, Callee, Expr, Ident, ImportDecl, ImportSpecifier, JSXExpr, JSXExprContainer,
+  Lit, MemberExpr, ModuleExportName, ObjectLit, Pat, Prop, PropName, PropOrSpread, Stmt,
+};
+use swc_ecma_utils::{id, Id};
+use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 /// The class name collector recursively visits each node and children until it
 /// finds a member expression or call member expression which begins with the

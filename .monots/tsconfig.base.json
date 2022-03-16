@@ -3,7 +3,7 @@
     "module": "ESNext",
     "target": "ESNext",
     "jsx": "preserve",
-    "lib": ["DOM", "ESNext"],
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "moduleResolution": "Node",
     "noImplicitReturns": true,
     "sourceMap": true,

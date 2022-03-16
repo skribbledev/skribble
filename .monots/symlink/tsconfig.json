@@ -35,7 +35,16 @@
       "path": "packages/skribble-css/src"
     },
     {
+      "path": "packages/skribble-react__core/src"
+    },
+    {
+      "path": "packages/skribble-react__core/stories"
+    },
+    {
       "path": "packages/skribble-react/src"
+    },
+    {
+      "path": "packages/skribble-react/stories"
     }
   ]
 }

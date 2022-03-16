@@ -11,7 +11,7 @@ async function run() {
   const file = getBase('crates/skribble_css/src/config/_config_user.json');
 
   await fs.writeFile(file, JSON.stringify(json));
-  await exec(`pnpx prettier --write ${file}`);
+  await exec(`pnpm prettier --write ${file}`);
 }
 
 run();

@@ -38,7 +38,9 @@
     "entrypoints": [
       "index.ts"
     ],
-    "tsconfigs": {},
+    "tsconfigs": {
+      "stories": {}
+    },
     "mode": "library",
     "externalModules": []
   }

@@ -50,7 +50,7 @@
     "@skribble-css/client": "^0.0.0",
     "@types/node": "^17.0.21",
     "tiny-invariant": "^1.2.0",
-    "ts-extras": "^0.10.0"
+    "ts-extras": "^0.10.1"
   },
   "optionalDependencies": {
     "skribble-css-android-arm64": "^0.0.0",

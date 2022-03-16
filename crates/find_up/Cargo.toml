@@ -13,8 +13,8 @@ include = ["src/**/*.rs", "Cargo.toml", "readme.md"]
 crate-type = ["lib"]
 
 [dependencies]
-thiserror = "^1.0.30"
-typed-builder = "^0.10.0"
+thiserror = "1.0.30"
+typed-builder = "0.10.0"
 
 [dev-dependencies]
 insta = "1.13.0"

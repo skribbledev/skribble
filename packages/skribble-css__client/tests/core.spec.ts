@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest';
 
-import { c } from '../client';
+import { c } from '../';
 
 test('generate classnames', () => {
   expect(c.md.p.$2_5).toMatchInlineSnapshot('"md:p::$2_5"');
@@ -13,6 +13,11 @@ test('types', () => {
 
   // @ts-expect-error The property doesn't exist.
   expect(c.md.$1).toBeTruthy();
+});
+
+test('shorthands', () => {
+  expect(c.$antialiased).toMatchInlineSnapshot('"$antialiased"');
+  expect(c.$group).toMatchInlineSnapshot('"$group"');
 });
 
 test('generate dynamic atom class names', () => {

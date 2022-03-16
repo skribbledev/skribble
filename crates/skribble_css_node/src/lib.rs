@@ -47,8 +47,8 @@ impl JsSkribbleBridge {
   #[napi]
   pub fn add_config(&mut self, env: Env, object: Object) -> Result<()> {
     let json = object_to_string(&env, &object)?;
-    // let config = Config::new(json.as_str())
-    //   .map_err(|err| Error::new(Status::InvalidArg, format!("{:?}", err)))?;
+    let config = Config::new(json.as_str())
+      .map_err(|err| Error::new(Status::InvalidArg, format!("{:?}", err)))?;
 
     self.data.configs.push(config);
 
@@ -71,10 +71,10 @@ impl JsSkribbleBridge {
 
   #[napi]
   pub fn add_extension_handler(&mut self, name: String, callback: JsFunction) {
-    let tsfn: ThreadsafeFunction<u32, ErrorStrategy::CalleeHandled> = callback
-      .create_threadsafe_function(0, |ctx| {
-        ctx.env.create_uint32(ctx.value + 1).map(|v| vec![v])
-      })?;
+    // let tsfn: ThreadsafeFunction<u32, ErrorStrategy::CalleeHandled> = callback
+    //   .create_threadsafe_function(0, |ctx| {
+    //     ctx.env.create_uint32(ctx.value + 1).map(|v| vec![v])
+    //   })?;
     self.data.extension_handlers.insert(name, callback);
   }
 

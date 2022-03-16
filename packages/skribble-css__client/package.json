@@ -51,7 +51,9 @@
       "index.ts",
       "overrides.ts"
     ],
-    "tsconfigs": {},
+    "tsconfigs": {
+      "tests": {}
+    },
     "mode": "library",
     "externalModules": []
   }

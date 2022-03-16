@@ -153,9 +153,9 @@ function createProxyClassNames(v?: Set<string>): WithCustomClassName<SkribbleCss
         }
       }
 
-      // This is a value prop which ends the chain.
+      // This is a value prop which completes the chain.
       if (prop.startsWith('$')) {
-        return `${[...values].join(':')}::${prop}`;
+        return values.size > 0 ? `${[...values].join(':')}::${prop}` : prop;
       }
 
       const proxy = createProxyClassNames(new Set([...values, prop]));

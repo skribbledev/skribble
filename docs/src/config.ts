@@ -41,5 +41,10 @@ export const SIDEBAR = {
 
     { text: 'Another Section', header: true },
     { text: 'Page 4', link: 'en/page-4' },
+
+    { text: 'Skribble Css', header: true },
+    { text: 'Getting Started', link: 'en/css/main' },
+    { text: 'Configuration', link: 'en/css/config' },
+    { text: 'Definitions', link: 'en/css/definitions' },
   ],
 };

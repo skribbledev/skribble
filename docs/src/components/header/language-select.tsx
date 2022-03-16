@@ -1,7 +1,7 @@
 import './language-select.css';
-import { objectKeys } from 'ts-extras';
 
 import { type FC } from 'react';
+import { objectKeys } from 'ts-extras';
 
 import { KNOWN_LANGUAGES, langPathRegex } from '../../languages';
 

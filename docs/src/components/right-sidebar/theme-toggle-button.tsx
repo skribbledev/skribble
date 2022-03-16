@@ -1,6 +1,6 @@
 import './theme-toggle-button.css';
 
-import { useEffect, useState, type FC } from 'react';
+import { type FC, useEffect, useState } from 'react';
 
 const themes = ['light', 'dark'];
 

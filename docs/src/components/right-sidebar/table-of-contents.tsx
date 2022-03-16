@@ -10,12 +10,12 @@ const TableOfContents: FC<{ headers: any[] }> = (props) => {
       const titles = document.querySelectorAll('article :is(h1, h2, h3, h4)');
       itemOffsets.current = [];
 
-      titles.forEach((title) => {
+      for (const title of titles) {
         itemOffsets.current.push({
           id: title.id,
           topOffset: title.getBoundingClientRect().top + window.scrollY,
         });
-      });
+      }
     };
     getItemOffsets();
 

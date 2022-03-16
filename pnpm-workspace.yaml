@@ -5,4 +5,5 @@ packages:
   - 'docs'
   - '.monots/scripts'
   - '.monots/storybook'
+  - '.monots/ladle'
   - 'examples/*'

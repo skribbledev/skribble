@@ -243,7 +243,7 @@ function deduplicateClassNames(classNames: readonly string[]) {
       const split = prefix.split(':');
       const modifiers = split.slice(0, -2);
       const alias = prefix && split.slice(-1)[0];
-      const children = alias ? [...(overrides.get(alias) ?? [])] : [];
+      const children = alias ? overrides.get(alias) : [];
 
       for (const child of children) {
         const key = [...modifiers, child].join(':');

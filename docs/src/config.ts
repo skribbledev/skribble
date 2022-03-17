@@ -33,18 +33,11 @@ export const COMMUNITY_INVITE_URL = `https://skribble.dev/chat`;
 
 export const SIDEBAR = {
   en: [
-    { text: '', header: true },
-    { text: 'Section Header', header: true },
     { text: 'Introduction', link: 'en/introduction' },
-    { text: 'Page 2', link: 'en/page-2' },
-    { text: 'Page 3', link: 'en/page-3' },
-
-    { text: 'Another Section', header: true },
-    { text: 'Page 4', link: 'en/page-4' },
 
     { text: 'Skribble Css', header: true },
     { text: 'Getting Started', link: 'en/css/main' },
     { text: 'Configuration', link: 'en/css/config' },
-    { text: 'Definitions', link: 'en/css/definitions' },
+    { text: 'Overrides', link: 'en/css/overrides' },
   ],
 };

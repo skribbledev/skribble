@@ -2,7 +2,7 @@
 
 > Generate css atoms from TypeScript objects.
 
-This library answers the question? What if tailwind was integrated into TypeScript.
+This library answers the question? What if an atomic css library (tailwind) was integrated into TypeScript.
 
 ## TODO
 

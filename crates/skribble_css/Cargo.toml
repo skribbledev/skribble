@@ -19,6 +19,7 @@ node = ["napi", "napi-derive"]
 [dependencies]
 ast_node = "0.7.7"
 colorsys = "0.6.5"
+doc-comment = "0.3.3"
 enum-ordinalize = "3.1.11"
 find_up = { path = "../find_up" }
 heck = "0.4.0"

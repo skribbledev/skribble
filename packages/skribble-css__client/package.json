@@ -41,7 +41,7 @@
   ],
   "dependencies": {
     "@skribble-css/types": "^0.0.0",
-    "@swc/helpers": "^0.3.6"
+    "@swc/helpers": "^0.3.8"
   },
   "publishConfig": {
     "access": "public"

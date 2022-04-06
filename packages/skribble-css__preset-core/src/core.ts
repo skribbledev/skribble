@@ -1,5 +1,5 @@
 import type { ColorPalette } from '@skribble-css/types';
-import { SkribbleConfig } from '@skribble-css/types';
+import { SkribbleThemeConfig } from '@skribble-css/types';
 
 /**
  * Register a palette that can be chosen in the theme.

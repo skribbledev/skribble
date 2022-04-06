@@ -1,12 +1,17 @@
 import type { Properties } from 'csstype';
 
-export interface SkribbleConfig {
-  options: SkribbleConfigOptions;
+export interface SkribbleThemeConfig {
+  options: SkribbleThemeOptions;
 
   /**
    * Create the keyframes for the css.
    */
-  keyframes: SkribbleConfigKeyframes;
+  keyframes: SkribbleThemeKeyframes;
+
+  /**
+   * A set of atomic values that can be used across multiple atoms.
+   */
+  atomValues: AtomValueReferences;
 
   /**
    * CSS Variable Groups that atoms can add themselves to when activated.
@@ -40,7 +45,7 @@ export interface SkribbleConfig {
   palette: ColorPalette | keyof ColorPaletteNames;
 }
 
-export type SkribbleConfigKeyframes = Record<string, SkribbleConfigKeyframe>;
+export type SkribbleThemeKeyframes = Record<string, SkribbleConfigKeyframe>;
 export type SkribbleConfigKeyframe = Record<string, Properties>;
 
 /**
@@ -71,7 +76,7 @@ export type SkribbleConfigFilters = Record<string, string>;
  */
 export type ColorPalette = Record<string, string>;
 
-export interface SkribbleConfigOptions {
+export interface SkribbleThemeOptions {
   /**
    * Set the color format which the colors variables you provide will be
    * transformed into.
@@ -84,7 +89,11 @@ export interface SkribbleConfigOptions {
 export type SkribbleConfigAtom = SkribbleConfigAtomValues | SkribbleConfigAtomColors;
 
 interface BaseSkribbleConfigAtom {
-  styleRules: string[];
+  /**
+   * A description of the atom.
+   */
+  description: string;
+
   /**
    * Groups that should be added when any of the style rules are used here.
    */
@@ -104,14 +113,41 @@ interface BaseSkribbleConfigAtom {
   priority?: number;
 }
 
+interface BaseAtomValueReferences {
+  description?: string;
+}
+
+interface CssAtomValueReferences extends BaseAtomValueReferences {
+  type: 'css';
+  values: Record<string, string>;
+}
+
+interface ValueAtomValueReference extends BaseAtomValueReferences {
+  type: 'value';
+  values: Record<string, CssValue>;
+}
+
+interface ObjectAtomValueReference extends BaseAtomValueReferences {
+  type: 'object';
+  values: Record<string, Properties & Record<string, string>>;
+}
+
+export type AtomValueReferences =
+  | CssAtomValueReferences
+  | ValueAtomValueReference
+  | ObjectAtomValueReference;
+
 interface SkribbleConfigAtomValues extends BaseSkribbleConfigAtom {
-  values: Record<string, string | (Properties & Record<string, string>)>;
+  type: 'value';
+  /**
+   * The names of the values that are referenced in the style rules.
+   */
+  values: string[] | AtomValueReferences[];
   colors?: undefined;
 }
 
-interface SkribbleConfigAtomColors extends BaseSkribbleConfigAtom {
-  values?: undefined;
-  colors: SkribbleConfigAtomColorsOptions;
+interface SkribbleConfigAtomColors extends BaseSkribbleConfigAtom, SkribbleConfigAtomColorsOptions {
+  type: 'color';
 }
 
 export interface SkribbleConfigAtomColorsOptions {
@@ -168,16 +204,6 @@ export interface PopulatedCssVariable {
 
 export interface SkribbleConfigModifier {
   [key: string]: string[];
-}
-
-export interface SkribbleConfigParentModifiers {
-  light: string[];
-  dark: string[];
-  rtl: string[];
-  groupHover: string[];
-  groupFocus: string[];
-  groupActive: string[];
-  groupVisited: string[];
 }
 
 /**

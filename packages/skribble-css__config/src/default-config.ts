@@ -1,8 +1,8 @@
-import type { SkribbleConfig } from '@skribble-css/types';
+import type { SkribbleThemeConfig } from '@skribble-css/types';
 
 import { PALETTE } from './palette';
 
-export const DEFAULT_CONFIG: SkribbleConfig = {
+export const DEFAULT_CONFIG: SkribbleThemeConfig = {
   options: {
     colorFormat: 'rgb',
   },

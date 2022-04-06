@@ -26,6 +26,8 @@ export default defineConfig({
 });
 ```
 
+The configuration supports single app / multi-app / single library / multi-library and mixed monorepo projects from one configuration file.
+
 ## Usage
 
 ### Cli

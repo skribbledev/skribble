@@ -33,11 +33,11 @@
     "@react-types/shared": "^3.11.2",
     "@skribble-css/client": "^0.0.0",
     "@swc/helpers": "^0.3.8",
-    "ts-extras": "^0.10.1",
+    "ts-extras": "^0.10.2",
     "type-fest": "^2.12.1"
   },
   "devDependencies": {
-    "@types/react": "^17.0.43",
+    "@types/react": "^18.0.2",
     "react": "^18.0.0"
   },
   "peerDependencies": {

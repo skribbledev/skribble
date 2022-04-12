@@ -1,0 +1,5 @@
+---
+source: crates/skribble_css/src/scanner.rs
+expression: "crate::test_utils::get_selector(&crate::test_utils::create_config(None).unwrap(),\n    \"\\\n    import { c } from 'skribble-css/client';\n\n    c.after('content', '\\\"a space\\\"');\")"
+---
+.after\:\:\[content\:\"a__space\"\]::after

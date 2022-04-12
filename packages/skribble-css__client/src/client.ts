@@ -79,7 +79,7 @@ export interface ClassArray extends Array<ClassValue> {}
 function generateArgsList(args: unknown[]) {
   return `[${args
     .filter((arg): arg is string => typeof arg === 'string')
-    .map((arg) => arg.trim())
+    .map((arg) => arg.trim().split(' ').join('__'))
     .join(':')}]`;
 }
 
@@ -98,7 +98,6 @@ function createProxyClassNames(v?: Set<string>): WithCustomClassName<SkribbleCss
       const values: Set<string> = v ? v : new Set();
       const props = [...values];
       const last = props[values.size - 1];
-
       const id = `${props.join('.')}--${args.join('.')}`;
 
       if (shouldCache) {

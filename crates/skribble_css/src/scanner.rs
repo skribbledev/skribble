@@ -175,6 +175,12 @@ mod tests {
     c.text.$primary;"
   );
 
+  snapshot_selector!(supports_dynamic_spaces: "\
+    import { c } from 'skribble-css/client';
+
+    c.after('content', '\"a space\"');"
+  );
+
   snapshot_selector!(escape_custom_css_value: "\
     import { c } from 'skribble-css/client';
 

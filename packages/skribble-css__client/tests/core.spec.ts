@@ -29,6 +29,12 @@ test('generate fully dynamic class names', () => {
   expect(c.md('padding-left', '100px')).toMatchInlineSnapshot('"md::[padding-left:100px]"');
 });
 
+test('spaces in dynamic class names are replaced', () => {
+  expect(c.after('content', '"a space"')).toMatchInlineSnapshot(
+    '"after::[content:\\"a__space\\"]"',
+  );
+});
+
 test('toString is empty string', () => {
   expect(`${c}`).toBe('');
   expect(`${c.md}`).toBe('');

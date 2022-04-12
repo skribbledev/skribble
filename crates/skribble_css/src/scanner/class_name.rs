@@ -89,8 +89,10 @@ impl ClassArguments {
 
   pub fn get_string(&self) -> String {
     match self {
-      ClassArguments::Value(value) => value.to_string(),
-      ClassArguments::KeyValue(key, value) => format!(r"{}\:{}", key, value),
+      ClassArguments::Value(value) => replace_character_with(value, " ", "__"),
+      ClassArguments::KeyValue(key, value) => {
+        format!(r"{}\:{}", key, replace_character_with(value, " ", "__"))
+      }
     }
   }
 
@@ -100,6 +102,10 @@ impl ClassArguments {
       ClassArguments::KeyValue(_, value) => value.to_string(),
     }
   }
+}
+
+fn replace_character_with(string: &str, remove: &str, replacement: &str) -> String {
+  string.split(remove).collect::<Vec<_>>().join(replacement)
 }
 
 /// This struct is used to create the class name and it stores the tokens.

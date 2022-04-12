@@ -10,7 +10,6 @@ on:
       - main
 
 env:
-  PNPM_CACHE_FOLDER: '~/.pnpm-store'
   DEBUG: napi:*
   APP_NAME: skribble_css
 

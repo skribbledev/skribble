@@ -44,19 +44,6 @@ jobs:
         with:
           languages: rust, javascript, typescript
 
-      - name: setup caching
-        uses: actions/cache@v2
-        with:
-          path: ${{ env.PNPM_CACHE_FOLDER }}
-          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-
-
-      - name: setup node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: 16.x
-
       - name: pnpm installation
         uses: ./.github/actions/pnpm
 

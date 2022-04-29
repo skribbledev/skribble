@@ -26,17 +26,17 @@ heck = "0.4.0"
 indexmap = { features = ["serde-1"], version = "1.8.1" }
 indoc = "1.0.4"
 lazy_static = "1.4.0"
-parcel_css = "1.0.0-alpha.22"
+parcel_css = "1.0.0-alpha.23"
 parcel_sourcemap = "2.0.2"
-readonly = "0.2.0"
+readonly = "0.2.1"
 regex = "1.5.5"
 serde = "1.0.136"
 serde_json = "1.0.79"
 swc_atoms = "0.2.11"
-swc_common = "0.17.21"
-swc_ecma_ast = "0.76.0"
-swc_ecma_parser = "0.101.0"
-swc_ecma_utils = "0.80.0"
+swc_common = "0.17.25"
+swc_ecma_ast = "0.76.2"
+swc_ecma_parser = "0.102.10"
+swc_ecma_utils = "0.82.0"
 swc_ecma_visit = "0.62.0"
 thiserror = "1.0.30"
 
@@ -44,13 +44,13 @@ thiserror = "1.0.30"
 default-features = false
 features = ["type-def"]
 optional = true
-version = "2.2.0"
+version = "2.3.3"
 
 [dependencies.napi]
 default-features = false
 features = ["napi4"]
 optional = true
-version = "2.2.0"
+version = "2.3.3"
 
 [dev-dependencies]
 testing = "0.19.1"

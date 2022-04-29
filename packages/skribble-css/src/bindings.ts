@@ -13,6 +13,9 @@ export declare namespace Bindings {
     addConfig(object: object): void;
     stringify(object: object): string;
     addExtensionHandler(name: string, callback: (...args: any[]) => any): void;
+    callHandler(name: string): object | undefined | null;
+    addHandler2(callback: (...args: any[]) => any): void;
+    callHandler2(cb: (...args: any[]) => any): object;
     callExtensionHandlers(callback: (...args: any[]) => any): object;
   }
 }

@@ -131,7 +131,9 @@ yarn.lock
 /tsconfig.references.json
 /.markdownlint.json
 /vite.config.ts
-/web-test-runner.config.js
+/rustfmt.toml
+/rust-toolchain.toml
+/.vscode
 /auto.config.ts
 /lerna.json
 dist-ssr/

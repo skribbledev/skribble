@@ -7,10 +7,10 @@
     "dev": "ladle serve --config=\"./\""
   },
   "dependencies": {
-    "@ladle/react": "^0.11.0",
+    "@ladle/react": "^0.14.1",
     "@skribble-css/client": "^0.0.0",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
     "skribble-css": "^0.0.0"
   }
 }

@@ -1,7 +1,0 @@
-tab_spaces = 2
-newline_style = "Unix"
-format_strings = true
-use_field_init_shorthand = true
-wrap_comments = true
-# chain_width = 80
-# max_width = 115

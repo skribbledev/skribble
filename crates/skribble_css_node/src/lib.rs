@@ -1,17 +1,16 @@
 #![deny(clippy::all)]
 
-use dashmap::{DashMap, DashSet};
-use std::{collections::HashMap, sync::Arc, thread};
+use dashmap::DashMap;
+use std::thread;
 
 // use anyhow::{Context, Result};
 use napi::{
-  bindgen_prelude::{JsFunction, Null, Object},
-  sys::napi_run_script,
+  bindgen_prelude::{JsFunction, Object},
   threadsafe_function::{ErrorStrategy, ThreadsafeFunction, ThreadsafeFunctionCallMode},
-  Env, Error, JsNull, JsObject, JsString, JsUnknown, Result, Status,
+  Env, Error, JsObject, Result, Status,
 };
 use napi_derive::napi;
-use skribble_css::config::{Config, UserConfig};
+use skribble_css::config::Config;
 
 /// The data that is maintained by the `SkribbleBridge`
 #[derive(Default)]
@@ -19,6 +18,8 @@ pub struct JsBridgeData {
   /// The configuration that is passed in as a JavaScript Object.
   configs: Vec<Config>,
   extension_handlers: DashMap<String, JsFunction>,
+  func: Option<ThreadsafeFunction<String>>,
+  handler: Option<JsFunction>,
 }
 
 #[napi(js_name = "SkribbleBridge")]
@@ -69,13 +70,88 @@ impl JsSkribbleBridge {
     Ok(value)
   }
 
+  // pub fn add_instance(&mut self, name: String, instance: )
+
   #[napi]
-  pub fn add_extension_handler(&mut self, name: String, callback: JsFunction) {
-    // let tsfn: ThreadsafeFunction<u32, ErrorStrategy::CalleeHandled> = callback
-    //   .create_threadsafe_function(0, |ctx| {
-    //     ctx.env.create_uint32(ctx.value + 1).map(|v| vec![v])
-    //   })?;
+  pub fn add_extension_handler(&mut self, name: String, callback: JsFunction) -> Result<()> {
+    let tsfn: ThreadsafeFunction<String> = callback.create_threadsafe_function(0, |ctx| {
+      ctx.env.create_string_from_std(ctx.value).map(|v| vec![v])
+    })?;
+
+    self.data.func = Some(tsfn);
     self.data.extension_handlers.insert(name, callback);
+
+    Ok(())
+  }
+
+  #[napi]
+  pub fn call_handler(&mut self, env: Env, name: String) -> Option<JsObject> {
+    println!("RUST: calling handler: {}", name);
+
+    // if let Some(original_fn) = self.data.func.as_ref(){
+    let tsfn = self.data.func.as_ref().unwrap().clone();
+    // env.create_
+
+    let handle = thread::spawn(move || {
+      println!("RUST: inside handler callback");
+      tsfn.call(
+        Ok("a_key_here".to_string()),
+        ThreadsafeFunctionCallMode::NonBlocking,
+      );
+    });
+
+    handle.join().unwrap();
+
+    let js_skribble_object = env
+      .get_global()
+      .expect("expected global object")
+      .get_named_property::<JsObject>("__skribble_css")
+      .expect("expected __skribble_css but not found");
+
+    js_skribble_object
+      .get_named_property::<JsObject>("a_key_here")
+      .ok()
+
+    // }
+    // None
+  }
+
+  #[napi]
+  pub fn add_handler2(&mut self, callback: JsFunction) -> Result<()> {
+    println!("RUST: add_handler2()");
+    self.data.handler = Some(callback);
+
+    Ok(())
+  }
+
+  #[napi]
+  pub fn call_handler2(&mut self, env: Env, cb: JsFunction) -> Result<JsObject> {
+    let mut result = env.create_object()?;
+    println!("RUST: call_handler2()");
+
+    let _callback = self.data.handler.as_ref().unwrap();
+
+    let context = env.create_object()?;
+    let mut object = env.create_object()?;
+    object.set("code", env.create_string("this is the code")?)?;
+    object.set("path", env.create_string("/path/to/something")?)?;
+    println!("RUST: making the function call");
+    let result_value = cb
+      .call::<JsObject>(Some(&context), &[object])
+      .expect("could not be called.");
+
+    println!("RUST: updating return object");
+    result
+      .set("name", env.create_string("1")?)
+      .expect("could not set NAME");
+    result
+      .set("value", result_value)
+      .expect("could not set VALUE");
+
+    // if let Some(original_fn) = self.data.func.as_ref(){
+    // env.create_
+
+    Ok(result)
   }
 
   #[napi]
@@ -143,9 +219,8 @@ fn object_to_string(env: &Env, object: &Object) -> Result<String> {
 #[napi]
 pub fn call_threadsafe_function(callback: JsFunction) -> Result<()> {
   let tsfn: ThreadsafeFunction<u32, ErrorStrategy::CalleeHandled> = callback
-    .create_threadsafe_function(0, |ctx| {
-      ctx.env.create_uint32(ctx.value + 1).map(|v| vec![v])
-    })?;
+    .create_threadsafe_function(0, |ctx| ctx.env.create_uint32(ctx.value).map(|v| vec![v]))?;
+
   for n in 0..100 {
     let tsfn = tsfn.clone();
     thread::spawn(move || {

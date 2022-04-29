@@ -1,5 +1,6 @@
-import { sk } from '..';
 import { c } from '@skribble-css/client';
+
+import { sk } from '..';
 
 export const PrimitiveWithClassNames = () => {
   return <sk.button className={[c.md.p.$16, c.$group, c.$invisible]}>A button</sk.button>;

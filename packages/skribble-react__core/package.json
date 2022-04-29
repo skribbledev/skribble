@@ -37,8 +37,8 @@
     "type-fest": "^2.12.1"
   },
   "devDependencies": {
-    "@types/react": "^18.0.2",
-    "react": "^18.0.0"
+    "@types/react": "^18.0.8",
+    "react": "^18.1.0"
   },
   "peerDependencies": {
     "@types/react": "^16 || ^17 || ^18",

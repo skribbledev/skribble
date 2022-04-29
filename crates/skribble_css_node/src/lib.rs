@@ -1,13 +1,17 @@
 #![deny(clippy::all)]
 
-use dashmap::DashMap;
 use std::thread;
 
+use dashmap::DashMap;
 // use anyhow::{Context, Result};
 use napi::{
   bindgen_prelude::{JsFunction, Object},
   threadsafe_function::{ErrorStrategy, ThreadsafeFunction, ThreadsafeFunctionCallMode},
-  Env, Error, JsObject, Result, Status,
+  Env,
+  Error,
+  JsObject,
+  Result,
+  Status,
 };
 use napi_derive::napi;
 use skribble_css::config::Config;

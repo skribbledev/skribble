@@ -1,6 +1,7 @@
+use std::fs::read_to_string;
+
 use indexmap::IndexMap;
 use json_schemas::{package_json::Person, AdditionalFields, PackageJson};
-use std::fs::read_to_string;
 
 #[test]
 fn parse_package_json_file() {

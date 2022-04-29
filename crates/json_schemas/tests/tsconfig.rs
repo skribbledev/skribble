@@ -1,9 +1,11 @@
+use std::fs::read_to_string;
+
 use indexmap::IndexMap;
 use json_schemas::{
   tsconfig::{CompilerOptions, Lib, Module},
-  AdditionalFields, TsConfig,
+  AdditionalFields,
+  TsConfig,
 };
-use std::fs::read_to_string;
 
 #[test]
 fn parse_tsconfig_file() {

@@ -206,15 +206,17 @@ fn create_media_query_string(
 
   for class_name in class_name_list {
     match &class_name.media_query {
-      Some(query) => match queries_map.get_mut(query) {
-        Some(css_list) => {
-          css_list.push(class_name.get_css());
+      Some(query) => {
+        match queries_map.get_mut(query) {
+          Some(css_list) => {
+            css_list.push(class_name.get_css());
+          }
+          None => {
+            let css_list = vec![class_name.get_css()];
+            queries_map.insert(query.to_owned(), css_list);
+          }
         }
-        None => {
-          let css_list = vec![class_name.get_css()];
-          queries_map.insert(query.to_owned(), css_list);
-        }
-      },
+      }
       None => css_without_queries.push(class_name.get_css()),
     }
   }

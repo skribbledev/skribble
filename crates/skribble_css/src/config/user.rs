@@ -2,13 +2,13 @@ use heck::ToKebabCase;
 use indexmap::{IndexMap, IndexSet};
 use serde::{Deserialize, Serialize};
 
+use super::color_utils::convert_css_value_to_color;
 use crate::{
   constants::{INDENTATION, ROOT_SELECTOR},
   utils::{get_css_variables_from_string, indent},
-  Error, Result,
+  Error,
+  Result,
 };
-
-use super::color_utils::convert_css_value_to_color;
 
 pub type MediaQueries = IndexMap<String, String>;
 pub type Modifiers = IndexMap<String, Vec<String>>;
@@ -167,12 +167,14 @@ pub enum Atom {
 impl Atom {
   pub fn to_atom_value(&self) -> AtomValue {
     match self {
-      Atom::Color(color) => AtomValue {
-        keyframes: color.keyframes.clone(),
-        groups: color.groups.clone(),
-        style_rules: Vec::new(),
-        values: IndexMap::new(),
-      },
+      Atom::Color(color) => {
+        AtomValue {
+          keyframes: color.keyframes.clone(),
+          groups: color.groups.clone(),
+          style_rules: Vec::new(),
+          values: IndexMap::new(),
+        }
+      }
       Atom::Value(value) => value.clone(),
     }
   }
@@ -526,9 +528,8 @@ impl StyleRule {
 #[cfg(test)]
 mod tests {
 
-  use crate::constants::JSON_CONFIG;
-
   use super::*;
+  use crate::constants::JSON_CONFIG;
 
   #[test]
   fn check_config_can_serialize() {

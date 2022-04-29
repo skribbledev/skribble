@@ -1,12 +1,29 @@
-use super::class_name::{ClassArguments, ClassName};
-use crate::{config::Config, utils::is_root_identifier};
 use indexmap::IndexSet;
 use swc_ecma_ast::{
-  ArrayLit, CallExpr, Callee, Expr, Ident, ImportDecl, ImportSpecifier, JSXExpr, JSXExprContainer,
-  Lit, MemberExpr, ModuleExportName, ObjectLit, Pat, Prop, PropName, PropOrSpread, Stmt,
+  ArrayLit,
+  CallExpr,
+  Callee,
+  Expr,
+  Ident,
+  ImportDecl,
+  ImportSpecifier,
+  JSXExpr,
+  JSXExprContainer,
+  Lit,
+  MemberExpr,
+  ModuleExportName,
+  ObjectLit,
+  Pat,
+  Prop,
+  PropName,
+  PropOrSpread,
+  Stmt,
 };
 use swc_ecma_utils::{id, Id};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+
+use super::class_name::{ClassArguments, ClassName};
+use crate::{config::Config, utils::is_root_identifier};
 
 /// The class name collector recursively visits each node and children until it
 /// finds a member expression or call member expression which begins with the
@@ -187,10 +204,8 @@ impl<'config> ClassNameCollector<'config> {
     let mut identifier: Option<&Ident> = None;
 
     // Loop through the specifiers and find the first matching identifier.
-    node
-      .specifiers
-      .iter()
-      .for_each(|specifier| match specifier {
+    node.specifiers.iter().for_each(|specifier| {
+      match specifier {
         ImportSpecifier::Named(ref specifier) => {
           // Start as valid then check the imported name if it exists.
           // If the imported name exists but doesn't not match the import_name
@@ -225,7 +240,8 @@ impl<'config> ClassNameCollector<'config> {
             identifier = Some(&specifier.local);
           }
         }
-      });
+      }
+    });
 
     if let Some(item) = identifier {
       self.import_ids.insert(id(item));

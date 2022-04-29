@@ -4,7 +4,7 @@ import { callThreadsafeFunction, SkribbleBridge } from '../';
 
 declare global {
   // interface
-  var __skribble_css: any;
+  // var __skribble_css: any;
   // globalThis.AbortController
 }
 
@@ -40,7 +40,7 @@ describe('playground', () => {
     const handlerName = 'TEST';
     bridge.addExtensionHandler(handlerName, (err, key) => {
       console.log('received', { key, err });
-      globalThis.__skribble_css[key] = { this: 'a', is: 'b', cool: 'c' };
+      // globalThis.__skribble_css[key] = { this: 'a', is: 'b', cool: 'c' };
     });
 
     const extract = bridge.callHandler(handlerName);

@@ -1,17 +1,22 @@
 use heck::ToKebabCase;
 use indexmap::IndexMap;
 use serde::{Deserialize, Serialize};
-
-use crate::{constants::JSON_CONFIG, Result};
+pub use user::UserConfig;
 
 use self::{
   color_utils::{get_rgba_color_from_string, wrap_css_variable},
   user::{
-    Atom, AtomColor, AtomColorOptions, AtomCssValue, AtomValue, CssValue, CssVariable,
+    Atom,
+    AtomColor,
+    AtomColorOptions,
+    AtomCssValue,
+    AtomValue,
+    CssValue,
+    CssVariable,
     PopulatedCssVariable,
   },
 };
-pub use user::UserConfig;
+use crate::{constants::JSON_CONFIG, Result};
 pub(crate) mod color_utils;
 
 pub mod user;

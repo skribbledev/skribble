@@ -1,9 +1,10 @@
 use std::fmt::Display;
 
-use crate::utils::AdditionalFields;
 use indexmap::IndexMap;
 use serde::{de::IntoDeserializer, Deserialize, Deserializer, Serialize};
 use typed_builder::TypedBuilder;
+
+use crate::utils::AdditionalFields;
 
 #[derive(TypedBuilder, Serialize, Deserialize, Debug, Clone)]
 #[serde(rename_all = "camelCase")]
@@ -1427,7 +1428,7 @@ pub struct WatchOptions {
   #[builder(default, setter(into, strip_option))]
   pub synchronous_watch_directory: Option<bool>,
 
-  ///Specify how directories are watched on systems that lack recursive
+  /// Specify how directories are watched on systems that lack recursive
   /// file-watching functionality.
   #[serde(default, skip_serializing_if = "Option::is_none")]
   #[builder(default, setter(into, strip_option))]

@@ -1,12 +1,14 @@
-use heck::ToKebabCase;
-use indexmap::{IndexMap, IndexSet};
 use std::{
   cmp::Ordering,
   hash::{Hash, Hasher},
 };
+
+use heck::ToKebabCase;
+use indexmap::{IndexMap, IndexSet};
 use swc_ecma_ast::{Ident, MemberExpr, MemberProp};
 use swc_ecma_utils::Id;
 
+use super::class_name_order::ClassNameOrder;
 use crate::{
   config::{
     user::{AtomCssValue, CssValue},
@@ -15,8 +17,6 @@ use crate::{
   constants::INDENTATION,
   utils::{escape_css_string, get_css_variables_from_string, get_identifiers, indent},
 };
-
-use super::class_name_order::ClassNameOrder;
 
 #[derive(Debug, Clone)]
 pub enum Validity {
@@ -54,9 +54,11 @@ impl ClassArguments {
     let segments = temp_value.split(r"\:").collect::<Vec<_>>();
 
     match segments.len() {
-      1 => segments
-        .first()
-        .map(|segment| ClassArguments::Value(segment.to_string())),
+      1 => {
+        segments
+          .first()
+          .map(|segment| ClassArguments::Value(segment.to_string()))
+      }
       2 => {
         let key = if let Some(segment) = segments.first() {
           *segment
@@ -704,7 +706,7 @@ impl<'config> ClassName<'config> {
         );
       }
       None => {
-        if let Some((position, _, _)) = self.config.atoms.get_full(token) {
+        if let Some((position, ..)) = self.config.atoms.get_full(token) {
           self.order.set_atom(position);
           self.atom = Some(token_string);
         }
@@ -799,9 +801,8 @@ impl<'config> PartialOrd for ClassName<'_> {
 
 #[cfg(test)]
 mod tests {
-  use crate::test_utils::create_config;
-
   use super::*;
+  use crate::test_utils::create_config;
 
   #[test]
   fn can_compare() {

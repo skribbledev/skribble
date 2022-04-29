@@ -1,11 +1,12 @@
+use heck::ToPascalCase;
+use indoc::indoc;
+
 use crate::{
   config::Config,
   constants::INDENTATION,
   scanner::class_name::{ClassArguments, ClassName},
   utils::indent,
 };
-use heck::ToPascalCase;
-use indoc::indoc;
 
 const TYPESCRIPT_UTILITIES: &str = indoc! {r#"
   /**
@@ -285,9 +286,8 @@ pub fn generate_typescript(config: &Config) -> String {
 
 #[cfg(test)]
 mod tests {
-  use crate::test_utils::create_config;
-
   use super::*;
+  use crate::test_utils::create_config;
 
   #[test]
   fn can_generate_typescript() {

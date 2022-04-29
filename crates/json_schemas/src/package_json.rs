@@ -1,14 +1,19 @@
 use std::fmt::Display;
 
-use crate::utils::{
-  validate_email_or_url, validate_exports_path, validate_version, AdditionalFields,
-  PACKAGE_MANAGER_REGEX, PACKAGE_NAME_REGEX,
-};
 use indexmap::IndexMap;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use typed_builder::TypedBuilder;
 use validator::{Validate, ValidationError, ValidationErrors};
+
+use crate::utils::{
+  validate_email_or_url,
+  validate_exports_path,
+  validate_version,
+  AdditionalFields,
+  PACKAGE_MANAGER_REGEX,
+  PACKAGE_NAME_REGEX,
+};
 
 /// Rust schema for NPM `package.json` files.
 #[derive(TypedBuilder, Serialize, Validate, Deserialize, Debug, Clone)]

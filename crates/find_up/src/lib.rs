@@ -1,6 +1,9 @@
-use std::env::current_dir;
-use std::fs::read_dir;
-use std::path::{Path, PathBuf};
+use std::{
+  env::current_dir,
+  fs::read_dir,
+  path::{Path, PathBuf},
+};
+
 use typed_builder::TypedBuilder;
 
 /// The errors that can be returned when finding a file path.
@@ -111,15 +114,19 @@ impl FindUp {
     }
 
     let mut results = results;
-    let dir_results = read_dir(dir).map_err(|source| Error::CouldNotReadDirectory {
-      source,
-      path: dir.clone(),
+    let dir_results = read_dir(dir).map_err(|source| {
+      Error::CouldNotReadDirectory {
+        source,
+        path: dir.clone(),
+      }
     })?;
 
     for result in dir_results {
-      let entry = result.map_err(|source| Error::InvalidEntry {
-        source,
-        path: dir.clone(),
+      let entry = result.map_err(|source| {
+        Error::InvalidEntry {
+          source,
+          path: dir.clone(),
+        }
       })?;
       let path = entry.path();
 
@@ -167,10 +174,12 @@ impl FindUp {
 
     match results.get(0) {
       Some(path) => Ok(path.to_path_buf()),
-      None => Err(Error::NoResults {
-        cwd: cwd.clone(),
-        names: names.join(","),
-      }),
+      None => {
+        Err(Error::NoResults {
+          cwd: cwd.clone(),
+          names: names.join(","),
+        })
+      }
     }
   }
 }

@@ -1,12 +1,13 @@
+use swc_common::{input::StringInput, sync::Lrc, FileName, SourceMap};
+use swc_ecma_parser::{lexer::Lexer, Capturing, Parser, Syntax, TsConfig};
+use swc_ecma_visit::VisitWith;
+
 use crate::{
   config::Config,
   constants::JSON_CONFIG,
   scanner::class_name_collector::{ClassNameCollector, ValidImport},
   Result,
 };
-use swc_common::{input::StringInput, sync::Lrc, FileName, SourceMap};
-use swc_ecma_parser::{lexer::Lexer, Capturing, Parser, Syntax, TsConfig};
-use swc_ecma_visit::VisitWith;
 
 pub(crate) fn collect_classes<'config>(
   config: &'config Config,

@@ -1,13 +1,13 @@
+use std::{path::PathBuf, sync::Arc};
+
 use skribble_css::{
   config::Config,
   generate_css,
   scanner::class_name_collector::{ClassNameCollector, ValidImport},
 };
-use std::{path::PathBuf, sync::Arc};
 use swc_common::{input::StringInput, SourceMap};
 use swc_ecma_parser::{lexer::Lexer, Capturing, Parser, Syntax, TsConfig};
 use swc_ecma_visit::VisitWith;
-
 use testing::fixture;
 
 #[fixture("tests/fixtures/css/*/input.ts")]

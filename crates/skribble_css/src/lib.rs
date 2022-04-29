@@ -4,8 +4,10 @@ doc_comment::doc_comment! {
   include_str!("../readme.md")
 }
 
-pub use crate::error::{Error, Result};
-pub use crate::generate::{css::generate_css, types::generate_typescript};
+pub use crate::{
+  error::{Error, Result},
+  generate::{css::generate_css, types::generate_typescript},
+};
 
 pub mod config;
 pub mod constants;

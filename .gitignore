@@ -87,10 +87,6 @@ dist/
 # https://create-react-app.dev/docs/using-the-public-folder/#docsNav
 # public
 
-# Storybook build outputs
-.out
-.storybook-out
-
 # vuepress build output
 .vuepress/dist
 
@@ -134,10 +130,12 @@ yarn.lock
 /tsconfig.json
 /tsconfig.references.json
 /.markdownlint.json
-/web-test-runner.config.js
 /vite.config.ts
-/web-test-runner.config.js
-/index.html
+/rustfmt.toml
+/rust-toolchain.toml
+/.vscode
+/auto.config.ts
+/lerna.json
 dist-ssr/
 .parcel-cache/
 .psc-ide-port
@@ -154,7 +152,7 @@ target
 # Build artifacts
 /artifacts
 *.node
-packages/skribble-css__core/tailwind.config.js
+packages/skribble-css/tailwind.config.js
 
 *.pending-snap
 *.snap.new

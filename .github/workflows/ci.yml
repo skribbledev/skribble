@@ -10,35 +10,19 @@ on:
       - main
 
 env:
-  PNPM_CACHE_FOLDER: '~/.pnpm-store'
-  PNPM_HOME: '~/.pnpm'
   DEBUG: napi:*
   APP_NAME: skribble_css
-  MACOSX_DEPLOYMENT_TARGET: '10.13'
 
 jobs:
   # Lint the project
   lint:
     timeout-minutes: 15
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - name: checkout code repository
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-
-      - name: setup caching
-        uses: actions/cache@v2
-        with:
-          path: ${{ env.PNPM_CACHE_FOLDER }}
-          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-
-
-      - name: setup node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: 16.x
 
       - name: pnpm installation
         uses: ./.github/actions/pnpm
@@ -55,11 +39,31 @@ jobs:
       - name: check build
         run: pnpm lint:build
 
-  # build the node api modules with rust
+  build-wasm:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: checkout code repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: pnpm installation
+        uses: ./.github/actions/pnpm
+
+      - name: install wasm-pack
+        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+
+      - name: build wasm
+        run: pnpm build:wasm
+
+      - name: upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: wasm
+          path: packages/skribble-css/packages/wasm/dist
+
   build_napi:
     timeout-minutes: 15
-    if: "!contains(github.event.head_commit.message, 'skip ci')"
-    # if: 'false' # Ignore for now
     strategy:
       fail-fast: false
       matrix:
@@ -67,72 +71,73 @@ jobs:
           - host: macos-latest
             target: x86_64-apple-darwin
             build: |
-              pnpm run build:napi
+              pnpm build:napi
               strip -x *.node
-
           - host: windows-latest
-            build: pnpm run build:napi
+            build: pnpm build:napi
             target: x86_64-pc-windows-msvc
-
           - host: windows-latest
             build: |
               export CARGO_PROFILE_RELEASE_CODEGEN_UNITS=32;
               export CARGO_PROFILE_RELEASE_LTO=false
-              pnpm run build:napi
+              pnpm build:napi
               # pnpm test
             target: i686-pc-windows-msvc
             setup: |
               choco install nodejs-lts --x86 -y --force
               echo "C:\Program Files (x86)\nodejs" >> $GITHUB_PATH
-
-          - host: ubuntu-latest
+          - host: ubuntu-20.04
             target: x86_64-unknown-linux-gnu
             docker: |
               docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD $DOCKER_REGISTRY_URL
               docker pull $DOCKER_REGISTRY_URL/napi-rs/napi-rs/nodejs-rust:lts-debian
               docker tag $DOCKER_REGISTRY_URL/napi-rs/napi-rs/nodejs-rust:lts-debian builder
             build: |
-              docker run --rm -v ~/.cargo/git:/root/.cargo/git -v ~/.cargo/registry:/root/.cargo/registry -v $(pwd):/build -w /build builder pnpm run build:napi && strip skribble_css.linux-x64-gnu.node
-
-          - host: ubuntu-latest
+              docker run --rm -v ~/.cargo/git:/root/.cargo/git -v ~/.cargo/registry:/root/.cargo/registry -v $(pwd):/build -w /build builder pnpm build:napi && strip skribble_css.linux-x64-gnu.node
+          - host: ubuntu-20.04
             target: x86_64-unknown-linux-musl
             docker: |
               docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD $DOCKER_REGISTRY_URL
               docker pull $DOCKER_REGISTRY_URL/napi-rs/napi-rs/nodejs-rust:lts-alpine
               docker tag $DOCKER_REGISTRY_URL/napi-rs/napi-rs/nodejs-rust:lts-alpine builder
-            build: docker run --rm -v ~/.cargo/git:/root/.cargo/git -v ~/.cargo/registry:/root/.cargo/registry -v $(pwd):/build -w /build builder pnpm run build:napi && strip skribble_css.linux-x64-musl.node
-
+            build: docker run --rm -v ~/.cargo/git:/root/.cargo/git -v ~/.cargo/registry:/root/.cargo/registry -v $(pwd):/build -w /build builder pnpm build:napi && strip skribble_css.linux-x64-musl.node
           - host: macos-latest
             target: aarch64-apple-darwin
             build: |
-              pnpm run build:napi --target=aarch64-apple-darwin
+              pnpm build:napi --target=aarch64-apple-darwin
               strip -x *.node
-
-          - host: ubuntu-latest
+          - host: ubuntu-20.04
             target: aarch64-unknown-linux-gnu
             setup: |
               sudo apt-get update
               sudo apt-get install g++-aarch64-linux-gnu gcc-aarch64-linux-gnu -y
             build: |
-              pnpm run build:napi --target=aarch64-unknown-linux-gnu
+              pnpm build:napi --target=aarch64-unknown-linux-gnu
               aarch64-linux-gnu-strip skribble_css.linux-arm64-gnu.node
-
-          - host: ubuntu-latest
+          - host: ubuntu-20.04
             target: armv7-unknown-linux-gnueabihf
             setup: |
               sudo apt-get update
               sudo apt-get install gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf -y
             build: |
-              pnpm run build:napi --target=armv7-unknown-linux-gnueabihf
+              pnpm build:napi --target=armv7-unknown-linux-gnueabihf
               arm-linux-gnueabihf-strip skribble_css.linux-arm-gnueabihf.node
-
-          - host: ubuntu-latest
+          - host: ubuntu-20.04
             target: aarch64-linux-android
             build: |
               export CARGO_TARGET_AARCH64_LINUX_ANDROID_LINKER="${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android24-clang"
-              pnpm run build:napi --target aarch64-linux-android
-
-          - host: ubuntu-latest
+              pnpm build:napi --target aarch64-linux-android
+          - host: ubuntu-20.04
+            architecture: x64
+            target: armv7-linux-androideabi
+            build: |
+              export CARGO_TARGET_ARMV7_LINUX_ANDROIDEABI_LINKER="${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/bin/armv7a-linux-androideabi24-clang"
+              export CC="${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/bin/armv7a-linux-androideabi24-clang"
+              export CXX="${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/bin/armv7a-linux-androideabi24-clang++"
+              export PATH="${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/bin:${PATH}"
+              pnpm build:napi --target armv7-linux-androideabi
+              ${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/bin/arm-linux-androideabi-strip *.node
+          - host: ubuntu-20.04
             target: aarch64-unknown-linux-musl
             downloadTarget: aarch64-unknown-linux-musl
             docker: |
@@ -140,14 +145,12 @@ jobs:
               docker pull ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
               docker tag ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine builder
             build: |
-              docker run --rm -v ~/.cargo/git:/root/.cargo/git -v ~/.cargo/registry:/root/.cargo/registry -v $(pwd):/build -w /build builder sh -c "pnpm run build:napi --target=aarch64-unknown-linux-musl && /aarch64-linux-musl-cross/bin/aarch64-linux-musl-strip skribble_css.linux-arm64-musl.node"
-
+              docker run --rm -v ~/.cargo/git:/root/.cargo/git -v ~/.cargo/registry:/root/.cargo/registry -v $(pwd):/build -w /build builder sh -c "pnpm build:napi --target=aarch64-unknown-linux-musl && /aarch64-linux-musl-cross/bin/aarch64-linux-musl-strip skribble_css.linux-arm64-musl.node"
           - host: windows-latest
             target: aarch64-pc-windows-msvc
-            build: pnpm run build:napi --target aarch64-pc-windows-msvc
+            build: pnpm build:napi --target aarch64-pc-windows-msvc
 
-    # set the name from the matrix configuration
-    name: 'build_napi:stable - ${{ matrix.settings.target }} - node@16'
+    name: 'build_napi:stable - ${{ matrix.settings.target }}'
     runs-on: ${{ matrix.settings.host }}
     steps:
       - name: checkout code repository
@@ -155,45 +158,14 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: setup caching
-        uses: actions/cache@v2
-        with:
-          path: ${{ env.PNPM_CACHE_FOLDER }}
-          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-
-
-      - name: setup node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node-version }}
+      - name: pnpm installation
+        uses: ./.github/actions/pnpm
 
       - name: rust installation
-        uses: actions-rs/toolchain@v1
+        uses: ./.github/actions/rust
         with:
-          profile: minimal
-          override: true
-          toolchain: stable
           target: ${{ matrix.settings.target }}
 
-      - name: generate cargo lockfile
-        uses: actions-rs/cargo@v1
-        with:
-          command: generate-lockfile
-
-      - name: cache cargo registry
-        uses: actions/cache@v2
-        with:
-          path: ~/.cargo/registry
-          key: ${{ matrix.settings.target }}-node@16-cargo-registry-trimmed-${{ hashFiles('**/Cargo.lock') }}
-
-      - name: cache cargo index
-        uses: actions/cache@v2
-        with:
-          path: ~/.cargo/git
-          key: ${{ matrix.settings.target }}-node@16-cargo-index-trimmed-${{ hashFiles('**/Cargo.lock') }}
-
-      # if docker image is defined pull it and start it
       - name: pull latest docker image
         if: ${{ matrix.settings.docker }}
         run: ${{ matrix.settings.docker }}
@@ -207,9 +179,6 @@ jobs:
         if: ${{ matrix.settings.setup }}
         shell: bash
 
-      - name: pnpm installation
-        uses: ./.github/actions/pnpm
-
       - name: build native code
         run: ${{ matrix.settings.build }}
         shell: bash
@@ -220,11 +189,10 @@ jobs:
           name: bindings-${{ matrix.settings.target }}
           path: ${{ env.APP_NAME }}.*.node
 
-  # build for the freebsd platform
   build_napi_freebsd:
     timeout-minutes: 15
     runs-on: macos-10.15
-    name: 'build_napi:stable - freebsd - node@16'
+    name: 'build_napi:stable - freebsd'
     steps:
       - name: checkout code repository
         uses: actions/checkout@v2
@@ -248,7 +216,7 @@ jobs:
             npm install -g npm
             corepack enable
             curl https://sh.rustup.rs -sSf --output rustup.sh
-            sh rustup.sh -y --profile minimal --default-toolchain stable
+            sh rustup.sh -y --profile minimal
             export PATH="/usr/local/cargo/bin:$PATH"
             echo "~~~~ rustc --version ~~~~"
             rustc --version
@@ -265,7 +233,7 @@ jobs:
             freebsd-version
             pnpm i --registry https://registry.npmjs.org --network-timeout 300000
             pnpm build:napi
-            # pnpm test
+            pnpm test
             rm -rf node_modules
             rm -rf target
       - name: upload artifact
@@ -277,25 +245,12 @@ jobs:
   # build the typescript packages
   build_ts:
     timeout-minutes: 15
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - name: checkout code repository
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-
-      - name: setup caching
-        uses: actions/cache@v2
-        with:
-          path: ${{ env.PNPM_CACHE_FOLDER }}
-          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-
-
-      - name: setup node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: 16.x
 
       - name: pnpm installation
         uses: ./.github/actions/pnpm
@@ -306,25 +261,12 @@ jobs:
   # Unit test and update coverage report
   unit_test:
     timeout-minutes: 15
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - name: checkout code repository
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-
-      - name: setup caching
-        uses: actions/cache@v2
-        with:
-          path: ${{ env.PNPM_CACHE_FOLDER }}
-          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-
-
-      - name: setup node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: 16.x
 
       - name: pnpm installation
         uses: ./.github/actions/pnpm
@@ -335,316 +277,28 @@ jobs:
   # build the project and run tests on built files.
   build_test:
     timeout-minutes: 15
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     strategy:
       matrix:
-        node: [16.x, 17.x]
+        node:
+          - 16.x
+          - 17.x
       fail-fast: false
-
+    needs:
+      - build_napi
     steps:
       - name: checkout code repository
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
 
-      - name: setup caching
-        uses: actions/cache@v2
-        with:
-          path: ${{ env.PNPM_CACHE_FOLDER }}
-          key: ${{ runner.os }}-pnpm-${{ matrix.node }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-${{ matrix.node }}
-
-      - name: setup node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node }}
-
       - name: pnpm installation
         uses: ./.github/actions/pnpm
+        with:
+          node-version: ${{ matrix.node }}
 
       - name: build project
         run: pnpm build
 
       - name: run unit tests
         run: pnpm test
-
-  test_macos_windows_binding:
-    timeout-minutes: 15
-    name: test bindings on ${{ matrix.settings.target }} - node@${{ matrix.node }}
-    needs:
-      - build_napi
-
-    strategy:
-      fail-fast: false
-      matrix:
-        settings:
-          - host: windows-latest
-            target: x86_64-pc-windows-msvc
-        node:
-          - '14'
-          - '16'
-    runs-on: ${{ matrix.settings.host }}
-    steps:
-      - name: checkout code repository
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-
-      - name: setup caching
-        uses: actions/cache@v2
-        with:
-          path: ${{ env.PNPM_CACHE_FOLDER }}
-          key: ${{ runner.os }}-pnpm-${{ matrix.node }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-${{ matrix.node }}
-
-      - name: setup node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node }}
-
-      - name: pnpm installation
-        uses: ./.github/actions/pnpm
-
-      - name: download artifacts
-        uses: actions/download-artifact@v2
-        with:
-          name: bindings-${{ matrix.settings.target }}
-          path: .
-
-      - name: test bindings
-        run: pnpm test
-
-  test_linux_x64_gnu_binding:
-    timeout-minutes: 15
-    name: test bindings on linux-x64-gnu - node@${{ matrix.node }}
-    needs:
-      - build_napi
-    strategy:
-      fail-fast: false
-      matrix:
-        node:
-          - '14'
-          - '16'
-    runs-on: ubuntu-latest
-    steps:
-      - name: checkout code repository
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-
-      - name: setup caching
-        uses: actions/cache@v2
-        with:
-          path: ${{ env.PNPM_CACHE_FOLDER }}
-          key: ${{ runner.os }}-pnpm-${{ matrix.node }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-${{ matrix.node }}
-
-      - name: setup node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node }}
-
-      - name: pnpm installation
-        uses: ./.github/actions/pnpm
-
-      - name: download artifacts
-        uses: actions/download-artifact@v2
-        with:
-          name: bindings-x86_64-unknown-linux-gnu
-          path: .
-
-      - name: test bindings
-        run: docker run --rm -v $(pwd):/css -w /css node:${{ matrix.node }}-slim pnpm test
-
-  test-linux-x64-musl-binding:
-    timeout-minutes: 15
-    name: test bindings on x86_64-unknown-linux-musl - node@${{ matrix.node }}
-    needs:
-      - build_napi
-    strategy:
-      fail-fast: false
-      matrix:
-        node:
-          - '14'
-          - '16'
-    runs-on: ubuntu-latest
-    steps:
-      - name: checkout code repository
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-
-      - name: setup caching
-        uses: actions/cache@v2
-        with:
-          path: ${{ env.PNPM_CACHE_FOLDER }}
-          key: ${{ runner.os }}-pnpm-${{ matrix.node }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-${{ matrix.node }}
-
-      - name: setup node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node }}
-
-      - name: pnpm installation
-        uses: ./.github/actions/pnpm
-
-      - name: download artifacts
-        uses: actions/download-artifact@v2
-        with:
-          name: bindings-x86_64-unknown-linux-musl
-          path: .
-
-      - name: test bindings
-        run: docker run --rm -v $(pwd):/css -w /css node:${{ matrix.node }}-alpine pnpm test
-
-  test_linux_aarch64_gnu_binding:
-    timeout-minutes: 15
-    name: test bindings on aarch64-unknown-linux-gnu - node@${{ matrix.node }}
-    needs:
-      - build_napi
-    strategy:
-      fail-fast: false
-      matrix:
-        node:
-          - '14'
-          - '16'
-          - '17'
-    runs-on: ubuntu-latest
-    steps:
-      - run: docker run --rm --privileged multiarch/qemu-user-static:register --reset
-
-      - uses: actions/checkout@v2
-
-      - name: setup caching
-        uses: actions/cache@v2
-        with:
-          path: ${{ env.PNPM_CACHE_FOLDER }}
-          key: ${{ runner.os }}-pnpm-${{ matrix.node }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-${{ matrix.node }}
-
-      - name: setup node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node }}
-
-      - name: pnpm installation
-        uses: ./.github/actions/pnpm
-
-      - name: download artifacts
-        uses: actions/download-artifact@v2
-        with:
-          name: bindings-aarch64-unknown-linux-gnu
-          path: .
-
-      - name: setup and run tests
-        uses: addnab/docker-run-action@v3
-        with:
-          image: ghcr.io/napi-rs/napi-rs/nodejs:aarch64-${{ matrix.node }}
-          options: '-v ${{ github.workspace }}:/build -w /build'
-          run: |
-            set -e
-            pnpm test
-            ls -la
-
-  test-linux-aarch64-musl-binding:
-    timeout-minutes: 15
-    name: test bindings on aarch64-unknown-linux-musl - node@${{ matrix.node }}
-    needs:
-      - build_napi
-    strategy:
-      fail-fast: false
-      matrix:
-        node:
-          - '14'
-          - '16'
-    runs-on: ubuntu-latest
-    steps:
-      - run: docker run --rm --privileged multiarch/qemu-user-static:register --reset
-
-      - name: checkout code repository
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-
-      - name: setup caching
-        uses: actions/cache@v2
-        with:
-          path: ${{ env.PNPM_CACHE_FOLDER }}
-          key: ${{ runner.os }}-pnpm-${{ matrix.node }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-${{ matrix.node }}
-
-      - name: setup node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node }}
-
-      - name: pnpm installation
-        uses: ./.github/actions/pnpm
-
-      - name: setup and run tests
-        uses: addnab/docker-run-action@v3
-        with:
-          image: multiarch/alpine:aarch64-latest-stable
-          options: '-v ${{ github.workspace }}:/build -w /build'
-          run: |
-            set -e
-            apk add nodejs npm yarn
-            pnpm test
-  test-linux-arm-gnueabihf-binding:
-    timeout-minutes: 15
-    name: test bindings on armv7-unknown-linux-gnueabihf - node@${{ matrix.node }}
-    needs:
-      - 'build_napi'
-    strategy:
-      fail-fast: false
-      matrix:
-        node:
-          - '14'
-          - '16'
-    runs-on: ubuntu-latest
-    steps:
-      - run: docker run --rm --privileged multiarch/qemu-user-static:register --reset
-
-      - name: checkout code repository
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-
-      - name: setup caching
-        uses: actions/cache@v2
-        with:
-          path: ${{ env.PNPM_CACHE_FOLDER }}
-          key: ${{ runner.os }}-pnpm-${{ matrix.node }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-${{ matrix.node }}
-
-      - name: setup node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node }}
-
-      - name: pnpm installation
-        uses: ./.github/actions/pnpm
-
-      - name: download artifacts
-        uses: actions/download-artifact@v2
-        with:
-          name: bindings-armv7-unknown-linux-gnueabihf
-          path: .
-
-      - name: Setup and run tests
-        uses: addnab/docker-run-action@v3
-        with:
-          image: ghcr.io/napi-rs/napi-rs/nodejs:armhf-${{ matrix.node }}
-          options: '-v ${{ github.workspace }}:/build -w /build'
-          run: |
-            set -e
-            pnpm test
-            ls -la

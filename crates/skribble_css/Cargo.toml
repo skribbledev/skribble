@@ -2,29 +2,62 @@
 authors = ["Ifiok Jr. <ifiokotung@gmail.com>"]
 edition = "2021"
 name = "skribble_css"
+license = "MIT"
+description = "Atomic CSS for your next frontend project"
 version = "0.0.0"
+homepage = "https://skribble.dev/"
+documentation = "https://docs.rs/skribble_css"
+repository = "https://github.com/skribbledev/skribble/tree/main/crates/skribble_css"
+include = ["src/**/*.rs", "src/**/*.json", "Cargo.toml", "readme.md"]
 
 [lib]
 crate-type = ["lib"]
 
+[features]
+node = ["napi", "napi-derive"]
+
 [dependencies]
-colorsys = "^0.6.5"
-easy-error = "^1.0.0"
-heck = "^0.4.0"
-indexmap = { features = ["serde"], version = "^1.8.0" }
-indoc = "^1.0.3"
-readonly = "^0.2.0"
-regex = "^1.5.4"
-serde = "^1.0.136"
-serde_json = "^1.0.78"
-swc_atoms = "^0.2.9"
-swc_common = "^0.17.2"
-swc_ecma_minifier = "^0.71.4"
-swc_ecmascript = { features = ["utils", "visit", "parser"], version = "^0.111.9" }
+ast_node = "0.7.7"
+colorsys = "0.6.5"
+doc-comment = "0.3.3"
+enum-ordinalize = "3.1.11"
+find_up = { path = "../find_up" }
+heck = "0.4.0"
+indexmap = { features = ["serde-1"], version = "1.8.1" }
+indoc = "1.0.4"
+lazy_static = "1.4.0"
+parcel_css = "1.0.0-alpha.23"
+parcel_sourcemap = "2.0.2"
+readonly = "0.2.1"
+regex = "1.5.5"
+serde = "1.0.136"
+serde_json = "1.0.79"
+swc_atoms = "0.2.11"
+swc_common = "0.17.25"
+swc_ecma_ast = "0.76.2"
+swc_ecma_parser = "0.102.11"
+swc_ecma_utils = "0.82.0"
+swc_ecma_visit = "0.62.0"
+thiserror = "1.0.30"
+
+[dependencies.napi-derive]
+default-features = false
+features = ["type-def"]
+optional = true
+version = "2.3.3"
+
+[dependencies.napi]
+default-features = false
+features = ["napi4"]
+optional = true
+version = "2.3.3"
 
 [dev-dependencies]
-testing = "0.18.0"
-walkdir = "2.3.2"
-pretty_assertions = "1.0.0"
-insta = "1.12.0"
+testing = "0.19.1"
+pretty_assertions = "1.2.1"
+insta = "1.14.0"
 
+[profile.release]
+lto = true
+# Tell `rustc` to optimize for small code size.
+opt-level = "s"

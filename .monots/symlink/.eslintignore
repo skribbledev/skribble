@@ -21,3 +21,6 @@ lerna.json
 .pnpm-store/
 
 target/
+
+**/fixtures/**
+**/__fixtures__/**

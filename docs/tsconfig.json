@@ -1,0 +1,7 @@
+{
+  "extends": "../.monots/tsconfig.base.json",
+  "compilerOptions": {
+    "jsx": "preserve",
+    "types": ["astro/env", "node"]
+  }
+}

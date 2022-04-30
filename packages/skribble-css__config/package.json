@@ -6,7 +6,7 @@
   "repository": "https://github.com/skribbledev/skribble/tree/master/packages/skribble-css__config",
   "license": "MIT",
   "contributors": [],
-  "sideEffects": false,
+  "sideEffects": true,
   "type": "module",
   "exports": {
     ".": {
@@ -29,7 +29,10 @@
     "dist"
   ],
   "dependencies": {
-    "@swc/helpers": "^0.3.2"
+    "@skribble-css/preset-default": "^0.0.0",
+    "@skribble-css/types": "^0.0.0",
+    "@swc/helpers": "^0.3.9",
+    "csstype": "^3.0.11"
   },
   "publishConfig": {
     "access": "public"

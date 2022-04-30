@@ -1,0 +1,9 @@
+{
+  "extends": "./.monots/tsconfig.base.json",
+  "compilerOptions": {
+    "lib": [
+      "ES2015.Symbol.WellKnown"
+    ],
+    "module": "eS2022"
+  }
+}

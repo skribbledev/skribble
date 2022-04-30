@@ -20,8 +20,8 @@ on:
 jobs:
   codeql:
     timeout-minutes: 15
-    # CodeQL runs on ubuntu-latest, windows-latest, and macos-latest
-    runs-on: ubuntu-latest
+    # CodeQL runs on ubuntu-20.04, windows-latest, and macos-latest
+    runs-on: ubuntu-20.04
 
     permissions:
       # required for all workflows
@@ -43,19 +43,6 @@ jobs:
         # Override language selection by uncommenting this and choosing your languages
         with:
           languages: rust, javascript, typescript
-
-      - name: setup caching
-        uses: actions/cache@v2
-        with:
-          path: ${{ env.PNPM_CACHE_FOLDER }}
-          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-
-
-      - name: setup node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: 16.x
 
       - name: pnpm installation
         uses: ./.github/actions/pnpm

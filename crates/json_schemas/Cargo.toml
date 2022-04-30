@@ -1,0 +1,26 @@
+[package]
+name = "json_schemas"
+version = "0.0.0"
+edition = "2021"
+authors = ["Ifiok Jr. <ifiokotung@gmail.com>"]
+description = "Parse widely used JSON file formats to their equivalent rust structs."
+documentation = "https://docs.rs/json_schemas"
+repository = "https://github.com/skribbledev/skribble/tree/main/crates/json_schemas"
+include = ["src/**/*.rs", "Cargo.toml", "readme.md"]
+
+[lib]
+crate-type = ["lib"]
+
+[dependencies]
+indexmap = { features = ["serde-1"], version = "1.8.1" }
+lazy_static = "1.4.0"
+regex = "1.5.5"
+semver = "1.0.7"
+serde = "1.0.136"
+serde_json = { version = "1.0.79", features = ["preserve_order", "std"] }
+validator = { version = "0.14.0", features = ["derive"] }
+thiserror = "1.0.30"
+typed-builder = "0.10.0"
+
+[dev-dependencies]
+insta = "1.14.0"

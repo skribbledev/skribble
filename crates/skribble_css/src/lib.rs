@@ -1,11 +1,18 @@
 #![deny(clippy::all)]
 
-pub use crate::generate_css::generate_css;
+doc_comment::doc_comment! {
+  include_str!("../readme.md")
+}
+
+pub use crate::{
+  error::{Error, Result},
+  generate::{css::generate_css, types::generate_typescript},
+};
 
 pub mod config;
 pub mod constants;
-mod generate_css;
-pub mod generate_typescript;
+pub mod error;
+pub mod generate;
 pub mod scanner;
 mod utils;
 

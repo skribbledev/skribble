@@ -1,9 +1,14 @@
-use indexmap::IndexMap;
+use heck::ToKebabCase;
+use indexmap::{IndexMap, IndexSet};
 use serde::{Deserialize, Serialize};
 
-use crate::constants::{PALETTE_OPEN_COLOR, PALETTE_TAILWIND, ROOT_SELECTOR};
-
 use super::color_utils::convert_css_value_to_color;
+use crate::{
+  constants::{INDENTATION, ROOT_SELECTOR},
+  utils::{get_css_variables_from_string, indent},
+  Error,
+  Result,
+};
 
 pub type MediaQueries = IndexMap<String, String>;
 pub type Modifiers = IndexMap<String, Vec<String>>;
@@ -12,7 +17,7 @@ pub type Modifiers = IndexMap<String, Vec<String>>;
 #[serde(rename_all = "camelCase")]
 pub struct UserConfig {
   /// General options.
-  options: Options,
+  pub options: Options,
 
   /// Set up the style rules which determine the styles that each atom name will
   /// correspond to.
@@ -21,9 +26,13 @@ pub struct UserConfig {
   /// Shorthand properties.
   pub shorthand: IndexMap<String, Vec<StyleRule>>,
 
-  /// Color palette taken from tailwind colors or openColor.
-  #[serde(default = "ColorPalette::default")]
-  pub palette: ColorPalette,
+  /// Group properties.
+  pub groups: IndexMap<String, Group>,
+
+  /// Color palette taken from tailwind colors / openColor or something custom.
+  pub palette: IndexMap<String, String>,
+
+  pub keyframes: IndexMap<String, Keyframes>,
 
   /// The breakpoints used to provide responsive styles.
   pub breakpoints: IndexMap<String, CssValue>,
@@ -60,9 +69,91 @@ pub struct UserConfig {
 }
 
 impl UserConfig {
-  pub fn new(json: &str) -> serde_json::Result<Self> {
-    let config: Self = serde_json::from_str(json)?;
+  pub fn new(json: &str) -> Result<Self> {
+    let config: Self =
+      serde_json::from_str(json).map_err(|source| Error::InvalidConfig { source })?;
     Ok(config)
+  }
+}
+
+type Frames = IndexMap<String, IndexMap<String, String>>;
+
+#[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
+#[serde(untagged)]
+pub enum Keyframes {
+  Frame(Frames),
+}
+
+impl Keyframes {
+  pub fn get_css(&self, name: &str) -> String {
+    match self {
+      Keyframes::Frame(frames) => {
+        let mut sections: Vec<String> = vec![];
+
+        for (key, styles) in frames.iter() {
+          let mut declarations: Vec<String> = vec![];
+
+          for (property, value) in styles.iter() {
+            let property_name = if property.starts_with('-') {
+              property.to_owned()
+            } else {
+              property.to_kebab_case()
+            };
+
+            declarations.push(format!("{}: {};", property_name, value));
+          }
+
+          sections.push(format!(
+            "{} {{\n{}\n}}",
+            key,
+            indent(&declarations.join("\n"), INDENTATION)
+          ));
+        }
+
+        format!(
+          "@keyframes {} {{\n{}\n}}",
+          name,
+          indent(&sections.join("\n"), INDENTATION)
+        )
+      }
+    }
+  }
+
+  /// Get the css variable names from the keyframes.
+  pub fn get_css_variables_names(&self, name: &str) -> IndexSet<String> {
+    get_css_variables_from_string(self.get_css(name).as_str())
+  }
+}
+
+#[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
+#[serde(untagged)]
+pub enum Group {
+  Props(Vec<StyleRule>),
+}
+
+impl Group {
+  /// Provide the list of selectors and get the css declaration back.
+  pub fn get_css(&self, selectors: &[String]) -> String {
+    match self {
+      Group::Props(props) => {
+        let mut declarations: Vec<String> = vec![];
+
+        for prop in props.iter() {
+          declarations.push(format!("{};", prop.get_style_declaration(None)));
+        }
+
+        format!(
+          "{} {{\n{}\n}}",
+          selectors.join(",\n"),
+          indent(&declarations.join("\n"), INDENTATION)
+        )
+      }
+    }
+  }
+
+  /// Get the css variable names from the keyframes.
+  pub fn get_css_variables_names(&self, selectors: &[String]) -> IndexSet<String> {
+    get_css_variables_from_string(self.get_css(selectors).as_str())
   }
 }
 
@@ -76,20 +167,36 @@ pub enum Atom {
 impl Atom {
   pub fn to_atom_value(&self) -> AtomValue {
     match self {
-      Atom::Color(_) => AtomValue {
-        style_rules: Vec::new(),
-        values: IndexMap::new(),
-      },
+      Atom::Color(color) => {
+        AtomValue {
+          keyframes: color.keyframes.clone(),
+          groups: color.groups.clone(),
+          style_rules: Vec::new(),
+          values: IndexMap::new(),
+        }
+      }
       Atom::Value(value) => value.clone(),
     }
   }
 }
 
 #[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
-#[serde(rename_all = "camelCase")]
 pub struct AtomValue {
+  #[serde(default)]
+  pub keyframes: Vec<String>,
+  #[serde(default)]
+  pub groups: Vec<String>,
+  #[serde(rename = "styleRules")]
   pub style_rules: Vec<String>,
-  pub values: IndexMap<String, CssValue>,
+  pub values: IndexMap<String, AtomCssValue>,
+}
+
+#[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
+#[serde(untagged)]
+pub enum AtomCssValue {
+  Value(CssValue),
+  /// Provide an object with the values.
+  Object(IndexMap<String, CssValue>),
 }
 
 /// Rather than values being used this will make available the values defined
@@ -97,6 +204,10 @@ pub struct AtomValue {
 #[derive(Serialize, Deserialize, Debug, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct AtomColor {
+  #[serde(default)]
+  pub keyframes: Vec<String>,
+  #[serde(default)]
+  pub groups: Vec<String>,
   pub style_rules: Vec<String>,
   pub colors: AtomColorOptions,
 }
@@ -116,16 +227,9 @@ pub struct AtomColorOptions {
 /// Options to use in the configuration.
 #[derive(Serialize, Deserialize, Debug, PartialEq)]
 #[serde(rename_all = "camelCase")]
-struct Options {
-  #[serde(default = "ColorFormat::default")]
+pub struct Options {
+  #[serde(default)]
   pub color_format: ColorFormat,
-
-  #[serde(default = "default_variables_prefix")]
-  pub variables_prefix: String,
-}
-
-fn default_variables_prefix() -> String {
-  "sk".to_string()
 }
 
 pub trait BreakpointHelper {
@@ -168,13 +272,13 @@ pub enum Css {
 }
 
 #[derive(Serialize, Deserialize, Debug, PartialEq)]
-enum ColorFormat {
+pub enum ColorFormat {
   #[serde(rename = "rgb")]
   Rgb,
   #[serde(rename = "hsl")]
   Hsl,
 }
-impl ColorFormat {
+impl Default for ColorFormat {
   fn default() -> ColorFormat {
     ColorFormat::Hsl
   }
@@ -194,35 +298,6 @@ impl CssValue {
     match self {
       CssValue::Number(value) => value.to_string(),
       CssValue::String(value) => value.clone(),
-    }
-  }
-}
-
-/// An enum which describes the colors to be used in the configuration.
-#[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
-#[serde(untagged)]
-pub enum ColorPalette {
-  #[serde(rename = "tailwind")]
-  Tailwind,
-  #[serde(rename = "openColor")]
-  OpenColor,
-  Object(IndexMap<String, String>),
-}
-
-impl ColorPalette {
-  /// The default value to use for the color palette.
-  pub fn default() -> ColorPalette {
-    ColorPalette::Tailwind
-  }
-
-  /// Convert the color palette to a mapped value.
-  pub fn to_map(&self) -> IndexMap<String, String> {
-    let empty_palette = IndexMap::new();
-
-    match self {
-      ColorPalette::Tailwind => serde_json::from_str(PALETTE_TAILWIND).unwrap_or(empty_palette),
-      ColorPalette::OpenColor => serde_json::from_str(PALETTE_OPEN_COLOR).unwrap_or(empty_palette),
-      ColorPalette::Object(value) => value.clone(),
     }
   }
 }
@@ -263,6 +338,36 @@ impl CssVariable {
       }
       CssVariable::Object(value) => value.clone(),
     }
+  }
+
+  pub fn get_css_variables_names(&self, user: &UserConfig) -> IndexSet<String> {
+    let populated = self.populate(user);
+    let mut css_variables: IndexSet<String> = IndexSet::new();
+
+    for value in populated.selectors.values() {
+      let variables = get_css_variables_from_string(value.get_string().as_str());
+      css_variables.extend(variables);
+    }
+
+    if let Some(breakpoints) = populated.breakpoints {
+      for breakpoint in breakpoints.values() {
+        for value in breakpoint.values() {
+          let variables = get_css_variables_from_string(value.get_string().as_str());
+          css_variables.extend(variables);
+        }
+      }
+    }
+
+    if let Some(media_queries) = populated.media_queries {
+      for media_query in media_queries.values() {
+        for value in media_query.values() {
+          let variables = get_css_variables_from_string(value.get_string().as_str());
+          css_variables.extend(variables);
+        }
+      }
+    }
+
+    css_variables
   }
 
   /// Populate the colors.
@@ -406,13 +511,25 @@ impl StyleRule {
       }
     }
   }
+
+  // pub(crate) fn get_property_value(&self, css_value: Option<&CssValue>) ->
+  // Option<(String, String)> {   match self {
+  //     StyleRule::WithValue(name, value) => format!("{}: {}", name,
+  // value.get_string()),     StyleRule::Name(name) => {
+  //       if let Some(value) = css_value {
+  //         format!("{}: {}", name, value.get_string())
+  //       } else {
+  //         "".to_string()
+  //       }
+  //     }
+  //   }
+  // }
 }
 #[cfg(test)]
 mod tests {
 
-  use crate::constants::JSON_CONFIG;
-
   use super::*;
+  use crate::constants::JSON_CONFIG;
 
   #[test]
   fn check_config_can_serialize() {

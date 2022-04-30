@@ -1,16 +1,19 @@
-use indexmap::IndexSet;
 use std::{
   cmp::Ordering,
   hash::{Hash, Hasher},
 };
 
-use swc_ecmascript::{
-  ast::{Ident, MemberExpr, MemberProp},
-  utils::Id,
-};
+use heck::ToKebabCase;
+use indexmap::{IndexMap, IndexSet};
+use swc_ecma_ast::{Ident, MemberExpr, MemberProp};
+use swc_ecma_utils::Id;
 
+use super::class_name_order::ClassNameOrder;
 use crate::{
-  config::{user::CssValue, Config},
+  config::{
+    user::{AtomCssValue, CssValue},
+    Config,
+  },
   constants::INDENTATION,
   utils::{escape_css_string, get_css_variables_from_string, get_identifiers, indent},
 };
@@ -20,15 +23,6 @@ pub enum Validity {
   Valid,
   Invalid,
   Undefined,
-}
-
-enum ScoreMultiple {
-  Value = 1,
-  Atom = 100,
-  Modifier = 10_000,
-  ParentModifier = 100_000,
-  MediaQuery = 1_000_000,
-  Breakpoint = 10_000_000,
 }
 
 #[derive(Debug, Clone)]
@@ -60,9 +54,11 @@ impl ClassArguments {
     let segments = temp_value.split(r"\:").collect::<Vec<_>>();
 
     match segments.len() {
-      1 => segments
-        .first()
-        .map(|segment| ClassArguments::Value(segment.to_string())),
+      1 => {
+        segments
+          .first()
+          .map(|segment| ClassArguments::Value(segment.to_string()))
+      }
       2 => {
         let key = if let Some(segment) = segments.first() {
           *segment
@@ -95,8 +91,10 @@ impl ClassArguments {
 
   pub fn get_string(&self) -> String {
     match self {
-      ClassArguments::Value(value) => value.to_string(),
-      ClassArguments::KeyValue(key, value) => format!(r"{}\:{}", key, value),
+      ClassArguments::Value(value) => replace_character_with(value, " ", "__"),
+      ClassArguments::KeyValue(key, value) => {
+        format!(r"{}\:{}", key, replace_character_with(value, " ", "__"))
+      }
     }
   }
 
@@ -106,6 +104,10 @@ impl ClassArguments {
       ClassArguments::KeyValue(_, value) => value.to_string(),
     }
   }
+}
+
+fn replace_character_with(string: &str, remove: &str, replacement: &str) -> String {
+  string.split(remove).collect::<Vec<_>>().join(replacement)
 }
 
 /// This struct is used to create the class name and it stores the tokens.
@@ -136,7 +138,7 @@ pub struct ClassName<'config> {
   /// style atom attached.
   ///
   /// ```ts
-  /// import { c } from 'skribble-css'
+  /// import { c } from 'skribble-css/client'
   /// c.$block // $block is the shorthand style name.
   /// c.display.$block // The same as above.
   /// ```
@@ -146,14 +148,29 @@ pub struct ClassName<'config> {
   /// expression.
   pub argument: Option<ClassArguments>,
 
+  /// When this is set to true the class name will register all properties as
+  /// important.
+  ///
+  /// Defaults to `false`
+  pub important: bool,
+
+  /// The keyframes for this atom.
+  pub keyframes: Vec<String>,
+
+  /// The group for this atom.
+  pub groups: Vec<String>,
+
   /// Whether this class name is valid. Starts off as `false`.
   pub validity: Validity,
 
   /// This is captured when the style_name, or shorthand, or argument is added.
   pub value: Option<CssValue>,
 
-  /// This is used to order the class names.
-  pub score: isize,
+  /// This is captured when the style_name, or shorthand, or argument is added.
+  pub value_object: IndexMap<String, CssValue>,
+
+  /// Used to determine the order of the class names.
+  order: ClassNameOrder,
 
   /// The configuration provided.
   #[readonly]
@@ -164,17 +181,21 @@ impl<'config> ClassName<'config> {
   /// Create a new class name builder.
   pub fn new(config: &'config Config) -> Self {
     Self {
+      keyframes: vec![],
       breakpoint: None,
       media_query: None,
       parent_modifier: None,
-      modifiers: Vec::new(),
+      modifiers: vec![],
       shorthand: None,
       atom: None,
       style_name: None,
       argument: None,
       validity: Validity::Undefined,
       value: None,
-      score: 0,
+      value_object: IndexMap::new(),
+      important: false,
+      groups: vec![],
+      order: ClassNameOrder::new(),
       config,
     }
   }
@@ -268,6 +289,10 @@ impl<'config> ClassName<'config> {
       tokens.push(modifier.to_string())
     }
 
+    if self.important {
+      tokens.push("important".to_string());
+    }
+
     if let Some(atom) = &self.atom {
       tokens.push(atom.to_string());
     }
@@ -333,37 +358,134 @@ impl<'config> ClassName<'config> {
     matches!(&self.validity, Validity::Invalid)
   }
 
-  fn get_style_declaration(&self) -> String {
-    let mut style_declarations: Vec<String> = vec![];
+  /// Create the style string
+  ///
+  /// ```ts
+  /// import { c } from 'skribble-css/client';
+  /// c.px('10px');
+  /// ```
+  ///
+  /// The above code would produce a style declaration as shown below.
+  ///
+  /// ```css
+  /// padding-left: 10px;
+  /// padding-right: 10px;
+  /// ```
+  fn get_style_declaration_string(&self) -> String {
+    let mut lines: Vec<String> = vec![];
+    let important = (if self.important { " !important" } else { "" }).to_string();
+    let separator = format!("{};", important);
 
     if let Some(atom) = &self.atom {
       if let Some(style_rules) = &self.config.user.style_rules.get(atom) {
         for rule in *style_rules {
-          style_declarations.push(rule.get_style_declaration_as_ref(self.value.as_ref()));
+          let derived_style = rule.get_style_declaration_as_ref(self.value.as_ref());
+
+          if !derived_style.is_empty() {
+            lines.push(derived_style);
+          }
         }
       };
+
+      for (property, css_value) in self.value_object.iter() {
+        let property_name = if property.starts_with('-') {
+          property.to_owned()
+        } else {
+          property.to_kebab_case()
+        };
+
+        lines.push(format!("{}: {}", property_name, css_value.get_string()));
+      }
     }
 
     if let Some(shorthand) = &self.shorthand {
       if let Some(style_rules) = &self.config.user.shorthand.get(shorthand) {
         for rule in *style_rules {
-          style_declarations.push(rule.get_style_declaration(None));
+          lines.push(rule.get_style_declaration(None));
         }
       };
     }
 
-    style_declarations.join(";\n")
+    lines
+      .iter()
+      .map(|line| format!("{}{}", line, separator))
+      .collect::<Vec<String>>()
+      .join("\n")
+  }
+
+  fn get_style_declaration_map(&self) -> IndexMap<String, String> {
+    let map = IndexMap::new();
+    let mut lines: Vec<String> = vec![];
+    let important = (if self.important { " !important" } else { "" }).to_string();
+    let _separator = format!("{};", important);
+
+    if let Some(atom) = &self.atom {
+      if let Some(style_rules) = &self.config.user.style_rules.get(atom) {
+        for rule in *style_rules {
+          // match rule {
+          //   StyleRule::WithValue(rule) => map.insert(rule, self.value.as_ref()),
+          //   &StyleRule::Name(ref name) => map.insert(key, value),
+          // }
+          let derived_style = rule.get_style_declaration_as_ref(self.value.as_ref());
+
+          if !derived_style.is_empty() {
+            lines.push(derived_style);
+          }
+        }
+      };
+
+      for (property, css_value) in self.value_object.iter() {
+        let property_name = if property.starts_with('-') {
+          property.to_owned()
+        } else {
+          property.to_kebab_case()
+        };
+
+        lines.push(format!("{}: {}", property_name, css_value.get_string()));
+      }
+    }
+
+    if let Some(shorthand) = &self.shorthand {
+      if let Some(style_rules) = &self.config.user.shorthand.get(shorthand) {
+        for rule in *style_rules {
+          lines.push(rule.get_style_declaration(None));
+        }
+      };
+    }
+
+    // lines
+    //   .iter()
+    //   .map(|line| format!("{}{}", line, separator))
+    //   .collect::<Vec<String>>()
+    //   .join("\n")
+
+    map
   }
 
   pub fn variables(&self) -> IndexSet<String> {
-    get_css_variables_from_string(&self.get_style_declaration())
+    let mut variables = get_css_variables_from_string(&self.get_style_declaration_string());
+
+    for name in self.keyframes.iter() {
+      if let Some(keyframe) = self.config.user.keyframes.get(name) {
+        variables.extend(keyframe.get_css_variables_names(name))
+      }
+    }
+
+    for name in self.groups.iter() {
+      if let Some(group) = self.config.user.groups.get(name) {
+        variables.extend(group.get_css_variables_names(&[]))
+      }
+    }
+
+    variables
   }
 
   pub fn get_css(&self) -> String {
     let selector = self.get_selector();
-    let mut style_declaration = self.get_style_declaration();
+    let mut style_declaration = self.get_style_declaration_string();
+
     if !style_declaration.is_empty() {
-      style_declaration = format!("\n{};\n", indent(&style_declaration, INDENTATION));
+      style_declaration = format!("\n{}\n", indent(&style_declaration, INDENTATION));
     }
 
     format!("{} {{{}}}", selector, style_declaration)
@@ -379,6 +501,16 @@ impl<'config> ClassName<'config> {
 
     let token_string = token.to_string();
 
+    if token_string == "important" {
+      if self.important {
+        self.validity = Validity::Invalid;
+        println!("Warning: 'ClassName' already has 'important'.");
+        return;
+      } else {
+        self.important = true;
+      }
+    }
+
     // Handle the breakpoint case.
     if self.config.user.breakpoints.keys().any(|v| v == token) {
       match &self.breakpoint {
@@ -390,7 +522,6 @@ impl<'config> ClassName<'config> {
           );
         }
         None => {
-          let mut increment = 0;
           if let Some(position) = self
             .config
             .user
@@ -398,9 +529,8 @@ impl<'config> ClassName<'config> {
             .keys()
             .position(|name| name == token)
           {
-            increment = calculate_score_increment(ScoreMultiple::Breakpoint, position);
+            self.order.set_breakpoint(position);
           }
-          self.score += increment;
           self.breakpoint = Some(token_string);
         }
       }
@@ -419,7 +549,6 @@ impl<'config> ClassName<'config> {
         }
 
         None => {
-          let mut increment = 0;
           if let Some(position) = self
             .config
             .user
@@ -427,9 +556,8 @@ impl<'config> ClassName<'config> {
             .keys()
             .position(|name| name == token)
           {
-            increment = calculate_score_increment(ScoreMultiple::MediaQuery, position);
+            self.order.set_media_query(position);
           }
-          self.score += increment;
           self.media_query = Some(token_string);
         }
       }
@@ -446,7 +574,6 @@ impl<'config> ClassName<'config> {
           return;
         }
         None => {
-          let mut increment = 0;
           if let Some(position) = self
             .config
             .user
@@ -454,10 +581,9 @@ impl<'config> ClassName<'config> {
             .keys()
             .position(|name| name == token)
           {
-            increment = calculate_score_increment(ScoreMultiple::ParentModifier, position);
+            self.order.set_parent_modifier(position);
           }
 
-          self.score += increment;
           self.parent_modifier = Some(token_string);
         }
       }
@@ -473,12 +599,10 @@ impl<'config> ClassName<'config> {
         return;
       }
 
-      let mut increment = 0;
       if let Some(position) = self.config.modifiers.iter().position(|name| name == token) {
-        increment = calculate_score_increment(ScoreMultiple::Modifier, position);
+        self.order.set_modifier(position);
       }
 
-      self.score += increment;
       self.modifiers.push(token_string);
 
       if self.modifiers.len() > 1 {
@@ -519,16 +643,34 @@ impl<'config> ClassName<'config> {
             );
           }
           None => {
-            let mut position = 0;
-            if let Some(value) = self.config.atoms.get(atom).and_then(|values| {
-              values.get_full(cleaned_token).map(|(index, _, value)| {
-                position = index;
-                value
-              })
-            }) {
-              self.score += calculate_score_increment(ScoreMultiple::Value, position);
+            if let Some((position, _, value)) = self
+              .config
+              .atoms
+              .get(atom)
+              .and_then(|meta| meta.values.get_full(cleaned_token))
+            {
+              self.order.set_value(position);
               self.style_name = Some(cleaned_token.to_string());
-              self.value = Some(value.clone());
+
+              match value {
+                AtomCssValue::Value(css_value) => {
+                  self.value = Some(css_value.clone());
+                }
+                AtomCssValue::Object(object) => {
+                  self.value_object = object.clone();
+                }
+              }
+
+              if let Some(meta) = self.config.atoms.get(atom) {
+                if let Some(keyframes) = meta.keyframes.get(cleaned_token) {
+                  self.keyframes = keyframes.clone();
+                }
+
+                if let Some(groups) = meta.groups.get(cleaned_token) {
+                  self.groups = groups.clone();
+                }
+              }
+
               self.validity = Validity::Valid; // Set to be valid.
             };
           }
@@ -564,13 +706,10 @@ impl<'config> ClassName<'config> {
         );
       }
       None => {
-        let mut increment = 0;
-        if let Some(position) = self.config.atoms.keys().position(|name| name == token) {
-          increment = calculate_score_increment(ScoreMultiple::Atom, position);
+        if let Some((position, ..)) = self.config.atoms.get_full(token) {
+          self.order.set_atom(position);
+          self.atom = Some(token_string);
         }
-
-        self.score += increment;
-        self.atom = Some(token_string);
       }
     }
   }
@@ -596,14 +735,15 @@ impl<'config> ClassName<'config> {
       return;
     }
 
-    let mut increment = 0;
     if let Some(atom) = &self.atom {
-      self.config.atoms.get(atom).iter().for_each(|map| {
-        increment = calculate_score_increment(ScoreMultiple::Value, map.len());
+      self.config.atoms.get(atom).iter().for_each(|meta| {
+        // set to the full length of values for this atom.
+        self.order.set_value(meta.values.len());
       });
+    } else {
+      self.order.set_atom(self.config.atoms.len());
     }
 
-    self.score += increment;
     self.value = Some(CssValue::String(arguments.get_value()));
     self.argument = Some(arguments);
     self.validity = Validity::Valid;
@@ -636,7 +776,20 @@ impl<'config> Hash for ClassName<'_> {
 
 impl<'config> Ord for ClassName<'_> {
   fn cmp(&self, other: &Self) -> Ordering {
-    self.score.cmp(&other.score)
+    let comparators: &[&dyn Fn() -> Ordering; 3] = &[
+      &(|| self.order.cmp(&other.order)),
+      &(|| self.important.cmp(&other.important)),
+      &(|| self.get_selector().cmp(&other.get_selector())),
+    ];
+
+    for comparator in comparators {
+      let comparison = comparator();
+      if comparison != Ordering::Equal {
+        return comparison;
+      }
+    }
+
+    Ordering::Equal
   }
 }
 
@@ -646,16 +799,10 @@ impl<'config> PartialOrd for ClassName<'_> {
   }
 }
 
-fn calculate_score_increment(multiple: ScoreMultiple, position: usize) -> isize {
-  let _multiple = multiple as isize;
-  _multiple * (position as isize)
-}
-
 #[cfg(test)]
 mod tests {
-  use crate::test_utils::create_config;
-
   use super::*;
+  use crate::test_utils::create_config;
 
   #[test]
   fn can_compare() {
@@ -738,6 +885,21 @@ mod tests {
     insta::assert_snapshot!(class_name.get_css(), @r###"
     .\$block {
       display: block;
+    }
+    "###);
+  }
+
+  #[test]
+  fn important() {
+    let config = create_config(None).unwrap();
+    let mut class_name = ClassName::new(&config);
+
+    class_name.add_tokens(&["important", "transition", "$"]);
+    insta::assert_snapshot!(class_name.get_css(), @r###"
+    .important\:transition\:\:\$ {
+      transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter !important;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
+      transition-duration: var(--sk-default-transition-duration) !important;
     }
     "###);
   }

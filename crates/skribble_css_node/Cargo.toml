@@ -3,16 +3,24 @@ edition = "2021"
 name = "skribble_css_node"
 version = "0.0.0"
 authors = ["Ifiok Jr. <ifiokotung@gmail.com>"]
+publish = false
 
 [lib]
-crate-type = ["cdylib"]
+crate-type = ["cdylib", "rlib"]
+
 
 [dependencies]
-napi = "^2.0.3"
-napi-derive = "^2.0.7"
-serde = "^1.0.136"
-serde_json = "^1.0.78"
-skribble_css = {path = "../skribble_css"}
+anyhow = "1.0.57"
+dashmap = "5.3.1"
+# Default enable napi4 feature, see https://nodejs.org/api/n-api.html#node-api-version-matrix
+napi = { version = "2.3.3", default-features = false, features = [
+  "napi4",
+  "tokio_rt",
+] }
+napi-derive = "2.3.3"
+serde = "1.0.136"
+serde_json = "1.0.79"
+skribble_css = { path = "../skribble_css", features = ["node"] }
 
 [build-dependencies]
 napi-build = "1.2.1"

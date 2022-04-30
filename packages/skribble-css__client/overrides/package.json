@@ -1,0 +1,17 @@
+{
+  "exports": {
+    ".": {
+      "browser": "./../dist/overrides.browser.esm.js",
+      "import": "./../dist/overrides.esm.js",
+      "types": "./../dist/overrides.d.ts"
+    },
+    "./index.js": {
+      "browser": "./../dist/overrides.browser.esm.js",
+      "import": "./../dist/overrides.esm.js",
+      "types": "./../dist/overrides.d.ts"
+    }
+  },
+  "module": "../dist/overrides.esm.js",
+  "browser": "../dist/overrides.browser.esm.js",
+  "types": "../dist/overrides.d.ts"
+}

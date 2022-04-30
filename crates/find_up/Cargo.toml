@@ -1,0 +1,20 @@
+[package]
+name = "find_up"
+version = "0.0.0"
+edition = "2021"
+authors = ["Ifiok Jr. <ifiokotung@gmail.com>"]
+license = "MIT"
+description = "Find a file or directory by walking up parent directories"
+documentation = "https://docs.rs/find_up"
+repository = "https://github.com/skribbledev/skribble/tree/main/crates/find_up"
+include = ["src/**/*.rs", "Cargo.toml", "readme.md"]
+
+[lib]
+crate-type = ["lib"]
+
+[dependencies]
+thiserror = "1.0.30"
+typed-builder = "0.10.0"
+
+[dev-dependencies]
+insta = "1.14.0"

@@ -1,0 +1,7 @@
+---
+source: crates/skribble_css/tests/css.rs
+assertion_line: 57
+expression: "generate_css(&config, &collector.get_class_names())"
+
+---
+

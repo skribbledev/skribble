@@ -1,0 +1,47 @@
+{
+  "name": "@skribble-css/preset-default",
+  "version": "0.0.0",
+  "description": "The default preset for configuring skribble-css",
+  "keywords": [],
+  "repository": "https://github.com/skribbledev/skribble/tree/master/packages/skribble-css__preset-default",
+  "license": "MIT",
+  "contributors": [],
+  "sideEffects": false,
+  "type": "module",
+  "exports": {
+    ".": {
+      "browser": "./dist/index.browser.esm.js",
+      "import": "./dist/index.esm.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./index.js": {
+      "browser": "./dist/index.browser.esm.js",
+      "import": "./dist/index.esm.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./package.json": "./package.json",
+    "./types/*": "./dist/*.d.ts"
+  },
+  "module": "./dist/index.esm.js",
+  "browser": "./dist/index.browser.esm.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "@skribble-css/preset-core": "^0.0.0",
+    "@skribble-css/types": "^0.0.0",
+    "@swc/helpers": "^0.3.9"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "monots": {
+    "entrypoints": [
+      "index.ts"
+    ],
+    "tsconfigs": {},
+    "mode": "library",
+    "externalModules": []
+  }
+}

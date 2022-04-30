@@ -1,3 +1,3 @@
 # skribble-css
 
-> Atomic CSS with types
+> A better way to do typed css

@@ -1,0 +1,27 @@
+{
+  "name": "@skribble/docs",
+  "version": "0.0.0",
+  "private": true,
+  "repository": "https://github.com/skribbledev/skribble/tree/master/docs",
+  "type": "module",
+  "scripts": {
+    "build": "astro build",
+    "dev": "astro dev",
+    "preview": "astro preview",
+    "start": "astro dev"
+  },
+  "dependencies": {
+    "@docsearch/css": "^3.0.0",
+    "@docsearch/react": "^3.0.0",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
+    "ts-extras": "^0.10.2",
+    "typesense": "^1.2.2"
+  },
+  "devDependencies": {
+    "@astrojs/renderer-react": "^0.5.0",
+    "@types/node": "^17.0.30",
+    "astro": "1.0.0-beta.20",
+    "micromorph": "^0.2.2"
+  }
+}

@@ -8,7 +8,7 @@ import { ARTIFACTS_FOLDER, getNapiConfig, NATIVE_PACKAGES_FOLDER } from './helpe
 async function run() {
   const { platforms, binaryName } = await getNapiConfig();
   const distDirectories = platforms.map((platform) =>
-    path.join(NATIVE_PACKAGES_FOLDER, 'skribble-css__core', 'packages', platform.platformArchABI),
+    path.join(NATIVE_PACKAGES_FOLDER, 'skribble-css', 'packages', platform.platformArchABI),
   );
 
   const artifacts = await globby([path.join(ARTIFACTS_FOLDER, '**/*.node')], { absolute: true });

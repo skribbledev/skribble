@@ -1,0 +1,38 @@
+{
+  "name": "skribble-css-darwin-arm64",
+  "version": "0.0.0",
+  "description": "A native module for the `skribble-css` package.",
+  "keywords": [
+    "skribble",
+    "napi",
+    "rust",
+    "skribble css",
+    "css"
+  ],
+  "repository": "https://github.com/skribbledev/skribble/tree/master/packages/skribble-css/packages/darwin-arm64",
+  "license": "MIT",
+  "type": "commonjs",
+  "exports": {
+    ".": {
+      "require": "./skribble_css.darwin-arm64.node"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "skribble_css.darwin-arm64.node",
+  "files": [
+    "skribble_css.darwin-arm64.node"
+  ],
+  "engines": {
+    "node": ">= 12.7.0"
+  },
+  "os": [
+    "darwin"
+  ],
+  "cpu": [
+    "arm64"
+  ],
+  "monots": {
+    "mode": "app",
+    "tsconfigs": false
+  }
+}

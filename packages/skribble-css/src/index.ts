@@ -1,1 +1,1 @@
-export * from './skribble-css.js';
+export * from './load.js';

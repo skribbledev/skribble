@@ -1,4 +1,4 @@
-import { c } from 'skribble-css';
+import { c } from 'skribble-css/client';
 
 c.px.$px;
 c.print.px.$2;

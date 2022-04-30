@@ -2,7 +2,7 @@
 
 > Generate css atoms from TypeScript objects.
 
-This library answers the question? What if tailwind was integrated into TypeScript.
+This library answers the question? What if an atomic css library (tailwind) was integrated into TypeScript.
 
 ## TODO
 
@@ -10,7 +10,7 @@ This library answers the question? What if tailwind was integrated into TypeScri
 - [ ] Scoped values generate false positives for class names.
 
   ```tsx
-  import { c, cx } from 'skribble-css';
+  import { c, cx } from 'skribble-css/client';
 
   {
     const c = { awesome: '😢' };

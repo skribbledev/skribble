@@ -1,0 +1,38 @@
+{
+  "name": "skribble-css-win32-ia32-msvc",
+  "version": "0.0.0",
+  "description": "A native module for the `skribble-css` package.",
+  "keywords": [
+    "skribble",
+    "napi",
+    "rust",
+    "skribble css",
+    "css"
+  ],
+  "repository": "https://github.com/skribbledev/skribble/tree/master/packages/skribble-css/packages/win32-ia32-msvc",
+  "license": "MIT",
+  "type": "commonjs",
+  "exports": {
+    ".": {
+      "require": "./skribble_css.win32-ia32-msvc.node"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "skribble_css.win32-ia32-msvc.node",
+  "files": [
+    "skribble_css.win32-ia32-msvc.node"
+  ],
+  "engines": {
+    "node": ">= 12.7.0"
+  },
+  "os": [
+    "win32"
+  ],
+  "cpu": [
+    "ia32"
+  ],
+  "monots": {
+    "mode": "app",
+    "tsconfigs": false
+  }
+}

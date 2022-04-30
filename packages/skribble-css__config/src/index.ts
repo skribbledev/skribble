@@ -1,5 +1,5 @@
+import type { SkribbleConfig } from './config-types.js';
 import { DEFAULT_CONFIG } from './default-config.js';
-import type { SkribbleConfig } from './types.js';
 
 export interface DefineConfigProps extends Partial<SkribbleConfig> {}
 

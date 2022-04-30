@@ -11,16 +11,43 @@
   },
   "references": [
     {
+      "path": "packages/skribble-css__cli/src"
+    },
+    {
+      "path": "packages/skribble-css__client/src"
+    },
+    {
+      "path": "packages/skribble-css__client/tests"
+    },
+    {
       "path": "packages/skribble-css__config/src"
     },
     {
-      "path": "packages/skribble-css__core/src"
+      "path": "packages/skribble-css__preset-core/src"
+    },
+    {
+      "path": "packages/skribble-css__preset-default/src"
+    },
+    {
+      "path": "packages/skribble-css__preset-icons/src"
+    },
+    {
+      "path": "packages/skribble-css__types/src"
     },
     {
       "path": "packages/skribble-css/src"
     },
     {
+      "path": "packages/skribble-react__core/src"
+    },
+    {
+      "path": "packages/skribble-react__core/stories"
+    },
+    {
       "path": "packages/skribble-react/src"
+    },
+    {
+      "path": "packages/skribble-react/stories"
     }
   ]
 }

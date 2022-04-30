@@ -1,9 +1,0 @@
-{
-  "$schema": "https://unpkg.com/@changesets/config@1.6.2/schema.json",
-  "changelog": ["@changesets/changelog-github", { "repo": "skribbledev/skribble" }],
-  "updateInternalDependencies": "patch",
-  "commit": false,
-  "linked": [["@skribble-css/core", "@skribble-css/core-*"]],
-  "access": "public",
-  "baseBranch": "main"
-}

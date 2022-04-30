@@ -1,0 +1,10 @@
+{
+  "version": "independent",
+  "npmClient": "pnpm",
+  "command": {
+    "publish": {
+      "verifyAccess": false
+    }
+  },
+  "packages": ["packages/*", "packages/skribble-css/packages/*"]
+}

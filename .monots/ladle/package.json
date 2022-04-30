@@ -1,0 +1,16 @@
+{
+  "name": "ladle",
+  "repository": "https://github.com/skribbledev/skribble/tree/master/.monots/ladle",
+  "type": "module",
+  "scripts": {
+    "build": "ladle build --config=\"./\"",
+    "dev": "ladle serve --config=\"./\""
+  },
+  "dependencies": {
+    "@ladle/react": "^0.14.1",
+    "@skribble-css/client": "^0.0.0",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
+    "skribble-css": "^0.0.0"
+  }
+}

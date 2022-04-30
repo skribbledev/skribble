@@ -1,13 +1,12 @@
 use swc_common::{input::StringInput, sync::Lrc, FileName, SourceMap};
-use swc_ecmascript::{
-  parser::{lexer::Lexer, Capturing, Parser, Syntax, TsConfig},
-  visit::VisitWith,
-};
+use swc_ecma_parser::{lexer::Lexer, Capturing, Parser, Syntax, TsConfig};
+use swc_ecma_visit::VisitWith;
 
 use crate::{
   config::Config,
   constants::JSON_CONFIG,
   scanner::class_name_collector::{ClassNameCollector, ValidImport},
+  Result,
 };
 
 pub(crate) fn collect_classes<'config>(
@@ -37,8 +36,13 @@ pub(crate) fn collect_classes<'config>(
     .parse_typescript_module()
     .expect("Failed to parse module.");
 
-  let mut collector: ClassNameCollector<'config> =
-    ClassNameCollector::new(&[ValidImport::new("skribble-css", "c")], config);
+  let mut collector: ClassNameCollector<'config> = ClassNameCollector::new(
+    &[
+      ValidImport::new("skribble-css/client", "c"),
+      ValidImport::new("@skribble-css/client", "c"),
+    ],
+    config,
+  );
   module.visit_with(&mut collector);
 
   collector
@@ -54,7 +58,7 @@ pub(crate) fn get_selector(config: &Config, source: &str) -> String {
   class_names.first().unwrap().to_string()
 }
 
-pub(crate) fn create_config(json: Option<String>) -> Result<Config, serde_json::Error> {
+pub(crate) fn create_config(json: Option<String>) -> Result<Config> {
   let json_config = match json {
     Some(json) => json,
     None => JSON_CONFIG.to_string(),
@@ -103,11 +107,11 @@ macro_rules! test_css {
   ($test_name:ident : $source:expr $(, $macros:ident) *) => {
     #[test]
     $(#[$macros])*
-    fn $test_name() -> Result<(), serde_json::Error> {
+    fn $test_name() -> crate::error::Result<()> {
       let config = crate::test_utils::create_config(None)?;
       let mut class_name_collector = crate::test_utils::collect_classes(&config, indoc::indoc!{$source});
       class_name_collector.sort();
-      let output = crate::generate_css::generate_css(&config, &class_name_collector.get_class_names());
+      let output = crate::generate::generate_css(&config, &class_name_collector.get_class_names());
       insta::assert_snapshot!(output);
       Ok(())
     }

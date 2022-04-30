@@ -1,0 +1,61 @@
+---
+source: crates/skribble_css/tests/css.rs
+assertion_line: 62
+expression: "generate_css(&config, &collector.get_class_names())"
+
+---
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(-25%);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  50% {
+    transform: translateY(0);
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+}
+
+@keyframes enter {
+  from {
+    opacity: var(--sk-enter-opacity, 1);
+    transform: translate3d(var(--sk-enter-translate-x, 0), var(--sk-enter-translate-y, 0), 0) scale3d(var(--sk-enter-scale, 1), var(--sk-enter-scale, 1), var(--sk-enter-scale, 1)) rotate(var(--sk-enter-rotate, 0));
+  }
+}
+
+@keyframes exit {
+  to {
+    opacity: var(--sk-exit-opacity, 1);
+    transform: translate3d(var(--sk-exit-translate-x, 0), var(--sk-exit-translate-y, 0), 0) scale3d(var(--sk-exit-scale, 1), var(--sk-exit-scale, 1), var(--sk-exit-scale, 1)) rotate(var(--sk-exit-rotate, 0));
+  }
+}
+
+:root {
+  --sk-default-animation-duration: 1s;
+}
+
+.slideBottom\:\:\$ {
+  --sk-enter-translate-y: 100%;
+}
+
+.animate\:\:\$bounce {
+  animation: bounce var(--sk-default-animation-duration) infinite;
+}
+
+.animate\:\:\$in {
+  animation: enter var(--sk-default-animation-duration);
+  --sk-enter-opacity: initial;
+  --sk-enter-scale: initial;
+  --sk-enter-rotate: initial;
+  --sk-enter-translate-x: initial;
+  --sk-enter-translate-y: initial;
+}
+
+.animate\:\:\$out {
+  animation: exit var(--sk-default-animation-duration);
+  --sk-exit-opacity: initial;
+  --sk-exit-scale: initial;
+  --sk-exit-rotate: initial;
+  --sk-exit-translate-x: initial;
+  --sk-exit-translate-y: initial;
+}
+

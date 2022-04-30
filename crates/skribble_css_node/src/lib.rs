@@ -89,6 +89,18 @@ impl JsSkribbleBridge {
   }
 
   #[napi]
+  pub fn add_extension_object(&mut self, name: String, callback: JsFunction) -> Result<()> {
+    let tsfn: ThreadsafeFunction<String> = callback.create_threadsafe_function(0, |ctx| {
+      ctx.env.create_string_from_std(ctx.value).map(|v| vec![v])
+    })?;
+
+    self.data.func = Some(tsfn);
+    self.data.extension_handlers.insert(name, callback);
+
+    Ok(())
+  }
+
+  #[napi]
   pub fn call_handler(&mut self, env: Env, name: String) -> Option<JsObject> {
     println!("RUST: calling handler: {}", name);
 

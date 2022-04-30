@@ -29,6 +29,7 @@
     "check:types": "tsc -b",
     "checks": "run-s lint check:* test",
     "clean": "git clean -xfd -e rust-toolchain.toml -e rustfmt.toml -e .vscode",
+    "dependencies": "run-p upgrade:\\*",
     "dev:components": "pnpm --dir .monots/ladle dev",
     "dev:docs": "pnpm --dir ./docs dev",
     "dev:monots": "monots prepare",
@@ -80,9 +81,8 @@
     "test:watch:crates": "chokidar \"crates\" -c \"cargo test\" --ignore \"**/*.{snap.new,pending-snap}\" --initial",
     "test:watch:packages": "chokidar \"packages/skribble-css/packages/**/*.node\" -c vitest --initial",
     "ts": "node --experimental-specifier-resolution=node --loader ts-node/esm",
-    "upgrade": "run-p upgrade:\\*",
-    "upgrade:crates": "cargo upgrade --workspace",
-    "upgrade:packages": "pnpm update --latest --recursive -i"
+    "update:crates": "cargo upgrade --workspace",
+    "update:deps": "pnpm update --latest --recursive -i"
   },
   "dependencies": {
     "@auto-it/all-contributors": "^10.36.5",
